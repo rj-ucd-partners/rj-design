@@ -1,0 +1,23 @@
+{
+  "name": "rj-design",
+  "version": "1.0.0",
+  "description": "rj-design",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rj-ucd-partners/rj-design.git"
+  },
+  "author": "Xusirong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rj-ucd-partners/rj-design/issues"
+  },
+  "homepage": "https://github.com/rj-ucd-partners/rj-design#readme",
+  "devDependencies": {
+    "class-variance-authority": "^0.7.1",
+    "prettier": "^3.6.0"
+  }
+}
