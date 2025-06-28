@@ -5,11 +5,6 @@
 **/node_modules/
 .pnpm-store/
 
-# 构建产物
-dist/
-lib/
-esm/
-
 # 测试覆盖率
 coverage/
 
@@ -32,4 +27,5 @@ npm-debug.log*
 
 # Monorepo子包构建产物
 packages/*/dist/
-packages/*/lib/
+packages/*/storybook.log/
+packages/*/storybook-static/
