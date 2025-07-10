@@ -1,0 +1,108 @@
+Name : Select
+Description : A select component.
+
+---
+
+### import
+
+```
+import { Select } from "@/components/ui/select"
+```
+
+---
+
+### use
+
+```select.mdx
+import { Select } from "@/components/ui/select"
+
+export default function SelectDemo() {
+  return <Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">
+      Apple
+    </SelectItem>
+    <SelectItem value="banana">
+      Banana
+    </SelectItem>
+    <SelectItem value="orange">
+      Orange
+    </SelectItem>
+  </SelectContent>
+</Select>
+}
+```
+
+### examples
+
+```select-default.tsx
+import { Select } from "@/components/ui/select"
+
+export default function SelectDefault() {
+  return <Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">
+      Apple
+    </SelectItem>
+    <SelectItem value="banana">
+      Banana
+    </SelectItem>
+    <SelectItem value="orange">
+      Orange
+    </SelectItem>
+  </SelectContent>
+</Select>
+}
+```
+
+```select-disabled.tsx
+import { Select } from "@/components/ui/select"
+
+export default function SelectDisabled() {
+  return <Select disabled>
+  <SelectTrigger>
+    <SelectValue placeholder="Select a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">
+      Apple
+    </SelectItem>
+    <SelectItem value="banana">
+      Banana
+    </SelectItem>
+    <SelectItem value="orange">
+      Orange
+    </SelectItem>
+  </SelectContent>
+</Select>
+}
+```
+
+```select-small-size.tsx
+import { Select } from "@/components/ui/select"
+
+export default function SelectSmallSize() {
+  return <Select size="sm">
+  <SelectTrigger size="sm">
+    <SelectValue placeholder="Select a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="apple">
+      Apple
+    </SelectItem>
+    <SelectItem value="banana">
+      Banana
+    </SelectItem>
+    <SelectItem value="orange">
+      Orange
+    </SelectItem>
+  </SelectContent>
+</Select>
+}
+```

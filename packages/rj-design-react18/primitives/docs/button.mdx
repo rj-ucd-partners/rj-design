@@ -1,0 +1,56 @@
+Name : Button
+Description : A button component.
+
+---
+
+### import
+
+```
+import { Button } from "@/components/ui/button"
+```
+
+---
+
+### use
+
+```button.mdx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonDemo() {
+  return <Button variant="default">
+  Primary Button
+</Button>
+}
+```
+
+### examples
+
+```button-default.tsx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonDefault() {
+  return <Button variant="default">
+  Primary Button
+</Button>
+}
+```
+
+```button-destructive.tsx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonDestructive() {
+  return <Button variant="destructive">
+  Delete
+</Button>
+}
+```
+
+```button-small.tsx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonSmall() {
+  return <Button size="sm">
+  Small Button
+</Button>
+}
+```

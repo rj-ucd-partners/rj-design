@@ -3,13 +3,16 @@ import { Button } from '@/components/ui/button'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
+  tags: ['autodocs'],
   component: Button,
   argTypes: {
     variant: {
+      defaultValue: 'default',
       control: { type: 'select' },
       options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
     },
     size: {
+      defaultValue: 'md',
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
     },
