@@ -15,14 +15,14 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-foreground: var(--text);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
+  --color-danger: var(--danger);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -39,17 +39,82 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /* --ruijie自定义主题色-- */
+  /* --品牌色-- */
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-disabled: var(--primary-disabled);
+  --color-primary-special: var(--primary-special);
+  --color-primary-light: var(--primary-light);
+  /* --成功色-- */
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+  --color-success-active: var(--success-active);
+  --color-success-disabled: var(--success-disabled);
+  --color-success-special: var(--success-special);
+  --color-success-light: var(--success-light);
+  /* --告警色-- */
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-active: var(--danger-active);
+  --color-danger-disabled: var(--danger-disabled);
+  --color-danger-special: var(--danger-special);
+  --color-danger-light: var(--danger-light);
+  /* --异常色-- */
+  --color-abnormal: var(--abnormal);
+  --color-abnormal-hover: var(--abnormal-hover);
+  --color-abnormal-active: var(--abnormal-active);
+  --color-abnormal-disabled: var(--abnormal-disabled);
+  --color-abnormal-special: var(--abnormal-special);
+  --color-abnormal-light: var(--abnormal-light);
+  /* --警示色-- */
+  --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
+  --color-warning-active: var(--warning-active);
+  --color-warning-disabled: var(--warning-disabled);
+  --color-warning-special: var(--warning-special);
+  --color-warning-light: var(--warning-light);
+  /* --文字/图标-- */
+  --color-secondary-information: var(--secondary-information);
+  --color-disabled: var(--disabled);
+  --color-text: var(--text);
+  /* --线/描边-- */
+  --color-border-hover: var(--border-hover);
+  --color-disabled: var(--disabled);
+  --color-border-special: var(--border-special);
+  --color-border-line: var(--border-line);
+  --color-border-split: var(--border-split);
+  --color-border-disabled: var(--border-disabled);
+  --color-border-dark: var(--border-dark);
+  /* --填充-- */
+  --color-fill: var(--fill);
+  --color-fill-emphasize: var(--fill-emphasize);
+  --color-fill-light-hover-bg: var(--fill-light-hover-bg);
+  --color-fill-dark-hover-active-disabled: var(--fill-dark-hover-active-disabled);
+  --color-fill-dark: var(--fill-dark);
+  /* --数据-- */
+  --color-data-1: var(--data-1);
+  --color-data-1: var(--data-2);
+  --color-data-1: var(--data-3);
+  --color-data-1: var(--data-4);
+  --color-data-1: var(--data-5);
+  --color-data-1: var(--data-6);
+  --color-data-1: var(--data-7);
+  --color-data-1: var(--data-8);
+  --color-data-1: var(--data-9);
 }
+
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  /* --background: oklch(1 0 0); */
   --foreground: oklch(0.13 0.028 261.692);
-  --card: oklch(1 0 0);
+  /* --card: oklch(1 0 0); */
   --card-foreground: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.13 0.028 261.692);
-  --primary: oklch(0.21 0.034 264.665);
+  /* --primary: oklch(0.21 0.034 264.665); */
   --primary-foreground: oklch(0.985 0.002 247.839);
   --secondary: oklch(0.967 0.003 264.542);
   --secondary-foreground: oklch(0.21 0.034 264.665);
@@ -57,8 +122,8 @@
   --muted-foreground: oklch(0.551 0.027 264.364);
   --accent: oklch(0.967 0.003 264.542);
   --accent-foreground: oklch(0.21 0.034 264.665);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.928 0.006 264.531);
+  /* --danger: oklch(0.577 0.245 27.325); */
+  /* --border: oklch(0.928 0.006 264.531); */
   --input: oklch(0.928 0.006 264.531);
   --ring: oklch(0.707 0.022 261.325);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -74,25 +139,93 @@
   --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
   --sidebar-border: oklch(0.928 0.006 264.531);
   --sidebar-ring: oklch(0.707 0.022 261.325);
+  /* --ruijie自定义主题色-- */
+  /* --品牌色-- */
+  --primary: #00B9DB;
+  --primary-hover: #25D1E8;
+  --primary-active: #0094B5;
+  --primary-disabled: #ABE3ED;
+  --primary-special: #77D4E5;
+  --primary-light: #E4F4F7;
+  /* --成功色-- */
+  --success: #16DE99;
+  --success-hover: #47E5AF;
+  --success-active: #00CC86;
+  --success-disabled: #9CF0D3;
+  --success-special: #75E58F;
+  --success-light: #CCF0E3;
+  /* --告警色-- */
+  --danger: #EB2B00;
+  --danger-hover: #EB522F;
+  --danger-active: #D02600;
+  --danger-disabled: #F2AD9D;
+  --danger-special: #F27C61;
+  --danger-light: #FFE0D9;
+  /* --异常色-- */
+  --abnormal: #FA8C16;
+  --abnormal-hover: #FFA940;
+  --abnormal-active: #D46B08;
+  --abnormal-disabled: #FFE0A6;
+  --abnormal-special: #FFC069;
+  --abnormal-light: #FFEDCC;
+  /* --警示色-- */
+  --warning: #F5DC01;
+  --warning-hover: #FFE608;
+  --warning-active: #E5D00E;
+  --warning-disabled: #FFF599;
+  --warning-special: #FFED4F;
+  --warning-light: #FFFACC;
+  /* --文字/图标-- */
+  --secondary: #3C454D;
+  --secondary-information: #73818D;
+  --disabled: #AAB2BA;
+  --text: #FFFFFF;
+  /* --线/描边-- */
+  --border: #CFD8E5;
+  --border-hover: #AEB9C9;
+  --border-special: #95BFD7;
+  --border-line: #C2CCDA80;
+  --border-split: #EBECEE;
+  --border-disabled: #F5F6F7;
+  --border-dark: #FFFFFF;
+  /* --交互填充色-- */
+  --fill: #EEF0F5;
+  --fill-emphasize: #D1E2EB;
+  --fill-light-hover-bg: #F7F8F9;
+  --fill-dark-hover-active-disabled: #E4ECF0;
+  --fill-dark: #FFFFFF;
+  /* --背景-- */
+  --background: #F4F6F9;
+  --card: #FFFFFF;
+  /* --数据-- */
+  --data-1: #FF3C00;
+  --data-2: #F45800;
+  --data-3: #FFE500;
+  --data-4: #46FF17;
+  --data-5: #00CFF4;
+  --data-6: #00CFF4;
+  --data-7: #1681FF;
+  --data-8: #797DEA;
+  --data-9: #E125FF;
 }
 
 .dark {
-  --background: oklch(0.13 0.028 261.692);
+  /* --background: oklch(0.13 0.028 261.692); */
   --foreground: oklch(0.985 0.002 247.839);
-  --card: oklch(0.21 0.034 264.665);
+  /* --card: oklch(0.21 0.034 264.665); */
   --card-foreground: oklch(0.985 0.002 247.839);
   --popover: oklch(0.21 0.034 264.665);
   --popover-foreground: oklch(0.985 0.002 247.839);
-  --primary: oklch(0.928 0.006 264.531);
+  /* --primary: oklch(0.928 0.006 264.531); */
   --primary-foreground: oklch(0.21 0.034 264.665);
-  --secondary: oklch(0.278 0.033 256.848);
+  /* --secondary: oklch(0.278 0.033 256.848); */
   --secondary-foreground: oklch(0.985 0.002 247.839);
   --muted: oklch(0.278 0.033 256.848);
   --muted-foreground: oklch(0.707 0.022 261.325);
   --accent: oklch(0.278 0.033 256.848);
   --accent-foreground: oklch(0.985 0.002 247.839);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  /* --danger: oklch(0.704 0.191 22.216); */
+  /* --border: oklch(1 0 0 / 10%); */
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.551 0.027 264.364);
   --chart-1: oklch(0.488 0.243 264.376);
@@ -108,12 +241,82 @@
   --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* --ruijie自定义主题色-- */
+  /* --品牌色-- */
+  --primary: #00CFF4;
+  --primary-hover: #45E3FF;
+  --primary-active: #009CCD;
+  --primary-disabled: #006173;
+  --primary-special: #0A495D;
+  --primary-light: #233644;
+  /* --成功色-- */
+  --success: #00FFAB;
+  --success-hover: #01FFC3;
+  --success-active: #19362D;
+  --success-disabled: #00A86F;
+  --success-special: #005437;
+  --success-light: #19362D;
+  /* --告警色-- */
+  --danger: #D02600;
+  --danger-hover: #FF3C00;
+  --danger-active: #991C00;
+  --danger-disabled: #59210D;
+  --danger-special: #81371D;
+  --danger-light: #503E3E;
+  /* --异常色-- */
+  --abnormal: #E69800;
+  --abnormal-hover: #FFBF44;
+  --abnormal-active: #D68000;
+  --abnormal-disabled: #7C4F0C;
+  --abnormal-special: #7F5A4B;
+  --abnormal-light: #211313;
+  /* --警示色-- */
+  --warning: #F5DC01;
+  --warning-hover: #FFEC48;
+  --warning-active: #D9C40D;
+  --warning-disabled: #6B631A;
+  --warning-special: #AC8E42;
+  --warning-light: #493E23;
+  /* --文字/图标-- */
+  --secondary: #C0C7CF;
+  --secondary-information: #97A7B5;
+  --disabled: #61707d;
+  --text: #08121A;
+  --dark: #FFFFFF;
+  /* --线/描边-- */
+  --border: #365167;
+  --border-hover: #516D83;
+  --border-special: #13405A;
+  --border-line: #36516780;
+  --border-split: #253440;
+  --border-disabled: #24313D;
+  --border-dark: #09090a;
+  /* --交互填充色-- */
+  --fill: #2B3A48;
+  --fill-emphasize: #4B6376;
+  --fill-light-hover-bg: #364E61;
+  --fill-dark-hover-active-disabled: #233648;
+  --fill-dark: #08121A;
+  /* --背景-- */
+  --background: #101920;
+  --card: #1B252E;
+  /* --数据-- */
+  --data-1: #FF3C00;
+  --data-2: #FF7A00;
+  --data-3: #FFE500;
+  --data-4: #3BF60D;
+  --data-5: #00CFF4;
+  --data-6: #00A6FF;
+  --data-7: #1681FF;
+  --data-8: #7F62F2;
+  --data-9: #D346EA;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
