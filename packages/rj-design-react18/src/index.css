@@ -14,7 +14,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
+  /* --color-primary: var(--primary); */
   --color-primary-foreground: var(--text);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -22,7 +22,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-danger: var(--danger);
+  /* --color-danger: var(--danger); */
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -79,10 +79,10 @@
   --color-secondary-information: var(--secondary-information);
   --color-disabled: var(--disabled);
   --color-text: var(--text);
-  --color--text-deep: var(--text-deep)
+  --color--text-deep: var(--text-deep);
   /* --线/描边-- */
   --color-border-hover: var(--border-hover);
-  --color-disabled: var(--disabled);
+  --color-border-disabled: var(--border-disabled);
   --color-border-special: var(--border-special);
   --color-border-line: var(--border-line);
   --color-border-split: var(--border-split);
