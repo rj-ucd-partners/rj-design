@@ -67,6 +67,7 @@ export default {
         'secondary-information': 'hsl(var(--secondary-information))',
         'disabled': 'hsl(var(--disabled))',
         'text': 'hsl(var(--text))',
+        'text-deep': 'hsl(var(--text-deep))',
         /* --线/描边-- */
         'border-hover': 'hsl(var(--border-hover))',
         'border-special': 'hsl(var(--border-special))',
