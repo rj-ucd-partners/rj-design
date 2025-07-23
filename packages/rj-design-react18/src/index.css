@@ -181,6 +181,7 @@
   --secondary-information: #73818D;
   --disabled: #AAB2BA;
   --text: #FFFFFF;
+  --text-deep: #08121A;
   /* --线/描边-- */
   --border: #CFD8E5;
   --border-hover: #AEB9C9;
@@ -263,7 +264,7 @@
   --danger-active: #991C00;
   --danger-disabled: #59210D;
   --danger-special: #81371D;
-  --danger-light: #503E3E;
+  --danger-light: #342020;
   /* --异常色-- */
   --abnormal: #E69800;
   --abnormal-hover: #FFBF44;
@@ -281,9 +282,9 @@
   /* --文字/图标-- */
   --secondary: #C0C7CF;
   --secondary-information: #97A7B5;
-  --disabled: #61707d;
-  --text: #08121A;
-  --text-deep: #FFFFFF;
+  --disabled: #61707D;
+  --text: #FFFFFF;
+  --text-deep: #08121A;
   /* --线/描边-- */
   --border: #365167;
   --border-hover: #516D83;

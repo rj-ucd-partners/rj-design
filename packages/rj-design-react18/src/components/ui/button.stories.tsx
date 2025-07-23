@@ -9,7 +9,7 @@ const meta: Meta<typeof Button> = {
     variant: {
       defaultValue: 'default',
       control: { type: 'select' },
-      options: ['default', 'primary', 'secondary', 'secondary-text', 'link', 'text', 'destructive'],
+      options: ['default', 'primary', 'secondary', 'secondary-text', 'link', 'text', 'destructive', 'secondary-destructive', 'dashed'],
     },
     size: {
       defaultValue: 'md',
@@ -75,8 +75,25 @@ export const Text: Story = {
 //警告按钮
 export const Destructive: Story = {
   args: {
-    children: "警告按钮",
+    children: "危险按钮",
     variant: 'destructive',
+    size: 'md'
+  },
+}
+
+//危险描边按钮
+export const SecondaryDestructive: Story = {
+  args: {
+    children: "危险描边按钮",
+    variant: 'secondary-destructive',
+    size: 'md'
+  },
+}
+//虚线按钮
+export const Dashed: Story = {
+  args: {
+    children: "虚线按钮",
+    variant: 'dashed',
     size: 'md'
   },
 }
