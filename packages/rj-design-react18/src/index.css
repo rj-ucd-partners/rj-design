@@ -79,6 +79,7 @@
   --color-secondary-information: var(--secondary-information);
   --color-disabled: var(--disabled);
   --color-text: var(--text);
+  --color--text-deep: var(--text-deep)
   /* --线/描边-- */
   --color-border-hover: var(--border-hover);
   --color-disabled: var(--disabled);
@@ -282,7 +283,7 @@
   --secondary-information: #97A7B5;
   --disabled: #61707d;
   --text: #08121A;
-  --dark: #FFFFFF;
+  --text-deep: #FFFFFF;
   /* --线/描边-- */
   --border: #365167;
   --border-hover: #516D83;
