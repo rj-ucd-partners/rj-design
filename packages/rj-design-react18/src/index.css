@@ -94,16 +94,19 @@
   --color-fill-light-hover-bg: var(--fill-light-hover-bg);
   --color-fill-dark-hover-active-disabled: var(--fill-dark-hover-active-disabled);
   --color-fill-dark: var(--fill-dark);
+  /* --背景-- */
+  --color-secondary-background: var(--secondary-background);
+  --color-third-background: var(--third-background);
   /* --数据-- */
   --color-data-1: var(--data-1);
-  --color-data-1: var(--data-2);
-  --color-data-1: var(--data-3);
-  --color-data-1: var(--data-4);
-  --color-data-1: var(--data-5);
-  --color-data-1: var(--data-6);
-  --color-data-1: var(--data-7);
-  --color-data-1: var(--data-8);
-  --color-data-1: var(--data-9);
+  --color-data-2: var(--data-2);
+  --color-data-3: var(--data-3);
+  --color-data-4: var(--data-4);
+  --color-data-5: var(--data-5);
+  --color-data-6: var(--data-6);
+  --color-data-7: var(--data-7);
+  --color-data-8: var(--data-8);
+  --color-data-9: var(--data-9);
 }
 
 
@@ -180,8 +183,8 @@
   --secondary: #3C454D;
   --secondary-information: #73818D;
   --disabled: #AAB2BA;
-  --text: #FFFFFF;
-  --text-deep: #08121A;
+  --text: #08121A;
+  --text-deep: #FFFFFF;
   /* --线/描边-- */
   --border: #CFD8E5;
   --border-hover: #AEB9C9;
@@ -199,6 +202,8 @@
   /* --背景-- */
   --background: #F4F6F9;
   --card: #FFFFFF;
+  --secondary-background: #F4F6F9;
+  --third-background: #ECF0F7;
   /* --数据-- */
   --data-1: #FF3C00;
   --data-2: #F45800;
@@ -266,7 +271,7 @@
   --danger-special: #81371D;
   --danger-light: #342020;
   /* --异常色-- */
-  --abnormal: #E69800;
+  --abnormal: #E59700;
   --abnormal-hover: #FFBF44;
   --abnormal-active: #D68000;
   --abnormal-disabled: #7C4F0C;
@@ -278,7 +283,7 @@
   --warning-active: #D9C40D;
   --warning-disabled: #6B631A;
   --warning-special: #AC8E42;
-  --warning-light: #493E23;
+  --warning-light: #483E22;
   /* --文字/图标-- */
   --secondary: #C0C7CF;
   --secondary-information: #97A7B5;
@@ -302,6 +307,8 @@
   /* --背景-- */
   --background: #101920;
   --card: #1B252E;
+  --secondary-background: #1F2E3B;
+  --third-background: #273947;
   /* --数据-- */
   --data-1: #FF3C00;
   --data-2: #FF7A00;
