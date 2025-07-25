@@ -10,19 +10,22 @@ import {
 
 type SelectProps = ComponentProps<typeof Select>
 
-const meta: Meta<SelectProps> = {
+interface ExtendedSelectProps extends SelectProps {
+  variant: 'default';
+  size: 'sm' | 'md' | 'lg';
+}
+const meta: Meta<ExtendedSelectProps> = {
   title: 'Components/Select',
   component: Select,
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      defaultValue: 'default',
       control: { type: 'select' },
-      options: ['default',],
+      options: ['default'],
     },
     size: {
       control: { type: 'select' },
-      options: ['sm', 'default'],
+      options: ['sm', 'md', 'lg'],
     },
     disabled: {
       control: 'boolean',
@@ -32,54 +35,21 @@ const meta: Meta<SelectProps> = {
 
 export default meta
 
-type Story = StoryObj<typeof Select>
+type Story = StoryObj<ExtendedSelectProps>
 
+//单项选择器
 export const Default: Story = {
-  render: (args: SelectProps) => (
+  render: (args) => (
     <Select {...args}>
       <SelectTrigger size={args.size} variant={args.variant} >
-        <SelectValue placeholder='请输入' />
+        <SelectValue placeholder='请选择' />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value='apple'>Apple</SelectItem>
-        <SelectItem value='banana'>Banana</SelectItem>
-        <SelectItem value='orange'>Orange</SelectItem>
-      </SelectContent>
-    </Select>
-  ),
-}
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-  },
-  render: (args: SelectProps) => (
-    <Select {...args}>
-      <SelectTrigger>
-        <SelectValue placeholder='Select' />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value='apple'>Apple</SelectItem>
-        <SelectItem value='banana'>Banana</SelectItem>
-        <SelectItem value='orange'>Orange</SelectItem>
-      </SelectContent>
-    </Select>
-  ),
-}
-
-export const SmallSize: Story = {
-  args: {
-    size: 'sm',
-  },
-  render: (args: SelectProps) => (
-    <Select {...args}>
-      <SelectTrigger size='sm'>
-        <SelectValue placeholder='Select a fruit' />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value='apple'>Apple</SelectItem>
-        <SelectItem value='banana'>Banana</SelectItem>
-        <SelectItem value='orange'>Orange</SelectItem>
+      <SelectContent size={args.size} variant={args.variant}>
+        <SelectItem value='apple'>爱婆选项</SelectItem>
+        <SelectItem value='banana'>拔娜娜选项</SelectItem>
+        <SelectItem value='orange'>欧润吉选项</SelectItem>
+        <SelectItem value='grape'>哥让普选项</SelectItem>
+        <SelectItem value='bayberry'>拔倍瑞选项</SelectItem>
       </SelectContent>
     </Select>
   ),

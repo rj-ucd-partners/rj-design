@@ -25,20 +25,21 @@ function SelectValue({
 }
 
 const selectTriggerVariants = cva(
-  "font-normal font-['PingFang_SC'] w-80 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20  flex items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size - '])]:size-4",
+  "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 data-[state=open]:outline-offset-[-1px] [&_svg]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_svg]:rotate-180 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC']",
   {
     variants: {
       variant: {
-        default: 'bg-third-background text-text data-[placeholder]:text-secondary-information hover:bg-fill-light-hover-bg disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled',
+        default: 'bg-third-background data-[placeholder]:text-secondary-information hover:bg-fill-light-hover-bg disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled focus-visible:outline-primary data-[state=open]:outline-primary',
       },
       size: {
-        default: '',
-        sm: ''
+        sm: 'rounded-sm w-60 px-2 py-0.5 [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
+        md: 'rounded-md w-80 px-2 py-[5px] [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
+        lg: 'rounded-md w-80 px-3 py-2 [&_[data-slot=select-value]]:h-6 [&_[data-slot=select-value]]:text-base [&_[data-slot=select-value]]:leading-snug',
       },
     },
     defaultVariants: {
       variant: 'default',
-      size: 'default',
+      size: 'md',
     },
   }
 )
@@ -46,47 +47,71 @@ const selectTriggerVariants = cva(
 function SelectTrigger({
   className,
   variant,
-  size = "default",
+  size,
   children,
-  disabled,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> &
-  VariantProps<typeof selectTriggerVariants> & {
-    disabled?: boolean,
-  }) {
-  React.useEffect(() => {
-    console.log(variant)
-  })
+}: React.ComponentProps<typeof SelectPrimitive.Trigger> & VariantProps<typeof selectTriggerVariants>) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
-      data-size={size}
-      className={cn(selectTriggerVariants({ variant, size, className }))}
+      className={cn(
+        "inline-flex w-fit items-center justify-between bg-transparent whitespace-nowrap transition-[color,box-shadow] *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className,
+        selectTriggerVariants({ variant, size })
+      )}
       {...props}
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <TriangleDownIcon size="md" color="aaa" />
+        {/* <ChevronDownIcon className="size-4 opacity-50" /> */}
+        <TriangleDownIcon size={size ?? 'md'} />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )
 }
 
+const selectContentVariants = cva(
+  'inline-flex shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08)] gap-0.5',
+  {
+    variants: {
+      variant: {
+        default: 'bg-secondary-background text-text [&_[data-slot=select-item]]:focus:bg-primary-light [&_[data-slot=select-item]]:focus:text-primary',
+      },
+      size: {
+        sm: '[&_[data-slot=select-item]]:rounded-sm [&_[data-slot=select-item]]:text-xs [&_[data-slot=select-item]]:leading-tight [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-px [&_[data-slot=select-item]]:h-4.5 [&_[data-slot=select-item]]:tracking-wider',
+        md: '[&_[data-slot=select-item]]:rounded-md [&_[data-slot=select-item]]:text-xs [&_[data-slot=select-item]]:leading-tight [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-[3px] [&_[data-slot=select-item]]:h-5.5 [&_[data-slot=select-item]]:tracking-wider',
+        lg: '[&_[data-slot=select-item]]:rounded-md [&_[data-slot=select-item]]:text-base [&_[data-slot=select-item]]:leading-snug [&_[data-slot=select-item]]:px-3 [&_[data-slot=select-item]]:py-1.5 [&_[data-slot=select-item]]:h-8.5',
+      }
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+)
+const paddingSizeRecord: Record<string, string> = {
+  'sm': 'p-1',
+  'md': 'p-2',
+  'lg': 'p-3',
+}
 function SelectContent({
   className,
   children,
+  variant,
+  size,
   position = "popper",
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Content>) {
+}: React.ComponentProps<typeof SelectPrimitive.Content> &
+  VariantProps<typeof selectContentVariants>) {
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         data-slot="select-content"
         className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md",
           position === "popper" &&
-          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-          className
+          "data-[side=bottom]:translate-y-0 data-[side=left]:-translate-x-0 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+          className,
+          selectContentVariants({ variant, size })
         )}
         position={position}
         {...props}
@@ -94,7 +119,7 @@ function SelectContent({
         <SelectScrollUpButton />
         <SelectPrimitive.Viewport
           className={cn(
-            "p-1",
+            paddingSizeRecord[size ?? 'md'],
             position === "popper" &&
             "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1"
           )}
