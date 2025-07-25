@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { ComponentProps } from 'react'
 import {
   Select,
@@ -15,6 +15,11 @@ const meta: Meta<SelectProps> = {
   component: Select,
   tags: ['autodocs'],
   argTypes: {
+    variant: {
+      defaultValue: 'default',
+      control: { type: 'select' },
+      options: ['default',],
+    },
     size: {
       control: { type: 'select' },
       options: ['sm', 'default'],
@@ -32,8 +37,8 @@ type Story = StoryObj<typeof Select>
 export const Default: Story = {
   render: (args: SelectProps) => (
     <Select {...args}>
-      <SelectTrigger size={args.size}>
-        <SelectValue placeholder='Select a fruit' />
+      <SelectTrigger size={args.size} variant={args.variant} >
+        <SelectValue placeholder='请输入' />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value='apple'>Apple</SelectItem>
@@ -51,7 +56,7 @@ export const Disabled: Story = {
   render: (args: SelectProps) => (
     <Select {...args}>
       <SelectTrigger>
-        <SelectValue placeholder='Select a fruit' />
+        <SelectValue placeholder='Select' />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value='apple'>Apple</SelectItem>
