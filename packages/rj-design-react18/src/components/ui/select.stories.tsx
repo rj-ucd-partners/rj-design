@@ -49,7 +49,7 @@ export const Default: Story = {
         <SelectItem value='banana'>拔娜娜选项</SelectItem>
         <SelectItem value='orange'>欧润吉选项</SelectItem>
         <SelectItem value='grape'>哥让普选项</SelectItem>
-        <SelectItem value='bayberry'>拔倍瑞选项</SelectItem>
+        <SelectItem value='bayberry'>拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项</SelectItem>
       </SelectContent>
     </Select>
   ),

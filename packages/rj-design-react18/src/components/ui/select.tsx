@@ -5,6 +5,7 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { TriangleDownIcon } from "../icon/TriangleDownIcon"
 import { cva, type VariantProps } from "class-variance-authority"
+import { FavoriteIcon } from "../icon/FavoriteIcon"
 
 function Select({
   ...props
@@ -46,22 +47,45 @@ const selectTriggerVariants = cva(
 
 function SelectTrigger({
   className,
+  frontIcon,
   variant,
   size,
   children,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & VariantProps<typeof selectTriggerVariants>) {
+}: React.ComponentProps<typeof SelectPrimitive.Trigger> & VariantProps<typeof selectTriggerVariants> & {
+  frontIcon?: React.ReactNode
+}) {
+
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       className={cn(
-        "inline-flex w-fit items-center justify-between bg-transparent whitespace-nowrap transition-[color,box-shadow] *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "inline-flex w-full max-w-full items-center justify-between whitespace-nowrap transition-[color,box-shadow] [&_svg]:pointer-events-none gap-2",
         className,
         selectTriggerVariants({ variant, size })
       )}
       {...props}
     >
-      {children}
+      <div id="111" className="flex gap-2 min-w-0 flex-1 items-center gap-2">
+        {
+          !frontIcon &&
+          <SelectPrimitive.Icon asChild>
+            <FavoriteIcon size={size ?? 'md'} />
+          </SelectPrimitive.Icon>
+        }
+        {
+          frontIcon &&
+          <SelectPrimitive.Icon asChild>
+            {frontIcon}
+          </SelectPrimitive.Icon>
+        }
+        <div
+          className="line-clamp-1 min-w-0 flex-1  *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center"
+        >
+          {children}
+        </div>
+      </div>
+      {/* {children} */}
       <SelectPrimitive.Icon asChild>
         {/* <ChevronDownIcon className="size-4 opacity-50" /> */}
         <TriangleDownIcon size={size ?? 'md'} />
@@ -71,7 +95,7 @@ function SelectTrigger({
 }
 
 const selectContentVariants = cva(
-  'inline-flex shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08)] gap-0.5',
+  'inline-flex [&_[data-slot=select-item]]:self-stretch shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08)] gap-0.5',
   {
     variants: {
       variant: {
