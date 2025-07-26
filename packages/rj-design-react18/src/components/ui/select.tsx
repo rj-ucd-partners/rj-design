@@ -24,9 +24,8 @@ function SelectValue({
 }: React.ComponentProps<typeof SelectPrimitive.Value>) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
-
 const selectTriggerVariants = cva(
-  "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 data-[state=open]:outline-offset-[-1px] [&_svg]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_svg]:rotate-180 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC']",
+  "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC'] data-[state=open]:outline-offset-[-1px] [&_svg]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_[data-slot=tran-icon]]:rotate-180",
   {
     variants: {
       variant: {
@@ -47,41 +46,40 @@ const selectTriggerVariants = cva(
 
 function SelectTrigger({
   className,
+  front = false,
   frontIcon,
   variant,
   size,
   children,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & VariantProps<typeof selectTriggerVariants> & {
+  front?: boolean
   frontIcon?: React.ReactNode
 }) {
-
+  React.useEffect(() => {
+    console.log('front', front)
+  })
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       className={cn(
-        "inline-flex w-full max-w-full items-center justify-between whitespace-nowrap transition-[color,box-shadow] [&_svg]:pointer-events-none gap-2",
+        "inline-flex w-full max-w-full items-center justify-between whitespace-nowrap transition-[color,box-shadow] [&_svg]:pointer-events-none gap-2 *:data-[slot=select-value]:flex",
         className,
         selectTriggerVariants({ variant, size })
       )}
       {...props}
     >
-      <div id="111" className="flex gap-2 min-w-0 flex-1 items-center gap-2">
-        {
-          !frontIcon &&
-          <SelectPrimitive.Icon asChild>
-            <FavoriteIcon size={size ?? 'md'} />
-          </SelectPrimitive.Icon>
-        }
-        {
-          frontIcon &&
+      <div className="flex gap-2 min-w-0 flex-1 items-center">
+        {(!front) ? null : frontIcon ? (
           <SelectPrimitive.Icon asChild>
             {frontIcon}
           </SelectPrimitive.Icon>
-        }
-        <div
-          className="line-clamp-1 min-w-0 flex-1  *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center"
-        >
+        ) : (
+          <SelectPrimitive.Icon asChild>
+            <FavoriteIcon size={size ?? 'md'} />
+          </SelectPrimitive.Icon>
+        )}
+        <div className="line-clamp-1 min-w-0 flex-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center">
           {children}
         </div>
       </div>
