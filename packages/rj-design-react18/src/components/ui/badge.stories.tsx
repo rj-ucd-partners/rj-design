@@ -10,8 +10,12 @@ const meta: Meta<typeof Badge> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['default', 'secondary', 'destructive', 'outline'],
+      options: ['default', 'primary', 'success', 'abnormal'],
     },
+    corner: {
+      control: { type: 'select' },
+      options: ['default', 'rounded',],
+    }
   },
 }
 
@@ -22,31 +26,35 @@ type Story = StoryObj<typeof Badge>
 // 默认徽章
 export const Default: Story = {
   args: {
-    children: '默认',
+    children: '99+',
     variant: 'default',
+    corner: 'default'
   },
 }
 
-// 次要徽章
-export const Secondary: Story = {
+// 默认徽章
+export const Primary: Story = {
   args: {
-    children: '次要',
-    variant: 'secondary',
+    children: '99+',
+    variant: 'primary',
+    corner: 'default'
   },
 }
 
-// 危险徽章
-export const Destructive: Story = {
+// 成功徽章
+export const Success: Story = {
   args: {
-    children: '危险',
-    variant: 'destructive',
+    children: '99+',
+    variant: 'success',
+    corner: 'default'
   },
 }
 
-// 描边徽章
-export const Outline: Story = {
+// 警告徽章
+export const Abnormal: Story = {
   args: {
-    children: '描边',
-    variant: 'outline',
+    children: '警告',
+    variant: 'abnormal',
+    corner: 'default'
   },
-} 
+}

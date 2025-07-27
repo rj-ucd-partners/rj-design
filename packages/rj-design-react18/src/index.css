@@ -79,7 +79,7 @@
   --color-secondary-information: var(--secondary-information);
   --color-disabled: var(--disabled);
   --color-text: var(--text);
-  --color--text-deep: var(--text-deep);
+  --color-text-deep: var(--text-deep);
   /* --线/描边-- */
   --color-border-hover: var(--border-hover);
   --color-border-disabled: var(--border-disabled);
