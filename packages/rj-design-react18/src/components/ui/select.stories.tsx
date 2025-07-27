@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FavoriteIcon } from '../icon/FavoriteIcon';
 
 type SelectProps = ComponentProps<typeof Select>
 

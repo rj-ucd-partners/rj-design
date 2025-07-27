@@ -10,7 +10,9 @@ import { FavoriteIcon } from "../icon/FavoriteIcon"
 function Select({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} />
+  return <SelectPrimitive.Root data-slot="select" {...props} onValueChange={()=>{
+    console.log("值改变")
+  }} />
 }
 
 function SelectGroup({
@@ -56,9 +58,6 @@ function SelectTrigger({
   front?: boolean
   frontIcon?: React.ReactNode
 }) {
-  React.useEffect(() => {
-    console.log('front', front)
-  })
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
@@ -83,9 +82,7 @@ function SelectTrigger({
           {children}
         </div>
       </div>
-      {/* {children} */}
       <SelectPrimitive.Icon asChild>
-        {/* <ChevronDownIcon className="size-4 opacity-50" /> */}
         <TriangleDownIcon size={size ?? 'md'} />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
