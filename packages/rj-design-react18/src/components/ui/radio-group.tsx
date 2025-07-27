@@ -3,15 +3,39 @@ import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 import { CircleIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+
+const radioGroupVariants = cva(
+  "",
+  {
+    variants: {
+      variant: {
+        primary: "[&_[data-slot=radio-group-item]]:border-border-hover [&_[data-slot=radio-group-item]]:data-[state=checked]:border-primary [&_[data-slot=radio-group-item]]:disabled:border-primary-disabled [&_[data-slot=radio-group-item]]:data-[state=checked]:disabled:border-primary-disabled [&_[data-slot=radio-group-item]]:disabled:[&_[data-slot=radio-group-indicator]]:[&_svg]:fill-primary-disabled [&_[data-slot=radio-group-item]]:disabled:[&_[data-slot=radio-group-indicator]]:[&_svg]:stroke-primary-disabled [&_[data-slot=radio-group-item]]:hover:border-primary",
+      },
+      flex: {
+        row: "flex-row",
+        col: "flex-col"
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+    },
+  }
+)
 
 function RadioGroup({
   className,
+  variant,
+  flex,
   ...props
-}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {
+}: React.ComponentProps<typeof RadioGroupPrimitive.Root> & VariantProps<typeof radioGroupVariants>) {
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
-      className={cn("grid gap-3", className)}
+      className={cn(
+        "flex gap-3",
+        className,
+        radioGroupVariants({ variant, flex }))}
       {...props}
     />
   )
@@ -25,8 +49,8 @@ function RadioGroupItem({
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
       className={cn(
-        "border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
-        className
+        "border-border-hover text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed",
+        className,
       )}
       {...props}
     >

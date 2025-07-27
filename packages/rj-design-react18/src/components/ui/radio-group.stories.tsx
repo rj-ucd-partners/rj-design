@@ -10,7 +10,17 @@ const meta: Meta<typeof RadioGroup> = {
     tags: ['autodocs'],
     component: RadioGroup,
     argTypes: {
-
+        variant: {
+            control: { type: 'select' },
+            options: ['primary'],
+        },
+        flex: {
+            control: { type: 'select' },
+            options: ['row', 'col'],
+        },
+        disabled: {
+            control: 'boolean',
+        },
     },
 }
 
@@ -18,14 +28,14 @@ export default meta
 
 type Story = StoryObj<typeof RadioGroup>
 
-
-// 主要开关
+// 主要单选框
 export const Primary: Story = {
     args: {
-
+        variant: 'primary',
+        flex: 'row'
     },
     render: (args) => (
-        <RadioGroup defaultValue="comfortable">
+        <RadioGroup disabled={args.disabled} flex={args.flex} defaultValue="comfortable">
             <div className="flex items-center gap-3">
                 <RadioGroupItem value="default" id="r1" />
                 <Label htmlFor="r1">Default</Label>
