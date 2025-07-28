@@ -81,6 +81,8 @@ export default {
         'fill-light-hover-bg': 'hsl(var(--fill-light-hover-bg))',
         'fill-dark-hover-active-disabled': 'hsl(var(--fill-dark-hover-active-disabled))',
         'fill-dark': 'hsl(var(--fill-dark))',
+        /* --其他-- */
+        scroll: 'hsl(var(--scroll))',
         /* --数据-- */
         'data-1': 'hsl(var(--data-1))',
         'data-2': 'hsl(var(--data-2))',
@@ -91,7 +93,7 @@ export default {
         'data-7': 'hsl(var(--data-7))',
         'data-8': 'hsl(var(--data-8))',
         'data-9': 'hsl(var(--data-9))',
-      },
+      }
     },
   },
   darkMode: 'class',

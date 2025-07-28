@@ -53,7 +53,7 @@ export const Success: Story = {
 // 警告徽章
 export const Abnormal: Story = {
   args: {
-    children: '警告',
+    children: '99+',
     variant: 'abnormal',
     corner: 'default'
   },

@@ -14,8 +14,11 @@ const meta: Meta<typeof Button> = {
     size: {
       defaultValue: 'md',
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg', 'borderless-sm', 'borderless-md', 'borderless-lg'],
+      options: ['sm', 'md', 'lg'],
     },
+    disabled:{
+      control: 'boolean'
+    }
   },
 }
 
@@ -32,6 +35,7 @@ export const Primary: Story = {
     size: 'md'
   },
 }
+
 // 默认状态
 export const Default: Story = {
   args: {
@@ -40,6 +44,7 @@ export const Default: Story = {
     size: 'md'
   },
 }
+
 //次强调按钮
 export const Secondary: Story = {
   args: {
@@ -48,6 +53,7 @@ export const Secondary: Story = {
     size: 'md'
   },
 }
+
 //文字强调按钮
 export const SecondaryText: Story = {
   args: {
@@ -56,14 +62,7 @@ export const SecondaryText: Story = {
     size: 'md'
   },
 }
-//链接按钮
-export const Link: Story = {
-  args: {
-    children: "链接按钮",
-    variant: 'link',
-    size: 'borderless-sm'
-  },
-}
+
 //文字按钮
 export const Text: Story = {
   args: {
@@ -72,6 +71,7 @@ export const Text: Story = {
     size: 'md'
   },
 }
+
 //警告按钮
 export const Destructive: Story = {
   args: {
@@ -89,6 +89,7 @@ export const SecondaryDestructive: Story = {
     size: 'md'
   },
 }
+
 //虚线按钮
 export const Dashed: Story = {
   args: {

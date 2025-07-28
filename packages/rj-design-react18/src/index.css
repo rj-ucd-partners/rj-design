@@ -4,10 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
+  /* --radius-sm: calc(var(--radius) - 6px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 4px); */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -97,6 +97,8 @@
   /* --背景-- */
   --color-secondary-background: var(--secondary-background);
   --color-third-background: var(--third-background);
+  /* --其他-- */
+  --color-scroll: var(--scroll);
   /* --数据-- */
   --color-data-1: var(--data-1);
   --color-data-2: var(--data-2);
@@ -111,7 +113,7 @@
 
 
 :root {
-  --radius: 0.625rem;
+  /* --radius: 0.625rem; */
   /* --background: oklch(1 0 0); */
   --foreground: oklch(0.13 0.028 261.692);
   /* --card: oklch(1 0 0); */
@@ -183,8 +185,8 @@
   --secondary: #3C454D;
   --secondary-information: #73818D;
   --disabled: #AAB2BA;
-  --text: #08121A;
-  --text-deep: #FFFFFF;
+  --text: #FFFFFF;
+  --text-deep: #08121A;
   /* --线/描边-- */
   --border: #CFD8E5;
   --border-hover: #AEB9C9;
@@ -204,6 +206,8 @@
   --card: #FFFFFF;
   --secondary-background: #F4F6F9;
   --third-background: #ECF0F7;
+  /* --其他-- */
+  --scroll: #C7CACC;
   /* --数据-- */
   --data-1: #FF3C00;
   --data-2: #F45800;
@@ -288,8 +292,8 @@
   --secondary: #C0C7CF;
   --secondary-information: #97A7B5;
   --disabled: #61707D;
-  --text: #FFFFFF;
-  --text-deep: #08121A;
+  --text: #08121A;
+  --text-deep: #FFFFFF;
   /* --线/描边-- */
   --border: #365167;
   --border-hover: #516D83;
@@ -309,6 +313,8 @@
   --card: #1B252E;
   --secondary-background: #1F2E3B;
   --third-background: #273947;
+  /* --其他-- */
+  --scroll: #314251;
   /* --数据-- */
   --data-1: #FF3C00;
   --data-2: #FF7A00;
