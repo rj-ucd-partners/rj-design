@@ -94,7 +94,7 @@ const selectContentVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-secondary-background text-text [&_[data-slot=select-item]]:focus:bg-primary-light [&_[data-slot=select-item]]:focus:text-primary',
+        default: 'bg-secondary-background text-text-deep [&_[data-slot=select-item]]:focus:bg-primary-light [&_[data-slot=select-item]]:focus:text-primary',
       },
       size: {
         sm: '[&_[data-slot=select-item]]:rounded-sm [&_[data-slot=select-item]]:text-xs [&_[data-slot=select-item]]:leading-tight [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-px [&_[data-slot=select-item]]:h-4.5 [&_[data-slot=select-item]]:tracking-wider',

@@ -1,20 +1,38 @@
 import * as React from "react"
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
   MoreHorizontalIcon,
 } from "lucide-react"
-
+import { TriangleLeftIcon, TriangleRightIcon } from "@radix-ui/react-icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { cva, type VariantProps } from "class-variance-authority"
 
-function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+const paginationVariants = cva(
+  "",
+  {
+    variants: {
+      variant: {
+        primary: "",
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+    },
+  }
+)
+
+
+function Pagination({
+  className,
+  variant,
+  ...props }: React.ComponentProps<"nav"> & VariantProps<typeof paginationVariants>
+) {
   return (
     <nav
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"
-      className={cn("mx-auto flex w-full justify-center", className)}
+      className={cn("mx-auto flex w-full justify-center", className, paginationVariants({ variant }))}
       {...props}
     />
   )
@@ -45,7 +63,7 @@ type PaginationLinkProps = {
 function PaginationLink({
   className,
   isActive,
-  size = "icon",
+  size = "page",
   ...props
 }: PaginationLinkProps) {
   return (
@@ -55,7 +73,7 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
+          variant: isActive ? "page-active" : "page",
           size,
         }),
         className
@@ -76,8 +94,7 @@ function PaginationPrevious({
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
       {...props}
     >
-      <ChevronLeftIcon />
-      <span className="hidden sm:block">Previous</span>
+      <TriangleLeftIcon />
     </PaginationLink>
   )
 }
@@ -93,8 +110,7 @@ function PaginationNext({
       className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
       {...props}
     >
-      <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon />
+      <TriangleRightIcon />
     </PaginationLink>
   )
 }
