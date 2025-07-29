@@ -28,8 +28,8 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
-        page: 'bg-card text-secondary outline outline-1 outline-offset-[-1px] outline-border-split',
-        'page-active': 'bg-card text-primary outline outline-1 outline-offset-[-1px] outline-primary'
+        page: 'bg-card text-secondary outline-1 outline-solid outline-offset-[-1px] outline-border-split',
+        'page-active': 'bg-card text-primary outline-1 outline-solid outline-offset-[-1px] outline-primary'
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
