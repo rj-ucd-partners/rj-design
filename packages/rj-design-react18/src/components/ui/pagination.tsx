@@ -93,7 +93,7 @@ function PaginationPrevious({
       className={cn("gap-1 px-2.5 sm:pl-2.5 size-8", className)}
       {...props}
     >
-      <TriangleLeftIcon />
+      <TriangleLeftIcon className="text-disabled"/>
     </PaginationLink>
   )
 }
@@ -108,7 +108,7 @@ function PaginationNext({
       className={cn("gap-1 px-2.5 sm:pr-2.5 size-8", className)}
       {...props}
     >
-      <TriangleRightIcon />
+      <TriangleRightIcon className="text-disabled"/>
     </PaginationLink>
   )
 }
@@ -124,7 +124,7 @@ function PaginationEllipsis({
       className={cn("flex size-8 items-center justify-center rounded-md outline-1 outline-solid outline-offset-[-1px] outline-border-split", className)}
       {...props}
     >
-      <MoreHorizontalIcon className="size-4" />
+      <MoreHorizontalIcon className="size-3 text-disabled"  />
       <span className="sr-only">More pages</span>
     </span>
   )
