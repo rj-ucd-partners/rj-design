@@ -3,14 +3,14 @@ import * as SelectPrimitive from "@radix-ui/react-select"
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { TriangleDownIcon } from "../icon/TriangleDownIcon"
 import { cva, type VariantProps } from "class-variance-authority"
 import { FavoriteIcon } from "../icon/FavoriteIcon"
+import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons"
 
 function Select({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} onValueChange={()=>{
+  return <SelectPrimitive.Root data-slot="select" {...props} onValueChange={() => {
     console.log("值改变")
   }} />
 }
@@ -27,7 +27,7 @@ function SelectValue({
   return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 const selectTriggerVariants = cva(
-  "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC'] data-[state=open]:outline-offset-[-1px] [&_svg]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_[data-slot=tran-icon]]:rotate-180",
+  "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC'] data-[state=open]:outline-offset-[-1px] [&_[data-slot=select-item]]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_[data-slot=select-item]]:rotate-180",
   {
     variants: {
       variant: {
@@ -82,9 +82,7 @@ function SelectTrigger({
           {children}
         </div>
       </div>
-      <SelectPrimitive.Icon asChild>
-        <TriangleDownIcon size={size ?? 'md'} />
-      </SelectPrimitive.Icon>
+      <TriangleDownIcon data-slot="tran-icon" />
     </SelectPrimitive.Trigger>
   )
 }
@@ -94,7 +92,7 @@ const selectContentVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-secondary-background text-text-deep [&_[data-slot=select-item]]:focus:bg-primary-light [&_[data-slot=select-item]]:focus:text-primary',
+        default: 'bg-secondary-background text-text [&_[data-slot=select-item]]:focus:bg-primary-light [&_[data-slot=select-item]]:focus:text-primary',
       },
       size: {
         sm: '[&_[data-slot=select-item]]:rounded-sm [&_[data-slot=select-item]]:text-xs [&_[data-slot=select-item]]:leading-tight [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-px [&_[data-slot=select-item]]:h-4.5 [&_[data-slot=select-item]]:tracking-wider',

@@ -12,7 +12,7 @@ const buttonVariants = cva(
         primary: 'bg-primary text-text text-center hover:bg-primary-hover active:bg-primary-active disabled:bg-primary-disabled',
         // default:
         //   "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90"
-        default: 'bg-fill text-text-deep hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled',
+        default: 'bg-fill text-text hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled',
         //     secondary:
         // "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         secondary: 'border border-primary text-primary hover:border-primary-hover hover:text-primary-hover active:border-primary-active active:text-primary-active disabled:border-primary-disabled disabled:text-primary-disabled',
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         text: 'text-secondary hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:text-disabled',
         // destructive:
         //   "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        destructive: 'bg-danger text-text-deep text-center hover:bg-danger-hover active:bg-danger-active disabled:text-disabled disabled:bg-danger-disabled',
+        destructive: 'bg-danger text-text text-center hover:bg-danger-hover active:bg-danger-active disabled:text-disabled disabled:bg-danger-disabled',
         'secondary-destructive': 'bg-danger-light text-danger hover:bg-danger-special active:bg-danger-light active:text-danger-active disabled:text-light disabled:bg-danger-disabled',
         dashed: 'outline outline-dashed outline-1 outline-offset-[-1px] outline-border-special text-secondary hover:outline-primary-hover hover:text-primary-hover active:outline-primary-active active:text-primary-active disabled:text-disabled',
         outline:
@@ -29,7 +29,8 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         page: 'bg-card text-secondary outline-1 outline-solid outline-offset-[-1px] outline-border-split',
-        'page-active': 'bg-card text-primary outline-1 outline-solid outline-offset-[-1px] outline-primary'
+        'page-active': 'bg-card text-primary outline-1 outline-solid outline-offset-[-1px] outline-primary',
+        'dropdown-Menu-primary': 'bg-primary text-text-deep text-center hover:bg-primary-hover active:bg-primary-active disabled:bg-primary-disabled'
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
