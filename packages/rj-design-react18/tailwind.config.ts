@@ -64,6 +64,7 @@ export default {
         'warning-special': 'hsl(var(--warning-special))',
         'warning-light': 'hsl(var(--warning-light))',
         /* --文字/图标-- */
+        'primary-background': 'hsl(var(--primary-background))',
         'secondary-information': 'hsl(var(--secondary-information))',
         'disabled': 'hsl(var(--disabled))',
         'text': 'hsl(var(--text))',

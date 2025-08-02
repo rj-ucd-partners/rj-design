@@ -95,6 +95,7 @@
   --color-fill-dark-hover-active-disabled: var(--fill-dark-hover-active-disabled);
   --color-fill-dark: var(--fill-dark);
   /* --背景-- */
+  --color-primary-background: var(--primary-background);
   --color-secondary-background: var(--secondary-background);
   --color-third-background: var(--third-background);
   /* --其他-- */
@@ -114,7 +115,7 @@
 
 :root {
   /* --radius: 0.625rem; */
-  /* --background: oklch(1 0 0); */
+  --background: oklch(1 0 0);
   --foreground: oklch(0.13 0.028 261.692);
   /* --card: oklch(1 0 0); */
   --card-foreground: oklch(0.13 0.028 261.692);
@@ -221,7 +222,7 @@
 }
 
 .dark {
-  /* --background: oklch(0.13 0.028 261.692); */
+  --background: #1b252e;
   --foreground: oklch(0.985 0.002 247.839);
   /* --card: oklch(0.21 0.034 264.665); */
   --card-foreground: oklch(0.985 0.002 247.839);
@@ -309,7 +310,7 @@
   --fill-dark-hover-active-disabled: #233648;
   --fill-dark: #08121A;
   /* --背景-- */
-  --background: #101920;
+  --primary-background: #101920;
   --card: #1B252E;
   --secondary-background: #1F2E3B;
   --third-background: #273947;
