@@ -13,9 +13,9 @@ const switchRootVariants = cva(
         primary: 'data-[state=checked]:bg-primary data-[state=unchecked]:bg-fill-emphasize data-[state=checked]:disabled:bg-fill-dark-hover-active-disabled'
       },
       size: {
-        sm: 'w-7 h-4 rounded-sm',
-        md: 'w-9 h-5 rounded-md',
-        lg: 'w-11 h-6 rounded-md',
+        sm: 'w-7 h-4 rounded-md',
+        md: 'w-9 h-5 rounded-lg',
+        lg: 'w-11 h-6 rounded-lg',
       },
     },
     defaultVariants: {
@@ -34,8 +34,8 @@ const switchThumbVariants = cva(
         primary: 'data-[state=unchecked]:bg-card data-[state=checked]:bg-card'
       },
       size: {
-        sm: 'w-3 h-3 rounded',
-        md: 'w-4 h-4 rounded',
+        sm: 'w-3 h-3 rounded-sm',
+        md: 'w-4 h-4 rounded-md',
         lg: 'w-5 h-5 rounded-md',
       },
     },
@@ -66,7 +66,7 @@ function Switch({
         data-slot="switch-thumb"
         className={cn(
           "pointer-events-none block transition-transform data-[state=checked]:translate-x-[calc(100%)] data-[state=unchecked]:translate-x-1",
-          switchThumbVariants({variant, size})
+          switchThumbVariants({ variant, size })
         )}
       />
     </SwitchPrimitive.Root>

@@ -28,6 +28,7 @@ type Story = StoryObj<typeof Switch>
 // 主要开关
 export const Primary: Story = {
     args: {
-
+        variant: 'primary',
+        size: 'md'
     },
 }
