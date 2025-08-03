@@ -69,14 +69,14 @@ function DropdownMenuTrigger({
 }
 
 const dropdownContentVariants = cva(
-  "",
+  "bg-secondary-background p-2 rounded-lg shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08)] outline outline-[0.50px] outline-offset-[-0.50px] outline-solid outline-border",
   {
     variants: {
       variant: {
-        default: 'bg-secondary-background p-2 rounded-lg shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08)] outline outline-[0.50px] outline-solid outline-offset-[-0.50px] outline-border border-0',
+        default: '',
       },
       itemVariant: {
-        default: '[&_[data-slot=dropdown-menu-item]]:focus:bg-fill-light-hover-bg'
+        default: ''
       }
     },
     defaultVariants: {
@@ -116,26 +116,68 @@ function DropdownMenuGroup({
   )
 }
 
+const dropdownMenuItemVariants = cva(
+  "text-[13px] font-normal",
+  {
+    variants: {
+      hasSeparator: {
+        default: 'px-2 py-1 h-7 focus:bg-fill-light-hover-bg leading-[20px] active:bg-fill-dark-hover-active-disabled data-[state=open]:bg-fill-light-hover-bg',
+        separator: 'px-0 py-0 focus:bg-transparent focus:text-accent-transparent [&_[data-slot=dropdown-menu-item-core]]:h-7 [&_[data-slot=dropdown-menu-item-core]]:hover:bg-fill-light-hover-bg [&_[data-slot=dropdown-menu-item-core]]:active:bg-fill-dark-hover-active-disabled [&_[data-slot=dropdown-menu-item-core]]:data-[state=open]:bg-fill-light-hover-bg'
+      },
+      status: {
+        default: 'text-text hover:text-text focus:text-text  data-[disabled]:text-disabled',
+        success: 'text-success hover:text-success focus:text-success data-[disabled]:text-success-disabled',
+        danger: 'text-danger hover:text-danger focus:text-danger data-[disabled]:text-danger-disabled',
+        abnormal: 'text-abnormal hover:text-abnormal focus:text-abnormal data-[disabled]:text-abnormal-disabled'
+      }
+    },
+    defaultVariants: {
+      status: "default"
+    },
+  }
+)
+
 function DropdownMenuItem({
   className,
+  children,
   inset,
   variant = "default",
+  hasSeparator = 'default',
+  status,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Item> & {
-  inset?: boolean
-  variant?: "default" | "destructive"
-}) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Item>
+  & VariantProps<typeof dropdownMenuItemVariants>
+  & {
+    inset?: boolean
+    variant?: "default" | "destructive"
+  }
+  & {
+    hasSeparator?: 'default' | 'separator'
+  }
+) {
   return (
     <DropdownMenuPrimitive.Item
       data-slot="dropdown-menu-item"
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
+        dropdownMenuItemVariants({ hasSeparator, status }),
       )}
       {...props}
-    />
+    >
+      {hasSeparator === 'separator' ?
+        <div className="flex flex-col w-full justify-start items-start gap-0.5">
+          <div data-slot="dropdown-menu-item-core" className="relative flex w-full cursor-default items-center px-2 py-1 rounded-sm">
+            {children}
+          </div>
+          <div className="self-stretch px-2 py-0.5 flex flex-col justify-start items-start">
+            <div className="self-stretch h-px bg-border" />
+          </div>
+        </div>
+        : children}
+    </DropdownMenuPrimitive.Item>
   )
 }
 
@@ -200,20 +242,33 @@ function DropdownMenuRadioItem({
   )
 }
 
+const dropdownMenuLabelVariants = cva(
+  "text-secondary-information px-2 py-1 text-[12px] leading-[20px]",
+  {
+    variants: {
+    },
+    defaultVariants: {
+    },
+  }
+)
+
 function DropdownMenuLabel({
   className,
   inset,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Label> & {
-  inset?: boolean
-}) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Label>
+  & VariantProps<typeof dropdownMenuLabelVariants>
+  & {
+    inset?: boolean
+  }) {
   return (
     <DropdownMenuPrimitive.Label
       data-slot="dropdown-menu-label"
       data-inset={inset}
       className={cn(
         "px-2 py-1.5 text-sm font-medium data-[inset]:pl-8",
-        className
+        className,
+        dropdownMenuLabelVariants({})
       )}
       {...props}
     />
@@ -259,36 +314,71 @@ function DropdownMenuSubTrigger({
   className,
   inset,
   children,
+  hasSeparator = 'default',
+  status = 'default',
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger> & {
-  inset?: boolean
-}) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger>
+  & VariantProps<typeof dropdownMenuItemVariants>
+  & {
+    inset?: boolean
+  }) {
   return (
     <DropdownMenuPrimitive.SubTrigger
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8",
-        className
+        "focus:bg-accent focus:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8",
+        className,
+        dropdownMenuItemVariants({ hasSeparator, status })
       )}
       {...props}
     >
-      {children}
-      <ChevronRightIcon className="ml-auto size-4" />
+      {/* {children}
+      <ChevronRightIcon className="ml-auto size-4" /> */}
+
+      {hasSeparator === 'separator' ?
+        <div className="flex flex-col w-full justify-start items-start gap-0.5">
+          <div data-slot="dropdown-menu-item-core" className="relative flex w-full cursor-default items-center px-2 py-1 rounded-sm">
+            {children}
+            <ChevronRightIcon className="ml-auto size-4" />
+          </div>
+          <div className="self-stretch px-2 py-0.5 flex flex-col justify-start items-start">
+            <div className="self-stretch h-px bg-border" />
+          </div>
+        </div>
+        : <div className="flex flex-row flex-1">
+          {children}
+          <ChevronRightIcon className="ml-auto size-4" />
+        </div>}
     </DropdownMenuPrimitive.SubTrigger>
   )
 }
 
+const dropdownMenuSubContentVariants = cva(
+  "bg-secondary-background p-1.5 rounded-lg shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08)] outline outline-[0.50px] outline-offset-[-0.50px] outline-solid outline-border",
+  {
+    variants: {
+    },
+    defaultVariants: {
+    },
+  }
+)
+
 function DropdownMenuSubContent({
   className,
+  sideOffset = 8,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>
+  & VariantProps<typeof dropdownMenuSubContentVariants>
+) {
   return (
     <DropdownMenuPrimitive.SubContent
       data-slot="dropdown-menu-sub-content"
+      sideOffset={sideOffset}
       className={cn(
         "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
-        className
+        className,
+        dropdownMenuSubContentVariants({})
       )}
       {...props}
     />

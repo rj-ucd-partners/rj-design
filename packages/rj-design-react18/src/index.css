@@ -163,11 +163,11 @@
   --success-light: #CCF0E3;
   /* --告警色-- */
   --danger: #EB2B00;
-  --danger-hover: #EB522F;
+  --danger-hover: #EB512F;
   --danger-active: #D02600;
-  --danger-disabled: #F2AD9D;
-  --danger-special: #F27C61;
-  --danger-light: #FFE0D9;
+  --danger-disabled: #F2AC9D;
+  --danger-special: #F27B60;
+  --danger-light: #FFDFD8;
   /* --异常色-- */
   --abnormal: #FA8C16;
   --abnormal-hover: #FFA940;
@@ -269,7 +269,7 @@
   --success-special: #005437;
   --success-light: #19362D;
   /* --告警色-- */
-  --danger: #D02600;
+  --danger: #D02500;
   --danger-hover: #FF3C00;
   --danger-active: #991C00;
   --danger-disabled: #59210D;
