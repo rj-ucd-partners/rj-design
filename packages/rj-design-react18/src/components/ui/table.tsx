@@ -1,6 +1,20 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority"
+
+const tableVariants = cva(
+  "",
+  {
+    variants: {
+      variant: {
+        default: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'default'
+    },
+  })
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
@@ -17,11 +31,29 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
   )
 }
 
-function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
+const tableHeaderVariants = cva(
+  "bg-fill hover:bg-scroll",
+  {
+    variants: {
+      variant: {
+        default: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'default'
+    },
+  })
+
+function TableHeader({
+  className,
+  ...props }: React.ComponentProps<"thead">
+  & VariantProps<typeof tableHeaderVariants>) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b", className)}
+      className={cn("[&_tr]:border-b", className, tableHeaderVariants({
+
+      }))}
       {...props}
     />
   )
