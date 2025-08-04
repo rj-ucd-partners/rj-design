@@ -94,6 +94,10 @@ export default {
         'data-7': 'hsl(var(--data-7))',
         'data-8': 'hsl(var(--data-8))',
         'data-9': 'hsl(var(--data-9))',
+        'cyan-400-20': 'hsl(var(--cyan-400-20))',
+        'teal-400-20': 'hsl(var(--teal-400-20))',
+        'orange-600-20': 'hsl(var(--orange-600-20))',
+        'amber-500-20': 'hsl(var(--amber-500-20))',
       }
     },
   },

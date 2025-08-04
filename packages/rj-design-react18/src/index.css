@@ -110,6 +110,11 @@
   --color-data-7: var(--data-7);
   --color-data-8: var(--data-8);
   --color-data-9: var(--data-9);
+  /* --半透明色-- */
+  --color-cyan-400-20: var(--cyan-400-20);
+  --color-teal-400-20: var(--teal-400-20);
+  --color-orange-600-20: var(--orange-600-20);
+  --color-amber-500-20: var(--amber-500-20);
 }
 
 
@@ -219,6 +224,11 @@
   --data-7: #1681FF;
   --data-8: #797DEA;
   --data-9: #E125FF;
+  /* --半透明色-- */
+  --cyan-400-20: rgba(0, 207, 244, 0.2);
+  --teal-400-20: rgba(0, 255, 168, 0.2);
+  --orange-600-20: rgba(255, 60, 0, 0.2);
+  --amber-500-20: rgba(255, 168, 0, 0.2);
 }
 
 .dark {
@@ -273,7 +283,7 @@
   --danger-hover: #FF3C00;
   --danger-active: #991C00;
   --danger-disabled: #59210D;
-  --danger-special: #81371D;
+  --danger-special: #80371D;
   --danger-light: #342020;
   /* --异常色-- */
   --abnormal: #E59700;
@@ -326,6 +336,11 @@
   --data-7: #1681FF;
   --data-8: #7F62F2;
   --data-9: #D346EA;
+  /* --半透明色-- */
+  --cyan-400-20: rgba(0, 207, 244, 0.2);
+  --teal-400-20: rgba(0, 255, 168, 0.2);
+  --orange-600-20: rgba(255, 60, 0, 0.2);
+  --amber-500-20: rgba(255, 168, 0, 0.2);
 }
 
 @layer base {
