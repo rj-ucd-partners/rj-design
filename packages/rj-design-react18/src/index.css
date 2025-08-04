@@ -186,8 +186,8 @@
   --secondary: #3C454D;
   --secondary-information: #73818D;
   --disabled: #AAB2BA;
-  --text: #08121A;
-  --text-deep: #FFFFFF;
+  --text: #FFFFFF;
+  --text-deep: #08121A;
   /* --线/描边-- */
   --border: #CFD8E5;
   --border-hover: #AEB9C9;
@@ -293,8 +293,8 @@
   --secondary: #C0C7CF;
   --secondary-information: #97A7B5;
   --disabled: #61707D;
-  --text: #FFFFFF;
-  --text-deep: #08121A;
+  --text: #08121A;
+  --text-deep: #FFFFFF;
   /* --线/描边-- */
   --border: #365167;
   --border-hover: #516D83;

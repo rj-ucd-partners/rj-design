@@ -7,6 +7,10 @@ const meta: Meta<typeof Checkbox> = {
     tags: ['autodocs'],
     component: Checkbox,
     argTypes: {
+        variant: {
+            control: { type: 'select' },
+            options: ['default'],
+        },
         checked: {
             control: { type: 'select' },
             options: ['indeterminate', true, false],
@@ -21,13 +25,14 @@ export default meta
 
 type Story = StoryObj<typeof Checkbox>
 
-export const Component: Story = {
+export const Default: Story = {
     args: {
-        checked: 'indeterminate'
+        checked: 'indeterminate',
+        variant: 'default'
     },
     render: (args) => (
         <div className="flex items-center gap-2">
-            <Checkbox disabled={args.disabled} id={'check'} defaultChecked={args.checked} checked={args.checked} />
+            <Checkbox variant={args.variant} disabled={args.disabled} id={'check'} defaultChecked={args.checked} checked={args.checked} />
             <Label htmlFor={'check'}>Indeterminate checkbox</Label>
         </div>)
 }
