@@ -115,6 +115,7 @@
   --color-teal-400-20: var(--teal-400-20);
   --color-orange-600-20: var(--orange-600-20);
   --color-amber-500-20: var(--amber-500-20);
+  --color-amber-500-10: var(--amber-500-10);
 }
 
 
@@ -229,6 +230,7 @@
   --teal-400-20: rgba(0, 255, 168, 0.2);
   --orange-600-20: rgba(255, 60, 0, 0.2);
   --amber-500-20: rgba(255, 168, 0, 0.2);
+  --amber-500-10: rgba(230, 152, 0, 0.1);
 }
 
 .dark {
@@ -341,6 +343,7 @@
   --teal-400-20: rgba(0, 255, 168, 0.2);
   --orange-600-20: rgba(255, 60, 0, 0.2);
   --amber-500-20: rgba(255, 168, 0, 0.2);
+  --amber-500-10: rgba(230, 152, 0, 0.1);
 }
 
 @layer base {

@@ -415,12 +415,12 @@ export const ContentIconAndTitleAndCloseAndDescAndToolbar: Story = {
                             <p>这是一段内容</p>
                         </PopoverDesc>
                         <PopoverToolbar  >
-                            <div className="flex gap-2 justify-end">
-                                <Button variant='primary' size={"md"}>
-                                    确认
-                                </Button>
+                            <div className="flex gap-3 justify-end">
                                 <Button variant='default' size={"md"}>
                                     取消
+                                </Button>
+                                <Button variant='primary' size={"md"}>
+                                    确认
                                 </Button>
                             </div>
                         </PopoverToolbar>

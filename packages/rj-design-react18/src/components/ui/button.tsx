@@ -41,6 +41,7 @@ const buttonVariants = cva(
         lg: 'h-10 px-4 py-2 rounded-md  text-[15px] leading-[22px]',
         icon: "size-9",
         page: "size-8",
+        link: "",
       },
     },
     defaultVariants: {
