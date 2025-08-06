@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from '@/components/ui/button'
+import { TriangleDownIcon } from '@radix-ui/react-icons'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -16,7 +17,7 @@ const meta: Meta<typeof Button> = {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
     },
-    disabled:{
+    disabled: {
       control: 'boolean'
     }
   },
@@ -97,4 +98,71 @@ export const Dashed: Story = {
     variant: 'dashed',
     size: 'md'
   },
+}
+
+// 后置图标按钮
+export const Front: Story = {
+  args: {
+    variant: 'primary',
+    size: 'md'
+  },
+  render: (args) => {
+    return (
+      <Button {...args}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 4.5H7.5V7.5H4.5V8.5H7.5V11.5H8.5V8.5H11.5V7.5H8.5V4.5Z" fill="#08121A" />
+        </svg>
+        前置图标
+      </Button>
+    )
+  }
+}
+
+// 后置图标按钮
+export const Back: Story = {
+  args: {
+    variant: 'primary',
+    size: 'md'
+  },
+  render: (args) => {
+    return (
+      <Button {...args}>
+        后置图标
+        <TriangleDownIcon />
+      </Button>
+    )
+  }
+}
+
+// 纯图标按钮
+export const Icon: Story = {
+  args: {
+    variant: 'icon',
+    size: 'icon1'
+  },
+  render: (args) => {
+    return (
+      <Button {...args}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 4.5H7.5V7.5H4.5V8.5H7.5V11.5H8.5V8.5H11.5V7.5H8.5V4.5Z" fill="#C0C7CF" />
+        </svg>
+      </Button>
+    )
+  }
+}
+// 纯图标按钮
+export const HoverIcon: Story = {
+  args: {
+    variant: 'hover-icon',
+    size: 'icon1'
+  },
+  render: (args) => {
+    return (
+      <Button {...args}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 4.5H7.5V7.5H4.5V8.5H7.5V11.5H8.5V8.5H11.5V7.5H8.5V4.5Z" fill="#C0C7CF" />
+        </svg>
+      </Button>
+    )
+  }
 }
