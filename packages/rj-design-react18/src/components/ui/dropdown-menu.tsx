@@ -74,6 +74,7 @@ const dropdownContentVariants = cva(
     variants: {
       variant: {
         default: '',
+        page: 'bg-card'
       },
       itemVariant: {
         default: ''
@@ -125,10 +126,11 @@ const dropdownMenuItemVariants = cva(
         separator: 'px-0 py-0 focus:bg-transparent focus:text-accent-transparent [&_[data-slot=dropdown-menu-item-core]]:h-7 [&_[data-slot=dropdown-menu-item-core]]:hover:bg-fill-light-hover-bg [&_[data-slot=dropdown-menu-item-core]]:active:bg-fill-dark-hover-active-disabled [&_[data-slot=dropdown-menu-item-core]]:data-[state=open]:bg-fill-light-hover-bg'
       },
       status: {
-        default: 'text-text hover:text-text focus:text-text  data-[disabled]:text-disabled',
+        default: 'text-text hover:text-text focus:text-text data-[disabled]:text-disabled',
         success: 'text-success hover:text-success focus:text-success data-[disabled]:text-success-disabled',
         danger: 'text-danger hover:text-danger focus:text-danger data-[disabled]:text-danger-disabled',
-        abnormal: 'text-abnormal hover:text-abnormal focus:text-abnormal data-[disabled]:text-abnormal-disabled'
+        abnormal: 'text-abnormal hover:text-abnormal focus:text-abnormal data-[disabled]:text-abnormal-disabled',
+        page: 'text-text-deep hover:text-text-deep focus:text-text-deep data-[disabled]:text-disabled',
       }
     },
     defaultVariants: {

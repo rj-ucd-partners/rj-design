@@ -11,7 +11,8 @@ const inputVariants = cva(
         normal: 'bg-third-background focus-visible:outline-primary hover:bg-fill-light-hover-bg disabled:bg-border-disabled disabled:text-disabled',
         success: 'bg-success-active focus-visible:outline-success-hover',
         error: 'bg-danger-light focus-visible:outline-danger',
-        warning: 'bg-warning-light focus-visible:outline-abnormal'
+        warning: 'bg-warning-light focus-visible:outline-abnormal',
+        page: 'bg-card text-secondary text-center outline-1 outline-solid outline-offset-[-1px] outline-border-split w-20',
       },
       dimension: {
         sm: 'h-6 px-2 py-0.5 rounded text-xs leading-tight placeholder:text-xs placeholder:leading-tight',
