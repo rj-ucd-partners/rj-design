@@ -91,10 +91,11 @@ export const Description: Story = {
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle>标题</DialogTitle>
-                            <DialogDescription variant={args.variant}>
-                                这是一条普通的消息提示
-                            </DialogDescription>
+
                         </DialogHeader>
+                        <DialogDescription variant={args.variant}>
+                            这是一条普通的消息提示
+                        </DialogDescription>
                         <DialogDetails>
                             <div className="w-112 h-40 bg-primary-light flex items-center justify-center">这是一个无害的编辑区</div>
                         </DialogDetails>
