@@ -4,15 +4,14 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { FavoriteIcon } from "../icon/FavoriteIcon"
-import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons"
+import { TriangleDownIcon } from "@radix-ui/react-icons"
+import { Button } from "./button"
+import { CloseIcon } from "../icon/closeIcon"
 
 function Select({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root data-slot="select" {...props} onValueChange={() => {
-    console.log("值改变")
-  }} />
+  return <SelectPrimitive.Root data-slot="select" {...props} />
 }
 
 function SelectGroup({
@@ -24,19 +23,21 @@ function SelectGroup({
 function SelectValue({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Value>) {
-  return <SelectPrimitive.Value data-slot="select-value" {...props} />
+  return <SelectPrimitive.Value data-slot="select-value" {...props}>
+
+  </SelectPrimitive.Value>
 }
 const selectTriggerVariants = cva(
-  "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC'] data-[state=open]:outline-offset-[-1px] [&_[data-slot=select-item]]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_[data-slot=select-item]]:rotate-180",
+  "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC'] data-[state=open]:outline-offset-[-1px] [&_[data-slot=select-item]]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_[data-slot=tran-icon]]:rotate-180",
   {
     variants: {
       variant: {
         default: 'bg-third-background data-[placeholder]:text-secondary-information hover:bg-fill-light-hover-bg disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled focus-visible:outline-primary data-[state=open]:outline-primary',
       },
       size: {
-        sm: 'rounded-sm w-60 px-2 py-0.5 [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
-        md: 'rounded-md w-80 px-2 py-[5px] [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
-        lg: 'rounded-md w-80 px-3 py-2 [&_[data-slot=select-value]]:h-6 [&_[data-slot=select-value]]:text-base [&_[data-slot=select-value]]:leading-snug',
+        sm: 'rounded-sm w-60 pl-2 pr-6.5 py-0.5 [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
+        md: 'rounded-md w-80 pl-2 pr-6.5 py-[5px] [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
+        lg: 'rounded-md w-80 px-2 pr-7.5 py-2 [&_[data-slot=select-value]]:h-6 [&_[data-slot=select-value]]:text-base [&_[data-slot=select-value]]:leading-snug',
       },
     },
     defaultVariants: {
@@ -48,41 +49,37 @@ const selectTriggerVariants = cva(
 
 function SelectTrigger({
   className,
-  front = false,
-  frontIcon,
   variant,
   size,
   children,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & VariantProps<typeof selectTriggerVariants> & {
-  front?: boolean
-  frontIcon?: React.ReactNode
-}) {
+}: React.ComponentProps<typeof SelectPrimitive.Trigger> & VariantProps<typeof selectTriggerVariants>) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       className={cn(
-        "inline-flex w-full max-w-full items-center justify-between whitespace-nowrap transition-[color,box-shadow] [&_svg]:pointer-events-none gap-2 *:data-[slot=select-value]:flex",
+        "relative inline-flex w-full max-w-full items-center transition-[color,box-shadow] [&_svg]:pointer-events-none gap-2",
+        "*:data-[slot=select-value]:flex *:data-[slot=select-value]:flex-1 *:data-[slot=select-value]:items-center *:data-[slot=select-value]:overflow-hidden",
+        "[&_[data-slot=tran-icon]]:right-[10px] [&_[data-slot=tran-icon]]:top-1/2 [&_[data-slot=tran-icon]]:-translate-y-1/2",
         className,
-        selectTriggerVariants({ variant, size })
+        selectTriggerVariants({ variant, size }),
       )}
       {...props}
     >
-      <div className="flex gap-2 min-w-0 flex-1 items-center">
-        {(!front) ? null : frontIcon ? (
-          <SelectPrimitive.Icon asChild>
-            {frontIcon}
-          </SelectPrimitive.Icon>
-        ) : (
-          <SelectPrimitive.Icon asChild>
-            <FavoriteIcon size={size ?? 'md'} />
-          </SelectPrimitive.Icon>
-        )}
-        <div className="line-clamp-1 min-w-0 flex-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center">
-          {children}
-        </div>
-      </div>
-      <TriangleDownIcon data-slot="tran-icon" />
+      {children}
+
+      {
+        props.value ?
+          (
+            <Button variant={'link'} size={'link'} data-slot="tran-icon" className={cn("absolute")}>
+              <CloseIcon />
+            </Button>
+          ) :
+          (
+            <TriangleDownIcon data-slot="tran-icon" className={cn("absolute")} />
+          )
+      }
+
     </SelectPrimitive.Trigger>
   )
 }
@@ -92,10 +89,10 @@ const selectContentVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-secondary-background text-text [&_[data-slot=select-item]]:focus:bg-primary-light [&_[data-slot=select-item]]:focus:text-primary',
+        default: 'bg-secondary-background text-text-deep [&_[data-slot=select-item]]:focus:bg-primary-light [&_[data-slot=select-item]]:focus:text-primary',
       },
       size: {
-        sm: '[&_[data-slot=select-item]]:rounded-sm [&_[data-slot=select-item]]:text-xs [&_[data-slot=select-item]]:leading-tight [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-px [&_[data-slot=select-item]]:h-4.5 [&_[data-slot=select-item]]:tracking-wider',
+        sm: '[&_[data-slot=select-item]]:rounded-sm [&_[data-slot=select-item]]:text-[12px] [&_[data-slot=select-item]]:leading-[20px] [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-px [&_[data-slot=select-item]]:h-4.5 [&_[data-slot=select-item]]:tracking-wider',
         md: '[&_[data-slot=select-item]]:rounded-md [&_[data-slot=select-item]]:text-xs [&_[data-slot=select-item]]:leading-tight [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-[3px] [&_[data-slot=select-item]]:h-5.5 [&_[data-slot=select-item]]:tracking-wider',
         lg: '[&_[data-slot=select-item]]:rounded-md [&_[data-slot=select-item]]:text-base [&_[data-slot=select-item]]:leading-snug [&_[data-slot=select-item]]:px-3 [&_[data-slot=select-item]]:py-1.5 [&_[data-slot=select-item]]:h-8.5',
       }

@@ -1,25 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Input } from '@/components/ui/input'
+import { Button } from './button'
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input',
+  title: 'Components/InputNumber',
   component: Input,
   argTypes: {
     variant: {
       defaultValue: 'default',
       control: { type: 'select' },
-      options: ['normal', 'success', 'error', 'warning'],
+      options: ['normal'],
     },
     dimension: {
       defaultValue: 'default',
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
     },
-    type: {
-      defaultValue: 'text',
-      control: { type: 'select' },
-      options: ['text', 'password', 'number'],
-    }
   },
 }
 
@@ -28,21 +24,25 @@ export default meta
 type Story = StoryObj<typeof Input>
 
 // 输入框
-export const Text: Story = {
+export const Number1: Story = {
   args: {
     variant: 'normal',
-    type: 'text',
+    type: 'number',
     dimension: 'md'
   },
+  render: (args) => {
+    return (
+      <div className='flex flex-row gap-2'>
+        <Button variant={'page'} size={'md'}>
+          +
+        </Button>
+        <Input className='w-25'  {...args} />
+        <Button variant={'page'} size={'md'}>
+          -
+        </Button>
+      </div>
+    );
+  }
 }
 
-// 密码输入框
-export const Password: Story = {
-  args: {
-    variant: 'normal',
-    type: 'password',
-    dimension: 'md',
-  },
-}
 
-//带图标的输入框
