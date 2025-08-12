@@ -158,7 +158,7 @@ export const Full: Story = {
         const [total, setTotal] = React.useState<number>(20)
         return (
             <div className="flex flex-row w-full justify-between items-center px-3 py-4">
-                <div className="text-[13px] leading-[20px] font-normal not-italic text-secondary">
+                <div className="text-[13px] leading-[20px] font-normal not-italic text-disabled">
                     共 {total} 条数据
                 </div>
                 <div className="flex flex-row gap-4">

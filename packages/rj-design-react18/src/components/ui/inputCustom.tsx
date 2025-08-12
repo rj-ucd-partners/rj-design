@@ -14,7 +14,7 @@ const inputCustomVariants = cva(
                 error: 'bg-danger-light focus-within:outline-danger',
                 warning: 'bg-warning-light focus-within:outline-abnormal',
             },
-            size: {
+            dimension: {
                 "borderless-sm": 'w-58 px-2 py-0.5 rounded-md text-[12px] leadling-[20px] placeholder:text-[12px] placeholder:leading-[20px]',
                 "borderless-md": 'w-70 px-2 py-[5px] rounded-md text-[13px] leadling-[20px] placeholder:text-[13px] placeholder:leading-[20px]',
                 "borderless-lg": 'w-74 px-3 py-2 rounded-md text-[15px] leadling-[22px] placeholder:text-[15px] placeholder:leading-[22px]',
@@ -32,7 +32,7 @@ function InputCustom({
     className,
     disabled,
     variant,
-    size,
+    dimension,
     ...props
 }:
     React.ComponentProps<'input'> &
@@ -42,8 +42,6 @@ function InputCustom({
         disabled?: boolean
     }
 ) {
-
-    React.useEffect(() => { console.log('inputCustom', size) });
     return (
         <div
             data-slot="input-custom"
@@ -51,14 +49,14 @@ function InputCustom({
             className={cn(
                 "grid items-center ",
                 "grid-cols-[auto_1fr_auto]",
-                inputCustomVariants({ size, variant, className, disabled }))}
+                inputCustomVariants({ dimension, variant, className, disabled }))}
         >
             {props.children}
             <Input
                 className='col-start-2 row-start-1'
                 disabled={disabled}
                 variant={'transparent'}
-                dimension={props.dimension}
+                dimension={dimension}
             />
         </div>
     )

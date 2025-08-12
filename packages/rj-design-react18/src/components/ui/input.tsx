@@ -8,16 +8,17 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        normal: 'bg-third-background focus-visible:outline-primary hover:bg-fill-light-hover-bg disabled:bg-border-disabled disabled:text-disabled',
+        default: 'bg-third-background focus-visible:outline-primary hover:bg-fill-light-hover-bg disabled:bg-border-disabled disabled:text-disabled',
         success: 'bg-success-active focus-visible:outline-success-hover',
         error: 'bg-danger-light focus-visible:outline-danger',
         warning: 'bg-warning-light focus-visible:outline-abnormal',
         page: 'bg-card text-secondary text-center outline-1 outline-solid outline-offset-[-1px] outline-border-split w-20',
         transparent: 'bg-transparent outline-none',
+        number: 'text-center bg-third-background focus-visible:outline-primary disabled:bg-border-disabled disabled:text-disabled'
       },
       dimension: {
         sm: 'h-6 px-2 py-0.5 rounded text-xs leading-tight placeholder:text-xs placeholder:leading-tight',
-        md: 'h-7.5 px-2 py-[5px] rounded-md text-xs leading-tight placeholder:text-xs placeholder:leading-tight',
+        md: 'h-8 px-2 py-[5px] rounded-md text-xs leading-tight placeholder:text-xs placeholder:leading-tight',
         lg: 'h-10 px-3 py-2 rounded-md text-base leading-snug',
         'borderless-sm': 'h-5 px-2 w-full',
         'borderless-md': 'h-5 px-2 w-full',
@@ -25,7 +26,7 @@ const inputVariants = cva(
       },
     },
     defaultVariants: {
-      variant: 'normal',
+      variant: 'default',
       dimension: 'md',
     },
   },

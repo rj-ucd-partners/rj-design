@@ -32,7 +32,7 @@ export const Icon: Story = {
     },
     render: (args) => {
         return (
-            <InputCustom size={args.dimension} {...args}>
+            <InputCustom dimension={args.dimension} {...args}>
                 <InputFrontIcon>
                     <ManIcon />
                 </InputFrontIcon>
@@ -52,7 +52,7 @@ export const Front: Story = {
     },
     render: (args) => {
         return (
-            <InputCustom size={args.dimension} {...args}>
+            <InputCustom dimension={args.dimension} {...args}>
                 <InputFrontIcon>
                     <ManIcon />
                 </InputFrontIcon>
@@ -70,7 +70,7 @@ export const Behindt: Story = {
     },
     render: (args) => {
         return (
-            <InputCustom size={args.dimension} {...args}>
+            <InputCustom dimension={args.dimension} {...args}>
                 <InputBehindtIcon>
                     <MagnifierIcon />
                 </InputBehindtIcon>

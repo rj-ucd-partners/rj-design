@@ -8,7 +8,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       defaultValue: 'default',
       control: { type: 'select' },
-      options: ['normal', 'success', 'error', 'warning'],
+      options: ['default', 'success', 'error', 'warning'],
     },
     dimension: {
       defaultValue: 'default',
@@ -30,7 +30,7 @@ type Story = StoryObj<typeof Input>
 // 输入框
 export const Text: Story = {
   args: {
-    variant: 'normal',
+    variant: 'default',
     type: 'text',
     dimension: 'md'
   },
@@ -39,7 +39,7 @@ export const Text: Story = {
 // 密码输入框
 export const Password: Story = {
   args: {
-    variant: 'normal',
+    variant: 'default',
     type: 'password',
     dimension: 'md',
   },
