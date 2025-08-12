@@ -34,6 +34,7 @@ const buttonVariants = cva(
         'dropdown-Menu-primary': 'bg-primary text-text-deep text-center hover:bg-primary-hover active:bg-primary-active disabled:bg-primary-disabled',
         'icon': 'bg-transparent hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:text-secondary',
         'hover-icon': 'bg-fill hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:text-secondary disabled:bg-border-disabled',
+        day: 'bg-transparent text-secondary',
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -45,7 +46,8 @@ const buttonVariants = cva(
         icon: "size-9",
         page: "size-8",
         link: "",
-        icon1: "p-2"
+        icon1: "p-2",
+        day: 'size-4'
       },
     },
     defaultVariants: {
