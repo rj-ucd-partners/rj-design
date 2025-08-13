@@ -10,13 +10,20 @@ const tableVariants = cva(
       variant: {
         default: '',
       },
+      direction: {
+        start: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:justify-start [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:justify-start [&_[data-slot=table-cell]]:items-center',
+        center: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:justify-center [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:justify-center [&_[data-slot=table-cell]]:items-center',
+        end: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:justify-end [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:justify-end [&_[data-slot=table-cell]]:items-center'
+      }
     },
     defaultVariants: {
       variant: 'default'
     },
   })
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+function Table({ className,
+  direction, ...props }: React.ComponentProps<"table">
+  & VariantProps<typeof tableVariants>) {
   return (
     <div
       data-slot="table-container"
@@ -24,7 +31,9 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
     >
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
+        className={cn("w-full caption-bottom text-sm",
+          className,
+          tableVariants({ direction }))}
         {...props}
       />
     </div>
@@ -32,7 +41,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
 }
 
 const tableHeaderVariants = cva(
-  "bg-fill hover:bg-scroll",
+  "",
   {
     variants: {
       variant: {
@@ -63,7 +72,7 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   return (
     <tbody
       data-slot="table-body"
-      className={cn("[&_tr:last-child]:border-0", className)}
+      className={cn("", className)}
       {...props}
     />
   )
@@ -100,7 +109,8 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "bg-fill hover:bg-scroll",
+        "text-foreground h-10 px-2 align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}

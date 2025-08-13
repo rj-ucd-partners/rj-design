@@ -16,7 +16,12 @@ import type {
 const meta: Meta<typeof Table> = {
   title: 'Components/Table',
   component: Table,
-  argTypes: {},
+  argTypes: {
+    direction: {
+      control: 'select',
+      options: ['start', 'center', 'end']
+    },
+  },
 }
 
 export default meta
@@ -25,35 +30,35 @@ type Story = StoryObj<typeof Table>
 
 // 基础表格
 export const Default: Story = {
-  render: () => (
-    <Table>
+  render: (args) => (
+    <Table {...args}>
       <TableCaption>基础表格示例</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>姓名</TableHead>
-          <TableHead>邮箱</TableHead>
+          {/* <TableHead>邮箱</TableHead>
           <TableHead>角色</TableHead>
-          <TableHead>状态</TableHead>
+          <TableHead>状态</TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow>
           <TableCell>张三</TableCell>
-          <TableCell>zhangsan@example.com</TableCell>
+          {/* <TableCell>zhangsan@example.com</TableCell>
           <TableCell>管理员</TableCell>
-          <TableCell>活跃</TableCell>
+          <TableCell>活跃</TableCell> */}
         </TableRow>
         <TableRow>
           <TableCell>李四</TableCell>
-          <TableCell>lisi@example.com</TableCell>
+          {/* <TableCell>lisi@example.com</TableCell>
           <TableCell>用户</TableCell>
-          <TableCell>活跃</TableCell>
+          <TableCell>活跃</TableCell> */}
         </TableRow>
         <TableRow>
           <TableCell>王五</TableCell>
-          <TableCell>wangwu@example.com</TableCell>
+          {/* <TableCell>wangwu@example.com</TableCell>
           <TableCell>编辑</TableCell>
-          <TableCell>非活跃</TableCell>
+          <TableCell>非活跃</TableCell> */}
         </TableRow>
       </TableBody>
     </Table>
