@@ -41,6 +41,7 @@ function Calendar({
 
     return (
         <DayPicker
+            locale={props.locale}
             showOutsideDays={showOutsideDays}
             className={cn(
                 "bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
@@ -183,6 +184,7 @@ function Calendar({
                     )
                 },
                 YearsDropdown: CalendarDropdown,
+                MonthsDropdown: CalendarDropdown,
                 ...components,
             }}
             {...props}
@@ -234,10 +236,22 @@ function CalendarDropdown({
     options,
     ...props
 }: React.ComponentProps<typeof Dropdown>) {
+    const [placeholder, setPlaceholder] = React.useState<string>();
+    React.useEffect(() => {
+        if (options) {
+            if (options.length > 12) {
+                const year = options.find(x => x.value == props.value);
+                if (year) {
+                    setPlaceholder(year.label);
+                }
+            } else {
+                setPlaceholder(options[props.value as number].label);
+            }
+        }
+    }, [])
 
     return (
         <Select onValueChange={(value) => {
-            console.log(value)
             // props.onChange()
             if (onChange) {
                 const syntheticEvent = {
@@ -247,8 +261,8 @@ function CalendarDropdown({
                 onChange(syntheticEvent);
             }
         }}>
-            <SelectTrigger defaultValue={props.value} value={props.value} >
-                <SelectValue defaultChecked={true} placeholder={props.value} />
+            <SelectTrigger variant={"default"} size={'dropdown'} className="text-secondary-information" >
+                <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
                 {

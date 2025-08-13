@@ -38,6 +38,7 @@ const selectTriggerVariants = cva(
         sm: 'rounded-sm w-60 pl-2 pr-6.5 py-0.5 [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
         md: 'rounded-md w-80 pl-2 pr-6.5 py-[5px] [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
         lg: 'rounded-md w-80 px-2 pr-7.5 py-2 [&_[data-slot=select-value]]:h-6 [&_[data-slot=select-value]]:text-base [&_[data-slot=select-value]]:leading-snug',
+        dropdown: 'w-20 px-2 py-[5px] rounded-md'
       },
     },
     defaultVariants: {
@@ -61,14 +62,14 @@ function SelectTrigger({
         "relative inline-flex w-full max-w-full items-center transition-[color,box-shadow] [&_svg]:pointer-events-none gap-2",
         "*:data-[slot=select-value]:flex *:data-[slot=select-value]:flex-1 *:data-[slot=select-value]:items-center *:data-[slot=select-value]:overflow-hidden",
         "[&_[data-slot=tran-icon]]:right-[10px] [&_[data-slot=tran-icon]]:top-1/2 [&_[data-slot=tran-icon]]:-translate-y-1/2",
-        className,
         selectTriggerVariants({ variant, size }),
+        className,
       )}
       {...props}
     >
       {children}
 
-      {
+      {/* {
         props.value ?
           (
             <Button variant={'link'} size={'link'} data-slot="tran-icon" className={cn("absolute")}>
@@ -78,8 +79,8 @@ function SelectTrigger({
           (
             <TriangleDownIcon data-slot="tran-icon" className={cn("absolute")} />
           )
-      }
-
+      } */}
+      <TriangleDownIcon data-slot="tran-icon" className={cn("absolute")} />
     </SelectPrimitive.Trigger>
   )
 }
