@@ -231,12 +231,12 @@ function CalendarDayButton({
 }
 
 function CalendarDropdown({
-    className,
     onChange,
     options,
     ...props
 }: React.ComponentProps<typeof Dropdown>) {
     const [placeholder, setPlaceholder] = React.useState<string>();
+
     React.useEffect(() => {
         if (options) {
             if (options.length > 12) {
@@ -260,7 +260,7 @@ function CalendarDropdown({
                 } as React.ChangeEvent<HTMLSelectElement>;
                 onChange(syntheticEvent);
             }
-        }}>
+        }} >
             <SelectTrigger variant={"default"} size={'dropdown'} className="text-secondary-information" >
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>

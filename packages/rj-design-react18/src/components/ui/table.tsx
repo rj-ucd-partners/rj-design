@@ -11,9 +11,9 @@ const tableVariants = cva(
         default: '',
       },
       direction: {
-        start: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:justify-start [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:justify-start [&_[data-slot=table-cell]]:items-center',
-        center: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:justify-center [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:justify-center [&_[data-slot=table-cell]]:items-center',
-        end: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:justify-end [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:justify-end [&_[data-slot=table-cell]]:items-center'
+        start: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:flex-1  [&_[data-slot=table-head]]:justify-start [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:flex-1 [&_[data-slot=table-cell]]:justify-start [&_[data-slot=table-cell]]:items-center',
+        center: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:flex-1  [&_[data-slot=table-head]]:justify-center [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:flex-1 [&_[data-slot=table-cell]]:justify-center [&_[data-slot=table-cell]]:items-center',
+        end: '[&_[data-slot=table-head]]:flex [&_[data-slot=table-head]]:flex-1  [&_[data-slot=table-head]]:justify-end [&_[data-slot=table-head]]:items-center [&_[data-slot=table-cell]]:flex [&_[data-slot=table-cell]]:flex-1 [&_[data-slot=table-cell]]:justify-end [&_[data-slot=table-cell]]:items-center'
       }
     },
     defaultVariants: {
@@ -96,7 +96,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+        "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors flex flex-row",
         className
       )}
       {...props}
