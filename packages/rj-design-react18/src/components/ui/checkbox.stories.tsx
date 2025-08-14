@@ -30,9 +30,11 @@ export const Default: Story = {
         checked: 'indeterminate',
         variant: 'default'
     },
-    render: (args) => (
-        <div className="flex items-center gap-2">
+    render: (args) => {
+
+        return (<div className="flex items-center gap-2">
             <Checkbox variant={args.variant} disabled={args.disabled} id={'check'} defaultChecked={args.checked} checked={args.checked} />
             <Label htmlFor={'check'}>Indeterminate checkbox</Label>
-        </div>)
+        </div>);
+    }
 }
