@@ -88,9 +88,9 @@ const tabsTriggerVariants = cva(
     variants: {
       variant: {
         native: "data-[state=active]:bg-primary-background dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        default: "bg-transparent text-secondary-information data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:[&_[data-slot=tabs-trigger-item]]:text-primary dark:data-[state=active]:[&_[data-slot=tabs-trigger-item]]:text-primary data-[state=active]:text-primary dark:data-[state=active]:text-primary dark:data-[state=active]:relative dark:data-[state=active]:after:content-[''] dark:data-[state=active]:after:absolute dark:data-[state=active]:after:bottom-0 dark:data-[state=active]:after:left-0 dark:data-[state=active]:after:w-full dark:data-[state=active]:after:h-[1px] dark:data-[state=active]:after:bg-gradient-to-l dark:data-[state=active]:after:from-cyan-400/0 dark:data-[state=active]:after:via-cyan-400 dark:data-[state=active]:after:to-cyan-400/0 disabled:[&_[data-slot=tabs-trigger-item]]:text-disabled",
+        default: "bg-transparent text-secondary-information data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:[&_[data-slot=tabs-trigger-item]]:text-primary dark:data-[state=active]:[&_[data-slot=tabs-trigger-item]]:text-primary data-[state=active]:text-primary dark:data-[state=active]:text-primary dark:data-[state=active]:relative dark:data-[state=active]:after:content-[''] dark:data-[state=active]:after:absolute dark:data-[state=active]:after:bottom-0 dark:data-[state=active]:after:left-0 dark:data-[state=active]:after:w-full dark:data-[state=active]:after:h-[1px] dark:data-[state=active]:after:bg-gradient-to-l dark:data-[state=active]:after:from-cyan-400/0 dark:data-[state=active]:after:via-cyan-400 dark:data-[state=active]:after:to-cyan-400/0 disabled:[&_[data-slot=tabs-trigger-item]]:text-disabled flex flex-row items-center",
         card: 'inline-flex rounded-tl-[10px] rounded-tr-[10px] bg-primary-background shadow-[0px_1px_0px_0px_rgba(27,37,46,1.00)] data-[state=active]:bg-card data-[state=active]:border-l data-[state=active]:border-r data-[state=active]:border-t data-[state=active]:border-border-split data-[state=active]:text-primary hover:bg-fill-light-hover-bg outline outline-1 outline-offset-[-1px] hover:outline-border-split disabled:bg-card disabled:text-disabled disabled:outline-border-disabled',
-        'bottom-card': 'inline-flex text-secondary-information outline outline-1 outline-offset-[-1px] outline-border data-[state=active]:text-primary  data-[state=active]:outline-primary hover:text-primary-light hover:outline-primary-light disabled:text-disabled disabled:outline-border-disabled'
+        'bottom-card': 'inline-flex text-secondary-information outline outline-1 outline-offset-[-1px] outline-border data-[state=active]:text-primary  data-[state=active]:outline-primary hover:bg-primary-light hover:text-primary-hover hover:outline-primary-hover disabled:text-disabled disabled:outline-border-disabled'
       },
       size: {
         md: 'p-2 py-[5px] text-[13px] leading-[20px]',
@@ -155,4 +155,30 @@ function TabsContent({
   )
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+function TabsFrontIcon({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="tabs-front-icon"
+      className={cn("mr-2", className)}
+      {...props}
+    />
+  )
+}
+
+function TabsBehindIcon({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="tabs-behind-icon"
+      className={cn("ml-4", className)}
+      {...props}
+    />
+  )
+}
+
+export { Tabs, TabsList, TabsTrigger, TabsContent, TabsFrontIcon, TabsBehindIcon }

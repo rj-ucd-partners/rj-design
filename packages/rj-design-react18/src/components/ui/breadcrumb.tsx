@@ -29,7 +29,7 @@ function BreadcrumbList({ className,
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-1",
+        "text-secondary-information flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-1",
         className,
         breadcrumbListVariants({ variant })
       )}
@@ -73,7 +73,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       role="link"
       aria-disabled="true"
       aria-current="page"
-      className={cn("text-text font-normal", className)}
+      className={cn("text-text-deep font-normal", className)}
       {...props}
     />
   )
