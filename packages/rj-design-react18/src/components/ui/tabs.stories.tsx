@@ -1,6 +1,9 @@
 import { Tabs, TabsBehindIcon, TabsContent, TabsFrontIcon, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { FavoriteIcon } from '../icon/FavoriteIcon'
+import { CloseIcon } from '../icon/closeIcon'
+import { Button } from './button'
+import { useState } from 'react'
 
 
 
@@ -26,6 +29,7 @@ type Story = StoryObj<typeof Tabs>
 export const Default: Story = {
     args: {
         variant: 'default',
+        size: 'md'
     },
     render: args => (
         <Tabs defaultValue='account'>
@@ -98,35 +102,35 @@ export const DefaultWithFrontIcon: Story = {
         <Tabs defaultValue='account'>
             <TabsList variant={args.variant} size={args.size}>
                 <TabsTrigger disabled variant={args.variant} size={args.size} value='account'>
-                    <TabsFrontIcon>
+                    <TabsFrontIcon size={args.size}>
                         <FavoriteIcon />
                     </TabsFrontIcon>
                     默认选项
                 </TabsTrigger>
                 <TabsTrigger variant={args.variant} size={args.size} value='password'>
-                    <TabsFrontIcon>
+                    <TabsFrontIcon size={args.size}>
                         <FavoriteIcon />
                     </TabsFrontIcon>
                     默认选项
                 </TabsTrigger>
                 <TabsTrigger variant={args.variant} size={args.size} value='1'>
-                    <TabsFrontIcon>
+                    <TabsFrontIcon size={args.size}>
                         <FavoriteIcon />
                     </TabsFrontIcon>
                     默认选项
                 </TabsTrigger>
                 <TabsTrigger variant={args.variant} size={args.size} value='2'>
-                    <TabsFrontIcon>
+                    <TabsFrontIcon size={args.size}>
                         <FavoriteIcon />
                     </TabsFrontIcon>
                     默认选项</TabsTrigger>
                 <TabsTrigger variant={args.variant} size={args.size} value='3'>
-                    <TabsFrontIcon>
+                    <TabsFrontIcon size={args.size}>
                         <FavoriteIcon />
                     </TabsFrontIcon>
                     默认选项</TabsTrigger>
                 <TabsTrigger variant={args.variant} size={args.size} value='4'>
-                    <TabsFrontIcon>
+                    <TabsFrontIcon size={args.size}>
                         <FavoriteIcon />
                     </TabsFrontIcon>
                     默认选项
@@ -139,53 +143,75 @@ export const DefaultWithFrontIcon: Story = {
 }
 
 
-export const DefaultWithBehindIcon: Story = {
+export const CardWithBehindIcon: Story = {
     args: {
-        variant: 'default',
+        variant: 'card',
+        size: 'md-card',
     },
-    render: args => (
-        <Tabs defaultValue='account'>
+    render: args => {
+        const [line, setLine] = useState<string[]>(['1', '2', '3', '4', 'account', 'password']);
+
+        return (<Tabs defaultValue='account'>
             <TabsList variant={args.variant} size={args.size}>
-                <TabsTrigger disabled variant={args.variant} size={args.size} value='account'>
-                    <TabsFrontIcon>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                </TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='password'>
-                    <TabsFrontIcon>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                </TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='1'>
-                    <TabsFrontIcon>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                </TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='2'>
-                    <TabsFrontIcon>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='3'>
-                    <TabsFrontIcon>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='4'>
-                    <TabsFrontIcon>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                    <TabsBehindIcon>
-                        <FavoriteIcon />
-                    </TabsBehindIcon>
-                </TabsTrigger>
+                {
+                    line.map((item, index) => {
+                        return (
+                            <TabsTrigger key={index} variant={args.variant} size={args.size} value={item}>
+                                <TabsFrontIcon size={args.size}>
+                                    <FavoriteIcon />
+                                </TabsFrontIcon>
+                                默认选项
+                                <TabsBehindIcon size={args.size}>
+                                    <Button variant={'transparent'} size={'link'} onClick={() => {
+                                        setLine(line.filter((_, i) => i !== index));
+                                    }}>
+                                        <CloseIcon />
+                                    </Button>
+                                </TabsBehindIcon>
+                            </TabsTrigger>
+                        );
+                    })
+                }
             </TabsList>
             {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
             <TabsContent value='password'>Change your password here.</TabsContent> */}
-        </Tabs>
-    ),
+        </Tabs>)
+    },
+}
+
+
+export const DefaultWithBehindIcon: Story = {
+    args: {
+        variant: 'default',
+        size: 'md',
+    },
+    render: args => {
+        const [line, setLine] = useState<string[]>(['1', '2', '3', '4', 'account', 'password']);
+
+        return (<Tabs defaultValue='account'>
+            <TabsList variant={args.variant} size={args.size}>
+                {
+                    line.map((item, index) => {
+                        return (
+                            <TabsTrigger key={index} variant={args.variant} size={args.size} value={item}>
+                                <TabsFrontIcon size={args.size}>
+                                    <FavoriteIcon />
+                                </TabsFrontIcon>
+                                默认选项
+                                <TabsBehindIcon size={args.size}>
+                                    <Button variant={'transparent'} size={'link'} onClick={() => {
+                                        setLine(line.filter((_, i) => i !== index));
+                                    }}>
+                                        <CloseIcon />
+                                    </Button>
+                                </TabsBehindIcon>
+                            </TabsTrigger>
+                        );
+                    })
+                }
+            </TabsList>
+            {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
+            <TabsContent value='password'>Change your password here.</TabsContent> */}
+        </Tabs>)
+    },
 }
