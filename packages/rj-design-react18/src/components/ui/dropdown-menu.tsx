@@ -126,7 +126,7 @@ const dropdownMenuItemVariants = cva(
         separator: 'px-0 py-0 focus:bg-transparent focus:text-accent-transparent [&_[data-slot=dropdown-menu-item-core]]:h-7 [&_[data-slot=dropdown-menu-item-core]]:hover:bg-fill-light-hover-bg [&_[data-slot=dropdown-menu-item-core]]:active:bg-fill-dark-hover-active-disabled [&_[data-slot=dropdown-menu-item-core]]:data-[state=open]:bg-fill-light-hover-bg'
       },
       status: {
-        default: 'text-text hover:text-text focus:text-text data-[disabled]:text-disabled',
+        default: 'text-text-deep hover:text-text-deep focus:text-text-deep data-[disabled]:text-disabled',
         success: 'text-success hover:text-success focus:text-success data-[disabled]:text-success-disabled',
         danger: 'text-danger hover:text-danger focus:text-danger data-[disabled]:text-danger-disabled',
         abnormal: 'text-abnormal hover:text-abnormal focus:text-abnormal data-[disabled]:text-abnormal-disabled',
@@ -163,7 +163,8 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        //[&_svg:not([class*='text-'])]:text-muted-foreground
+        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
         dropdownMenuItemVariants({ hasSeparator, status }),
       )}
@@ -387,6 +388,38 @@ function DropdownMenuSubContent({
   )
 }
 
+
+const dropdownMenuIconVariants = cva(
+  '',
+  {
+    variants: {
+      variant: {
+      },
+      size: {
+        md: 'size-4',
+        lg: 'size-4.5',
+        'md-card': 'size-4',
+        'lg-card': 'size-4.5',
+        'md-bottom-card': 'size-4',
+      }
+    },
+    defaultVariants: {
+    },
+  })
+
+function DropdownMenuIcon({
+  className,
+  size,
+  ...props
+}: React.ComponentProps<"div"> & VariantProps<typeof dropdownMenuIconVariants>) {
+  return (
+    <div
+      data-slot="tabs-front-icon"
+      className={cn("", className, dropdownMenuIconVariants({ size }))}
+      {...props}
+    />
+  )
+}
 export {
   DropdownMenu,
   DropdownMenuPortal,
@@ -403,4 +436,5 @@ export {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
+  DropdownMenuIcon
 }

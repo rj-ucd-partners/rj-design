@@ -2,6 +2,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
+    DropdownMenuIcon,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuPortal,
@@ -16,6 +17,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Button } from "./button"
 import { TriangleDownIcon } from "@radix-ui/react-icons"
 import type { DropdownMenuProps } from "@radix-ui/react-dropdown-menu"
+import { FavoriteIcon } from "../icon/FavoriteIcon"
 
 interface ExtendedDropdownMenuProps extends DropdownMenuProps {
     disabled: boolean,
@@ -145,6 +147,89 @@ export const Default: Story = {
                     Log out
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem> */}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    )
+}
+export const Icon: Story = {
+    args: {
+        disabled: false,
+        dropdownMenuItemHasSeparator: 'default',
+    },
+    render: (args) => (
+        <DropdownMenu >
+            <DropdownMenuTrigger asChild>
+                <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
+                    <div className="inline-flex justify-between items-center w-full">
+                        <span>更多</span>
+                        <TriangleDownIcon data-slot="tran-icon" />
+                    </div>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="start" variant={args.dropdownContentvariant} itemVariant={args.dropdownItemvariant} >
+                <DropdownMenuGroup>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status={"success"}>
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Profile
+                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Billing
+                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='danger'>
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Settings
+                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='abnormal'>
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Keyboard shortcuts
+                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status={"success"}>
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Profile
+                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status="default">
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Billing
+                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='danger'>
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Settings
+                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='abnormal'>
+                        <DropdownMenuIcon size={'md'}>
+                            <FavoriteIcon />
+                        </DropdownMenuIcon>
+                        Keyboard shortcuts
+                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
     )
