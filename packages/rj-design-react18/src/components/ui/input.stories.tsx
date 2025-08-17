@@ -28,14 +28,53 @@ export default meta
 type Story = StoryObj<typeof Input>
 
 // 输入框
-export const Text: Story = {
+export const Samll: Story = {
+  args: {
+    variant: 'default',
+    type: 'text',
+    dimension: 'sm'
+  },
+}
+// 输入框
+export const Mid: Story = {
   args: {
     variant: 'default',
     type: 'text',
     dimension: 'md'
   },
 }
-
+// 输入框
+export const Large: Story = {
+  args: {
+    variant: 'default',
+    type: 'text',
+    dimension: 'lg'
+  },
+}
+//成功
+export const Success: Story = {
+  args: {
+    variant: 'success',
+    type: 'text',
+    dimension: 'md'
+  },
+}
+//错误
+export const Error: Story = {
+  args: {
+    variant: 'error',
+    type: 'text',
+    dimension: 'md'
+  },
+}
+//警告
+export const Warning: Story = {
+  args: {
+    variant: 'warning',
+    type: 'text',
+    dimension: 'md'
+  },
+}
 // 密码输入框
 export const Password: Story = {
   args: {

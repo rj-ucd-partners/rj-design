@@ -33,19 +33,22 @@ function InputCustom({
     disabled,
     variant,
     dimension,
+    type,
+    value,
+    onChange,
     ...props
 }:
     React.ComponentProps<'input'> &
     VariantProps<typeof inputCustomVariants> &
     VariantProps<typeof inputVariants> &
     {
-        disabled?: boolean
+        disabled?: boolean,
+        onChange?: React.ChangeEventHandler<HTMLInputElement>;
     }
 ) {
     return (
         <div
             data-slot="input-custom"
-
             className={cn(
                 "grid items-center ",
                 "grid-cols-[auto_1fr_auto]",
@@ -56,19 +59,89 @@ function InputCustom({
                 className='col-start-2 row-start-1'
                 disabled={disabled}
                 variant={'transparent'}
+                value={value}
+                onChange={onChange}
                 dimension={dimension}
+                type={type}
+                placeholder={props.placeholder}
             />
         </div>
     )
 }
 
-function InputFrontIcon({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+const inputFrontIconVariants = cva(
+    '',
+    {
+        variants: {
+            dimension: {
+                "borderless-sm": 'size-3',
+                "borderless-md": 'size-4',
+                "borderless-lg": 'size-5',
+            },
+            disabled: {
+                true: 'text-disabled',
+            }
+        },
+        defaultVariants: {
+        },
+    },
+)
+
+function InputFrontIcon({
+    children,
+    className,
+    dimension,
+    ...props }: React.HTMLAttributes<HTMLDivElement>
+    & VariantProps<typeof inputFrontIconVariants>
+) {
     return (
         <div
             data-slot="input-front-icon"
             className={cn(
-                'shrink-0 col-start-1 row-start-1',
-                className)}
+                'col-start-1 row-start-1',
+                'flex items-center',
+                className,
+                inputFrontIconVariants({ dimension })
+            )}
+            {...props}
+        >
+            {children}
+        </div>
+    );
+}
+const inputBehindtIconVariants = cva(
+    '',
+    {
+        variants: {
+            dimension: {
+                "borderless-sm": 'size-3',
+                "borderless-md": 'size-4',
+                "borderless-lg": 'size-5',
+            },
+            disabled: {
+                true: 'text-disabled',
+            }
+        },
+        defaultVariants: {
+        },
+    },
+)
+function InputBehindtIcon({
+    children,
+    className,
+    dimension,
+    ...props }: React.HTMLAttributes<HTMLDivElement>
+    & VariantProps<typeof inputBehindtIconVariants>
+) {
+    return (
+        <div
+            data-slot="input-behind-icon"
+            className={cn(
+                'col-start-3 row-start-1',
+                'flex items-center',
+                className,
+                inputBehindtIconVariants({ dimension })
+            )}
             {...props}
         >
             {children}
@@ -76,19 +149,7 @@ function InputFrontIcon({ children, className, ...props }: React.HTMLAttributes<
     );
 }
 
-function InputBehindtIcon({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-    return (
-        <div
-            data-slot="input-behind-icon"
-            className={cn(
-                'shrink-0 col-start-3 row-start-1',
-                className)}
-            {...props}
-        >
-            {children}
-        </div>
-    );
-}
+
 export {
     InputCustom,
     InputFrontIcon,
