@@ -77,7 +77,7 @@ export const Top: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
@@ -111,7 +111,7 @@ export const Bottom: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
@@ -145,7 +145,7 @@ export const Left: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
@@ -179,7 +179,7 @@ export const Right: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
@@ -212,7 +212,7 @@ export const ContentTitleAndDesc: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
@@ -269,7 +269,7 @@ export const ContentIconAndTitleAndDesc: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
@@ -327,7 +327,7 @@ export const ContentIconAndTitleAndCloseAndDesc: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
@@ -387,7 +387,7 @@ export const ContentIconAndTitleAndCloseAndDescAndToolbar: Story = {
             <div className="flex items-center justify-center h-[200px]">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant={"primary"}>
+                        <Button variant={"primary"} size={"md"}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>

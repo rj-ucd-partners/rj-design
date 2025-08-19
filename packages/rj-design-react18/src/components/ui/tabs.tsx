@@ -4,37 +4,37 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 
-const tabsVariants = cva(
-  'bg-transparent',
-  {
-    variants: {
-      variant: {
-        default: '',
-        card: '',
-        'bottom-card': ''
-      },
-      size: {
-        md: '',
-        lg: '',
-        'md-card': '',
-        'lg-card': '',
-        'md-bottom-card': ''
-      }
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'md'
-    },
-  })
+// const tabsVariants = cva(
+//   'bg-transparent',
+//   {
+//     variants: {
+//       variant: {
+//         default: '',
+//         card: '',
+//         'bottom-card': ''
+//       },
+//       size: {
+//         md: '',
+//         lg: '',
+//         'md-card': '',
+//         'lg-card': '',
+//         'md-bottom-card': ''
+//       }
+//     },
+//     defaultVariants: {
+//       variant: 'default',
+//       size: 'md'
+//     },
+//   })
 
 function Tabs({
   className,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Root> & VariantProps<typeof tabsVariants>) {
+}: React.ComponentProps<typeof TabsPrimitive.Root>) {
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
-      className={cn("flex flex-col gap-2", className)}
+      className={cn("flex flex-col gap-2", className,)}
       {...props}
     />
   )
@@ -68,7 +68,7 @@ function TabsList({
   variant,
   size,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.List> & VariantProps<typeof tabsVariants>) {
+}: React.ComponentProps<typeof TabsPrimitive.List> & VariantProps<typeof tabsListVariants>) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
@@ -209,7 +209,7 @@ function TabsBehindIcon({
   return (
     <div
       data-slot="tabs-behind-icon"
-      className={cn("ml-4", className, tabsFrontIconVariants({ size }))}
+      className={cn("ml-4", className, tabsBehindIconVariants({ size }))}
       {...props}
     />
   )

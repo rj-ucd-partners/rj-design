@@ -1,4 +1,4 @@
-import { Tabs, TabsBehindIcon, TabsContent, TabsFrontIcon, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsBehindIcon, TabsFrontIcon, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { FavoriteIcon } from '../icon/FavoriteIcon'
 import { CloseIcon } from '../icon/closeIcon'
