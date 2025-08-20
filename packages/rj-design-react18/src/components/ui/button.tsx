@@ -37,6 +37,7 @@ const buttonVariants = cva(
         day: 'bg-transparent text-secondary',
         number: 'bg-third-background text-secondary-information active:bg-primary-background hover:bg-fill-emphasize',
         transparent: 'bg-transparent',
+        collapsible: 'bg-transparent hover:bg-fill-light-hover-bg',
         toggle: 'bg-transparent text-secondary hover:bg-fill-light-hover-bg hover:text-secondary-information',
       },
       size: {
