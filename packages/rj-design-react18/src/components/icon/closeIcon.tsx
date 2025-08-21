@@ -1,6 +1,9 @@
-export const CloseIcon = (() => {
+import type { SVGProps } from "react";
+import type { JSX } from "react/jsx-runtime";
+
+export const CloseIcon = ((args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
-        <svg viewBox="0 0 20 20" fill="currentcolor" xmlns="http://www.w3.org/2000/svg">
+        <svg {...args} viewBox="0 0 20 20" fill="currentcolor" xmlns="http://www.w3.org/2000/svg">
             <path d="M10 18.75C14.8325 18.75 18.75 14.8325 18.75 10C18.75 5.16751 14.8325 1.25 10 1.25C5.16751 1.25 1.25 5.16751 1.25 10C1.25 14.8325 5.16751 18.75 10 18.75ZM13.8075 7.14443L10.9519 10.0001L13.8075 12.8557L12.8556 13.8076L10 10.9519L7.14438 13.8076L6.1925 12.8557L9.04813 10.0001L6.1925 7.14443L7.14438 6.19256L10 9.04818L12.8556 6.19256L13.8075 7.14443Z" />
         </svg>
     );

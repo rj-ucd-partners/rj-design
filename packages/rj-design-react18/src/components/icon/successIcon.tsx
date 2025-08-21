@@ -1,7 +1,10 @@
-export const SuccessIcon = (() => {
+import type { SVGProps } from "react";
+import type { JSX } from "react/jsx-runtime";
+
+export const SuccessIcon = ((args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21.5 11C21.5 16.799 16.799 21.5 11 21.5C5.20101 21.5 0.5 16.799 0.5 11C0.5 5.20101 5.20101 0.5 11 0.5C16.799 0.5 21.5 5.20101 21.5 11ZM16.2969 8.34838L15.2362 7.28772L9.93307 12.5909L7.30389 9.96172L6.24319 11.0223L9.93294 14.7123L16.2969 8.34838Z" fill="#00FFA8" />
+        <svg {...args} width="22" height="22" viewBox="0 0 22 22" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 11C18 14.866 14.866 18 11 18C7.13401 18 4 14.866 4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11ZM14.5313 9.23225L13.8242 8.52515L10.2887 12.0606L8.53593 10.3078L7.8288 11.0149L10.2886 13.4749L14.5313 9.23225Z" fill="#00FFA8" />
         </svg>
     );
 })

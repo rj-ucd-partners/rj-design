@@ -3,80 +3,61 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { Button } from "./button"
-import { CrossCircledIcon } from "@radix-ui/react-icons"
+import { CloseIcon } from "../icon/closeIcon"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border px-4 py-2 text-sm grid items-start outline outline-solid outline-1 outline-offset-[-1px]",
+  "",
   {
     variants: {
       variant: {
-        primary: "bg-cyan-400-20 outline-primary-disabled",
-        success: "bg-teal-400-20 outline-success-special",
-        abnormal: "bg-amber-500-20 outline-abnormal-special",
-        danger: "bg-orange-600-20 outline-danger-special"
+        primary: "bg-cyan-400-20 border-primary-disabled",
+        success: "bg-teal-400-20 border-[#0C6E4C]",
+        abnormal: "bg-amber-500-20 border-abnormal-special",
+        destructive: "bg-orange-600-20 border-danger-special"
       },
-      grid: {
-        title: 'grid-rows-1 grid-cols-[0_1fr]',
-        icon: 'grid-rows-1 grid-cols-[auto_1fr_auto_auto] gap-x-3',
-        desc: 'grid-rows-2 grid-cols-[auto_1fr] gap-x-3 gap-y-1'
-      }
     },
     defaultVariants: {
       variant: "primary",
-      grid: 'title'
     },
   }
 )
 
-interface AlertIconProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-  VariantProps<typeof alertVariants> { }
-
 function Alert({
   className,
-  children,
   variant,
-  grid,
-  close = false,
+  show = true,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants> & {
-  close?: boolean,
-  toClose?: () => void,
-}) {
+}: React.ComponentProps<"div">
+  & VariantProps<typeof alertVariants> & {
+    show?: boolean | undefined,
+  }) {
   return (
     <div
       data-slot="alert"
       role="alert"
-      className={cn(alertVariants({ variant, grid }), className)}
+      className={cn(
+        "w-full rounded-lg border px-4 py-[9px]",
+        "inline-flex flex-col items-center justify-center",
+        'gap-1',
+        show ? '' : 'hidden',
+        alertVariants({ variant }),
+        className)}
       {...props}
-    >
-      {children}
-      {
-        close && (
-          <Button
-            data-slot="alert-close"
-            className={cn("col-start-4 row-start-1 h-auto p-1 flex items-center justify-center")}
-            size="sm"
-            variant='ghost'
-          >
-            <CrossCircledIcon />
-          </Button>
-        )
-      }
-    </div>
+    />
   )
 }
 
-function AlertIcon({ children, className, ...props }: AlertIconProps) {
+function AlertHeader({
+  className,
+  ...props }: React.ComponentProps<"div">
+) {
   return (
-    <div
-      data-slot="alert-icon"
-      className={cn('shrink-0 col-start-1 row-start-1 m-auto', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
+    <div data-slot="alert-header"
+      className={
+        cn(
+          "inline-flex flex-row w-full items-center justify-between",
+          className)} {...props} />
+  )
 }
 
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
@@ -84,7 +65,9 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="alert-title"
       className={cn(
-        "col-start-2 row-start-1 line-clamp-1 min-h-4 font-medium tracking-tight flex items-center text-[13px] leading-[24px] font-normal text-text-deep",
+        "inline-flex flex-row items-center justify-center",
+        "text-[13px] leading-[20px] font-normal not-italic text-text-deep",
+        "gap-[2px]",
         className
       )}
       {...props}
@@ -92,15 +75,65 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+function AlertClose({
+  className,
+  onClose,
+  ...props }: React.ComponentProps<"div">
+  & {
+    onClose?: () => void | undefined,
+  }
+) {
+  return (
+    <div
+      data-slot="alert-close"
+      className={cn(
+        "inline-flex flex-row items-center gap-1",
+        'text-[13px] leading-[20px] font-normal not-italic',
+        className
+      )}
+      {...props}
+    >
+      {props.children}
+      <Button variant={'transparent'} size={'link'} onClick={onClose}>
+        <CloseIcon className="size-4" color="#97A7B5" />
+      </Button>
+    </div>
+  )
+}
+
+const alertDescriptionVariants = cva(
+  "",
+  {
+    variants: {
+      layout: {
+        default: "",
+        hasIcon: "pl-5.5",
+      },
+    },
+    defaultVariants: {
+    },
+  }
+)
+
+
 function AlertDescription({
   className,
+  expand = false,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div">
+  & VariantProps<typeof alertDescriptionVariants>
+  & {
+    expand?: boolean,
+  }
+) {
   return (
     <div
       data-slot="alert-description"
       className={cn(
-        "text-muted-foreground col-start-2 row-start-2 text-[13px] leading-[20px] font-normal text-secondary",
+        "inline-flex flex-col items-center justify-center",
+        "text-muted-foreground text-[13px] leading-[20px] font-normal text-secondary",
+        expand ? "line-clamp-none" : "line-clamp-1",
+        alertDescriptionVariants({ layout: props.layout }),
         className
       )}
       {...props}
@@ -108,12 +141,18 @@ function AlertDescription({
   )
 }
 
-function AlertToolbar({ children, className, ...props }: AlertIconProps) {
+function AlertToolbar({ children, className, ...props }: React.ComponentProps<"div">
+  & VariantProps<typeof alertDescriptionVariants>) {
   return (
-    <div data-slot="alert-toolbar" className={cn("col-start-3 row-start-1 flex items-center justify-end", className)} {...props}>
+    <div data-slot="alert-toolbar" className={cn(
+      "inline-flex flex-col items-start justify-center",
+      "w-full",
+      "text-muted-foreground text-[13px] leading-[20px] font-normal text-secondary",
+      alertDescriptionVariants({ layout: props.layout }), className)}
+      {...props}>
       {children}
     </div>
   );
 }
 
-export { Alert, AlertIcon, AlertTitle, AlertDescription, AlertToolbar }
+export { Alert, AlertTitle, AlertDescription, AlertToolbar, AlertHeader, AlertClose }

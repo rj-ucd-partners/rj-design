@@ -8,7 +8,7 @@ import { Button } from "./button"
 import { InfoCirecledIcon } from "../icon/infoCirecledIcon"
 import { AbnormalIcon } from "../icon/abnormalIcon"
 import { SuccessIcon } from "../icon/successIcon"
-import { DangerIcon } from "../icon/dangerIcon"
+import { DestructiveIcon } from "../icon/dangerIcon"
 
 function Dialog({
   ...props
@@ -227,7 +227,7 @@ function DialogTitle({
         variant === 'abnormal' && (<AbnormalIcon />)
       }
       {
-        variant === 'danger' && (<DangerIcon />)
+        variant === 'danger' && (<DestructiveIcon />)
       }
       {props.children}
     </DialogPrimitive.Title>

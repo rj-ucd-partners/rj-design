@@ -1,7 +1,10 @@
-export const DangerIcon = (() => {
+import type { SVGProps } from "react";
+import type { JSX } from "react/jsx-runtime";
+
+export const DestructiveIcon = ((args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21.5C16.799 21.5 21.5 16.799 21.5 11C21.5 5.20101 16.799 0.5 11 0.5C5.20101 0.5 0.5 5.20101 0.5 11C0.5 16.799 5.20101 21.5 11 21.5ZM15.569 7.57332L12.1422 11.0001L15.569 14.4268L14.4267 15.5691L11 12.1423L7.57325 15.5691L6.431 14.4268L9.85775 11.0001L6.431 7.57332L7.57325 6.43107L11 9.85782L14.4267 6.43107L15.569 7.57332Z" fill="#D02600" />
+        <svg {...args} viewBox="0 0 22 22" fill="currentcolor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 18C14.866 18 18 14.866 18 11C18 7.13401 14.866 4 11 4C7.13401 4 4 7.13401 4 11C4 14.866 7.13401 18 11 18ZM14.046 8.71554L11.7615 11L14.046 13.2845L13.2845 14.046L11 11.7615L8.7155 14.046L7.954 13.2845L10.2385 11L7.954 8.71554L8.7155 7.95405L11 10.2385L13.2845 7.95405L14.046 8.71554Z" fill="#D02600" />
         </svg>
     );
 })
