@@ -276,6 +276,7 @@ function TreeSelect({
                         'w-full',
                         'flex flex-row items-center justify-between flex-1',
                         'hover:text-primary hover:bg-third-background',
+                        (isCheckedBox && item.checked && !item.disabled) && 'text-primary bg-third-background',
                         'rounded-md',
                         'p-1',
                     )}>
