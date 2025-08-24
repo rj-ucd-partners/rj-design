@@ -21,13 +21,11 @@ import { FavoriteIcon } from "../icon/FavoriteIcon"
 
 interface ExtendedDropdownMenuProps extends DropdownMenuProps {
     disabled: boolean,
-    //DropdownMenuItem
     dropdownMenuItemHasSeparator: 'default' | 'separator',
     dropdownMenuTriggerButton: 'default' | 'secondary-text' | 'dropdown-Menu-primary',
     dropdownContentvariant: 'default',
     dropdownItemvariant: 'default'
 }
-
 
 const meta: Meta<ExtendedDropdownMenuProps> = {
     title: 'Components/DropdownMenu ',
@@ -151,6 +149,7 @@ export const Default: Story = {
         </DropdownMenu>
     )
 }
+//
 export const Icon: Story = {
     args: {
         disabled: false,

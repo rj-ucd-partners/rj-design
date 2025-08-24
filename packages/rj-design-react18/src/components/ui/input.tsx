@@ -14,7 +14,8 @@ const inputVariants = cva(
         warning: 'bg-warning-light focus-visible:outline-abnormal',
         page: 'bg-card text-secondary text-center outline-1 outline-solid outline-offset-[-1px] outline-border-split w-20',
         transparent: 'bg-transparent outline-none',
-        number: 'text-center bg-third-background focus-visible:outline-primary disabled:bg-border-disabled disabled:text-disabled'
+        number: 'text-center bg-third-background focus-visible:outline-primary disabled:bg-border-disabled disabled:text-disabled',
+        'select-title': 'bg-transparent text-secondary-information text-[13px]'
       },
       dimension: {
         sm: 'h-6 px-2 py-0.5 rounded text-xs leading-tight placeholder:text-xs placeholder:leading-tight',

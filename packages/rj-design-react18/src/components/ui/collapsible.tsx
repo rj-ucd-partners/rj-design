@@ -39,10 +39,12 @@ const collapsibleHeaderVariants = cva(
     variants: {
       variant: {
         primary: 'bg-card',
+        tree: 'bg-transparent'
       },
       size: {
         sm: 'px-4 py-2',
         lg: 'px-4 py-2',
+        tree: ''
       },
       layout: {
         forward: 'inline-flex items-center flex-row gap-2 flex-1',
@@ -122,10 +124,12 @@ const collapsibleContentVariants = cva(
     variants: {
       variant: {
         primary: 'bg-fill text-center',
+        tree: '',
       },
       size: {
         sm: 'pt-3 pr-4 pb-3 pl-10',
         lg: 'pt-3 pr-4 pb-3 pl-10',
+        tree: '',
       }
     },
     defaultVariants: {

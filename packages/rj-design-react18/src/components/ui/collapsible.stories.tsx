@@ -11,7 +11,7 @@ import {
 import type { CollapsibleProps } from "@radix-ui/react-collapsible"
 import { TriangleRightIcon } from "@radix-ui/react-icons"
 
-interface CollapsibleVariantsProps extends CollapsibleProps {
+export interface CollapsibleVariantsProps extends CollapsibleProps {
     variant: 'primary',
     size: 'sm' | 'lg',
     layout: 'forward' | 'back',
