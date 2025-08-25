@@ -623,7 +623,6 @@ export const PrimaryIconDescription: Story = {
     },
     render: (args) => {
         const [show, setShow] = useState(true);
-        const [expand, setExpand] = useState(true);
         const handleClose = () => {
             setShow(false);
         }
@@ -647,7 +646,7 @@ export const PrimaryIconDescription: Story = {
                     <AlertClose onClose={handleClose}>
                     </AlertClose>
                 </AlertHeader>
-                <AlertDescription expand={expand} layout={args.hasIcon ? 'hasIcon' : 'default'}>
+                <AlertDescription expand={true} layout={args.hasIcon ? 'hasIcon' : 'default'}>
                     {args.desc}
                 </AlertDescription>
             </Alert >
@@ -665,7 +664,6 @@ export const PrimaryIconDescription1: Story = {
     },
     render: (args) => {
         const [show, setShow] = useState(true);
-        const [expand, setExpand] = useState(true);
         const handleClose = () => {
             setShow(false);
         }
@@ -689,7 +687,7 @@ export const PrimaryIconDescription1: Story = {
                     <AlertClose onClose={handleClose}>
                     </AlertClose>
                 </AlertHeader>
-                <AlertDescription expand={expand} layout={args.hasIcon ? 'hasIcon' : 'default'}>
+                <AlertDescription expand={true} layout={args.hasIcon ? 'hasIcon' : 'default'}>
                     {args.desc}
                 </AlertDescription>
             </Alert >

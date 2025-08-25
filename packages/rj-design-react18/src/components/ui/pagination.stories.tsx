@@ -69,8 +69,6 @@ export const Primary: Story = {
     )
 }
 
-
-
 // 主要状态
 export const Main: Story = {
     args: {
