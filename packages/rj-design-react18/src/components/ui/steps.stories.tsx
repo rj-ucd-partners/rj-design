@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Steps } from "./step"
+import { Steps } from "./steps"
 import { Button } from "./button"
 import { useState } from "react"
 import { CatIcon, DogIcon, HomeIcon } from "lucide-react"
@@ -20,18 +20,6 @@ const items = [
     },
     {
         title: 'In Progress',
-        description: 'This is a description.',
-    },
-    {
-        title: 'Waiting',
-        description: 'This is a description.',
-    },
-    {
-        title: 'Waiting',
-        description: 'This is a description.',
-    },
-    {
-        title: 'Waiting',
         description: 'This is a description.',
     },
     {
@@ -70,7 +58,6 @@ export default meta
 
 type Story = StoryObj<typeof Steps>
 
-// 主要单选框
 export const HasError: Story = {
     args: {},
     render: () => {
@@ -79,8 +66,6 @@ export const HasError: Story = {
         )
     }
 }
-
-// 主要单选框
 export const Primary: Story = {
     args: {},
     render: () => {
@@ -116,7 +101,6 @@ export const Primary: Story = {
         )
     }
 }
-
 export const PrimaryWithIcon: Story = {
     args: {},
     render: () => {
@@ -152,8 +136,6 @@ export const PrimaryWithIcon: Story = {
         )
     }
 }
-
-// 主要单选框
 export const Dot: Story = {
     args: {
 
@@ -191,8 +173,6 @@ export const Dot: Story = {
         )
     }
 }
-
-// 主要单选框
 export const PrimaryVertical: Story = {
     args: {
         direction: 'vertical',
@@ -232,7 +212,6 @@ export const PrimaryVertical: Story = {
         )
     }
 }
-
 export const PrimaryVerticalIcon: Story = {
     args: {
         direction: 'vertical',
@@ -272,7 +251,6 @@ export const PrimaryVerticalIcon: Story = {
         )
     }
 }
-
 export const PrimaryVerticalDot: Story = {
     args: {
         direction: 'vertical',
