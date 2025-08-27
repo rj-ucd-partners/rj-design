@@ -132,6 +132,53 @@ export const Primary: Story = {
     },
     render: (args) => (
         <PageHeader >
+            <PageHeaderTitle>
+                <PageHeaderTitleStart {...args} >
+                    <Info size={16} />
+                    <Badge variant={'default'}>
+                        标签
+                    </Badge>
+                    <Button variant={'link'} size={'link'} className="text-[13px] leading-[20px]">
+                        链接按钮
+                    </Button>
+                </PageHeaderTitleStart>
+                <PageHeaderTitleEnd {...args} >
+                    <Button variant={'primary'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                        默认按钮
+                    </Button>
+                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                        默认按钮
+                    </Button>
+                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                        默认按钮
+                    </Button>
+                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                        默认按钮
+                    </Button>
+                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                        默认按钮
+                    </Button>
+                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                        默认按钮
+                    </Button>
+                    <Button variant={'default'} size={'md-icon'} onClick={() => { alert('点什么，手多？') }}>
+                        <Ellipsis size={4} />
+                    </Button>
+                </PageHeaderTitleEnd>
+            </PageHeaderTitle>
+        </PageHeader>
+
+    )
+}
+
+// 标题
+export const Primary1: Story = {
+    args: {
+        title: '标题名称',
+        description: '辅助信息',
+    },
+    render: (args) => (
+        <PageHeader >
             <Breadcrumb>
                 <BreadcrumbList variant={'default'}>
                     <BreadcrumbItem>
@@ -193,7 +240,7 @@ export const Primary: Story = {
 }
 
 // 标题
-export const Primary1: Story = {
+export const Primary2: Story = {
     args: {
         title: '标题名称',
         description: '辅助信息',

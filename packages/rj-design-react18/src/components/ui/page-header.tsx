@@ -16,7 +16,6 @@ function PageHeader({
         </div>
     )
 }
-
 function PageHeaderTitle({
     className,
     ...props }: React.ComponentProps<"div"> & {
@@ -27,7 +26,6 @@ function PageHeaderTitle({
             className)} {...props} />
     )
 }
-
 function PageHeaderTitleStart({
     hasReturn = true,
     className,
@@ -59,7 +57,6 @@ function PageHeaderTitleStart({
         </div>
     )
 }
-
 function PageHeaderTitleEnd({
     className,
     ...props }: React.ComponentProps<"div"> & {
