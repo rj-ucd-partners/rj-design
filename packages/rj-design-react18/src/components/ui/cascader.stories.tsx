@@ -1,22 +1,13 @@
 
-import { Cascader, SelectedTag } from "./cascader"
+import { FavoriteIcon } from "../icon/FavoriteIcon";
+import { Cascader, type SelectItem } from "./cascader"
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuShortcut,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "./button";
-import { TriangleDownIcon } from "../icon/TriangleDownIcon";
 
-const meta: Meta<typeof SelectedTag> = {
+
+const meta: Meta<typeof Cascader> = {
     title: 'Components/Cascader',
     tags: ['autodocs'],
-    component: SelectedTag,
+    component: Cascader,
     argTypes: {
         variant: {
             defaultValue: 'primary',
@@ -33,101 +24,150 @@ const meta: Meta<typeof SelectedTag> = {
 
 export default meta
 
-type Story = StoryObj<typeof SelectedTag>
+type Story = StoryObj<typeof Cascader>
 
-
-export const TagsSamll: Story = {
+const items: SelectItem[] = [
+    {
+        id: 1,
+        title: '选项1',
+        children: [
+            {
+                id: 11,
+                title: '选项1-1',
+            },
+            {
+                id: 12,
+                title: '选项1-2',
+            },
+            {
+                id: 13,
+                title: '选项1-3',
+                children: [
+                    {
+                        id: 131,
+                        title: '选项1-3-1',
+                    },
+                    {
+                        id: 132,
+                        title: '选项1-3-2',
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 2,
+        title: '选项2',
+        children: [
+            {
+                id: 21,
+                title: '选项2-1',
+            }
+        ]
+    },
+    {
+        id: 3,
+        title: '选项3',
+    },
+    {
+        id: 4,
+        title: '选项4',
+    }
+]
+export const Primary: Story = {
     args: {
         variant: 'primary',
         size: 'sm',
-        desc: '标签'
     },
     render: (args) => {
-        const closeCallback = () => {
-            alert('汪！')
-        }
         return (
-            <SelectedTag {...args} closeCallback={closeCallback} />
+            <Cascader {...args} items={items} />
+        );
+    }
+}
+export const PrimaryDisableCheckbox: Story = {
+    args: {
+        disableCheckbox: true,
+        variant: 'primary',
+        size: 'sm',
+    },
+    render: (args) => {
+        return (
+            <Cascader
+                items={items}
+                disableCheckbox={args.disableCheckbox}
+                variant={args.variant}
+                size={args.size}
+            />
         );
     }
 }
 
-export const TagsMedium: Story = {
+export const PrimaryIcon: Story = {
+    args: {
+        variant: 'primary',
+        size: 'sm',
+    },
+    render: (args) => {
+        return (
+            <Cascader
+                items={items}
+                disableCheckbox={args.disableCheckbox}
+                variant={args.variant}
+                size={args.size}
+                icon={<FavoriteIcon className="text-secondary size-4" />} />
+        );
+    }
+}
+
+
+export const PrimarySmall: Story = {
+    args: {
+        variant: 'primary',
+        size: 'sm',
+    },
+    render: (args) => {
+        return (
+            <Cascader
+                items={items}
+                disableCheckbox={args.disableCheckbox}
+                variant={args.variant}
+                size={args.size}
+                icon={<FavoriteIcon className="text-secondary size-[14px]" />} />
+        );
+    }
+}
+
+export const PrimaryMid: Story = {
     args: {
         variant: 'primary',
         size: 'md',
-        desc: '标签'
     },
     render: (args) => {
-        const closeCallback = () => {
-            alert('汪！')
-        }
         return (
-            <SelectedTag {...args} closeCallback={closeCallback} />
+            <Cascader
+                items={items}
+                disableCheckbox={args.disableCheckbox}
+                variant={args.variant}
+                size={args.size}
+                icon={<FavoriteIcon className="text-secondary size-4" />} />
         );
     }
 }
 
-export const TagsLarge: Story = {
+export const PrimaryLg: Story = {
     args: {
         variant: 'primary',
         size: 'lg',
-        desc: '标签'
     },
     render: (args) => {
-        const closeCallback = () => {
-            alert('汪！')
-        }
         return (
-            <SelectedTag {...args} closeCallback={closeCallback} />
+            <Cascader
+                items={items}
+                disableCheckbox={args.disableCheckbox}
+                variant={args.variant}
+                size={args.size}
+                icon={<FavoriteIcon className="text-secondary size-[18px]" />} />
         );
     }
 }
-
-
-export const Primary: Story = {
-    args: {},
-    render: () => {
-        return (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant={'primary'} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon />
-                        </div>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start" variant={'default'} itemVariant={'default'} >
-                    <DropdownMenuGroup>
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                        <DropdownMenuItem hasSeparator={'default'} status={"success"}>
-                            Profile
-                        </DropdownMenuItem>
-                        <DropdownMenuItem hasSeparator={'default'} status="default">
-                            Billing
-                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem hasSeparator={'default'} status='danger'>
-                            Settings
-                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem hasSeparator={'default'} status='abnormal'>
-                            Keyboard shortcuts
-                            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        );
-    }
-}
-
-// export const Primary1: Story = {
-//     args: {},
-//     render: () => {
-//         return (
-//             // <Cascader />
-//         );
-//     }
-// }

@@ -92,7 +92,8 @@ function DropdownMenuContent({
   itemVariant,
   sideOffset = 4,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Content> & VariantProps<typeof dropdownContentVariants>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Content>
+  & VariantProps<typeof dropdownContentVariants>) {
   return (
     <DropdownMenuPrimitive.Portal>
       <DropdownMenuPrimitive.Content
@@ -336,9 +337,6 @@ function DropdownMenuSubTrigger({
       )}
       {...props}
     >
-      {/* {children}
-      <ChevronRightIcon className="ml-auto size-4" /> */}
-
       {hasSeparator === 'separator' ?
         <div className="flex flex-col w-full justify-start items-start gap-0.5">
           <div data-slot="dropdown-menu-item-core" className="relative flex w-full cursor-default items-center px-2 py-1 rounded-sm">
