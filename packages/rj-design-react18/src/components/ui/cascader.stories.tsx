@@ -50,6 +50,12 @@ const items: SelectItem[] = [
                     {
                         id: 132,
                         title: '选项1-3-2',
+                        children: [
+                            {
+                                id: 1321,
+                                title: '选项1-3-2-1',
+                            }
+                        ]
                     }
                 ]
             }
@@ -72,7 +78,20 @@ const items: SelectItem[] = [
     {
         id: 4,
         title: '选项4',
+    },
+    {
+        id: 5,
+        title: '选项5',
+    },
+    {
+        id: 6,
+        title: '选项6',
+    },
+    {
+        id: 7,
+        title: '选项7',
     }
+
 ]
 export const Primary: Story = {
     args: {
@@ -102,7 +121,6 @@ export const PrimaryDisableCheckbox: Story = {
         );
     }
 }
-
 export const PrimaryIcon: Story = {
     args: {
         variant: 'primary',
@@ -119,8 +137,6 @@ export const PrimaryIcon: Story = {
         );
     }
 }
-
-
 export const PrimarySmall: Story = {
     args: {
         variant: 'primary',
@@ -137,7 +153,6 @@ export const PrimarySmall: Story = {
         );
     }
 }
-
 export const PrimaryMid: Story = {
     args: {
         variant: 'primary',
@@ -154,7 +169,6 @@ export const PrimaryMid: Story = {
         );
     }
 }
-
 export const PrimaryLg: Story = {
     args: {
         variant: 'primary',
@@ -168,6 +182,24 @@ export const PrimaryLg: Story = {
                 variant={args.variant}
                 size={args.size}
                 icon={<FavoriteIcon className="text-secondary size-[18px]" />} />
+        );
+    }
+}
+export const Disabled: Story = {
+    args: {
+        variant: 'primary',
+        size: 'lg',
+        disabled: true,
+    },
+    render: (args) => {
+        return (
+            <Cascader
+                items={items}
+                disableCheckbox={args.disableCheckbox}
+                variant={args.variant}
+                size={args.size}
+                disabled={args.disabled}
+            />
         );
     }
 }

@@ -1,9 +1,10 @@
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
+import { CheckIcon, CircleIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { TriangleRightIcon } from "../icon/triangle-right-icon"
 
 const dropdownVariants = cva(
   "",
@@ -341,15 +342,15 @@ function DropdownMenuSubTrigger({
         <div className="flex flex-col w-full justify-start items-start gap-0.5">
           <div data-slot="dropdown-menu-item-core" className="relative flex w-full cursor-default items-center px-2 py-1 rounded-sm">
             {children}
-            <ChevronRightIcon className="ml-auto size-4" />
+            <TriangleRightIcon className="ml-auto" />
           </div>
           <div className="self-stretch px-2 py-0.5 flex flex-col justify-start items-start">
             <div className="self-stretch h-px bg-border" />
           </div>
         </div>
-        : <div className="flex flex-row flex-1">
+        : <div className="flex flex-row flex-1 items-center justify-between">
           {children}
-          <ChevronRightIcon className="ml-auto size-4" />
+          <TriangleRightIcon />
         </div>}
     </DropdownMenuPrimitive.SubTrigger>
   )

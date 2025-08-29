@@ -53,9 +53,9 @@ const cascaderVariants = cva(
         },
     }
 )
-
 function Cascader({
     disableCheckbox = false,
+    disabled = false,
     className,
     ...props
 }: React.ComponentProps<'div'>
@@ -64,6 +64,7 @@ function Cascader({
         icon?: React.ReactNode,
         items: SelectItem[],
         disableCheckbox?: boolean,
+        disabled?: boolean,
     }) {
     const [open, setOpen] = React.useState(false);
     const [data, setData] = React.useState<CascaderItem[]>([]);
@@ -164,21 +165,20 @@ function Cascader({
         setCheckeds(currentCheckeds);
     }
     const clearCheckeds = () => {
+        const dfsClear = (item: CascaderItem) => {
+            item.checked = false;
+            if (item.children) {
+                item.children.forEach((child) => {
+                    dfsClear(child);
+                })
+            }
+        }
         const current = data.slice();
         current.forEach((item) => {
             dfsClear(item);
         })
         setData(current);
         setCheckeds([]);
-    }
-
-    const dfsClear = (item: CascaderItem) => {
-        item.checked = false;
-        if (item.children) {
-            item.children.forEach((child) => {
-                dfsClear(child);
-            })
-        }
     }
 
     return (
@@ -196,8 +196,8 @@ function Cascader({
                 size={props.size}
                 updateDisableCheckboxCheckeds={updateDisableCheckboxCheckeds}
                 clearCheckeds={clearCheckeds}
-            />
-            <DropdownMenu open={open} onOpenChange={setOpen}>
+                disabled={disabled} />
+            <DropdownMenu open={(!disabled && open)} onOpenChange={setOpen} >
                 <DropdownMenuTrigger>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-60" align='start' variant={'default'} itemVariant={'default'} >
@@ -222,12 +222,16 @@ const cascaderTriggerVariants = cva(
     {
         variants: {
             variant: {
-                primary: 'bg-third-background border-primary hover:border',
+                primary: 'bg-third-background border-primary hover:border hover:bg-fill-light-hover-bg',
             },
             size: {
-                sm: 'w-60 rounded-md px-2 py-[2px] text-[13px] leading-[20px]',
+                sm: 'w-60 rounded-md px-1 py-[2px] text-[13px] leading-[20px]',
                 md: 'w-[280px] rounded-md px-2 py-[5px] text-[13px] leading-[20px]',
-                lg: 'w-80 rounded-md px-2 py-3 text-[15px] leading-[22px]',
+                lg: 'w-80 rounded-md p-1 text-[15px] leading-[22px]',
+            },
+            disabled: {
+                true: 'bg-third-background border-none',
+                false: '',
             }
         },
         defaultVariants: {
@@ -238,6 +242,7 @@ const cascaderTriggerVariants = cva(
 function CascaderTrigger({
     className,
     icon,
+    disabled = false,
     ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof cascaderTriggerVariants> & {
     open: boolean,
@@ -246,102 +251,211 @@ function CascaderTrigger({
     disableCheckbox: boolean,
     updateDisableCheckboxCheckeds: (item: CascaderItem, checkedState: CheckedState) => void,
     clearCheckeds: () => void,
+    disabled?: boolean,
 }) {
     const [labels, setLabels] = React.useState<string[]>([]);
-    const getLabel = (items: CascaderItem[]): string[] => {
-        if (items.length === 0) return [];
-        const item = items[0];
-        const titles: string[] = [];
-        const getTitle = (item: CascaderItem, titles: string[]) => {
-            titles.push(item.title);
-            if (item.parent) getTitle(item.parent, titles);
-        }
-        getTitle(item, titles);
-        return titles;
-    }
+    const [visibleCount, setVisibleCount] = React.useState<number>(0);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const tagsContainerRef = React.useRef<HTMLDivElement>(null);
+
     React.useEffect(() => {
+        const getLabel = (items: CascaderItem[]): string[] => {
+            if (items.length === 0) return [];
+            const item = items[0];
+            const titles: string[] = [];
+            const getTitle = (item: CascaderItem, titles: string[]) => {
+                titles.push(item.title);
+                if (item.parent) getTitle(item.parent, titles);
+            }
+            getTitle(item, titles);
+            return titles;
+        }
         const dates = getLabel(props.items);
         setLabels(dates.reverse());
-    }, [props.items, props.disableCheckbox])
+    }, [props.items, props.disableCheckbox]);
+
+    // 计算可见标签数量
+    React.useEffect(() => {
+        if (!props.disableCheckbox || props.items.length === 0) {
+            setVisibleCount(props.items.length);
+            return;
+        }
+
+        const calculateVisibleTags = () => {
+            const container = containerRef.current;
+            const tagsContainer = tagsContainerRef.current;
+
+            if (!container || !tagsContainer) return;
+
+            // 获取容器总宽度
+            const containerWidth = container.offsetWidth;
+
+            // 计算其他元素占用的宽度
+            const iconWidth = icon ? (
+                props.size === 'sm' ? 14 :
+                    props.size === 'md' ? 16 : 20
+            ) + 8 : 0; // 8px 是 gap
+
+            const buttonWidth = 24; // 右侧按钮区域预估宽度
+
+            // 可用于标签的宽度
+            const availableWidth = containerWidth - iconWidth - buttonWidth; // 16px 额外边距
+
+            if (availableWidth <= 0) {
+                setVisibleCount(0);
+                return;
+            }
+
+            const gap = 2; // gap-[2px]
+            let totalWidth = 0;
+            let count = 0;
+
+            // 遍历所有标签计算宽度
+            for (let i = 0; i < props.items.length; i++) {
+                // 估算当前标签宽度 (文字长度 * 8 + padding + 关闭按钮)
+                const textWidth = props.items[i].title.length * 8;
+                const tagPadding = props.size === 'sm' ? 12 : props.size === 'md' ? 16 : 20;
+                const closeButtonWidth = 16;
+                const currentTagWidth = textWidth + tagPadding + closeButtonWidth;
+
+                // 计算包含当前标签的总宽度
+                const widthWithCurrentTag = totalWidth + currentTagWidth + (i > 0 ? gap : 0);
+
+                // 如果不是最后一个标签，检查是否需要为 +n 标签预留空间
+                if (i < props.items.length - 1) {
+                    const remainingCount = props.items.length - i - 1;
+                    const plusTagWidth = `+${remainingCount}`.length * 8 + tagPadding;
+
+                    // 检查当前标签 + +n标签是否超出
+                    if (widthWithCurrentTag + gap + plusTagWidth > availableWidth) {
+                        break;
+                    }
+                }
+
+                // 检查当前标签是否超出
+                if (widthWithCurrentTag > availableWidth) {
+                    break;
+                }
+
+                totalWidth = widthWithCurrentTag;
+                count = i + 1;
+            }
+
+            setVisibleCount(Math.max(0, count));
+        };
+
+        // 延迟执行确保DOM渲染完成
+        const timer = setTimeout(calculateVisibleTags, 0);
+
+        // 监听窗口大小变化
+        const handleResize = () => {
+            calculateVisibleTags();
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [props.items, props.size, props.disableCheckbox, icon]);
+
+    const genTitles = (): string => {
+        let titles: string = '';
+        labels.forEach((label, index) => {
+            titles += label;
+            if (index < labels.length - 1) {
+                titles += ' / ';
+            }
+        });
+        return titles;
+    };
+
+    const renderTags = () => {
+        let actualVisibleCount = Math.min(visibleCount, props.items.length);
+        actualVisibleCount = actualVisibleCount > 3 ? (props.size === 'lg' ? actualVisibleCount - 1 : actualVisibleCount) : actualVisibleCount;
+        const visibleItems = props.items.slice(0, actualVisibleCount);
+        const hiddenCount = props.items.length - actualVisibleCount;
+        return (
+            <div ref={tagsContainerRef} className="flex gap-[2px] flex-1 min-w-0 overflow-hidden">
+                {visibleItems.map((item, index) => (
+                    <SelectedTag
+                        variant={disabled ? 'disabled' : 'primary'}
+                        size={props.size}
+                        key={`visible-${index}`}
+                        desc={item.title}
+                        disabled={disabled}
+                        closeCallback={() => {
+                            props.updateDisableCheckboxCheckeds(item, false);
+                        }}
+                    />
+                ))}
+                {hiddenCount > 0 && (
+                    <div className={cn(
+                        "inline-flex items-center px-2 py-1 bg-fill-emphasize rounded-sm text-xs whitespace-nowrap",
+                        props.size === 'sm' && 'h-5',
+                        props.size === 'md' && 'h-5.5',
+                        props.size === 'lg' && 'h-8',
+                    )}>
+                        +{hiddenCount}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
     return (
         <div className={cn(
             'inline-flex flex-row items-center justify-between',
             'font-normal',
-            props.items.length > 0 && 'hover:[&_[data-slot=dropdown-menu-trigger-close]]:block hover:[&_[data-slot=dropdown-menu-trigger-turn]]:hidden',
-            cascaderTriggerVariants({ variant: props.variant, size: props.size }),
+            (!disabled && props.items.length > 0) && 'hover:[&_[data-slot=dropdown-menu-trigger-close]]:block hover:[&_[data-slot=dropdown-menu-trigger-turn]]:hidden',
+            cascaderTriggerVariants({ variant: props.variant, size: props.size, disabled }),
             className)}
             {...props}>
-            <div className={cn(
-                "inline-flex items-center justify-center gap-2",
-                'overflow-x-hidden')}>
-                {
-                    icon &&
+            <div ref={containerRef} className={cn(
+                "inline-flex items-center gap-2 flex-1 min-w-0",
+                props.size === 'sm' && 'h-min-5',
+                props.size === 'md' && 'h-min-5.5',
+                props.size === 'lg' && 'h-min-6')}>
+                {icon && (
                     <div className={cn(
-                        "inline-flex items-center justify-center",
+                        "inline-flex items-center justify-center flex-shrink-0",
                         props.size === 'sm' && 'size-[14px]',
                         props.size === 'md' && 'size-4',
-                        props.size === 'lg' && 'size-[18xp]',
+                        props.size === 'lg' && 'size-[18px]',
                     )}>
                         {icon}
                     </div>
-                }
-                {
-                    <div>
-                        {
-                            props.items.length === 0 ? <span className="text-secondary-information">请选择</span>
-                                :
-                                props.disableCheckbox ?
-                                    <div className="flex gap-[2px]">
-                                        {
-                                            props.items.map((item, index) => {
-                                                return (
-                                                    <SelectedTag variant={'primary'} size={props.size} key={index} desc={item.title} closeCallback={() => {
-                                                        props.updateDisableCheckboxCheckeds(item, false);
-                                                    }} />
-                                                );
-                                            })
-                                        }
-                                    </div>
-                                    :
-                                    <div>
-                                        {
-                                            labels.map((label, index) => {
-                                                return (
-                                                    <span key={index} className="text-text-deep">{label}
-                                                        {
-                                                            index < labels.length - 1 && <span className="text-text-deep">/</span>
-                                                        }
-                                                    </span>
-                                                );
-                                            })
-                                        }
-                                    </div>
-                        }
+                )}
+                {props.items.length === 0 ? (
+                    <span className="text-secondary-information">请选择</span>
+                ) : props.disableCheckbox ? (
+                    renderTags()
+                ) : (
+                    <div className={cn(
+                        "w-full truncate",
+                        disabled && "text-disabled"
+                    )}>
+                        {genTitles()}
                     </div>
-                }
+                )}
             </div>
-            <div className=' flex items-center justify-center'>
-                {
-                    props.items.length > 0 &&
-                    <Button variant={'transparent'} size={'link'} className="hidden z-50" data-slot="dropdown-menu-trigger-close" onClick={(e) => {
-                        e.stopPropagation();
-                        props.clearCheckeds();
-                    }}>
+            <div className='flex items-center justify-center flex-shrink-0'>
+                {props.items.length > 0 && (
+                    <Button variant={'transparent'} size={'link'} className="hidden z-50" data-slot="dropdown-menu-trigger-close"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            props.clearCheckeds();
+                        }}>
                         <CloseIcon className="size-4" />
                     </Button>
-                }
-                <div data-slot="dropdown-menu-trigger-turn">
-                    {
-                        props.open ?
-                            <TriangleUpIcon />
-                            :
-                            <TriangleDownIcon />
-                    }
+                )}
+                <div data-slot="dropdown-menu-trigger-turn" className="size-4 flex items-center justify-center">
+                    {disabled ? <TriangleDownIcon /> : props.open ? <TriangleUpIcon /> : <TriangleDownIcon />}
                 </div>
-
             </div>
         </div>
-    )
+    );
 }
 function CascaderSelectedItem({
     ...props
@@ -376,8 +490,7 @@ function CascaderSelectedItem({
                                         key={index}
                                         updateCheckeds={props.updateCheckeds}
                                         disableCheckbox={props.disableCheckbox}
-                                        updateDisableCheckboxCheckeds={props.updateDisableCheckboxCheckeds} />
-                                )
+                                        updateDisableCheckboxCheckeds={props.updateDisableCheckboxCheckeds} />)
                             })
                         }
                     </DropdownMenuSubContent>
@@ -404,11 +517,12 @@ const selectedTagVariants = cva(
         variants: {
             variant: {
                 primary: 'bg-fill-emphasize border border-border',
+                disabled: 'bg-fill border border-border-disabled text-disabled',
             },
             size: {
-                sm: 'text-[12px] leading-[20px] gap-1 px-1 py-[1px] rounded-sm',
-                md: 'text-[12px] leading-[20px] gap-2 px-2 py-[1px] rounded-sm',
-                lg: 'text-[15px] leading-[22px] gap-2 px-2 py-[1px] rounded-sm',
+                sm: 'text-[12px] leading-[20px] gap-1 px-1 py-[1px] rounded-sm h-5',
+                md: 'text-[12px] leading-[20px] gap-2 px-2 py-[1px] rounded-sm h-5.5',
+                lg: 'text-[15px] leading-[22px] gap-2 px-2 py-[1px] rounded-sm h-8',
             }
         },
         defaultVariants: {
@@ -418,14 +532,17 @@ const selectedTagVariants = cva(
 )
 function SelectedTag({
     className,
+    disabled = false,
     ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof selectedTagVariants> & {
     desc: string,
     closeCallback?: () => void,
+    disabled?: boolean,
 }) {
     const handleClose = (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
+        if (disabled) return;
         props.closeCallback?.();
     };
     return (
@@ -438,7 +555,7 @@ function SelectedTag({
             <span className="max-w-20 whitespace-nowrap overflow-hidden text-ellipsis">{props.desc}</span>
             <Button variant={'transparent'} size={'link'} className={cn(
                 "text-secondary-information",
-                'hover:text-primary'
+                disabled && 'text-disabled'
             )} onClick={handleClose}>
                 <CloseIcon className={cn(
                     props.size === 'sm' && 'size-3',
