@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Label } from "./label";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Progress } from "./progress";
 import { Button } from "./button";
 import { SuccessIcon } from "../icon/successIcon";
@@ -234,7 +234,10 @@ function UploadItem({
     retryUpload: (fileId: string) => void;
 }) {
     return (
-        <div className="w-full flex flex-row items-center justify-between" {...props}>
+        <div className={cn(
+            "w-full flex flex-row items-center justify-between",
+            className
+        )} {...props}>
             <div className=" flex flex-row items-center gap-2">
                 <div className="flex-shrink-0">
                     <svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -250,7 +253,10 @@ function UploadItem({
             <div className="flex flex-row items-center gap-2">
                 {
                     file.status === 'uploading' &&
-                    <Progress value={file.progress} />
+                    <div className="flex flex-row gap-[2px]">
+                        <Progress value={file.progress} />
+                        <span>{file.progress}%</span>
+                    </div>
                 }
                 {
                     file.status === 'success' &&
@@ -459,19 +465,26 @@ function DragUpload({
                 <input
                     ref={fileInputRef}
                     type="file"
+                    name="files[]"
+                    multiple
                     onChange={handleFileChange}
                     className="hidden"
                     accept={acceptedTypes}
                 />
             </div>
-
-            <div className="mt-4 space-y-2">
+            <div className="flex flex-1 w-full">
+                <span className="text-[13px] leading-[20px] text-secondary-information">
+                    {desc} (最大 {maxFileSize}MB)
+                </span>
+            </div>
+            <div className="mt-4 space-y-2 p-2 bg-fill">
                 {files.map(file => (
                     <UploadItem
                         key={file.id}
                         file={file}
                         removeFile={removeFile}
-                        retryUpload={retryUpload} />
+                        retryUpload={retryUpload}
+                    />
                 ))}
             </div>
 
@@ -485,4 +498,171 @@ function DragUpload({
     );
 }
 
-export { Upload, DragUpload };
+function AvatarUpload({
+    desc,
+    onUploadProgress,
+    uploadUrl = "http://localhost:3001/api/upload",
+    maxFileSize = 10,
+    className,
+    ...props
+}: UploadProps) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [file, setFile] = useState<FileItem | undefined>(undefined);
+    const [isDragging, setIsDragging] = useState(false);
+    const addFiles = useCallback((newFiles: FileList | null) => {
+        if (!newFiles) return;
+
+        const fileArray = Array.from(newFiles);
+        const validFiles = fileArray.filter(file => {
+            // 检查文件大小
+            if (file.size > maxFileSize * 1024 * 1024) {
+                alert(`文件 ${file.name} 超过最大限制 ${maxFileSize}MB`);
+                return false;
+            }
+            return true;
+        });
+
+        const newFileItems: FileItem[] = validFiles.map(file => ({
+            id: Date.now() + Math.random().toString(),
+            file,
+            status: 'waiting',
+            progress: 0
+        }));
+
+        setFile(newFileItems[0]);
+        uploadSingleFile(newFileItems[0]);
+    }, [maxFileSize]);
+    const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        addFiles(e.target.files);
+        // 清空input，允许选择相同文件再次触发onChange
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    }, [addFiles]);
+    const uploadSingleFile = async (fileItem: FileItem) => {
+        try {
+            // 更新状态为上传中
+            setFile({ ...file!, status: 'uploading' })
+
+            const formData = new FormData();
+            formData.append('file', fileItem.file);
+            formData.append('filename', fileItem.file.name);
+
+            // 使用 XMLHttpRequest 以便监听上传进度
+            const response = await uploadWithProgress(formData, fileItem.id);
+            console.log('response1', response)
+            // 上传成功
+            setFile({ ...file!, progress: 100, status: 'success', url: 'https://picx.zhimg.com/v2-ed005842502c6cb29590c2e38d5a1d0b_1440w.jpg' });
+        } catch (error) {
+            console.error('上传失败:', error);
+            setFile({ ...file!, status: 'error' })
+        }
+    }
+    const uploadWithProgress = (formData: FormData, fileId: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+
+            // 监听上传进度
+            xhr.upload.addEventListener('progress', (event) => {
+                if (event.lengthComputable) {
+                    const progress = Math.round((event.loaded / event.total) * 100);
+                    console.log('progress', progress);
+                    setFile({ ...file!, progress })
+                    onUploadProgress?.(fileId, progress);
+                }
+            });
+
+            // 监听完成事件
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        console.log('xhr', xhr.responseText)
+
+                        resolve({ success: true, });
+                    } catch (e) {
+                        resolve({ success: true, url: '11' });
+                    }
+                } else {
+                    reject(new Error(`Upload failed: ${xhr.status}`));
+                }
+            });
+
+            // 监听错误事件
+            xhr.addEventListener('error', () => {
+                reject(new Error('Upload failed'));
+            });
+
+            // 发送请求
+            xhr.open('POST', uploadUrl);
+            xhr.send(formData);
+        });
+    };
+    const handleClick = useCallback(() => {
+        fileInputRef.current?.click();
+    }, []);
+    const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(true);
+    }, []);
+    const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+    }, []);
+    const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+        addFiles(e.dataTransfer.files);
+    }, [addFiles]);
+    useEffect(() => {
+        console.log('file', file)
+    }, [file])
+    return (
+        <div className={cn(
+            'flex flex-col items-start gap-1',
+            className
+        )} {...props}>
+            <div className={cn(
+                'w-30 h-30',
+                'flex flex-col items-center justify-center gap-2.5',
+                'bg-fill-dark-hover-active-disabled',
+                'cursor-pointer',
+                'hover:border hover:border-dashed hover:border-primary'
+            )}
+                onClick={handleClick}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}>
+                {
+                    !file &&
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.5 8.5H11.5V11.5H8.5V12.5H11.5V15.5H12.5V12.5H15.5V11.5H12.5V8.5Z" fill="#C0C7CF" />
+                    </svg>
+                }
+                {
+                    !file &&
+                    <span className="text-[12px] leading-[20px] font-normal text-secondary-information">点击上传图片</span>
+                }
+                {
+                    (file?.status === 'success' && file.url)
+                    &&
+                    <img src={file.url} className="w-full h-full" />
+                }
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    name="files[]"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    accept={props.acceptedTypes}
+                />
+            </div>
+            <div className="flex flex-1 w-full">
+                <span className="text-[13px] leading-[20px] text-secondary-information">
+                    {desc}
+                </span>
+            </div>
+        </div>
+    );
+}
+
+export { Upload, DragUpload, AvatarUpload };
