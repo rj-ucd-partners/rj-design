@@ -99,6 +99,7 @@ export default {
         'orange-600-20': 'hsl(var(--orange-600-20))',
         'amber-500-20': 'hsl(var(--amber-500-20))',
         'amber-500-10': 'hsl(var(--amber-500-10))',
+        'mask': 'hsl(var(--mask))'
       }
     },
   },

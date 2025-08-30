@@ -1,0 +1,10 @@
+import type { SVGProps } from "react";
+import type { JSX } from "react/jsx-runtime";
+
+export const DeleteIcon = (args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+    return (
+        <svg viewBox="0 0 1024 1024" version="1.1" fill='currentcolor' xmlns="http://www.w3.org/2000/svg" p-id="19834" width="16" height="16" {...args}>
+            <path d="M384.704 256H832a64 64 0 1 0 0-128h-192v-62.528C640 64.576 639.68 64 639.296 64H384.64C384.32 64 384 64.64 384 65.472V128H192a64 64 0 0 0 0 128h192.704zM287.808 960h448.384c23.424 0 42.88-17.536 44.416-40.256l38.464-553.792A43.776 43.776 0 0 0 774.656 320H249.344a43.712 43.712 0 0 0-44.48 45.952l38.528 553.792a43.904 43.904 0 0 0 44.416 40.256zM384 448h64v430.72H384V448z m256 0v430.72H576V448h64z"></path>
+        </svg>
+    );
+}
