@@ -1,10 +1,11 @@
 import { cn } from "@/lib/utils";
 import { Label } from "./label";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Progress } from "./progress";
 import { Button } from "./button";
 import { SuccessIcon } from "../icon/successIcon";
 import { AbnormalIcon } from "../icon/abnormalIcon";
+import { FileIcon } from "../icon/file-icon";
 
 interface FileItem {
     file: File;
@@ -275,4 +276,213 @@ function UploadItem({
     );
 }
 
-export { Upload };
+function DragUpload({
+    desc,
+    onUploadComplete,
+    onUploadProgress,
+    maxFileSize = 100,
+    acceptedTypes = "*/*",
+    uploadUrl = "http://localhost:3001/api/upload",
+    className
+}: UploadProps) {
+    const [files, setFiles] = useState<FileItem[]>([]);
+    const [isDragging, setIsDragging] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const addFiles = useCallback((newFiles: FileList | null) => {
+        if (!newFiles) return;
+
+        const fileArray = Array.from(newFiles);
+        const validFiles = fileArray.filter(file => {
+            // 检查文件大小
+            if (file.size > maxFileSize * 1024 * 1024) {
+                alert(`文件 ${file.name} 超过最大限制 ${maxFileSize}MB`);
+                return false;
+            }
+            return true;
+        });
+
+        const newFileItems: FileItem[] = validFiles.map(file => ({
+            id: Date.now() + Math.random().toString(),
+            file,
+            status: 'waiting',
+            progress: 0
+        }));
+
+        setFiles(prev => [...prev, ...newFileItems]);
+
+        // 自动开始上传
+        newFileItems.forEach(item => {
+            uploadSingleFile(item);
+        });
+        onUploadComplete?.(newFileItems);
+    }, [maxFileSize]);
+
+    const uploadSingleFile = async (fileItem: FileItem) => {
+        try {
+            // 更新状态为上传中
+            setFiles(prev => prev.map(item =>
+                item.id === fileItem.id ? { ...item, status: 'uploading' } : item
+            ));
+
+            const formData = new FormData();
+            formData.append('file', fileItem.file);
+            formData.append('filename', fileItem.file.name);
+
+            // 使用 XMLHttpRequest 以便监听上传进度
+            const response = await uploadWithProgress(formData, fileItem.id);
+
+            // 上传成功
+            setFiles(prev => prev.map(item =>
+                item.id === fileItem.id
+                    ? { ...item, status: 'success', progress: 100, url: response.url }
+                    : item
+            ));
+
+        } catch (error) {
+            console.error('上传失败:', error);
+            setFiles(prev => prev.map(item =>
+                item.id === fileItem.id ? { ...item, status: 'error' } : item
+            ));
+        }
+    };
+
+    const uploadWithProgress = (formData: FormData, fileId: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+
+            // 监听上传进度
+            xhr.upload.addEventListener('progress', (event) => {
+                if (event.lengthComputable) {
+                    const progress = Math.round((event.loaded / event.total) * 100);
+                    console.log('progress', progress);
+                    setFiles(prev => prev.map(item =>
+                        item.id === fileId ? { ...item, progress } : item
+                    ));
+                    onUploadProgress?.(fileId, progress);
+                }
+            });
+
+            // 监听完成事件
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        resolve(response);
+                    } catch (e) {
+                        resolve({ success: true, url: '' });
+                    }
+                } else {
+                    reject(new Error(`Upload failed: ${xhr.status}`));
+                }
+            });
+
+            // 监听错误事件
+            xhr.addEventListener('error', () => {
+                reject(new Error('Upload failed'));
+            });
+
+            // 发送请求
+            xhr.open('POST', uploadUrl);
+            xhr.send(formData);
+        });
+    };
+
+    const removeFile = (fileId: string) => {
+        setFiles(prev => prev.filter(item => item.id !== fileId));
+    };
+
+    const retryUpload = (fileId: string) => {
+        const fileToRetry = files.find(f => f.id === fileId);
+        if (fileToRetry) {
+            setFiles(prev => prev.map(item =>
+                item.id === fileId ? { ...item, status: 'waiting', progress: 0 } : item
+            ));
+            uploadSingleFile({ ...fileToRetry, status: 'waiting', progress: 0 });
+        }
+    };
+
+    // 处理点击选择文件
+    const handleClick = useCallback(() => {
+        fileInputRef.current?.click();
+    }, []);
+
+    // 处理文件选择
+    const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        addFiles(e.target.files);
+        // 清空input，允许选择相同文件再次触发onChange
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    }, [addFiles]);
+
+    // 处理拖放事件
+    const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(true);
+    }, []);
+
+    const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+    }, []);
+
+    const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+        addFiles(e.dataTransfer.files);
+    }, [addFiles]);
+    return (
+        <div className="w-full h-full">
+            {/* 拖放区域 */}
+            <div
+                className={cn(
+                    'flex flex-1',
+                    'h-full'
+                )}
+                onClick={handleClick}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+            >
+                <div className={cn(
+                    'flex flex-col items-center justify-center gap-2 bg-fill-dark-hover-active-disabled flex-1',
+                    'hover:border hover:border-dashed hover:border-primary',
+                    'rounded',
+                )}>
+                    <FileIcon />
+                    <p className="text-secondary-information">
+                        <span className="text-primary font-medium">点击上传</span> / 拖拽到此区域
+                    </p>
+                </div>
+
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    accept={acceptedTypes}
+                />
+            </div>
+
+            <div className="mt-4 space-y-2">
+                {files.map(file => (
+                    <UploadItem
+                        key={file.id}
+                        file={file}
+                        removeFile={removeFile}
+                        retryUpload={retryUpload} />
+                ))}
+            </div>
+
+            {/* 空状态提示 */}
+            {files.length === 0 && (
+                <div className="mt-4 text-center text-gray-500 text-sm">
+                    暂无上传文件
+                </div>
+            )}
+        </div>
+    );
+}
+
+export { Upload, DragUpload };
