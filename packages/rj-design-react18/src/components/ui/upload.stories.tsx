@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { AvatarUpload, DragUpload, Upload } from "./upload"
+import { AvatarFrame, AvatarUpload, DragUpload, Upload } from "./upload"
 
 const meta: Meta<typeof Upload> = {
     title: 'Components/Upload',
@@ -103,6 +103,25 @@ export const Avatar: Story = {
                 onUploadProgress={(fileId, progress) => console.log(`文件 ${fileId} 进度: ${progress}%`)}
                 multiple={false}
             />
+        </div>
+    }
+}
+
+export const AvatarCloum: Story = {
+    args: {
+        desc: "这些是描述信息",
+        acceptedTypes: 'image/png'
+    },
+    render: args => {
+        return <div style={{ width: '334px', height: '400px' }}>
+            <AvatarFrame
+                desc={args.desc}
+                maxFileSize={100}
+                acceptedTypes={args.acceptedTypes}
+                onUploadComplete={(files) => console.log('上传完成:', files)}
+                onUploadProgress={(fileId, progress) => console.log(`文件 ${fileId} 进度: ${progress}%`)}
+                multiple={false} imageName={"重要人物"}
+                information={"XXXX"} />
         </div>
     }
 }

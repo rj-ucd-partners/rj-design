@@ -474,17 +474,17 @@ function DragUpload({
     // 处理拖放事件
     const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsDragging(true);
+        setIsUploading(true);
     }, []);
 
     const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsDragging(false);
+        setIsUploading(false);
     }, []);
 
     const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsDragging(false);
+        setIsUploading(false);
         addFiles(e.dataTransfer.files);
     }, [addFiles]);
     return (
@@ -680,6 +680,7 @@ function AvatarUpload({
                 'bg-fill-dark-hover-active-disabled',
                 'cursor-pointer',
                 file?.status === 'waiting' && 'hover:border hover:border-dashed hover:border-primary',
+                file?.status === 'error' && 'bg-danger-light',
                 'hover:[&_[data-slot=mask]]:flex',
                 className
             )}
@@ -711,7 +712,7 @@ function AvatarUpload({
                 }
                 {
                     file?.status === 'error' &&
-                    <div className="flex gap-2 flex-col items-center justify-center  text-danger text-[12px] leading-[20px]">
+                    <div className="flex gap-2 flex-col items-center justify-center  text-danger text-[12px] leading-[20px] ">
                         <CloseIcon className="size-4" />
                         <span >此处为错误提示</span>
                     </div>
@@ -751,4 +752,209 @@ function AvatarUpload({
     );
 }
 
-export { Upload, DragUpload, AvatarUpload };
+function AvatarFrame({
+    desc,
+    onUploadProgress,
+    uploadUrl = "http://localhost:3001/api/upload",
+    maxFileSize = 10,
+    className,
+    imageName = "图片名称",
+    information = 'XXXX',
+    ...props
+}: UploadProps & {
+    imageName: string,
+    information: string,
+    deleteCallback?: Function,
+}) {
+    const [file, setFile] = useState<FileItem | undefined>(undefined);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isUploading, setIsUploading] = useState(false);
+
+    const addFiles = useCallback((newFiles: FileList | null) => {
+        if (!newFiles) return;
+
+        const fileArray = Array.from(newFiles);
+        const validFiles = fileArray.filter(file => {
+            // 检查文件大小
+            if (file.size > maxFileSize * 1024 * 1024) {
+                alert(`文件 ${file.name} 超过最大限制 ${maxFileSize}MB`);
+                return false;
+            }
+            return true;
+        });
+
+        const newFileItems: FileItem[] = validFiles.map(file => ({
+            id: Date.now() + Math.random().toString(),
+            file,
+            status: 'waiting',
+            progress: 0
+        }));
+
+        setFile(newFileItems[0]);
+        uploadSingleFile(newFileItems[0]);
+    }, [maxFileSize]);
+    const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        addFiles(e.target.files);
+        // 清空input，允许选择相同文件再次触发onChange
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    }, [addFiles]);
+    const uploadSingleFile = async (fileItem: FileItem) => {
+        setIsUploading(true);
+        try {
+            // 更新状态为上传中
+            setFile({ ...file!, status: 'uploading' })
+
+            const formData = new FormData();
+            formData.append('file', fileItem.file);
+            formData.append('filename', fileItem.file.name);
+
+            // 使用 XMLHttpRequest 以便监听上传进度
+            const response = await uploadWithProgress(formData, fileItem.id);
+            setFile({ ...file!, progress: 100, status: 'success', url: 'https://picx.zhimg.com/v2-ed005842502c6cb29590c2e38d5a1d0b_1440w.jpg' });
+            // 上传成功
+        } catch (error) {
+            console.error('上传失败:', error);
+            setFile({ ...file!, status: 'error' })
+        }
+        setIsUploading(false);
+    }
+    const uploadWithProgress = (formData: FormData, fileId: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+
+            // 监听上传进度
+            xhr.upload.addEventListener('progress', (event) => {
+                if (event.lengthComputable) {
+                    const progress = Math.round((event.loaded / event.total) * 100);
+                    setFile({ ...file!, progress })
+                    onUploadProgress?.(fileId, progress);
+                }
+            });
+
+            // 监听完成事件
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        console.log('xhr', xhr.responseText)
+                        resolve({ success: true, });
+                    } catch (e) {
+                        resolve({ success: true, url: '11' });
+                    }
+                } else {
+                    reject(new Error(`Upload failed: ${xhr.status}`));
+                }
+            });
+
+            // 监听错误事件
+            xhr.addEventListener('error', () => {
+                reject(new Error('Upload failed'));
+            });
+
+            // 发送请求
+            xhr.open('POST', uploadUrl);
+            xhr.send(formData);
+        });
+    };
+    const handleClick = () => {
+        if (file?.status === 'success') return;
+        fileInputRef.current?.click();
+    }
+    const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsUploading(true);
+    }, []);
+    const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsUploading(false);
+    }, []);
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        if (file?.status === 'success') return;
+        e.preventDefault();
+        setIsUploading(false);
+        addFiles(e.dataTransfer.files);
+    };
+    const clearFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.stopPropagation();
+        setFile(undefined);
+        props.deleteCallback && props.deleteCallback();
+    }
+    return (
+        <div className={cn(
+            'flex flex-col gap-2 ',
+        )}>
+            <div className={cn(
+                'flex flex-row gap-2 justify-between',
+                'px-[9px] py-[8px]',
+                'bg-fill',
+                file?.status === 'error' && 'bg-danger-light'
+            )}>
+                <div className={cn(
+                    'inline-flex flex-row gap-2 '
+                )}>
+                    <div
+                        className={cn(
+                            'cursor-pointer',
+                        )}
+                        onClick={handleClick}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                    >
+                        <img src={(file && file.url) ? file.url : 'https://scontent-hkg4-1.xx.fbcdn.net/v/t39.30808-6/492998098_1286134549535445_4624770101311285693_n.jpg?stp=dst-jpg_s600x600_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_ohc=q8tvgQ04p24Q7kNvwG8DI8J&_nc_oc=AdmnQ-IKflZtygJweisV7hJWlSBavnoz1o0KTqGEz5NEwdtFaqPQ7NgApt56Mpy3nLQ&_nc_zt=23&_nc_ht=scontent-hkg4-1.xx&_nc_gid=XeLpPDZ8e4qwh-tQ-IfeCg&oh=00_AfUaqWEjlnR-IzVMWG-5Y-5K1ZwdM6sHJ8xrgL8VTOWcYA&oe=68B9E39A'} width={48} height={48} />
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            name="files[]"
+                            onChange={handleFileChange}
+                            className="hidden"
+                            accept={props.acceptedTypes} />
+                    </div>
+                    <div className="inline-flex flex-col gap-1 w-full">
+                        <span className="text-[13px] leading-[20px] text-text-deep line-clamp-1">{imageName}</span>
+                        <span className="text-[12px] leading-[20px] text-secondary-information line-clamp-1">辅助信息：{information}</span>
+                    </div>
+                </div>
+                <div className={cn(
+                    'flex flex-row items-center gap-2'
+                )}>
+                    {file?.status === 'uploading'
+                        &&
+                        <Progress variant={'default'} size={'md'} value={file.progress} className="w-20 h-1 bg-[#e1e3ec]" />
+                    }
+                    {file?.status === 'uploading'
+                        &&
+                        <Button variant={'link'} size={'link'} className="text-[11px] leading-[16px]" onClick={(e) => { clearFile(e) }}>
+                            取消上传
+                        </Button>
+                    }
+                    {file?.status === 'success'
+                        &&
+                        <SuccessIcon className="size-3" />
+                    }
+                    {file?.status === 'error'
+                        &&
+                        <CloseIcon className="size-3 text-danger" />
+                    }
+                    {(file?.status === 'success' || file?.status === 'error')
+                        &&
+                        <Button variant={'link'} size={'link'} className="text-[11px] leading-[16px]" onClick={(e) => { clearFile(e) }}>
+                            <DeleteIcon className="size-3 text-secondary" />
+                        </Button>
+                    }
+
+                </div>
+            </div>
+            <span className={cn(
+                "text-secondary-information text-[13px] leading-[20PX]",
+                file?.status === 'error' && 'text-danger'
+            )}>
+                {desc}
+            </span>
+        </div>
+    );
+
+}
+
+export { Upload, DragUpload, AvatarUpload, AvatarFrame };
