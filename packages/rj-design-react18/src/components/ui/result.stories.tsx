@@ -21,7 +21,7 @@ const onReturn = () => {
     alert('点击返回首页')
 }
 
-export const Success: Story = {
+export const Default: Story = {
     args: {
         result: '成功状态',
         description: '辅助信息辅助信息辅助信息辅助信息',
@@ -37,11 +37,29 @@ export const Success: Story = {
     )
 }
 
+export const Success: Story = {
+    args: {
+        result: '成功状态',
+        description: '辅助信息辅助信息辅助信息辅助信息',
+        status: 'success',
+        showAction: true
+    },
+    render: (args) => (
+        <div style={{
+            width: '360px',
+            height: '558px'
+        }}>
+            <Result {...args} onConfirm={onConfirm} onReturn={onReturn} />
+        </div>
+    )
+}
+
 export const Fail: Story = {
     args: {
         result: '失败状态',
         description: '辅助信息辅助信息辅助信息辅助信息',
-        status: 'fail'
+        status: 'fail',
+        showAction: true
     },
     render: (args) => (
         <div style={{
@@ -57,7 +75,8 @@ export const Warning: Story = {
     args: {
         result: '告警状态',
         description: '辅助信息辅助信息辅助信息辅助信息',
-        status: 'warning'
+        status: 'warning',
+        showAction: true
     },
     render: (args) => (
         <div style={{
@@ -73,7 +92,8 @@ export const Info: Story = {
     args: {
         result: '提示状态',
         description: '辅助信息辅助信息辅助信息辅助信息',
-        status: 'info'
+        status: 'info',
+        showAction: true
     },
     render: (args) => (
         <div style={{
@@ -89,7 +109,8 @@ export const Verify: Story = {
     args: {
         result: '校验状态',
         description: '辅助信息辅助信息辅助信息辅助信息',
-        status: 'verify'
+        status: 'verify',
+        showAction: true
     },
     render: (args) => (
         <div style={{
@@ -105,7 +126,8 @@ export const Loading: Story = {
     args: {
         result: '加载状态状态',
         description: '辅助信息辅助信息辅助信息辅助信息',
-        status: 'loading'
+        status: 'loading',
+        showAction: true
     },
     render: (args) => (
         <div style={{
@@ -125,7 +147,8 @@ export const Primary: Story = {
     args: {
         result: '加载状态状态',
         description: '辅助信息辅助信息辅助信息辅助信息',
-        status: 'success'
+        status: 'success',
+        showAction: true
     },
     render: (args) => (
         <div style={{

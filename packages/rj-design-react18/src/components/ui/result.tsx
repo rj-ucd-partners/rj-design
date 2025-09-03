@@ -10,6 +10,7 @@ import { LoadingResultIcon } from "../icon/loading-result-icon";
 function Result({
     result,
     description,
+    showAction = false,
     onConfirm,
     onReturn,
     className,
@@ -18,6 +19,7 @@ function Result({
     result?: string;
     description?: string | string[];
     status: 'success' | 'fail' | 'warning' | 'info' | 'verify' | 'loading',
+    showAction?: boolean,
     onConfirm?: () => void,
     onReturn?: () => void
 }) {
@@ -67,14 +69,17 @@ function Result({
                     <span className="text-[15px] leading-[22px] text-secondary-information">{description}</span>
                 }
             </div>
-            <div className="flex flex-row items-center justify-center gap-2">
-                <Button variant={'default'} size={'md'} onClick={onReturn}>
-                    回到首页
-                </Button>
-                <Button variant={'primary'} size={'md'} onClick={onConfirm}>
-                    返回修改
-                </Button>
-            </div>
+            {
+                showAction &&
+                <div className="flex flex-row items-center justify-center gap-2">
+                    <Button variant={'default'} size={'md'} onClick={onReturn}>
+                        回到首页
+                    </Button>
+                    <Button variant={'primary'} size={'md'} onClick={onConfirm}>
+                        返回修改
+                    </Button>
+                </div>
+            }
             {props.children}
         </div>
     )
@@ -91,7 +96,8 @@ function Solution({
         'rounded-md',
         'bg-fill-dark-hover-active-disabled',
         'px-6 py-10',
-        'text-[13px] leading-[20px] font-normal text-secondary-information'
+        'text-[13px] leading-[20px] font-normal text-secondary-information',
+        className
     )} {...props}>
         <span className="text-[15px] leading-[22px] font-medium text-text-deep">解决方案</span>
         {
@@ -108,7 +114,6 @@ function Solution({
 function WebResult({
     result,
     description,
-    onConfirm,
     onReturn,
     className,
     ...props
@@ -122,6 +127,7 @@ function WebResult({
     return (<div className={cn(
         'inline-flex flex-row gap-10 items-center',
         'px-10',
+        className
     )} {...props}>
         {
             props.status === 'success'
