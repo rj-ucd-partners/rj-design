@@ -27,29 +27,13 @@ function Tree({
     hasFunc?: boolean | undefined
 }) {
     const [data, setData] = React.useState<TreeItem[] | undefined>(props.items)
-    const updateItemCheckedState = (item: TreeItem): CheckedState => {
-        if (!item.children || item.children.length === 0) {
-            return item.checked || false;
-        }
-        const childrenStates = item.children.map(updateItemCheckedState);
-        const allChecked = childrenStates.every(state => state === true);
-        const someChecked = childrenStates.some(state => state === true || state === 'indeterminate');
-        if (allChecked) {
-            item.checked = true;
-        } else if (someChecked) {
-            item.checked = 'indeterminate';
-        } else {
-            item.checked = false;
-        }
 
-        return item.checked;
-    }
     const onChecked = (checked: boolean, indexList: number[]) => {
         try {
             if (!data || data.length === 0) return;
-            let items = data.slice();
+            const items = data.slice();
             //先改自身
-            let me = getItemByIndex(items, indexList);
+            const me = getItemByIndex(items, indexList);
             me.checked = checked;
             //先子，深度优先算法
             processChildren(me, checked);
@@ -121,7 +105,7 @@ function Tree({
     };
     const deleteNode = (indexList: number[]) => {
         if (!data || data.length === 0) return;
-        let items = data.slice();
+        const items = data.slice();
         if (indexList.length === 0) {
             throw new Error("索引列表不能为空");
         }
@@ -177,8 +161,8 @@ function Tree({
     const editTitle = (indexList: number[], title: string) => {
         if (!title) return;
         if (!data || data.length === 0) return;
-        let items = data.slice();
-        let current = getItemByIndex(items, indexList);
+        const items = data.slice();
+        const current = getItemByIndex(items, indexList);
         if (title === current.title) return;
         current.title = title;
         setData(items);
@@ -233,7 +217,7 @@ function TreeSelect({
         setIsOpen(!isOpen);
     }
     const generateIndexList = (indexList: number[], index: number) => {
-        let newIndexList = indexList.slice();
+        const newIndexList = indexList.slice();
         newIndexList.push(index);
         return newIndexList;
     }
