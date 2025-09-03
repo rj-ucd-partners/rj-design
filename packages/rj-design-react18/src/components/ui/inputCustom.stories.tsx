@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { InputBehindtIcon, InputCustom, InputFrontIcon } from '@/components/ui/inputCustom'
 import { ManIcon } from '../icon/man-icon'
-import { MagnifierIcon } from '../icon/magnifierIcon'
+import { MagnifierIcon } from '../icon/magnifier-icon'
 import { LockIcon } from '../icon/lock-icon'
 import { Button } from './button'
 import React from 'react'

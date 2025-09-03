@@ -52,9 +52,10 @@ function Input({
       disabled={disabled}
       placeholder='请输入'
       className={cn(
-        className,
         hideNumberArrows,
-        inputVariants({ variant, dimension }))}
+        inputVariants({ variant, dimension }),
+        className
+      )}
       {...props}
     />
   )
