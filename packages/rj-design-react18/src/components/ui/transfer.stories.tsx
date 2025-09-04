@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Transfer, type TransferItem, } from "./transfer"
 import React from "react"
+import { Tree, type TreeNode } from "./tree"
 
 const meta: Meta<typeof Transfer> = {
     title: 'Components/Transfer',
@@ -94,6 +95,109 @@ export const PrimaryCanSearch: Story = {
         return (
             <div style={{ width: '450px', height: 250 }}>
                 <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={mockData} onSelectChange={onSelectChange} onTargetChange={onTargetChange} showSearch={true} showPagination={true} />
+            </div>
+        )
+    }
+}
+const items: TreeNode[] = [
+    {
+        key: '1',
+        label: '这是一个折叠面板1',
+        disabled: false,
+        children: [
+            {
+                key: '1-1',
+                label: '这是一个子面板1',
+                disabled: false,
+                children: [
+                    {
+                        key: '1-1-1',
+                        label: '这是一个孙面板1',
+                        disabled: true,
+                    }
+                ]
+            },
+            {
+                key: '1-2',
+                label: '这是一个子折叠面板2',
+                disabled: false,
+            },
+            {
+                key: '1-3',
+                label: '这是一个子折叠面板3',
+                disabled: false,
+            },
+        ]
+    },
+    {
+        key: '2',
+        label: '这是一个折叠面板2',
+        disabled: false,
+        children: [
+            {
+                key: '2-1',
+                label: '这是一个子面板1',
+                disabled: false,
+            },
+            {
+                key: '2-2',
+                label: '这是一个子折叠面板2',
+                disabled: false,
+            },
+            {
+                key: '2-3',
+                label: '这是一个子折叠面板3',
+                disabled: false,
+            },
+        ]
+    },
+    {
+        key: '3-1',
+        label: '这是一个折叠面板3',
+        disabled: false,
+    },
+    {
+        key: '3-3',
+        label: '这是一个折叠面板4',
+        disabled: false,
+    }
+]
+
+export const TreeTransfer: Story = {
+    args: {},
+    render: (args) => {
+
+        const [selectKeys, setSelectKeys] = React.useState<string[]>([]);
+        const [targetKeys, setTargetKeys] = React.useState<string[]>([]);
+
+        const onSelectChange = (keys: string[]) => {
+            console.log(keys)
+            setSelectKeys(keys);
+        }
+
+        const onTargetChange = (nextTargetKeys: string[], direction: 'left' | 'right', moveKeys: string[]) => {
+            console.log(nextTargetKeys, direction, moveKeys)
+            setTargetKeys(nextTargetKeys);
+        }
+
+        const renderTree = () => {
+
+            return (
+                <Tree
+                    treeData={items}
+                    multiple={true}
+                    checkable={true}
+                    checkedKeys={selectKeys}
+                    onCheck={onSelectChange}
+                />
+            );
+        }
+
+        return (
+            <div style={{ width: '500px', height: 250 }}>
+                <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={mockData} onSelectChange={onSelectChange} onTargetChange={onTargetChange} showSearch={true} showPagination={true} >
+                    {renderTree()}
+                </Transfer>
             </div>
         )
     }

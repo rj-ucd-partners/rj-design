@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { CheckedState } from "@radix-ui/react-checkbox";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Checkbox } from "./checkbox";
 import { Empty } from "./empty";
 import { ScrollArea, ScrollBar } from "./scroll-area";
@@ -99,7 +99,7 @@ function Transfer({
             'flex flex-row gap-2 h-full w-full',
             className,
         )} {...props}>
-            <TransferPage dataSource={GenerateLeftData()} selectKeys={selectKeys} onSelectChange={onSelectChange} checkedState={GenerateLeftSelectAll()} showPagination={showPagination} showSearch={showSearch} />
+            <TransferPage dataSource={GenerateLeftData()} selectKeys={selectKeys} onSelectChange={onSelectChange} checkedState={GenerateLeftSelectAll()} showPagination={showPagination} showSearch={showSearch} children={props.children} />
             <TransferAction canMoveToLeft={GenerateCanMoveToLeft()} canMoveToRight={GenerateCanMoveToRight()} onMove={onMove} />
             <TransferPage dataSource={GenerateRightData()} selectKeys={selectKeys} onSelectChange={onSelectChange} checkedState={GenerateRightSelectAll()} showPagination={showPagination} showSearch={showSearch} />
         </div>
@@ -114,6 +114,7 @@ function TransferPage({
     showPagination = false,
     showSearch = false,
     pageSize = 10,
+    children,
     className,
     ...props
 }: React.ComponentProps<'div'> & {
@@ -208,87 +209,122 @@ function TransferPage({
             if (value) onValueChange(value, true);
         }
     }, [dataSource, onValueChange, page, pageSize, selectKeys, showPagination, showSearch, value])
-    return (
-        <div className={cn(
-            'flex flex-col flex-1 gap-2',
-            'bg-card border border-border',
-            'py-2 rounded-md',
-            'min-w-[200px]',
-            className
-        )}>
-            {
-                (!showPagination || showSearch) &&
-                <div className={cn(
-                    'flex flex-row items-center gap-2',
-                    'px-4 py-[5px]',
-                    'border-b border-border-split',
-                    'flex-shrink-0'
-                )} {...props}>
-                    <Checkbox checked={value ? searchChecked : checkedState} variant={'default'} onCheckedChange={updateCheckedAll} />
-                    <span>{value ? searchData.length : dataSource.length}项</span>
-                </div>
-            }
-            {
-                (showPagination && !showSearch) &&
-                <div className={cn(
-                    'flex flex-row items-center gap-2',
-                    'px-4 py-[5px]',
-                    'border-b border-border-split',
-                    'flex-shrink-0'
-                )} {...props}>
-                    <span> {selectedCount > 0 && <span>{selectedCount}/</span>}{dataSource.length}项</span>
-                </div>
-            }
-            {
-                showSearch &&
-                <div className="px-2">
-                    <div className={cn(
-                        'flex items-center justify-between',
-                        'border-border-split',
-                        'rounded-md px-1',
-                        'bg-third-background'
-                    )}>
-                        <Input placeholder="请输入" value={value} variant={'transparent'} className="w-full" onChange={(e) => {
-                            onValueChange(e.target.value);
-                        }} />
-                        <Button variant={'transparent'} size={'link'}>
-                            <MagnifierIcon className="flex-shrink-0" />
-                        </Button>
-                    </div>
-                </div>
-            }
 
-            <div className={cn(
-                'flex flex-col flex-1 h-full',
-                'px-2',
-                'min-h-0'
+    return (
+        children ?
+            (<div className={cn(
+                'flex flex-col flex-1 gap-2',
+                'bg-card border border-border',
+                'py-2 rounded-md',
+                'min-w-[200px]',
+                className
+            )}>
+
+                <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
+                    {children}
+                </ScrollArea>
+            </div>
+            )
+            :
+            (<div className={cn(
+                'flex flex-col flex-1 gap-2',
+                'bg-card border border-border',
+                'py-2 rounded-md',
+                'min-w-[200px]',
+                className
             )}>
                 {
-                    (dataSource.length === 0 && searchData.length === 0) && (
+                    (!showPagination || showSearch) &&
+                    <div className={cn(
+                        'flex flex-row items-center gap-2',
+                        'px-4 py-[5px]',
+                        'border-b border-border-split',
+                        'flex-shrink-0'
+                    )} {...props}>
+                        <Checkbox checked={value ? searchChecked : checkedState} variant={'default'} onCheckedChange={updateCheckedAll} />
+                        <span>{value ? searchData.length : dataSource.length}项</span>
+                    </div>
+                }
+                {
+                    (showPagination && !showSearch) &&
+                    <div className={cn(
+                        'flex flex-row items-center gap-2',
+                        'px-4 py-[5px]',
+                        'border-b border-border-split',
+                        'flex-shrink-0'
+                    )} {...props}>
+                        <span> {selectedCount > 0 && <span>{selectedCount}/</span>}{dataSource.length}项</span>
+                    </div>
+                }
+                {
+                    showSearch &&
+                    <div className="px-2">
+                        <div className={cn(
+                            'flex items-center justify-between',
+                            'border-border-split',
+                            'rounded-md px-1',
+                            'bg-third-background'
+                        )}>
+                            <Input placeholder="请输入" value={value} variant={'transparent'} className="w-full" onChange={(e) => {
+                                onValueChange(e.target.value);
+                            }} />
+                            <Button variant={'transparent'} size={'link'}>
+                                <MagnifierIcon className="flex-shrink-0" />
+                            </Button>
+                        </div>
+                    </div>
+                }
+
+                <div className={cn(
+                    'flex flex-col flex-1 h-full',
+                    'px-2',
+                    'min-h-0'
+                )}>
+                    {
+                        (dataSource.length === 0 && searchData.length === 0) &&
                         <div className="flex items-center justify-center h-full">
                             <Empty size={'md'} />
                         </div>
-                    )
-                }
-                {
-                    (!showPagination || showSearch) &&
-                    <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
-                        {
-                            value ?
+                    }
+                    {
+                        (!showPagination || showSearch) &&
+                        <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
+                            {
+                                value ?
+                                    <div className="flex flex-col gap-1 mt-1">
+                                        {
+                                            searchData.map((item) => (
+                                                <TransferSelectItem
+                                                    data={item}
+                                                    key={item.key}
+                                                    checked={selectKeys.includes(item.key)}
+                                                    onSelectChange={onSelectChange}
+                                                />
+                                            ))}
+                                    </div> :
+                                    <div className="flex flex-col gap-1 mt-1">
+                                        {
+                                            dataSource.map((item) => (
+                                                <TransferSelectItem
+                                                    data={item}
+                                                    key={item.key}
+                                                    checked={selectKeys.includes(item.key)}
+                                                    onSelectChange={onSelectChange}
+                                                />
+                                            ))}
+                                    </div>
+                            }
+                            <ScrollBar orientation="horizontal" />
+                        </ScrollArea>
+                    }
+
+                    {
+                        (!showSearch && showPagination && pageData.length > 0) &&
+                        <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
+                            {
                                 <div className="flex flex-col gap-1 mt-1">
                                     {
-                                        searchData.map((item) => (
-                                            <TransferSelectItem
-                                                data={item}
-                                                key={item.key}
-                                                checked={selectKeys.includes(item.key)}
-                                                onSelectChange={onSelectChange}
-                                            />
-                                        ))}
-                                </div> :
-                                <div className="flex flex-col gap-1 mt-1">
-                                    {
-                                        dataSource.map((item) => (
+                                        pageData.map((item) => (
                                             <TransferSelectItem
                                                 data={item}
                                                 key={item.key}
@@ -297,66 +333,46 @@ function TransferPage({
                                             />
                                         ))}
                                 </div>
-                        }
-                        <ScrollBar orientation="horizontal" />
-                    </ScrollArea>
-                }
+                            }
+                            <ScrollBar orientation="horizontal" />
+                        </ScrollArea>
+                    }
 
-                {
-                    (!showSearch && showPagination && pageData.length > 0) &&
-                    <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
-                        {
-                            <div className="flex flex-col gap-1 mt-1">
-                                {
-                                    pageData.map((item) => (
-                                        <TransferSelectItem
-                                            data={item}
-                                            key={item.key}
-                                            checked={selectKeys.includes(item.key)}
-                                            onSelectChange={onSelectChange}
-                                        />
-                                    ))}
-                            </div>
-                        }
-                        <ScrollBar orientation="horizontal" />
-                    </ScrollArea>
-                }
-
-            </div>
-            {
-                (!showSearch && dataSource.length > 0 && showPagination) &&
-                <div className={cn(
-                    'flex flex-row items-center justify-end',
-                    'px-2 py-[5px]',
-                )}>
-                    <div className="flex items-center gap-2">
-                        <Button variant={'page'} size={'sm-icon'} className="size-6" disabled={(page == 1)} onClick={prePage}>
-                            <TriangleLeftIcon className="size-2 text-disabled" />
-                        </Button>
-
-                        <DropdownMenu >
-                            <DropdownMenuTrigger asChild>
-                                <Button variant={"page"} className="h-6 px-[6px] bg-third-background rounded-md">
-                                    <div className="inline-flex justify-between items-center gap-4 text-[12px] leading-[20px] text-secondary-information">
-                                        <span>{page}/{pageCount}</span>
-                                        <TriangleDownIcon className="size-2 " />
-                                    </div>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
-                                <DropdownMenuGroup>
-                                    {Array.from({ length: pageCount }, (_, i) => i + 1).map((pageNumber) => (<DropdownMenuItem hasSeparator={"default"} status={'page'} key={pageNumber} onSelect={() => { onSelectPageChange(pageNumber) }}> {pageNumber} </DropdownMenuItem>))}
-                                </DropdownMenuGroup>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        <Button variant={'page'} size={'sm-icon'} className="size-6" disabled={!(page < pageCount)} onClick={nextPage}>
-                            <TriangleRightIcon className="size-2 text-disabled" />
-                        </Button>
-                    </div>
                 </div>
-            }
-        </div>
+                {
+                    (!showSearch && dataSource.length > 0 && showPagination) &&
+                    <div className={cn(
+                        'flex flex-row items-center justify-end',
+                        'px-2 py-[5px]',
+                    )}>
+                        <div className="flex items-center gap-2">
+                            <Button variant={'page'} size={'sm-icon'} className="size-6" disabled={(page == 1)} onClick={prePage}>
+                                <TriangleLeftIcon className="size-2 text-disabled" />
+                            </Button>
+
+                            <DropdownMenu >
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant={"page"} className="h-6 px-[6px] bg-third-background rounded-md">
+                                        <div className="inline-flex justify-between items-center gap-4 text-[12px] leading-[20px] text-secondary-information">
+                                            <span>{page}/{pageCount}</span>
+                                            <TriangleDownIcon className="size-2 " />
+                                        </div>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                                    <DropdownMenuGroup>
+                                        {Array.from({ length: pageCount }, (_, i) => i + 1).map((pageNumber) => (<DropdownMenuItem hasSeparator={"default"} status={'page'} key={pageNumber} onSelect={() => { onSelectPageChange(pageNumber) }}> {pageNumber} </DropdownMenuItem>))}
+                                    </DropdownMenuGroup>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
+                            <Button variant={'page'} size={'sm-icon'} className="size-6" disabled={!(page < pageCount)} onClick={nextPage}>
+                                <TriangleRightIcon className="size-2 text-disabled" />
+                            </Button>
+                        </div>
+                    </div>
+                }
+            </div>)
     );
 }
 function TransferSelectItem({
