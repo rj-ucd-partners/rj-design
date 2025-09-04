@@ -93,7 +93,7 @@ export const PrimaryCanSearch: Story = {
 
         return (
             <div style={{ width: '450px', height: 250 }}>
-                <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={mockData} onSelectChange={onSelectChange} onTargetChange={onTargetChange} showSearch={true} />
+                <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={mockData} onSelectChange={onSelectChange} onTargetChange={onTargetChange} showSearch={true} showPagination={true} />
             </div>
         )
     }

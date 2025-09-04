@@ -1,190 +1,92 @@
 import { cn } from "@/lib/utils"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, type ReactNode } from "react"
 import { Button } from "@/components/ui/button"
 import { TriangleDownIcon, TriangleRightIcon } from "@radix-ui/react-icons"
-import { Check, Delete, PenIcon } from "lucide-react"
 import { Checkbox } from "./checkbox"
 import type { CheckedState } from "@radix-ui/react-checkbox"
+import { DeleteIcon } from "../icon/delete-icon"
+import { Check } from "lucide-react"
+import { PenIcon } from "../icon/pen-icon"
 import { Input } from "./input"
 
-interface TreeItem {
-    title: string,
+interface TreeNode {
+    key: string,
+    label: string,
     icon?: React.ReactNode,
+    checkable?: boolean,
+    selectable?: boolean,
     disabled?: boolean,
-    showFunc?: boolean,
-    children?: TreeItem[],
-    checked?: CheckedState,
+    children?: TreeNode[],
 }
 
 function Tree({
-    isCheckedBox = false,
-    hasFunc,
+    treeData,
+    multiple = false,
+    selectable = false,
+    selectedKeys = [],
+    onSelectedChange,
+    checkable = false,
+    checkedKeys = [],
+    onCheck,
+    editCallback,
+    deleteCallback,
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    items: TreeItem[] | undefined,
-    isCheckedBox?: boolean | undefined,
-    hasFunc?: boolean | undefined
+    treeData: TreeNode[],
+    multiple?: boolean,
+    selectable?: boolean,
+    selectedKeys?: string[],
+    onSelectedChange?: (selectedKeys: string[]) => void,
+    checkable?: boolean | undefined,
+    checkedKeys?: string[],
+    onCheck?: (checkedKeys: string[]) => void,
+    checkStrictly?: boolean,
+    showIcon?: boolean,
+    icon?: ReactNode,
+    canDo?: boolean,
+    editCallback?: (item: TreeNode) => void,
+    deleteCallback?: (item: TreeNode) => void,
 }) {
-    const [data, setData] = React.useState<TreeItem[] | undefined>(props.items)
-
-    const onChecked = (checked: boolean, indexList: number[]) => {
-        try {
-            if (!data || data.length === 0) return;
-            const items = data.slice();
-            //先改自身
-            const me = getItemByIndex(items, indexList);
-            me.checked = checked;
-            //先子，深度优先算法
-            processChildren(me, checked);
-            //后父
-            updateParents(items, indexList);
-            setData(items);
-        } catch (e) {
-            console.log('e', e)
-            return;
-        }
-    }
-    const getItemByIndex = (items: TreeItem[], indexList: number[]) => {
-        if (indexList.length === 0) {
-            throw new Error("索引列表不能为空");
-        }
-        let currentLevel = items;
-        for (let i = 0; i < indexList.length - 1; i++) {
-            const index = indexList[i];
-            if (index < 0 || index >= currentLevel.length) {
-                throw new Error(`无效索引: ${index}`);
-            }
-            if (!currentLevel[index].children) {
-                throw new Error(`节点在索引 ${index} 处没有子节点`);
-            }
-            currentLevel = currentLevel[index].children;
-        }
-
-        // 获取最后一个索引对应的节点
-        const lastIndex = indexList[indexList.length - 1];
-
-        // 检查最后一个索引是否有效
-        if (lastIndex < 0 || lastIndex >= currentLevel.length) {
-            throw new Error(`无效索引: ${lastIndex}`);
-        }
-        return currentLevel[lastIndex];
-    };
-    const processChildren = (item: TreeItem, checked: boolean) => {
-        item.children?.map((s, i) => {
-            s.checked = checked;
-            if (s.children && s.children.length > 0) {
-                processChildren(s, checked);
-            }
-        })
-    }
-    const updateParents = (items: TreeItem[], indices: number[]) => {
-        if (indices.length === 0) return;
-
-        const parentIndices = indices.slice(0, -1);
-        if (parentIndices.length === 0) return;
-
-        const parentItem = getItemByIndex(items, parentIndices);
-
-        if (parentItem.children) {
-            const childrenStates = parentItem.children.map(child => child.checked);
-            const allChecked = childrenStates.every(state => state === true);
-            const someChecked = childrenStates.some(state => state === true || state === 'indeterminate');
-
-            if (allChecked) {
-                parentItem.checked = true;
-            } else if (someChecked) {
-                parentItem.checked = 'indeterminate';
+    const onSelected = useCallback((selected: boolean, key: string) => {
+        if (!selectable) return;
+        let newSelectedKeys: string[] = [];
+        if (multiple) {
+            if (selected) {
+                newSelectedKeys = [...selectedKeys, key];
             } else {
-                parentItem.checked = false;
+                newSelectedKeys = selectedKeys.filter(item => item !== key);
             }
-
-            // 递归更新更上层的父节点
-            updateParents(items, parentIndices);
-        }
-    };
-    const deleteNode = (indexList: number[]) => {
-        if (!data || data.length === 0) return;
-        const items = data.slice();
-        if (indexList.length === 0) {
-            throw new Error("索引列表不能为空");
-        }
-        let currentLevel = items;
-        for (let i = 0; i < indexList.length - 1; i++) {
-            const index = indexList[i];
-            if (index < 0 || index >= currentLevel.length) {
-                throw new Error(`无效索引: ${index}`);
+        } else {
+            if (selected) {
+                newSelectedKeys = [key];
+            } else {
+                newSelectedKeys = [];
             }
-            if (!currentLevel[index].children) {
-                throw new Error(`节点在索引 ${index} 处没有子节点`);
-            }
-            currentLevel = currentLevel[index].children;
         }
-
-        // 获取最后一个索引对应的节点
-        const lastIndex = indexList[indexList.length - 1];
-
-        // 检查最后一个索引是否有效
-        if (lastIndex < 0 || lastIndex >= currentLevel.length) {
-            throw new Error(`无效索引: ${lastIndex}`);
-        }
-        // 使用 splice 正确删除数组元素
-        currentLevel.splice(lastIndex, 1);
-        // 重新计算所有节点的选中状态
-        const updateAllCheckedStates = (items: TreeItem[]): TreeItem[] => {
-            return items.map(item => {
-                if (item.children && item.children.length > 0) {
-                    // 递归更新子节点
-                    const updatedChildren = updateAllCheckedStates(item.children);
-
-                    // 计算当前节点的状态
-                    const childrenStates = updatedChildren.map(child => child.checked);
-                    const allChecked = childrenStates.every(state => state === true);
-                    const someChecked = childrenStates.some(state =>
-                        state === true || state === 'indeterminate'
-                    );
-
-                    return {
-                        ...item,
-                        children: updatedChildren,
-                        checked: allChecked ? true : (someChecked ? 'indeterminate' : false)
-                    };
-                }
-                return item;
-            });
-        };
-
-        // 更新数据并重新计算状态
-        const updatedData = updateAllCheckedStates(items);
-        setData(updatedData);
-    }
-    const editTitle = (indexList: number[], title: string) => {
-        if (!title) return;
-        if (!data || data.length === 0) return;
-        const items = data.slice();
-        const current = getItemByIndex(items, indexList);
-        if (title === current.title) return;
-        current.title = title;
-        setData(items);
-    }
+        if (onSelectedChange) onSelectedChange(newSelectedKeys);
+    }, [multiple, onSelectedChange, selectable, selectedKeys]);
 
     return (
         <div className={cn(
-            'flex flex-col flex-1',
-            className
-        )}>
+            'flex flex-col',
+            className)} {...props}>
             {
-                data?.map((item, index) => {
+                treeData?.map((item) => {
                     return <TreeSelect
                         item={item}
-                        key={index}
-                        isCheckedBox={isCheckedBox}
-                        hasFunc={hasFunc}
-                        indexList={[index]}
-                        index={index}
-                        onChecked={onChecked}
-                        onDelete={deleteNode}
-                        onEdit={editTitle}
+                        key={item.key}
+                        selectable={selectable}
+                        selectedKeys={selectedKeys}
+                        onSelectedChange={onSelected}
+                        checkable={checkable}
+                        checkedKeys={checkedKeys}
+                        onCheck={onCheck}
+                        showIcon={props.showIcon}
+                        icon={props.icon}
+                        canDo={props.canDo}
+                        editCallback={editCallback}
+                        deleteCallback={deleteCallback}
                     />
                 })
             }
@@ -194,154 +96,223 @@ function Tree({
 
 function TreeSelect({
     item,
-    isCheckedBox = false,
-    hasFunc,
-    indexList,
-    index,
-    onChecked,
-    onDelete,
-    onEdit,
+    selectable,
+    selectedKeys,
+    onSelectedChange,
+    checkable = false,
+    checkedKeys = [],
+    onCheck,
+    showIcon = false,
+    icon,
+    canDo = false,
+    editCallback,
+    deleteCallback,
+    className,
     ...props
 }: React.ComponentProps<'div'> & {
-    item: TreeItem,
-    isCheckedBox: boolean | undefined,
-    hasFunc?: boolean | undefined,
-    indexList: number[],
-    index: number,
-    onChecked: Function,
-    onDelete: Function,
-    onEdit: Function,
+    item: TreeNode,
+    selectable: boolean,
+    selectedKeys: string[],
+    onSelectedChange?: (selected: boolean, key: string) => void,
+    checkable: boolean,
+    checkedKeys: string[],
+    onCheck?: (checkedKeys: string[]) => void,
+    updateCheckedCallback?: (checked: boolean, key: string, currentkeys: string[]) => void,
+    showIcon?: boolean,
+    icon?: ReactNode,
+    canDo?: boolean,
+    editCallback?: (item: TreeNode) => void,
+    deleteCallback?: (item: TreeNode) => void,
 }) {
-    const [isOpen, setIsOpen] = React.useState(false)
-    const openContext = () => {
-        setIsOpen(!isOpen);
+    const [expand, setExpand] = React.useState<boolean>(false);
+    const onExpand = () => {
+        setExpand(!expand);
     }
-    const generateIndexList = (indexList: number[], index: number) => {
-        const newIndexList = indexList.slice();
-        newIndexList.push(index);
-        return newIndexList;
+    const [selected, setSelected] = React.useState<boolean>(false);
+    useEffect(() => {
+        if (!selectable || !item.disabled) setSelected(false);
+        if (selectedKeys.includes(item.key)) setSelected(true);
+    }, [item.disabled, item.key, selectable, selectedKeys])
+    const getSubKeys = useCallback((items: TreeNode[], keys: string[]) => {
+        keys = keys ?? [];
+        items.forEach(item => {
+            keys.push(item.key);
+            if (item.children) {
+                getSubKeys(item.children, keys);
+            }
+        })
+    }, [])
+    const [checked, setChecked] = React.useState<CheckedState>(false);
+    useEffect(() => {
+        if (!checkable) setChecked(false);
+        if (checkedKeys.includes(item.key)) {
+            setChecked(true);
+        } else {
+            let checkedState: CheckedState = false;
+            if (item.children) {
+                const subKeys: string[] = [];
+                getSubKeys(item.children, subKeys);
+                if (subKeys.some(key => checkedKeys.includes(key))) {
+                    checkedState = 'indeterminate';
+                }
+            }
+            setChecked(checkedState);
+        }
+    }, [item.disabled, item.key, checkable, checkedKeys, item.children, getSubKeys])
+    const updateChecked = (checked: boolean) => {
+        const keys = [item.key];
+        if (item.children) {
+            getSubKeys(item.children, keys);
+        }
+        let currentKeys = [...checkedKeys];
+        if (checked) {
+            keys.forEach(key => {
+                if (!checkedKeys.includes(key)) {
+                    currentKeys.push(key);
+                }
+            })
+        } else {
+            currentKeys = checkedKeys.filter(x => !keys.includes(x))
+        }
+        if (props.updateCheckedCallback) props.updateCheckedCallback(checked, item.key, currentKeys);
+        else if (onCheck) onCheck(currentKeys);
+    }
+    const updateCheckedCallback = (checked: boolean, key: string, currentkeys: string[]) => {
+        const childKeys = item.children!.map((child) => child.key).filter(x => x !== key);
+        if (checked) {
+            if (childKeys.every(x => currentkeys.includes(x))) {
+                if (!checkedKeys.includes(item.key)) {
+                    currentkeys.push(item.key);
+                }
+                if (props.updateCheckedCallback) props.updateCheckedCallback(checked, item.key, currentkeys);
+                else if (onCheck) onCheck(currentkeys);
+            } else {
+                if (checkedKeys.includes(item.key)) {
+                    currentkeys = currentkeys.filter(x => x !== item.key);
+                }
+                if (props.updateCheckedCallback) props.updateCheckedCallback(false, item.key, currentkeys);
+                else if (onCheck) onCheck(currentkeys);
+            }
+        } else {
+            if (checkedKeys.includes(item.key)) {
+                currentkeys = currentkeys.filter(x => x !== item.key);
+            }
+            if (props.updateCheckedCallback) props.updateCheckedCallback(checked, item.key, currentkeys);
+            else if (onCheck) onCheck(currentkeys);
+        }
     }
     const [showEdit, setShowEdit] = React.useState<boolean>(false);
-    const [title, setTitle] = React.useState<string>(item.title);
-    return (
+
+    return (<div
+        data-slot='tree-select'
+        className={cn(
+            'w-full',
+            'flex flex-col flex-start flex-1',
+            'pl-2 py-1',
+            className,
+        )} {...props}>
         <div
-            data-slot='tree-select'
+            data-slot='tree-select-title'
             className={cn(
-                'w-full',
-                'flex flex-col flex-start flex-1',
+                'flex flex-row items-center justify-center flex-1 gap-1',
             )}>
-            <div
-                data-slot='tree-select-title'
-                className={cn(
-                    'flex flex-row items-center justify-center flex-1 gap-1',
-                )}>
-                {/** 按钮操作区 */}
-                <div
-                    className={cn(
-                        'size-8 ',
-                        'flex items-center justify-center'
-                    )}>
+            {
+                (item.children && !item.disabled) &&
+                <Button variant={'transparent'} size={'link'} onClick={onExpand}>
                     {
-                        item.children ?
-                            <Button variant={'transparent'} size={'link'} onClick={openContext}>
-                                {
-                                    isOpen ?
-                                        <TriangleDownIcon />
-                                        :
-                                        <TriangleRightIcon />
-                                }
-                            </Button>
+                        expand ?
+                            <TriangleDownIcon className="size-4 text-secondary" />
                             :
-                            <></>
+                            <TriangleRightIcon className="size-4 text-secondary" />
                     }
-                </div>
+                </Button>
+            }
+            <div
+                className={cn(
+                    'w-full',
+                    'flex flex-row items-center justify-between flex-1',
+                    'hover:bg-third-background',
+                    !item.disabled && 'hover:text-primary',
+                    selected && 'text-primary bg-third-background',
+                    item.disabled && 'text-disabled',
+                    'rounded-md',
+                    'p-1',
+                )} onClick={
+                    () => {
+                        if (!showEdit && selectable && !item.disabled && onSelectedChange) {
+                            onSelectedChange(!selected, item.key);
+                        }
+                    }
+                }>
                 <div
                     className={cn(
                         'w-full',
-                        'flex flex-row items-center justify-between flex-1',
-                        'hover:text-primary hover:bg-third-background',
-                        (isCheckedBox && item.checked && !item.disabled) && 'text-primary bg-third-background',
-                        'rounded-md',
-                        'p-1',
+                        'flex flex-row items-center justify-start',
+                        'gap-2',
+                        item.disabled ? 'cursor-not-allowed' : 'cursor-pointer',
                     )}>
-                    {/** 前部 */}
-                    <div
-                        className={cn(
-                            'w-full',
-                            'flex flex-row items-center justify-start',
-                            'gap-1',
-                        )}>
-                        {
-                            isCheckedBox &&
-                            <Checkbox disabled={item.disabled ?? false} variant={'default'} checked={item.checked ?? false} onCheckedChange={(event) => {
-                                onChecked(event, indexList);
-                            }} />
-                        }
-
-                        {item.icon
-                            &&
-                            <div className="size-5 flex items-center justify-center" >
-                                {item.icon}
-                            </div>
-                        }
-                        {
-                            showEdit ?
-                                <Input
-                                    variant={'select-title'}
-                                    dimension={'borderless-sm'}
-                                    value={title}
-                                    onChange={(e) => {
-                                        setTitle(e.target.value)
-                                    }}
-                                />
-                                :
-                                <div className={cn(
-                                    'w-full',
-                                    'text-[13px]/5',
-                                    item.disabled && 'text-disabled',
-                                )}>
-                                    {item.title}
-                                </div>
-                        }
-                    </div>
                     {
-                        hasFunc &&
-                        <div className={cn(
-                            'flex flex-row items-center justify-center gap-1'
-                        )}>
-                            {
-                                !showEdit ?
-                                    <Button
-                                        disabled={item.disabled ?? false}
-                                        variant={'transparent'}
-                                        size={'link'}
-                                        className={cn(
-                                            item.disabled && 'text-disabled'
-                                        )}
-                                        onClick={() => { setShowEdit(true) }}
-                                    >
-                                        <PenIcon />
-                                    </Button>
-                                    :
-                                    <Button
-                                        disabled={item.disabled ?? false}
-                                        variant={'transparent'}
-                                        size={'link'}
-                                        className={cn(
-                                            item.disabled && 'text-disabled'
-                                        )}
-                                        onClick={() => {
-                                            if (item.title === title) return;
-                                            if (!showEdit) return;
-                                            onEdit(indexList, title);
-                                            setShowEdit(false);
-                                        }}
-                                    >
-                                        <Check />
-                                    </Button>
-                            }
+                        checkable &&
+                        <Checkbox disabled={item.disabled ?? false} variant={'default'}
+                            checked={checked}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                            }}
+                            onCheckedChange={(event) => {
+                                if (!checkable || showEdit) return;
+                                if (item.disabled) return;
+                                updateChecked(event as boolean);
+                            }} />
+                    }
 
-                            {
+                    {showIcon &&
+                        <div className="size-5 flex items-center justify-center" >
+                            {item.icon ? item.icon : icon}
+                        </div>
+                    }
+                    {
+                        showEdit ?
+                            <Input
+                                variant={'select-title'}
+                                dimension={'borderless-sm'}
+                                onChange={(e) => {
+                                    e.stopPropagation();
+
+                                }}
+                            />
+                            :
+                            <div className={cn(
+                                'w-full',
+                                'text-[13px]/5',
+                                item.disabled && 'text-disabled',
+                            )}>
+                                {item.label}
+                            </div>
+                    }
+                </div>
+                {
+                    canDo &&
+                    <div className={cn(
+                        'flex flex-row items-center justify-center gap-1'
+                    )}>
+
+                        {
+                            !showEdit ?
+                                <Button
+                                    disabled={item.disabled ?? false}
+                                    variant={'transparent'}
+                                    size={'link'}
+                                    className={cn(
+                                        item.disabled && 'text-disabled'
+                                    )}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowEdit(true)
+                                    }}
+                                >
+                                    <PenIcon />
+                                </Button>
+                                :
                                 <Button
                                     disabled={item.disabled ?? false}
                                     variant={'transparent'}
@@ -350,43 +321,65 @@ function TreeSelect({
                                         item.disabled && 'text-disabled'
                                     )}
                                     onClick={() => {
-                                        onDelete(indexList);
+                                        if (editCallback) editCallback(item);
+                                        setShowEdit(false);
                                     }}
                                 >
-                                    <Delete />
+                                    <Check />
                                 </Button>
-                            }
+                        }
+                        {
+                            <Button
+                                disabled={item.disabled ?? false}
+                                variant={'transparent'}
+                                size={'link'}
+                                className={cn(
+                                    item.disabled && 'text-disabled'
+                                )}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (deleteCallback) deleteCallback(item);
+                                }}
+                            >
+                                <DeleteIcon />
+                            </Button>
+                        }
 
-                        </div>
-                    }
-                </div>
+                    </div>
+                }
             </div>
-            {
-                isOpen &&
-                <div
-                    data-slot='tree-select-context'
-                    className={cn(
-                        'pl-8',
-                    )} >
-                    {
-                        item.children?.map((item, index) => {
-                            return <TreeSelect
-                                key={index}
-                                item={item}
-                                isCheckedBox={isCheckedBox}
-                                hasFunc={hasFunc}
-                                indexList={generateIndexList(indexList, index)}
-                                index={index}
-                                onChecked={onChecked}
-                                onDelete={onDelete}
-                                onEdit={onEdit}
-                            />
-                        })
-                    }
-                </div>
-            }
         </div>
-    );
+        {
+            expand &&
+            <div
+                data-slot='tree-select-context'
+                className={cn(
+                    'pl-8',
+                )} >
+                {
+                    item.children?.map((item) => {
+                        return <TreeSelect
+                            key={item.key}
+                            item={item}
+                            selectable={selectable}
+                            selectedKeys={selectedKeys}
+                            onSelectedChange={onSelectedChange}
+                            checkable={checkable}
+                            checkedKeys={checkedKeys}
+                            onCheck={onCheck}
+                            updateCheckedCallback={updateCheckedCallback}
+                            showIcon={showIcon}
+                            icon={icon}
+                            canDo={canDo}
+                            editCallback={editCallback}
+                            deleteCallback={deleteCallback}
+                        />
+                    })
+                }
+            </div>
+        }
+    </div>);
 }
 
 export { Tree, TreeSelect }
+export type { TreeNode } 

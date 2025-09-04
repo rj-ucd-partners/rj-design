@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { CheckedState } from "@radix-ui/react-checkbox";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Checkbox } from "./checkbox";
 import { Empty } from "./empty";
 import { ScrollArea, ScrollBar } from "./scroll-area";
@@ -115,7 +115,6 @@ function TransferPage({
     showSearch = false,
     pageSize = 10,
     className,
-    children,
     ...props
 }: React.ComponentProps<'div'> & {
     dataSource: TransferItem[];
@@ -141,7 +140,7 @@ function TransferPage({
     const [value, setValue] = useState<string | undefined>(undefined);
     const [searchData, setSearchData] = useState<TransferItem[]>([]);
     const [searchChecked, setSearchChecked] = useState<CheckedState>(false);
-    const onValueChange = (str: string, update?: boolean) => {
+    const onValueChange = useCallback((str: string, update?: boolean) => {
         update = update ?? false;
         setValue(str);
         if (!str) setSearchData([]);
@@ -158,7 +157,7 @@ function TransferPage({
             }
             setSearchChecked(checkedState);
         }
-    }
+    }, [dataSource, selectKeys])
 
 
     const [page, setPage] = useState<number>(1);
@@ -168,11 +167,11 @@ function TransferPage({
     useEffect(() => {
         if (!showPagination) return;
         setPage(1);
-        let data = dataSource.slice(0, pageSize);
+        const data = dataSource.slice(0, pageSize);
         setPageData(data);
         const count = Math.ceil(dataSource.length / pageSize);
         setPageCount(count);
-    }, [])
+    }, [dataSource, pageSize, showPagination])
     const prePage = () => {
         const current = page - 1;
         if (current < 1) return;
@@ -190,7 +189,7 @@ function TransferPage({
         const data = dataSource.slice(((page - 1) * pageSize), (page * pageSize));
         setPageData(data);
         setPage(page)
-    }, [dataSource])
+    }, [dataSource, pageSize])
     useEffect(() => {
         if (showPagination) {
             const length = dataSource.filter(item => selectKeys.includes(item.key)).length;
@@ -208,7 +207,7 @@ function TransferPage({
         if (showSearch) {
             if (value) onValueChange(value, true);
         }
-    }, [dataSource, selectKeys])
+    }, [dataSource, onValueChange, page, pageSize, selectKeys, showPagination, showSearch, value])
     return (
         <div className={cn(
             'flex flex-col flex-1 gap-2',
@@ -218,7 +217,7 @@ function TransferPage({
             className
         )}>
             {
-                (!showPagination) &&
+                (!showPagination || showSearch) &&
                 <div className={cn(
                     'flex flex-row items-center gap-2',
                     'px-4 py-[5px]',
@@ -230,7 +229,7 @@ function TransferPage({
                 </div>
             }
             {
-                showPagination &&
+                (showPagination && !showSearch) &&
                 <div className={cn(
                     'flex flex-row items-center gap-2',
                     'px-4 py-[5px]',
@@ -272,7 +271,7 @@ function TransferPage({
                     )
                 }
                 {
-                    (!showPagination) &&
+                    (!showPagination || showSearch) &&
                     <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
                         {
                             value ?
@@ -304,7 +303,7 @@ function TransferPage({
                 }
 
                 {
-                    (showPagination && pageData.length > 0) &&
+                    (!showSearch && showPagination && pageData.length > 0) &&
                     <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
                         {
                             <div className="flex flex-col gap-1 mt-1">
@@ -325,7 +324,7 @@ function TransferPage({
 
             </div>
             {
-                (dataSource.length > 0 && showPagination) &&
+                (!showSearch && dataSource.length > 0 && showPagination) &&
                 <div className={cn(
                     'flex flex-row items-center justify-end',
                     'px-2 py-[5px]',
