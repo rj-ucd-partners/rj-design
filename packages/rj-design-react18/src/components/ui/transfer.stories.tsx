@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Transfer, type TransferItem, } from "./transfer"
-import React from "react"
+import React, { useEffect, type ReactNode } from "react"
 import { Tree, type TreeNode } from "./tree"
 
 const meta: Meta<typeof Transfer> = {
@@ -113,7 +113,6 @@ const items: TreeNode[] = [
                     {
                         key: '1-1-1',
                         label: '这是一个孙面板1',
-                        disabled: true,
                     }
                 ]
             },
@@ -164,11 +163,41 @@ const items: TreeNode[] = [
 ]
 
 export const TreeTransfer: Story = {
-    args: {},
+    args: {
+    },
     render: (args) => {
 
         const [selectKeys, setSelectKeys] = React.useState<string[]>([]);
         const [targetKeys, setTargetKeys] = React.useState<string[]>([]);
+        const [dataSource, setDataSource] = React.useState<TransferItem[]>([]);
+
+        const generateTree = (
+            treeNodes: TreeNode[] = [],
+            checkedKeys: string[] = [],
+        ): TreeNode[] =>
+            treeNodes.map(({ children, ...props }) => ({
+                ...props,
+                disabled: checkedKeys.includes(props.key as string),
+                children: generateTree(children, checkedKeys),
+            }));
+        useEffect(() => {
+            const data: TransferItem[] = [];
+            const treeToItem = (treedata: TreeNode[], data: TransferItem[]) => {
+                treedata.map((tree) => {
+                    const item: TransferItem = {
+                        key: tree.key,
+                        label: tree.label,
+                        disabled: tree.disabled
+                    }
+                    data.push(item);
+                    if (tree.children) {
+                        treeToItem(tree.children, data);
+                    }
+                })
+            }
+            treeToItem(items, data);
+            setDataSource(data);
+        }, [])
 
         const onSelectChange = (keys: string[]) => {
             console.log(keys)
@@ -180,11 +209,10 @@ export const TreeTransfer: Story = {
             setTargetKeys(nextTargetKeys);
         }
 
-        const renderTree = () => {
-
+        const renderTree = (): ReactNode => {
             return (
                 <Tree
-                    treeData={items}
+                    treeData={generateTree(items, targetKeys)}
                     multiple={true}
                     checkable={true}
                     checkedKeys={selectKeys}
@@ -195,7 +223,7 @@ export const TreeTransfer: Story = {
 
         return (
             <div style={{ width: '500px', height: 250 }}>
-                <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={mockData} onSelectChange={onSelectChange} onTargetChange={onTargetChange} showSearch={true} showPagination={true} >
+                <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={dataSource} onTargetChange={onTargetChange} >
                     {renderTree()}
                 </Transfer>
             </div>

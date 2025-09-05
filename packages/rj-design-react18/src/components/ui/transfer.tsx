@@ -192,9 +192,9 @@ function TransferPage({
         setPage(page)
     }, [dataSource, pageSize])
     useEffect(() => {
+        const length = dataSource.filter(item => selectKeys.includes(item.key)).length;
+        setSelectCount(length);
         if (showPagination) {
-            const length = dataSource.filter(item => selectKeys.includes(item.key)).length;
-            setSelectCount(length);
             const currentPageCount = Math.ceil(dataSource.length / pageSize);
             setPageCount(currentPageCount);
             let currentPage = page == 0 ? 1 : page;
@@ -212,15 +212,23 @@ function TransferPage({
 
     return (
         children ?
-            (<div className={cn(
-                'flex flex-col flex-1 gap-2',
-                'bg-card border border-border',
-                'py-2 rounded-md',
-                'min-w-[200px]',
-                className
-            )}>
-
-                <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
+            (<div
+                className={cn(
+                    'flex flex-col flex-1 gap-2 h-full',
+                    'bg-card border border-border',
+                    'py-2 rounded-md',
+                    'min-w-[200px]',
+                    className
+                )} {...props}>
+                <div className={cn(
+                    'px-4 py-[5px]',
+                    'border-b border-border-split',
+                )} >
+                    <span> {selectedCount > 0 && <span>{selectedCount}/</span>}{dataSource.length}项</span>
+                </div>
+                <ScrollArea variant={'default'} vertical={'left'} className="w-full whitespace-nowrap" style={{
+                    height: 'calc(100% - 52px)'
+                }}>
                     {children}
                 </ScrollArea>
             </div>
@@ -232,7 +240,7 @@ function TransferPage({
                 'py-2 rounded-md',
                 'min-w-[200px]',
                 className
-            )}>
+            )} {...props}>
                 {
                     (!showPagination || showSearch) &&
                     <div className={cn(
@@ -240,7 +248,7 @@ function TransferPage({
                         'px-4 py-[5px]',
                         'border-b border-border-split',
                         'flex-shrink-0'
-                    )} {...props}>
+                    )} >
                         <Checkbox checked={value ? searchChecked : checkedState} variant={'default'} onCheckedChange={updateCheckedAll} />
                         <span>{value ? searchData.length : dataSource.length}项</span>
                     </div>
@@ -252,7 +260,7 @@ function TransferPage({
                         'px-4 py-[5px]',
                         'border-b border-border-split',
                         'flex-shrink-0'
-                    )} {...props}>
+                    )}>
                         <span> {selectedCount > 0 && <span>{selectedCount}/</span>}{dataSource.length}项</span>
                     </div>
                 }
@@ -397,8 +405,9 @@ function TransferSelectItem({
         )} {...props}>
             <Checkbox checked={checked} variant={'default'} disabled={data.disabled ?? false} onCheckedChange={onSelectChange} />
             <span className={cn(
-                'text-[13px] leading-[20px] text-text-deep',
-                checked && 'text-primary',
+                'text-[13px] leading-[20px]',
+                data.disabled ? 'text-disabled' : 'text-text-deep',
+                (checked && !data.disabled) && 'text-primary',
             )}>{data.label}</span>
         </div>
     )

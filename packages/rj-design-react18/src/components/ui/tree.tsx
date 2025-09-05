@@ -217,7 +217,7 @@ function TreeSelect({
                 'flex flex-row items-center justify-center flex-1 gap-1',
             )}>
             {
-                (item.children && !item.disabled) &&
+                (item.children && item.children.length > 1 && !item.disabled) &&
                 <Button variant={'transparent'} size={'link'} onClick={onExpand}>
                     {
                         expand ?
