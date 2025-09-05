@@ -13,12 +13,9 @@ import { TriangleRightIcon } from "../icon/triangle-right-icon";
 import { TriangleLeftIcon } from "../icon/triangle-left-icon";
 import { Input } from "./input";
 import { MagnifierIcon } from "../icon/magnifier-icon";
+import type { BaseNode } from "@/common/type";
 
-interface TransferItem {
-    key: string;
-    label: string;
-    disabled?: boolean;
-}
+
 
 function Transfer({
     dataSource = [],
@@ -29,7 +26,7 @@ function Transfer({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    dataSource: TransferItem[];
+    dataSource: BaseNode[];
     selectKeys?: string[];
     targetKeys?: string[];
     showPagination?: boolean;
@@ -118,7 +115,7 @@ function TransferPage({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    dataSource: TransferItem[];
+    dataSource: BaseNode[];
     selectKeys: string[];
     checkedState: CheckedState;
     showPagination?: boolean;
@@ -139,7 +136,7 @@ function TransferPage({
     }
 
     const [value, setValue] = useState<string | undefined>(undefined);
-    const [searchData, setSearchData] = useState<TransferItem[]>([]);
+    const [searchData, setSearchData] = useState<BaseNode[]>([]);
     const [searchChecked, setSearchChecked] = useState<CheckedState>(false);
     const onValueChange = useCallback((str: string, update?: boolean) => {
         update = update ?? false;
@@ -162,7 +159,7 @@ function TransferPage({
 
 
     const [page, setPage] = useState<number>(1);
-    const [pageData, setPageData] = useState<TransferItem[]>([]);
+    const [pageData, setPageData] = useState<BaseNode[]>([]);
     const [pageCount, setPageCount] = useState<number>(0);
     const [selectedCount, setSelectCount] = useState<number>(0);
     useEffect(() => {
@@ -367,7 +364,7 @@ function TransferPage({
                                         </div>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                                <DropdownMenuContent align="start" variant={"page"} >
                                     <DropdownMenuGroup>
                                         {Array.from({ length: pageCount }, (_, i) => i + 1).map((pageNumber) => (<DropdownMenuItem hasSeparator={"default"} status={'page'} key={pageNumber} onSelect={() => { onSelectPageChange(pageNumber) }}> {pageNumber} </DropdownMenuItem>))}
                                     </DropdownMenuGroup>
@@ -389,7 +386,7 @@ function TransferSelectItem({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    data: TransferItem;
+    data: BaseNode;
     checked: boolean;
     onSelectChange: (keys: string[], selected: boolean) => void;
 }) {
@@ -436,4 +433,3 @@ function TransferAction({
 }
 
 export { Transfer, TransferPage };
-export type { TransferItem };

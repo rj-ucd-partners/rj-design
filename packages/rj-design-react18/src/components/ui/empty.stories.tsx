@@ -62,7 +62,7 @@ export const Handler: Story = {
             <div className="w-full h-100">
                 <Empty {...args} onOK={onOK} onDO={onDO} />
                 {alertVisible && (
-                    <Alert variant={'primary'} close={true} >
+                    <Alert variant={'primary'} show={true} >
                         <AlertTitle>{alertMessage}</AlertTitle>
                     </Alert>
                 )}

@@ -6,53 +6,15 @@ import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { TriangleRightIcon } from "../icon/triangle-right-icon"
 
-const dropdownVariants = cva(
-  "",
-  {
-    variants: {
-      variant: {
-        default: '',
-        primary: '',
-      },
-      size: {
-        default: "",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
-
 function DropdownMenu({
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Root> & VariantProps<typeof dropdownVariants>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
   return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />
 }
 
-const dropdownPortalVariants = cva(
-  "",
-  {
-    variants: {
-      variant: {
-        default: '',
-        primary: '',
-      },
-      size: {
-        default: "",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
-
 function DropdownMenuPortal({
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Portal> & VariantProps<typeof dropdownVariants>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
   return (
     <DropdownMenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
   )
@@ -74,15 +36,11 @@ const dropdownContentVariants = cva(
   {
     variants: {
       variant: {
-        default: '',
         page: 'bg-card'
       },
-      itemVariant: {
-        default: ''
-      }
     },
     defaultVariants: {
-      variant: "default",
+      variant: "page",
     },
   }
 )
@@ -90,7 +48,6 @@ const dropdownContentVariants = cva(
 function DropdownMenuContent({
   className,
   variant,
-  itemVariant,
   sideOffset = 4,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Content>
@@ -103,7 +60,7 @@ function DropdownMenuContent({
         className={cn(
           "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
           className,
-          dropdownContentVariants({ variant, itemVariant })
+          dropdownContentVariants({ variant })
         )}
         {...props}
       />
@@ -124,14 +81,14 @@ const dropdownMenuItemVariants = cva(
   {
     variants: {
       hasSeparator: {
-        default: 'px-2 py-1 h-7 focus:bg-fill-light-hover-bg leading-[20px] active:bg-fill-dark-hover-active-disabled data-[state=open]:bg-fill-light-hover-bg',
+        default: 'px-2 py-1 h-7 leading-[20px] hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled',
         separator: 'px-0 py-0 focus:bg-transparent focus:text-accent-transparent [&_[data-slot=dropdown-menu-item-core]]:h-7 [&_[data-slot=dropdown-menu-item-core]]:hover:bg-fill-light-hover-bg [&_[data-slot=dropdown-menu-item-core]]:active:bg-fill-dark-hover-active-disabled [&_[data-slot=dropdown-menu-item-core]]:data-[state=open]:bg-fill-light-hover-bg'
       },
       status: {
-        default: 'text-text-deep hover:text-text-deep focus:text-text-deep data-[disabled]:text-disabled',
-        success: 'text-success hover:text-success focus:text-success data-[disabled]:text-success-disabled',
-        danger: 'text-danger hover:text-danger focus:text-danger data-[disabled]:text-danger-disabled',
-        abnormal: 'text-abnormal hover:text-abnormal focus:text-abnormal data-[disabled]:text-abnormal-disabled',
+        default: 'text-text-deep data-[disabled]:text-disabled data-[state=open]:bg-primary-light data-[state=open]:text-primary data-[disabled]:bg-transparent',
+        success: 'text-success focus:text-success data-[disabled]:text-success-disabled data-[state=open]:bg-success/10 data-[disabled]:bg-transparent',
+        danger: 'text-danger focus:text-danger data-[disabled]:text-danger-disabled data-[state=open]:bg-danger-hover/10 data-[disabled]:bg-transparent',
+        abnormal: 'text-abnormal focus:text-abnormal data-[disabled]:text-abnormal-disabled data-[state=open]:bg-abnormal-hover/10 data-[disabled]:bg-transparent',
         page: 'text-text-deep hover:text-text-deep focus:text-text-deep data-[disabled]:text-disabled',
       }
     },
@@ -142,21 +99,21 @@ const dropdownMenuItemVariants = cva(
 )
 
 function DropdownMenuItem({
+  hasSeparator = 'default',
+  status,
+  checked,
   className,
   children,
   inset,
   variant = "default",
-  hasSeparator = 'default',
-  status,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Item>
   & VariantProps<typeof dropdownMenuItemVariants>
   & {
     inset?: boolean
     variant?: "default" | "destructive"
-  }
-  & {
-    hasSeparator?: 'default' | 'separator'
+    hasSeparator?: 'default' | 'separator',
+    checked?: boolean
   }
 ) {
   return (
@@ -166,9 +123,13 @@ function DropdownMenuItem({
       data-variant={variant}
       className={cn(
         //[&_svg:not([class*='text-'])]:text-muted-foreground
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[inset]:pl-8",
-        className,
+        "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[inset]:pl-8",
         dropdownMenuItemVariants({ hasSeparator, status }),
+        (checked && status === 'default') && 'text-primary bg-primary-light',
+        (checked && status === 'success') && 'bg-success/10',
+        (checked && status === 'danger') && 'bg-danger-hover/10',
+        (checked && status === 'abnormal') && 'bg-abnormal-hover/10',
+        className,
       )}
       {...props}
     >
@@ -340,17 +301,17 @@ function DropdownMenuSubTrigger({
     >
       {hasSeparator === 'separator' ?
         <div className="flex flex-col w-full justify-start items-start gap-0.5">
-          <div data-slot="dropdown-menu-item-core" className="relative flex w-full cursor-default items-center px-2 py-1 rounded-sm">
+          <div data-slot="dropdown-menu-item-core" className="relative flex w-full cursor-default items-center px-2 py-1 rounded-sm gap-2">
             {children}
-            <TriangleRightIcon className="ml-auto" />
+            <TriangleRightIcon className="ml-auto text-secondary" />
           </div>
           <div className="self-stretch px-2 py-0.5 flex flex-col justify-start items-start">
             <div className="self-stretch h-px bg-border" />
           </div>
         </div>
-        : <div className="flex flex-row flex-1 items-center justify-between">
+        : <div className="flex flex-row flex-1 items-center justify-between gap-2">
           {children}
-          <TriangleRightIcon />
+          <TriangleRightIcon className="ml-auto text-secondary" />
         </div>}
     </DropdownMenuPrimitive.SubTrigger>
   )

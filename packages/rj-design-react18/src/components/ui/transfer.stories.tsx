@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Transfer, type TransferItem, } from "./transfer"
+import { Transfer } from "./transfer"
 import React, { useEffect, type ReactNode } from "react"
-import { Tree, type TreeNode } from "./tree"
+import { Tree } from "./tree"
+import type { BaseNode, TreeSelectableNode } from "@/common/type"
 
 const meta: Meta<typeof Transfer> = {
     title: 'Components/Transfer',
@@ -18,7 +19,7 @@ type Story = StoryObj<typeof Transfer>
 
 
 
-const mockData = Array.from({ length: 50 }).map<TransferItem>((_, i) => ({
+const mockData = Array.from({ length: 50 }).map<BaseNode>((_, i) => ({
     key: i.toString(),
     label: `content${i + 1}`,
 }));
@@ -99,7 +100,7 @@ export const PrimaryCanSearch: Story = {
         )
     }
 }
-const items: TreeNode[] = [
+const items: TreeSelectableNode[] = [
     {
         key: '1',
         label: '这是一个折叠面板1',
@@ -169,22 +170,22 @@ export const TreeTransfer: Story = {
 
         const [selectKeys, setSelectKeys] = React.useState<string[]>([]);
         const [targetKeys, setTargetKeys] = React.useState<string[]>([]);
-        const [dataSource, setDataSource] = React.useState<TransferItem[]>([]);
+        const [dataSource, setDataSource] = React.useState<BaseNode[]>([]);
 
         const generateTree = (
-            treeNodes: TreeNode[] = [],
+            treeNodes: TreeSelectableNode[] = [],
             checkedKeys: string[] = [],
-        ): TreeNode[] =>
+        ): TreeSelectableNode[] =>
             treeNodes.map(({ children, ...props }) => ({
                 ...props,
                 disabled: checkedKeys.includes(props.key as string),
                 children: generateTree(children, checkedKeys),
             }));
         useEffect(() => {
-            const data: TransferItem[] = [];
-            const treeToItem = (treedata: TreeNode[], data: TransferItem[]) => {
+            const data: BaseNode[] = [];
+            const treeToItem = (treedata: TreeSelectableNode[], data: BaseNode[]) => {
                 treedata.map((tree) => {
-                    const item: TransferItem = {
+                    const item: BaseNode = {
                         key: tree.key,
                         label: tree.label,
                         disabled: tree.disabled

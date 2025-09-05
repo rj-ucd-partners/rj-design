@@ -8,16 +8,8 @@ import { DeleteIcon } from "../icon/delete-icon"
 import { Check } from "lucide-react"
 import { PenIcon } from "../icon/pen-icon"
 import { Input } from "./input"
+import type { TreeSelectableNode } from "@/common/type"
 
-interface TreeNode {
-    key: string,
-    label: string,
-    icon?: React.ReactNode,
-    checkable?: boolean,
-    selectable?: boolean,
-    disabled?: boolean,
-    children?: TreeNode[],
-}
 
 function Tree({
     treeData,
@@ -33,7 +25,7 @@ function Tree({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    treeData: TreeNode[],
+    treeData: TreeSelectableNode[],
     multiple?: boolean,
     selectable?: boolean,
     selectedKeys?: string[],
@@ -45,8 +37,8 @@ function Tree({
     showIcon?: boolean,
     icon?: ReactNode,
     canDo?: boolean,
-    editCallback?: (item: TreeNode) => void,
-    deleteCallback?: (item: TreeNode) => void,
+    editCallback?: (item: TreeSelectableNode) => void,
+    deleteCallback?: (item: TreeSelectableNode) => void,
 }) {
     const onSelected = useCallback((selected: boolean, key: string) => {
         if (!selectable) return;
@@ -110,7 +102,7 @@ function TreeSelect({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    item: TreeNode,
+    item: TreeSelectableNode,
     selectable: boolean,
     selectedKeys: string[],
     onSelectedChange?: (selected: boolean, key: string) => void,
@@ -121,8 +113,8 @@ function TreeSelect({
     showIcon?: boolean,
     icon?: ReactNode,
     canDo?: boolean,
-    editCallback?: (item: TreeNode) => void,
-    deleteCallback?: (item: TreeNode) => void,
+    editCallback?: (item: TreeSelectableNode) => void,
+    deleteCallback?: (item: TreeSelectableNode) => void,
 }) {
     const [expand, setExpand] = React.useState<boolean>(false);
     const onExpand = () => {
@@ -133,7 +125,7 @@ function TreeSelect({
         if (!selectable || !item.disabled) setSelected(false);
         if (selectedKeys.includes(item.key)) setSelected(true);
     }, [item.disabled, item.key, selectable, selectedKeys])
-    const getSubKeys = useCallback((items: TreeNode[], keys: string[]) => {
+    const getSubKeys = useCallback((items: TreeSelectableNode[], keys: string[]) => {
         keys = keys ?? [];
         items.forEach(item => {
             keys.push(item.key);
@@ -382,4 +374,3 @@ function TreeSelect({
 }
 
 export { Tree, TreeSelect }
-export type { TreeNode } 

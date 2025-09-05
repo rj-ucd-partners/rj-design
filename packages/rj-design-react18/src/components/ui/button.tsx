@@ -31,7 +31,6 @@ const buttonVariants = cva(
         link: "text-primary hover:text-primary-hover active:text-primary-active disabled:text-primary-disabled",
         page: 'bg-card text-secondary outline-1 outline-solid outline-offset-[-1px] outline-border-split active:bg-primary-background hover:bg-fill-dark-hover-active-disabled disabled:text-border disabled:bg-border-disabled',
         'page-active': 'bg-card text-primary outline-1 outline-solid outline-offset-[-1px] outline-primary',
-        'dropdown-Menu-primary': 'bg-primary text-text-deep text-center hover:bg-primary-hover active:bg-primary-active disabled:bg-primary-disabled',
         icon: 'bg-transparent hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:text-secondary',
         'hover-icon': 'bg-fill hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:text-secondary disabled:bg-border-disabled',
         day: 'bg-transparent text-secondary',

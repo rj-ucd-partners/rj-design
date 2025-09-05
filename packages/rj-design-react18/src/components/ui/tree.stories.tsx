@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Tree, type TreeNode } from "./tree"
+import { Tree } from "./tree"
 import React from "react"
 import { ManGroupIcon } from "../icon/man-group-icon"
 import { DogIcon } from "lucide-react"
+import type { TreeSelectableNode } from "@/common/type"
 
 const meta: Meta<typeof Tree> = {
     title: 'Components/Tree',
@@ -13,7 +14,7 @@ const meta: Meta<typeof Tree> = {
     },
 }
 
-const items: TreeNode[] = [
+const items: TreeSelectableNode[] = [
     {
         key: '1',
         label: '这是一个折叠面板1',
@@ -190,11 +191,11 @@ export const CanDo: Story = {
         const onCheckedChange = (keys: string[]) => {
             setCheckedKeys(keys);
         }
-        const toEdit = (item: TreeNode) => {
+        const toEdit = (item: TreeSelectableNode) => {
             console.log('item', item);
             alert('编辑,这是一个受控组件，自己补充逻辑');
         }
-        const toDelete = (item: TreeNode) => {
+        const toDelete = (item: TreeSelectableNode) => {
             console.log('item', item);
             alert('删除,这是一个受控组件，自己补充逻辑');
         }
