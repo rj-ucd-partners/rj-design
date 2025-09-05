@@ -7,6 +7,7 @@ import type {
 const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',
   component: Badge,
+  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: { type: 'select' },
@@ -56,5 +57,41 @@ export const Abnormal: Story = {
     children: '99+',
     variant: 'abnormal',
     corner: 'default'
+  },
+}
+
+// 默认徽章带圆角
+export const DefaultRounded: Story = {
+  args: {
+    children: '99+',
+    variant: 'default',
+    corner: 'rounded'
+  },
+}
+
+// 默认徽章带圆角
+export const PrimaryRounded: Story = {
+  args: {
+    children: '99+',
+    variant: 'primary',
+    corner: 'rounded'
+  },
+}
+
+// 成功徽章带圆角
+export const SuccessRounded: Story = {
+  args: {
+    children: '99+',
+    variant: 'success',
+    corner: 'rounded'
+  },
+}
+
+// 警告徽章带圆角
+export const AbnormalRounded: Story = {
+  args: {
+    children: '99+',
+    variant: 'abnormal',
+    corner: 'rounded'
   },
 }
