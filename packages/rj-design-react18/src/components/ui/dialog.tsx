@@ -9,6 +9,7 @@ import { InfoCirecledIcon } from "../icon/infoCirecledIcon"
 import { AbnormalIcon } from "../icon/abnormalIcon"
 import { SuccessIcon } from "../icon/successIcon"
 import { DestructiveIcon } from "../icon/dangerIcon"
+import { CloseIcon } from "../icon/closeIcon"
 
 function Dialog({
   ...props
@@ -29,9 +30,10 @@ function DialogPortal({
 }
 
 function DialogClose({
+  className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Close>) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+  return <DialogPrimitive.Close data-slot="dialog-close"  {...props} />
 }
 
 function DialogOverlay({
@@ -100,7 +102,7 @@ function DialogContent({
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-            className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+            className="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs transition-opacity focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
             <XIcon />
             <span className="sr-only">Close</span>
@@ -113,7 +115,7 @@ function DialogContent({
 
 
 const dialogHeaderVariants = cva(
-  "border-b border-solid border-border-split p-4",
+  " border-solid border-border-split p-4",
   {
     variants: {
       variant: {
@@ -126,20 +128,24 @@ const dialogHeaderVariants = cva(
 )
 
 function DialogHeader({
+  hasBorder = true,
   className,
   variant,
   ...props }: React.ComponentProps<"div">
   & VariantProps<typeof dialogHeaderVariants>
   & {
-    hasDescription?: boolean
+    hasDescription?: boolean,
+    hasBorder?: boolean
   }
 ) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col text-center sm:text-left", className,
-        dialogHeaderVariants({ variant })
-      )}
+      className={cn(
+        "flex flex-col text-center sm:text-left",
+        hasBorder ? 'border-b' : 'border-none',
+        dialogHeaderVariants({ variant }),
+        className)}
       {...props}
     >
       {props.children}
@@ -235,7 +241,7 @@ function DialogTitle({
 }
 
 const dialogDetailsVariants = cva(
-  "min-h-20",
+  "min-h-20 text-secondary-information",
   {
     variants: {
       variant: {
@@ -250,18 +256,20 @@ const dialogDetailsVariants = cva(
 )
 
 function DialogDetails({
-  className,
   variant,
+  hasBorder = true,
+  className,
   ...props
-}: React.ComponentProps<"div">
-  & VariantProps<typeof dialogDetailsVariants>) {
-  React.useEffect(() => { console.log(variant) })
+}: React.ComponentProps<"div"> & VariantProps<typeof dialogDetailsVariants> & {
+  hasBorder?: boolean
+}) {
   return (
     <div
       data-slot="dialog-details"
       className={
-        cn("p-4 min-h-40 border-b border-solid border-border-split inline-flex items-center justify-center",
+        cn("p-4 min-h-40  border-border-split inline-flex items-center justify-center",
           className,
+          hasBorder ? 'border-b' : 'border-none',
           dialogDetailsVariants({ variant }))}
       {...props}
     />
@@ -273,9 +281,11 @@ const dialogDescriptionVariants = cva(
   {
     variants: {
       variant: {
+        default: '',
         primary: 'bg-primary-light',
         success: '',
         abnormal: 'bg-amber-500-10',
+        danger: ''
       },
     },
     defaultVariants: {
@@ -311,10 +321,8 @@ function DialogDescription({
         }
         {props.children}
       </div>
-      <Button variant="ghost" size={"link"} onClick={() => setShow(false)}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7 14C10.866 14 14 10.866 14 7C14 3.13401 10.866 0 7 0C3.13401 0 0 3.13401 0 7C0 10.866 3.13401 14 7 14ZM10.046 4.71554L7.7615 7.00004L10.046 9.28454L9.2845 10.046L7 7.76154L4.7155 10.046L3.954 9.28454L6.2385 7.00004L3.954 4.71554L4.7155 3.95405L7 6.23854L9.2845 3.95405L10.046 4.71554Z" fill="#97A7B5" />
-        </svg>
+      <Button variant={'transparent'} size={"link"} onClick={() => setShow(false)}>
+        <CloseIcon />
       </Button>
     </DialogPrimitive.Description>
 
