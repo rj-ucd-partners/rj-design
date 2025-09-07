@@ -7,6 +7,7 @@ import {
     DialogDetails,
     DialogFooter,
     DialogHeader,
+    DialogOverlay,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
@@ -41,17 +42,17 @@ type Story = StoryObj<ExtentedDialogProps>
 // Dialog-title+content+footer
 export const Default: Story = {
     args: {},
-    render: (args) => {
+    render: () => {
         return (
             <Dialog>
                 <form>
                     <DialogTrigger asChild>
                         <Button variant="outline">开盖有惊喜</Button>
                     </DialogTrigger>
-                    {/* <DialogOverlay className="bg-black/60 backdrop-blur-sm" /> */}
+                    <DialogOverlay className="backdrop-blur-sm" />
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>这是一个显眼的标题</DialogTitle>
+                            <DialogTitle>标题</DialogTitle>
                             {/* <DialogDescription>
                                 Make changes to your profile here. Click save when you&apos;re
                                 done.
@@ -62,9 +63,9 @@ export const Default: Story = {
                         </DialogDetails>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="default">取消</Button>
+                                <Button variant="default" size={'md'}>取消</Button>
                             </DialogClose>
-                            <Button variant='primary' type="submit">确认</Button>
+                            <Button variant='primary' size={'md'} type="submit">确认</Button>
                         </DialogFooter>
                     </DialogContent>
                 </form>
@@ -92,7 +93,7 @@ export const Description: Story = {
                             <DialogTitle>标题</DialogTitle>
 
                         </DialogHeader>
-                        <DialogDescription variant={args.variant}>
+                        <DialogDescription variant={args.titleVariant}>
                             这是一条普通的消息提示
                         </DialogDescription>
                         <DialogDetails>
@@ -100,9 +101,9 @@ export const Description: Story = {
                         </DialogDetails>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="default">取消</Button>
+                                <Button variant="default" size={'md'}>取消</Button>
                             </DialogClose>
-                            <Button variant='primary' type="submit">确认</Button>
+                            <Button variant='primary' size={'md'} type="submit">确认</Button>
                         </DialogFooter>
                     </DialogContent>
                 </form>
@@ -116,7 +117,7 @@ export const Description: Story = {
 export const Feedback: Story = {
     args: {
         variant: 'primary',
-        titleVariant: 'default',
+        titleVariant: 'primary',
     },
     render: (args) => {
         return (
@@ -126,19 +127,18 @@ export const Feedback: Story = {
                         <Button variant="outline">开盖有惊喜</Button>
                     </DialogTrigger>
                     <DialogContent showCloseButton={false}>
-                        <DialogHeader>
+                        <DialogHeader hasBorder={false}>
                             <DialogTitle variant={args.titleVariant}>标题</DialogTitle>
                         </DialogHeader>
-                        <DialogDetails variant={args.titleVariant === 'default' ? 'default' : 'icon'}>
+                        <DialogDetails variant={args.titleVariant === 'default' ? 'default' : 'icon'} hasBorder={false}>
                             <div>
                                 我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度
                             </div>
                         </DialogDetails>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="default">取消</Button>
+                                <Button variant='primary' size={'md'} type="submit">知道了</Button>
                             </DialogClose>
-                            <Button variant='primary' type="submit">确认</Button>
                         </DialogFooter>
                     </DialogContent>
                 </form>

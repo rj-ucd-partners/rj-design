@@ -41,8 +41,7 @@ export default meta
 
 type Story = StoryObj<AlertVariantsProps>
 
-// 主题
-export const Primary: Story = {
+export const PrimaryNoBorder: Story = {
     args: {
         variant: 'primary',
         alertTitle: '这是一条普通的消息提示',
@@ -68,7 +67,7 @@ export const Primary: Story = {
     }
 }
 //成功
-export const Success: Story = {
+export const SuccessNoBorder: Story = {
     args: {
         variant: 'success',
         alertTitle: '这是一条成功的消息提示',
@@ -94,7 +93,7 @@ export const Success: Story = {
     }
 }
 //破坏性
-export const Destructive: Story = {
+export const DestructiveNoBorder: Story = {
     args: {
         variant: 'destructive',
         alertTitle: '高危操作/出错信息提示',
@@ -120,7 +119,7 @@ export const Destructive: Story = {
     }
 }
 // 警告
-export const Warning: Story = {
+export const WarningNoBorder: Story = {
     args: {
         variant: 'abnormal',
         alertTitle: '这是一条警示的消息提示',
@@ -146,11 +145,120 @@ export const Warning: Story = {
     }
 }
 // 主题
+export const Primary: Story = {
+    args: {
+        variant: 'primary',
+        alertTitle: '这是一条普通的消息提示',
+        hasBorder: true,
+    },
+    render: (args) => {
+        const [show, setShow] = useState(true);
+        const handleClose = () => {
+            setShow(false);
+        }
+        React.useEffect(() => {
+            const timer = setTimeout(() => setShow(false), 10000)
+            return () => clearTimeout(timer)
+        }, [])
+        return (
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder} >
+                <AlertHeader>
+                    <AlertTitle>{args.alertTitle}</AlertTitle>
+                    <AlertClose onClose={handleClose}>
+                    </AlertClose>
+                </AlertHeader>
+            </Alert >
+        );
+    }
+}
+//成功
+export const Success: Story = {
+    args: {
+        variant: 'success',
+        alertTitle: '这是一条成功的消息提示',
+        hasBorder: true,
+    },
+    render: (args) => {
+        const [show, setShow] = useState(true);
+        const handleClose = () => {
+            setShow(false);
+        }
+        React.useEffect(() => {
+            const timer = setTimeout(() => setShow(false), 10000)
+            return () => clearTimeout(timer)
+        }, [])
+        return (
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
+                <AlertHeader>
+                    <AlertTitle>{args.alertTitle}</AlertTitle>
+                    <AlertClose onClose={handleClose}>
+                    </AlertClose>
+                </AlertHeader>
+            </Alert >
+        );
+    }
+}
+//破坏性
+export const Destructive: Story = {
+    args: {
+        variant: 'destructive',
+        alertTitle: '高危操作/出错信息提示',
+        hasBorder: true,
+    },
+    render: (args) => {
+        const [show, setShow] = useState(true);
+        const handleClose = () => {
+            setShow(false);
+        }
+        React.useEffect(() => {
+            const timer = setTimeout(() => setShow(false), 10000)
+            return () => clearTimeout(timer)
+        }, [])
+        return (
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
+                <AlertHeader>
+                    <AlertTitle>{args.alertTitle}</AlertTitle>
+                    <AlertClose onClose={handleClose}>
+                    </AlertClose>
+                </AlertHeader>
+            </Alert >
+        );
+    }
+}
+// 警告
+export const Warning: Story = {
+    args: {
+        variant: 'abnormal',
+        alertTitle: '这是一条警示的消息提示',
+        hasBorder: true,
+    },
+    render: (args) => {
+        const [show, setShow] = useState(true);
+        const handleClose = () => {
+            setShow(false);
+        }
+        React.useEffect(() => {
+            const timer = setTimeout(() => setShow(false), 10000)
+            return () => clearTimeout(timer)
+        }, [])
+        return (
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
+                <AlertHeader>
+                    <AlertTitle>{args.alertTitle}</AlertTitle>
+                    <AlertClose onClose={handleClose}>
+                    </AlertClose>
+                </AlertHeader>
+            </Alert >
+        );
+    }
+}
+// 主题
 export const PrimaryIcon: Story = {
     args: {
         variant: 'primary',
         alertTitle: '这是一条普通的消息提示',
         hasIcon: true,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -158,7 +266,7 @@ export const PrimaryIcon: Story = {
             setShow(false);
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -181,6 +289,7 @@ export const SuccessIcon1: Story = {
         variant: 'success',
         alertTitle: '这是一条成功的消息提示',
         hasIcon: true,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -188,7 +297,7 @@ export const SuccessIcon1: Story = {
             setShow(false);
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -205,13 +314,13 @@ export const SuccessIcon1: Story = {
     }
 }
 
-
 // 警告
 export const WarningIcon: Story = {
     args: {
         variant: 'abnormal',
         alertTitle: '这是一条警示的消息提示',
         hasIcon: true,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -219,7 +328,7 @@ export const WarningIcon: Story = {
             setShow(false);
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -236,13 +345,13 @@ export const WarningIcon: Story = {
     }
 }
 
-
 // 破坏性——图标
 export const DestructiveIcon1: Story = {
     args: {
         variant: 'destructive',
         alertTitle: '高危操作/出错信息提示',
         hasIcon: true,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -250,7 +359,7 @@ export const DestructiveIcon1: Story = {
             setShow(false);
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -267,12 +376,12 @@ export const DestructiveIcon1: Story = {
     }
 }
 
-
 // 主题
 export const PrimaryIconFunc: Story = {
     args: {
         variant: 'primary',
         alertTitle: '这是一条普通的消息提示',
+        hasBorder: true,
         hasIcon: true,
     },
     render: (args) => {
@@ -285,7 +394,7 @@ export const PrimaryIconFunc: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -310,6 +419,7 @@ export const SuccessIconFunc: Story = {
     args: {
         variant: 'success',
         alertTitle: '这是一条成功的消息提示',
+        hasBorder: true,
         hasIcon: true,
     },
     render: (args) => {
@@ -322,7 +432,7 @@ export const SuccessIconFunc: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -342,12 +452,12 @@ export const SuccessIconFunc: Story = {
     }
 }
 
-
 // 警告
 export const WarningIconFunc: Story = {
     args: {
         variant: 'abnormal',
         alertTitle: '这是一条警示的消息提示',
+        hasBorder: true,
         hasIcon: true,
     },
     render: (args) => {
@@ -360,7 +470,7 @@ export const WarningIconFunc: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -385,6 +495,7 @@ export const DestructiveIconFunc: Story = {
     args: {
         variant: 'destructive',
         alertTitle: '高危操作/出错信息提示',
+        hasBorder: true,
         hasIcon: true,
     },
     render: (args) => {
@@ -397,7 +508,7 @@ export const DestructiveIconFunc: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -417,12 +528,12 @@ export const DestructiveIconFunc: Story = {
     }
 }
 
-
 // 主题
 export const PrimaryIconFunc1: Story = {
     args: {
         variant: 'primary',
         alertTitle: '这是一条普通的消息提示',
+        hasBorder: true,
         hasIcon: true,
     },
     render: (args) => {
@@ -435,7 +546,7 @@ export const PrimaryIconFunc1: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -461,6 +572,7 @@ export const PrimaryFuncDescription: Story = {
         variant: 'primary',
         alertTitle: '这是一条普通的消息提示',
         desc: '这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息',
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -473,7 +585,7 @@ export const PrimaryFuncDescription: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {args.alertTitle}
@@ -511,6 +623,7 @@ export const PrimaryIconFuncDescription: Story = {
         alertTitle: '这是一条普通的消息提示',
         desc: '这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息',
         hasIcon: true,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -523,7 +636,7 @@ export const PrimaryIconFuncDescription: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -558,7 +671,6 @@ export const PrimaryIconFuncDescription: Story = {
     }
 }
 
-
 //带Iconde 
 export const DestructiveIconFuncDescription: Story = {
     args: {
@@ -566,6 +678,7 @@ export const DestructiveIconFuncDescription: Story = {
         alertTitle: '这是一条普通的消息提示',
         desc: '这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息',
         hasIcon: true,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -578,7 +691,7 @@ export const DestructiveIconFuncDescription: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -613,13 +726,13 @@ export const DestructiveIconFuncDescription: Story = {
     }
 }
 
-
 export const PrimaryIconDescription: Story = {
     args: {
         variant: 'primary',
         alertTitle: '这是一条普通的消息提示',
         desc: '这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息',
         hasIcon: true,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -631,7 +744,7 @@ export const PrimaryIconDescription: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {
@@ -654,13 +767,13 @@ export const PrimaryIconDescription: Story = {
     }
 }
 
-
 export const PrimaryIconDescription1: Story = {
     args: {
         variant: 'primary',
         alertTitle: '这是一条普通的消息提示',
         desc: '这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息这里是描述信息',
         hasIcon: false,
+        hasBorder: true,
     },
     render: (args) => {
         const [show, setShow] = useState(true);
@@ -672,7 +785,7 @@ export const PrimaryIconDescription1: Story = {
             alert('点击了相关操作');
         }
         return (
-            <Alert show={show} variant={args.variant} >
+            <Alert show={show} variant={args.variant} hasBorder={args.hasBorder}>
                 <AlertHeader>
                     <AlertTitle>
                         {

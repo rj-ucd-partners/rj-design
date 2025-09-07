@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Transfer, type TransferItem, } from "./transfer"
-import React from "react"
-import { Tree, type TreeNode } from "./tree"
+import { Transfer } from "./transfer"
+import React, { useEffect, type ReactNode } from "react"
+import { Tree } from "./tree"
+import type { BaseNode, TreeSelectableNode } from "@/common/type"
 
 const meta: Meta<typeof Transfer> = {
     title: 'Components/Transfer',
@@ -18,7 +19,7 @@ type Story = StoryObj<typeof Transfer>
 
 
 
-const mockData = Array.from({ length: 50 }).map<TransferItem>((_, i) => ({
+const mockData = Array.from({ length: 50 }).map<BaseNode>((_, i) => ({
     key: i.toString(),
     label: `content${i + 1}`,
 }));
@@ -99,7 +100,7 @@ export const PrimaryCanSearch: Story = {
         )
     }
 }
-const items: TreeNode[] = [
+const items: TreeSelectableNode[] = [
     {
         key: '1',
         label: '这是一个折叠面板1',
@@ -113,7 +114,6 @@ const items: TreeNode[] = [
                     {
                         key: '1-1-1',
                         label: '这是一个孙面板1',
-                        disabled: true,
                     }
                 ]
             },
@@ -164,11 +164,41 @@ const items: TreeNode[] = [
 ]
 
 export const TreeTransfer: Story = {
-    args: {},
+    args: {
+    },
     render: (args) => {
 
         const [selectKeys, setSelectKeys] = React.useState<string[]>([]);
         const [targetKeys, setTargetKeys] = React.useState<string[]>([]);
+        const [dataSource, setDataSource] = React.useState<BaseNode[]>([]);
+
+        const generateTree = (
+            treeNodes: TreeSelectableNode[] = [],
+            checkedKeys: string[] = [],
+        ): TreeSelectableNode[] =>
+            treeNodes.map(({ children, ...props }) => ({
+                ...props,
+                disabled: checkedKeys.includes(props.key as string),
+                children: generateTree(children, checkedKeys),
+            }));
+        useEffect(() => {
+            const data: BaseNode[] = [];
+            const treeToItem = (treedata: TreeSelectableNode[], data: BaseNode[]) => {
+                treedata.map((tree) => {
+                    const item: BaseNode = {
+                        key: tree.key,
+                        label: tree.label,
+                        disabled: tree.disabled
+                    }
+                    data.push(item);
+                    if (tree.children) {
+                        treeToItem(tree.children, data);
+                    }
+                })
+            }
+            treeToItem(items, data);
+            setDataSource(data);
+        }, [])
 
         const onSelectChange = (keys: string[]) => {
             console.log(keys)
@@ -180,11 +210,10 @@ export const TreeTransfer: Story = {
             setTargetKeys(nextTargetKeys);
         }
 
-        const renderTree = () => {
-
+        const renderTree = (): ReactNode => {
             return (
                 <Tree
-                    treeData={items}
+                    treeData={generateTree(items, targetKeys)}
                     multiple={true}
                     checkable={true}
                     checkedKeys={selectKeys}
@@ -195,7 +224,7 @@ export const TreeTransfer: Story = {
 
         return (
             <div style={{ width: '500px', height: 250 }}>
-                <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={mockData} onSelectChange={onSelectChange} onTargetChange={onTargetChange} showSearch={true} showPagination={true} >
+                <Transfer {...args} selectKeys={selectKeys} targetKeys={targetKeys} dataSource={dataSource} onTargetChange={onTargetChange} >
                     {renderTree()}
                 </Transfer>
             </div>

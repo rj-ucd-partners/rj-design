@@ -13,12 +13,9 @@ import { TriangleRightIcon } from "../icon/triangle-right-icon";
 import { TriangleLeftIcon } from "../icon/triangle-left-icon";
 import { Input } from "./input";
 import { MagnifierIcon } from "../icon/magnifier-icon";
+import type { BaseNode } from "@/common/type";
 
-interface TransferItem {
-    key: string;
-    label: string;
-    disabled?: boolean;
-}
+
 
 function Transfer({
     dataSource = [],
@@ -29,7 +26,7 @@ function Transfer({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    dataSource: TransferItem[];
+    dataSource: BaseNode[];
     selectKeys?: string[];
     targetKeys?: string[];
     showPagination?: boolean;
@@ -118,7 +115,7 @@ function TransferPage({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    dataSource: TransferItem[];
+    dataSource: BaseNode[];
     selectKeys: string[];
     checkedState: CheckedState;
     showPagination?: boolean;
@@ -139,7 +136,7 @@ function TransferPage({
     }
 
     const [value, setValue] = useState<string | undefined>(undefined);
-    const [searchData, setSearchData] = useState<TransferItem[]>([]);
+    const [searchData, setSearchData] = useState<BaseNode[]>([]);
     const [searchChecked, setSearchChecked] = useState<CheckedState>(false);
     const onValueChange = useCallback((str: string, update?: boolean) => {
         update = update ?? false;
@@ -162,7 +159,7 @@ function TransferPage({
 
 
     const [page, setPage] = useState<number>(1);
-    const [pageData, setPageData] = useState<TransferItem[]>([]);
+    const [pageData, setPageData] = useState<BaseNode[]>([]);
     const [pageCount, setPageCount] = useState<number>(0);
     const [selectedCount, setSelectCount] = useState<number>(0);
     useEffect(() => {
@@ -192,9 +189,9 @@ function TransferPage({
         setPage(page)
     }, [dataSource, pageSize])
     useEffect(() => {
+        const length = dataSource.filter(item => selectKeys.includes(item.key)).length;
+        setSelectCount(length);
         if (showPagination) {
-            const length = dataSource.filter(item => selectKeys.includes(item.key)).length;
-            setSelectCount(length);
             const currentPageCount = Math.ceil(dataSource.length / pageSize);
             setPageCount(currentPageCount);
             let currentPage = page == 0 ? 1 : page;
@@ -212,15 +209,23 @@ function TransferPage({
 
     return (
         children ?
-            (<div className={cn(
-                'flex flex-col flex-1 gap-2',
-                'bg-card border border-border',
-                'py-2 rounded-md',
-                'min-w-[200px]',
-                className
-            )}>
-
-                <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
+            (<div
+                className={cn(
+                    'flex flex-col flex-1 gap-2 h-full',
+                    'bg-card border border-border',
+                    'py-2 rounded-md',
+                    'min-w-[200px]',
+                    className
+                )} {...props}>
+                <div className={cn(
+                    'px-4 py-[5px]',
+                    'border-b border-border-split',
+                )} >
+                    <span> {selectedCount > 0 && <span>{selectedCount}/</span>}{dataSource.length}项</span>
+                </div>
+                <ScrollArea variant={'default'} vertical={'left'} className="w-full whitespace-nowrap" style={{
+                    height: 'calc(100% - 52px)'
+                }}>
                     {children}
                 </ScrollArea>
             </div>
@@ -232,7 +237,7 @@ function TransferPage({
                 'py-2 rounded-md',
                 'min-w-[200px]',
                 className
-            )}>
+            )} {...props}>
                 {
                     (!showPagination || showSearch) &&
                     <div className={cn(
@@ -240,7 +245,7 @@ function TransferPage({
                         'px-4 py-[5px]',
                         'border-b border-border-split',
                         'flex-shrink-0'
-                    )} {...props}>
+                    )} >
                         <Checkbox checked={value ? searchChecked : checkedState} variant={'default'} onCheckedChange={updateCheckedAll} />
                         <span>{value ? searchData.length : dataSource.length}项</span>
                     </div>
@@ -252,7 +257,7 @@ function TransferPage({
                         'px-4 py-[5px]',
                         'border-b border-border-split',
                         'flex-shrink-0'
-                    )} {...props}>
+                    )}>
                         <span> {selectedCount > 0 && <span>{selectedCount}/</span>}{dataSource.length}项</span>
                     </div>
                 }
@@ -359,7 +364,7 @@ function TransferPage({
                                         </div>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                                <DropdownMenuContent align="start" variant={"page"} >
                                     <DropdownMenuGroup>
                                         {Array.from({ length: pageCount }, (_, i) => i + 1).map((pageNumber) => (<DropdownMenuItem hasSeparator={"default"} status={'page'} key={pageNumber} onSelect={() => { onSelectPageChange(pageNumber) }}> {pageNumber} </DropdownMenuItem>))}
                                     </DropdownMenuGroup>
@@ -381,7 +386,7 @@ function TransferSelectItem({
     className,
     ...props
 }: React.ComponentProps<'div'> & {
-    data: TransferItem;
+    data: BaseNode;
     checked: boolean;
     onSelectChange: (keys: string[], selected: boolean) => void;
 }) {
@@ -397,8 +402,9 @@ function TransferSelectItem({
         )} {...props}>
             <Checkbox checked={checked} variant={'default'} disabled={data.disabled ?? false} onCheckedChange={onSelectChange} />
             <span className={cn(
-                'text-[13px] leading-[20px] text-text-deep',
-                checked && 'text-primary',
+                'text-[13px] leading-[20px]',
+                data.disabled ? 'text-disabled' : 'text-text-deep',
+                (checked && !data.disabled) && 'text-primary',
             )}>{data.label}</span>
         </div>
     )
@@ -427,4 +433,3 @@ function TransferAction({
 }
 
 export { Transfer, TransferPage };
-export type { TransferItem };

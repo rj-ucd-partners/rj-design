@@ -23,23 +23,26 @@ const alertVariants = cva(
 )
 
 function Alert({
-  className,
   variant,
   show = true,
+  hasBorder = false,
+  className,
   ...props
 }: React.ComponentProps<"div">
   & VariantProps<typeof alertVariants> & {
     show?: boolean | undefined,
+    hasBorder?: boolean
   }) {
   return (
     <div
       data-slot="alert"
       role="alert"
       className={cn(
-        "w-full rounded-lg border px-4 py-[9px]",
+        "w-full rounded-lg px-4 py-[9px]",
         "inline-flex flex-col items-center justify-center",
         'gap-1',
         show ? '' : 'hidden',
+        hasBorder ? 'border' : 'border-none',
         alertVariants({ variant }),
         className)}
       {...props}
