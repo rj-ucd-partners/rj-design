@@ -5,34 +5,16 @@ import {
 import { TriangleLeftIcon, TriangleRightIcon } from "@radix-ui/react-icons"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { cva, type VariantProps } from "class-variance-authority"
-
-const paginationVariants = cva(
-  "",
-  {
-    variants: {
-      variant: {
-        primary: "",
-      },
-    },
-    defaultVariants: {
-      variant: 'primary',
-    },
-  }
-)
-
 
 function Pagination({
   className,
-  variant,
-  ...props }: React.ComponentProps<"nav"> & VariantProps<typeof paginationVariants>
-) {
+  ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"
-      className={cn("flex justify-center", className, paginationVariants({ variant }))}
+      className={cn("flex justify-center", className)}
       {...props}
     />
   )
@@ -52,18 +34,17 @@ function PaginationContent({
 }
 
 function PaginationItem({ ...props }: React.ComponentProps<"li">) {
-  return <li data-slot="pagination-item" {...props} />
+  return <li data-slot="pagination-item" className={cn('inline-flex items-center justify-center', props.className)} {...props} />
 }
 
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">
-
 function PaginationLink({
   className,
   isActive,
-  size = "page",
+  size = "page-md",
   ...props
 }: PaginationLinkProps) {
   return (
@@ -83,14 +64,21 @@ function PaginationLink({
   )
 }
 
+
 function PaginationPrevious({
+  size = "page-md",
   className,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) {
+}: React.ComponentProps<typeof PaginationLink> & {
+  size?: "page-sm" | "page-md"
+}) {
   return (
     <PaginationLink
       aria-label="Go to previous page"
-      className={cn("gap-1 px-2.5 sm:pl-2.5 size-8", className)}
+      className={cn(
+        size === 'page-sm' && "rounded-sm size-6",
+        size === 'page-md' && "rounded-md size-8",
+        className)}
       {...props}
     >
       <TriangleLeftIcon className="text-disabled" />
@@ -99,13 +87,19 @@ function PaginationPrevious({
 }
 
 function PaginationNext({
+  size = 'page-md',
   className,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) {
+}: React.ComponentProps<typeof PaginationLink> & {
+  size?: 'page-sm' | 'page-md'
+}) {
   return (
     <PaginationLink
       aria-label="Go to next page"
-      className={cn("gap-1 px-2.5 sm:pr-2.5 size-8", className)}
+      className={cn(
+        size === 'page-sm' && 'size-6 rounded-sm',
+        size === 'page-md' && 'size-8 rounded-md',
+        className)}
       {...props}
     >
       <TriangleRightIcon className="text-disabled" />
@@ -114,14 +108,20 @@ function PaginationNext({
 }
 
 function PaginationEllipsis({
+  size = "page-md",
   className,
   ...props
-}: React.ComponentProps<"span">) {
+}: React.ComponentProps<"span"> & {
+  size?: "page-sm" | "page-md"
+}) {
   return (
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
-      className={cn("flex size-8 items-center justify-center rounded-md outline-1 outline-solid outline-offset-[-1px] outline-border-split", className)}
+      className={cn("flex items-center justify-center border border-border-split",
+        size === 'page-sm' && 'rounded-sm size-6',
+        size === 'page-md' && 'rounded-md size-8',
+        className)}
       {...props}
     >
       <MoreHorizontalIcon className="size-3 text-disabled" />
@@ -129,6 +129,8 @@ function PaginationEllipsis({
     </span>
   )
 }
+
+
 
 export {
   Pagination,

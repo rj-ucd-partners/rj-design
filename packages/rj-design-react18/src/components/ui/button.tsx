@@ -29,7 +29,7 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary hover:text-primary-hover active:text-primary-active disabled:text-primary-disabled",
-        page: 'bg-card text-secondary outline-1 outline-solid outline-offset-[-1px] outline-border-split active:bg-primary-background hover:bg-fill-dark-hover-active-disabled disabled:text-border disabled:bg-border-disabled',
+        page: 'bg-card text-secondary border border-border-split active:bg-primary-background hover:bg-fill-dark-hover-active-disabled disabled:text-border disabled:bg-border-disabled',
         'page-active': 'bg-card text-primary outline-1 outline-solid outline-offset-[-1px] outline-primary',
         'dropdown-Menu-primary': 'bg-primary text-text-deep text-center hover:bg-primary-hover active:bg-primary-active disabled:bg-primary-disabled',
         icon: 'bg-transparent hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled disabled:text-secondary',
@@ -46,7 +46,8 @@ const buttonVariants = cva(
         md: 'h-8 px-3 py-1 rounded-md text-[13px] leading-[20px] gap-1',
         lg: 'h-10 px-4 py-2 rounded-md text-[15px] leading-[22px] gap-2',
         icon: "size-9",
-        page: "size-8",
+        'page-sm': "size-6 rounded-sm text-[11px] leading-[16px]",
+        'page-md': "size-8 rounded-md",
         link: "",
         'sm-icon': 'p-1.5 rounded-sm',
         "md-icon": 'p-2 rounded-md',
