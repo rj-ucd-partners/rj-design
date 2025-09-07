@@ -633,7 +633,6 @@ export const SimpleHasTotal: Story = {
         );
     }
 }
-
 //精简模式
 export const SimpleSmall: Story = {
     args: {
