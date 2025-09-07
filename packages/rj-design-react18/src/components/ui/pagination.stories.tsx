@@ -140,7 +140,7 @@ export const Main: Story = {
                             <TriangleDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                    <DropdownMenuContent align="start" variant={"page"}  >
                         <DropdownMenuGroup>
                             {
                                 sizes.map((s, index) => {
@@ -214,7 +214,7 @@ export const MainSmall: Story = {
                             <TriangleDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                    <DropdownMenuContent align="start" variant={"page"}  >
                         <DropdownMenuGroup>
                             {
                                 sizes.map((s, index) => {
@@ -301,7 +301,7 @@ export const Full: Story = {
                                     <TriangleDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                            <DropdownMenuContent align="start" variant={"page"}  >
                                 <DropdownMenuGroup>
                                     {
                                         sizes.map((s, index) => {
@@ -360,7 +360,6 @@ export const Full: Story = {
         );
     }
 }
-
 // 全部状态Small
 export const FullSmall: Story = {
     args: {
@@ -429,7 +428,7 @@ export const FullSmall: Story = {
                                     <TriangleDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                            <DropdownMenuContent align="start" variant={"page"}  >
                                 <DropdownMenuGroup>
                                     {
                                         sizes.map((s, index) => {
@@ -506,6 +505,7 @@ export const FullSmall: Story = {
         );
     }
 }
+//简易模式
 export const Simple: Story = {
     args: {
         size: 'page-md',
@@ -530,7 +530,7 @@ export const Simple: Story = {
                                 <TriangleDownIcon />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                        <DropdownMenuContent align="start" variant={"page"}  >
                             <DropdownMenuGroup>
                                 {
                                     sizes.map((s, index) => {
@@ -596,7 +596,7 @@ export const SimpleHasTotal: Story = {
                                     <TriangleDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                            <DropdownMenuContent align="start" variant={"page"}  >
                                 <DropdownMenuGroup>
                                     {
                                         sizes.map((s, index) => {
@@ -659,7 +659,7 @@ export const SimpleSmall: Story = {
                                 <TriangleDownIcon />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" variant={"page"} itemVariant={"default"} >
+                        <DropdownMenuContent align="start" variant={"page"}  >
                             <DropdownMenuGroup>
                                 {
                                     sizes.map((s, index) => {
