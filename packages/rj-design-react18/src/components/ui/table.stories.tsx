@@ -1,12 +1,14 @@
 import {
   TableGroup,
+  type TableColumn,
+  type TableItem,
 
 } from '@/components/ui/table'
 import type {
   Meta,
   StoryObj,
 } from '@storybook/react-vite'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 
 const meta: Meta<typeof TableGroup> = {
   title: 'Components/Table',
@@ -24,22 +26,30 @@ export default meta
 
 type Story = StoryObj<typeof TableGroup>
 
-const dataSource = [
+interface UserData extends TableItem {
+  key: string;
+  name: string;
+  age: number;
+  address: string | ReactNode;
+}
+
+
+const dataSource: UserData[] = [
   {
     key: '1',
-    name: '胡彦斌',
+    name: '普京',
     age: 32,
     address: '西湖区湖底公园1号',
   },
   {
     key: '2',
-    name: '胡彦祖',
+    name: '玉米晓夫',
     age: 42,
     address: '西湖区湖底公园1号',
   },
   {
     key: '3',
-    name: '牛魔王',
+    name: '安德罗波夫',
     age: 42,
     address: '西湖区湖底公园1号',
   },
@@ -68,7 +78,7 @@ const dataSource = [
     address: <div>东北谢家屯</div>
   }
 ];
-const columns = [
+const columns: TableColumn<UserData>[] = [
   {
     title: '姓名',
     dataIndex: 'name',
@@ -92,7 +102,7 @@ export const Table: Story = {
     direction: 'start',
     caption: '这是一个表格',
     dataSource: dataSource,
-    columns: columns,
+    columns: columns as TableColumn<TableItem>[],
     showSelected: false,
     selectdType: 'checkbox',
     selectedKeys: [],
@@ -108,7 +118,7 @@ export const StartTable: Story = {
     direction: 'start',
     caption: '这是一个表格',
     dataSource: dataSource,
-    columns: columns,
+    columns: columns as TableColumn<TableItem>[],
     showSelected: false,
     selectdType: 'checkbox',
     selectedKeys: [],
@@ -123,7 +133,7 @@ export const CenterTable: Story = {
     direction: 'center',
     caption: '这是一个表格',
     dataSource: dataSource,
-    columns: columns,
+    columns: columns as TableColumn<TableItem>[],
     showSelected: false,
     selectdType: 'checkbox',
     selectedKeys: [],
@@ -138,7 +148,7 @@ export const EndTable: Story = {
     direction: 'end',
     caption: '这是一个表格',
     dataSource: dataSource,
-    columns: columns,
+    columns: columns as TableColumn<TableItem>[],
     showSelected: false,
     selectdType: 'checkbox',
     selectedKeys: [],
@@ -154,7 +164,7 @@ export const HasCheckedBox: Story = {
     caption: '这是一个表格',
     direction: 'start',
     dataSource: dataSource,
-    columns: columns,
+    columns: columns as TableColumn<TableItem>[],
     showSelected: true,
     selectdType: 'checkbox',
     selectedKeys: [],
@@ -179,7 +189,7 @@ export const HasRadio: Story = {
     caption: '这是一个表格',
     direction: 'start',
     dataSource: dataSource,
-    columns: columns,
+    columns: columns as TableColumn<TableItem>[],
     showSelected: true,
     selectdType: 'radio',
     selectedKeys: [],
@@ -198,17 +208,36 @@ export const HasRadio: Story = {
     </div>
   }
 }
+const columns1: TableColumn<UserData>[] = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name',
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ['descend']
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    key: 'age',
+    sorter: (a, b) => a.age - b.age,
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+    key: 'address',
+  },
+];
 //带排序的表格
 export const HasSort: Story = {
   args: {
-    caption: '这是一个表格',
+    caption: '这是一个排序表格',
     direction: 'start',
     dataSource: dataSource,
-    columns: columns,
+    columns: columns1 as TableColumn<TableItem>[],
     showSelected: true,
     selectdType: 'radio',
     selectedKeys: [],
-    showSort: true
   },
   render: (args) => {
     const [selected, setSelected] = useState<string[]>(args.selectedKeys);
@@ -223,7 +252,58 @@ export const HasSort: Story = {
     </div>
   }
 }
-
+const columns2: TableColumn<UserData>[] = [
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    key: 'name',
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ['descend']
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    key: 'age',
+    sorter: (a, b) => a.age - b.age,
+    onFilter: (value, record) => { try { return record.age > parseFloat(value) } catch (e) { console.log('e', e); return false; } }
+  },
+  {
+    title: '住址',
+    dataIndex: 'address',
+    key: 'address',
+    onFilter: (value, record) => {
+      try {
+        if (!record || !record.address) return false;
+        const result = (record.address as string).indexOf(value as string) === 0;
+        return result;
+      } catch (e) { console.log('e', e); return false; }
+    }
+  },
+];
+//带筛选
+export const HasFilter: Story = {
+  args: {
+    caption: '这是一个筛选表格',
+    direction: 'start',
+    dataSource: dataSource,
+    columns: columns2 as TableColumn<TableItem>[],
+    showSelected: true,
+    selectdType: 'radio',
+    selectedKeys: [],
+  },
+  render: (args) => {
+    const [selected, setSelected] = useState<string[]>(args.selectedKeys);
+    const onSelectedChange = (keys: string[]) => {
+      setSelected(keys);
+    }
+    return <div className='w-full'>
+      <TableGroup
+        {...args}
+        selectedKeys={selected}
+        onSelectedChange={onSelectedChange} />
+    </div>
+  }
+}
 // // 带页脚的表格
 // export const WithFooter: Story = {
 //   args: {

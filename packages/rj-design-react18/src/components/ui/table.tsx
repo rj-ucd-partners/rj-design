@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -7,18 +8,25 @@ import type { CheckedState } from "@radix-ui/react-checkbox"
 import { TriangleUpIcon } from "../icon/TriangleUpIcon"
 import { TriangleDownIcon } from "../icon/TriangleDownIcon"
 import { Button } from "./button"
+import { FilterIcon } from "../icon/filter-icon"
+import { Input } from "./input"
+import { Separator } from "./separator"
+import { useMemo, useState } from "react"
+import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 
-export interface TableItem {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface TableItem extends Record<string, any> {
   key: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any
 }
 
-export interface TableColumn {
+export interface TableColumn<T extends TableItem> {
   title: string,
-  dataIndex: string,
+  dataIndex: keyof T,
   key: string,
-
+  sorter?: (a: T, b: T) => number,
+  sortDirections?: ['descend'] | ['ascend', 'descend'] | ['ascend'] | ['descend', 'ascend'] | [],
+  onFilter?: (value: string, record: T) => boolean
 }
 
 const tableVariants = cva(
@@ -114,7 +122,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
         "bg-fill hover:bg-scroll",
         "text-secondary-information h-10 px-2 align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         "first:rounded-tl-1 last:rounded-tr-1 only:rounded-t-1",
-        'flex flex-row items-center justify-center gap-0.5',
+        'flex flex-row items-center justify-center gap-2',
         className
       )}
       {...props}
@@ -148,7 +156,7 @@ function TableCaption({
   )
 }
 
-function TableGroup({
+function TableGroup<T extends TableItem>({
   caption,
   dataSource,
   columns,
@@ -156,20 +164,22 @@ function TableGroup({
   selectdType = 'checkbox',
   selectedKeys = [],
   onSelectedChange,
-  showSort = false,
   ...prop
 }: React.ComponentProps<typeof Table> & {
   caption: string,
-  dataSource: TableItem[],
-  columns: TableColumn[],
+  dataSource: T[],
+  columns: TableColumn<T>[],
   showSelected?: boolean,
   selectdType?: 'checkbox' | 'radio',
   selectedKeys: string[],
   onSelectedChange?: (selectedKeys: string[]) => void,
-  showSort: boolean,
 }) {
 
-  const [data, setData] = React.useState<TableItem[]>(dataSource);
+  const [data, setData] = React.useState<T[]>(dataSource);
+
+  // 添加过滤状态管理
+  const [filters, setFilters] = React.useState<Record<string, string>>({});
+
   const onSelect = (key: string, state: boolean) => {
     if (!showSelected) return;
     let currentSelected: string[] = [];
@@ -185,7 +195,8 @@ function TableGroup({
   const onSelectedAll = (state: boolean) => {
     let currentSelected: string[] = [];
     if (state) {
-      currentSelected = dataSource.map(x => x.key);
+      // 注意：这里应该基于过滤后的数据
+      currentSelected = filteredDataSource.map(x => x.key);
     } else {
       currentSelected = [];
     }
@@ -193,8 +204,96 @@ function TableGroup({
   }
 
   const [isAll, setIsAll] = React.useState<CheckedState>(false);
+
+  const [sortAt, setSortAt] = React.useState<string | undefined>();
+  const [rule, setRule] = React.useState<'descend' | 'ascend' | undefined>();
+
+  const updateSort = (columnKey: string, currentRule: 'descend' | 'ascend') => {
+    if (columnKey === sortAt && currentRule === rule) {
+      setData(dataSource);
+      setSortAt(undefined);
+      setRule(undefined);
+      return;
+    }
+    setSortAt(columnKey);
+    setRule(currentRule);
+
+    const column = columns.find(col => col.key === columnKey);
+    if (!column) return;
+
+    const newData = [...dataSource].sort((a, b) => {
+      let result = 0;
+
+      if (column.sorter) {
+        result = column.sorter(a, b);
+      } else {
+        const valueA = a[column.dataIndex];
+        const valueB = b[column.dataIndex];
+
+        if (valueA == null || valueB == null) {
+          result = valueA == null ? -1 : 1;
+        } else {
+          if (typeof valueA === 'number' && typeof valueB === 'number') {
+            result = valueA - valueB;
+            //@ts-expect-error
+          } else if (valueA instanceof Date && valueB instanceof Date) {
+            result = valueA.getTime() - valueB.getTime();
+          } else {
+            result = String(valueA).localeCompare(String(valueB), 'zh-CN', { numeric: true });
+          }
+        }
+      }
+      return currentRule === 'ascend' ? result : -result;
+    });
+
+    setData(newData);
+  }
+
+  const [filterAt, setFilterAt] = React.useState<string | undefined>();
+  const showFilterInput = (key: string) => {
+    if (filterAt === key) {
+      setFilterAt(undefined);
+      setFilterStr(undefined);
+    } else {
+      setFilterAt(key);
+    }
+  }
+
+  const [filterStr, setFilterStr] = useState<string | undefined>();
+
+  // 应用过滤逻辑
+  const applyFilter = (columnKey: string, filterValue: string) => {
+    const newFilters = { ...filters };
+    if (filterValue && filterValue.trim()) {
+      newFilters[columnKey] = filterValue.trim();
+    } else {
+      delete newFilters[columnKey];
+    }
+    setFilters(newFilters);
+    setFilterAt(undefined);
+    setFilterStr(undefined);
+  };
+
+  // 计算过滤后的数据源
+  const filteredDataSource = useMemo(() => {
+    let result = [...data];
+
+    // 应用所有激活的过滤条件
+    Object.entries(filters).forEach(([columnKey, filterValue]) => {
+      const column = columns.find(col => col.key === columnKey);
+      if (!column || !column.onFilter) return;
+
+      result = result.filter(record =>
+        column.onFilter!(filterValue, record)
+      );
+    });
+
+    return result;
+  }, [data, filters, columns]);
+
+  // 更新全选状态 - 基于过滤后的数据
   React.useEffect(() => {
-    if (dataSource.length === 0) {
+    if (filteredDataSource.length === 0) {
       setIsAll(false);
       return;
     }
@@ -202,116 +301,166 @@ function TableGroup({
       setIsAll(false);
       return;
     }
-    if (dataSource.length === selectedKeys.length) {
+
+    const filteredKeys = filteredDataSource.map(item => item.key);
+    const selectedInFiltered = selectedKeys.filter(key => filteredKeys.includes(key));
+
+    if (selectedInFiltered.length === filteredDataSource.length) {
       setIsAll(true);
       return;
     }
-    setIsAll('indeterminate');
-  }, [dataSource, selectedKeys])
+    if (selectedInFiltered.length > 0) {
+      setIsAll('indeterminate');
+      return;
+    }
+    setIsAll(false);
+  }, [filteredDataSource, selectedKeys]);
 
-  const [sortAt, setSortAt] = React.useState<string | undefined>();
-  const [rule, setRult] = React.useState<'desc' | 'asc'>();
-
-  const updateSort = (key: string, currentRule: 'desc' | 'asc') => {
-    setSortAt(key);
-    setRult(currentRule);
-    const newData = [...dataSource].sort((a, b) => {
-      const [valueA, valueB] = [a[key], b[key]];
-
-      // 处理空值
-      if (valueA == null || valueB == null) {
-        return valueA == null ? (currentRule === 'asc' ? -1 : 1) : (currentRule === 'asc' ? 1 : -1);
-      }
-
-      // 统一比较逻辑
-      let result;
-      if (typeof valueA === 'number' && typeof valueB === 'number') {
-        result = valueA - valueB;
-      } else if (valueA instanceof Date && valueB instanceof Date) {
-        result = valueA.getTime() - valueB.getTime();
-      } else {
-        result = String(valueA).localeCompare(String(valueB), 'zh-CN', { numeric: true });
-      }
-
-      return currentRule === 'asc' ? result : -result;
-    });
-
-    setData(newData);
-  }
+  // 当原始数据源变化时，重置排序和过滤
+  React.useEffect(() => {
+    setData(dataSource);
+  }, [dataSource]);
 
   return <Table {...prop}>
     <TableCaption>{caption}</TableCaption>
     <TableHeader>
       <TableRow>
-        {
-          showSelected &&
+        {showSelected && (
           <TableHead>
-            {
-              selectdType === 'checkbox' ?
-                <Checkbox variant={'default'} checked={isAll} onCheckedChange={onSelectedAll} /> :
-                <div></div>
+            {selectdType === 'checkbox' ? (
+              <Checkbox variant={'default'} checked={isAll} onCheckedChange={onSelectedAll} />
+            ) : (
+              <div></div>
+            )}
+          </TableHead>
+        )}
+        {columns.map((column) => (
+          <TableHead key={column.key}>
+            <span>{column.title}</span>
+            {(column.sorter && (!column.sortDirections || (column.sortDirections?.length ?? 0) > 0)) && (
+              <div className="inline-flex flex-col gap-[2px]">
+                {
+                  (!column.sortDirections || (column.sortDirections as string[])!.includes('ascend')) &&
+                  <Button
+                    variant={'transparent'}
+                    size={'link'}
+                    onClick={() => updateSort(column.key, 'ascend')}
+                  >
+                    <TriangleUpIcon className={cn(
+                      'size-1.5',
+                      (column.key === sortAt && rule === 'ascend') ? 'text-primary' : 'text-secondary-information'
+                    )} />
+                  </Button>
+                }
+                {
+                  (!column.sortDirections || (column.sortDirections as string[])!.includes('descend')) &&
+                  <Button
+                    variant={'transparent'}
+                    size={'link'}
+                    onClick={() => updateSort(column.key, 'descend')}
+                  >
+                    <TriangleDownIcon width={6} height={5} className={cn(
+                      'size-1.5',
+                      (column.key === sortAt && rule === 'descend') ? 'text-primary' : 'text-secondary-information'
+                    )} />
+                  </Button>
+                }
+              </div>
+            )}
+            {column.onFilter &&
+              <Popover>
+                <PopoverTrigger asChild >
+                  <Button variant={'transparent'} size={'link'} onClick={() => {
+                    showFilterInput(column.key)
+                  }}>
+                    <FilterIcon className={cn("size-2.5",
+                      (filters[column.key]) ? 'text-primary' : 'text-disabled')} />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  variant={'default'}
+                  arrow={'default'}
+                  side={'right'}
+                  className="w-full"
+                >
+                  <div className="flex flex-1 flex-col gap-2 ">
+                    <Input
+                      variant={'default'}
+                      dimension={'sm'}
+                      placeholder="请输入"
+                      value={filterStr || filters[column.key] || ''}
+                      onChange={(e) => {
+                        setFilterStr(e.target.value)
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          applyFilter(column.key, filterStr || '');
+                        }
+                      }}
+                    />
+                    <Separator orientation='horizontal' />
+                    <div className="flex justify-end gap-1 p-0.5">
+                      <Button
+                        variant={'primary'}
+                        size={'sm'}
+                        onClick={() => {
+                          applyFilter(column.key, filterStr || '');
+                        }}
+                      >
+                        确认
+                      </Button>
+                    </div>
+                    {filters[column.key] && (
+                      <Button
+                        variant={'ghost'}
+                        size={'sm'}
+                        onClick={() => {
+                          applyFilter(column.key, '');
+                        }}
+                      >
+                        清除过滤
+                      </Button>
+                    )}
+                  </div>
+                </PopoverContent>
+              </Popover>
             }
           </TableHead>
-        }
-        {
-          columns.map((item) => {
-            return <TableHead key={item.key}>
-              <span>{item.title}</span>
-              {showSort &&
-                <div className="inline-flex flex-col gap-[2px]">
-                  <Button variant={'transparent'} size={'link'} onClick={() => {
-                    updateSort(item.key, 'asc')
-                  }}><TriangleUpIcon className={cn(
-                    'size-2',
-                    (item.key === sortAt && rule === 'asc') ? 'text-primary' : 'text-secondary-information'
-                  )} /></Button>
-                  <Button variant={'transparent'} size={'link'} onClick={() => {
-                    updateSort(item.key, 'desc')
-                  }}>
-                    <TriangleDownIcon className={cn(
-                      'size-2',
-                      (item.key === sortAt && rule === 'desc') ? 'text-primary' : 'text-secondary-information'
-                    )} /></Button>
-                </div>}
-            </TableHead>
-          })
-        }
+        ))}
       </TableRow>
     </TableHeader>
     <TableBody>
-      {data.map((record, index) => (
-        showSelected ?
-          <TableRow key={record.key || index}>
-            {
-              selectdType === 'checkbox' ?
-                <TableCell><Checkbox variant={'default'} checked={selectedKeys.includes(record.key)} onCheckedChange={(e) => {
-                  onSelect(record.key, e as boolean)
-                }} /></TableCell> :
-                <TableCell>
-                  <div className={cn('size-4 rounded-full border border-border-hover hover:border-primary cursor-pointer flex items-center justify-center',
+      {filteredDataSource.map((record, index) => (
+        <TableRow key={record.key || index}>
+          {showSelected && (
+            <TableCell>
+              {selectdType === 'checkbox' ? (
+                <Checkbox
+                  variant={'default'}
+                  checked={selectedKeys.includes(record.key)}
+                  onCheckedChange={(e) => onSelect(record.key, e as boolean)}
+                />
+              ) : (
+                <div
+                  className={cn(
+                    'size-4 rounded-full border border-border-hover hover:border-primary cursor-pointer flex items-center justify-center',
                     selectedKeys.includes(record.key) && 'border-primary'
-                  )} onClick={() => { onSelect(record.key, true) }}>
-                    {
-                      selectedKeys.includes(record.key) &&
-                      <div className="size-2 rounded-full bg-primary"></div>
-                    }
-                  </div>
-                </TableCell>
-            }
-            {columns.map((column) => (
-              <TableCell key={column.key}>
-                {record[column.dataIndex]}
-              </TableCell>
-            ))}
-          </TableRow>
-          :
-          <TableRow key={record.key || index} >
-            {columns.map((column) => (
-              <TableCell key={column.key}>
-                {record[column.dataIndex]}
-              </TableCell>
-            ))}
-          </TableRow>
+                  )}
+                  onClick={() => onSelect(record.key, true)}
+                >
+                  {selectedKeys.includes(record.key) && (
+                    <div className="size-2 rounded-full bg-primary"></div>
+                  )}
+                </div>
+              )}
+            </TableCell>
+          )}
+          {columns.map((column) => (
+            <TableCell key={column.key}>
+              {record[column.dataIndex]}
+            </TableCell>
+          ))}
+        </TableRow>
       ))}
     </TableBody>
   </Table>
