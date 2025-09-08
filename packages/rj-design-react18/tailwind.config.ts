@@ -56,6 +56,7 @@ export default {
         'abnormal-disabled': 'hsl(var(--abnormal-disabled))',
         'abnormal-special': 'hsl(var(--abnormal-special))',
         'abnormal-light': 'hsl(var(--abnormal-light))',
+        'abnormal-link': 'hsl(var(--abnormal-link))',
         /* --警示色-- */
         warning: 'hsl(var(--warning))',
         'warning-hover': 'hsl(var(--warning-hover))',

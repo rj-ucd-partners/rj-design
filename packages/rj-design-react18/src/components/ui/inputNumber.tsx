@@ -30,8 +30,7 @@ const inputNumberVariants = cva(
 function InputNumber({
     className,
     disabled,
-    variant,
-    dimension,
+    format,
     ...props
 }:
     React.ComponentProps<'input'> &
@@ -52,12 +51,12 @@ function InputNumber({
             'flex flex-row gap-1',
             className,
         )}>
-            <Button variant={'number'} size={dimension} onClick={increment} disabled={disabled}>
+            <Button variant={'number'} size={format} onClick={increment} disabled={disabled}>
                 +
             </Button>
             <Input className={
-                cn(inputNumberVariants({ dimension }))
-            } value={value} variant={'number'} dimension={dimension}  {...props} disabled={disabled} onChange={(event) => {
+                cn(inputNumberVariants({ format }))
+            } value={value} variant={'number'} format={format}  {...props} disabled={disabled} onChange={(event) => {
                 try {
                     const num = parseFloat(event.target.value);
                     setValue(num);
@@ -65,7 +64,7 @@ function InputNumber({
                     setValue(undefined);
                 }
             }} />
-            <Button variant={'number'} size={dimension} onClick={decrement} disabled={disabled} >
+            <Button variant={'number'} size={format} onClick={decrement} disabled={disabled} >
                 -
             </Button>
         </div >

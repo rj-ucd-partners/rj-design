@@ -68,8 +68,9 @@
   --color-abnormal-disabled: var(--abnormal-disabled);
   --color-abnormal-special: var(--abnormal-special);
   --color-abnormal-light: var(--abnormal-light);
-  /* --警示色-- */
-  --color-warning: var(--warning);
+  --color-abnormal-link: var(--abnormal-link)
+    /* --警示色-- */
+    --color-warning: var(--warning);
   --color-warning-hover: var(--warning-hover);
   --color-warning-active: var(--warning-active);
   --color-warning-disabled: var(--warning-disabled);
@@ -181,6 +182,7 @@
   --abnormal-disabled: #FFE0A6;
   --abnormal-special: #FFC069;
   --abnormal-light: #FFEDCC;
+  --abnormal-link: #FA8C16;
   /* --警示色-- */
   --warning: #F5DC01;
   --warning-hover: #FFE608;
@@ -295,6 +297,7 @@
   --abnormal-disabled: #7C4F0C;
   --abnormal-special: #7F5A4B;
   --abnormal-light: #211313;
+  --abnormal-link: #E69800;
   /* --警示色-- */
   --warning: #F5DC01;
   --warning-hover: #FFEC48;

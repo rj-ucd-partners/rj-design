@@ -7,7 +7,7 @@ const meta: Meta<typeof InputNumber> = {
   tags: ['autodocs'],
   component: InputNumber,
   argTypes: {
-    dimension: {
+    format: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
     },
@@ -21,12 +21,12 @@ type Story = StoryObj<typeof Input>
 // 输入框
 export const NumberInput: Story = {
   args: {
-    dimension: 'md',
+    format: 'md',
     disabled: true
   },
   render: (args) => {
     return (
-      <InputNumber dimension={args.dimension} disabled={args.disabled} />
+      <InputNumber format={args.format} disabled={args.disabled} />
     );
   }
 }

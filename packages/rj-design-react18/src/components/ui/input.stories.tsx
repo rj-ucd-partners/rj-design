@@ -1,16 +1,25 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Input } from '@/components/ui/input'
+import { ManIcon } from '../icon/man-icon'
+import { MagnifierIcon } from '../icon/magnifier-icon'
+import { useState } from 'react'
+import { Eye, EyeClosed } from 'lucide-react'
 
-const meta: Meta<typeof Input> = {
+interface InputProps extends React.ComponentProps<typeof Input> {
+  format: 'sm' | 'md' | 'lg'
+}
+
+const meta: Meta<InputProps> = {
   title: 'Components/Input',
+
   component: Input,
   argTypes: {
     variant: {
       defaultValue: 'default',
       control: { type: 'select' },
-      options: ['default', 'success', 'error', 'warning'],
+      options: ['primary', 'success', 'destructive', 'warning'],
     },
-    dimension: {
+    format: {
       defaultValue: 'default',
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
@@ -25,63 +34,210 @@ const meta: Meta<typeof Input> = {
 
 export default meta
 
-type Story = StoryObj<typeof Input>
+type Story = StoryObj<InputProps>
 
 // 输入框
 export const Samll: Story = {
   args: {
-    variant: 'default',
+    variant: 'primary',
     type: 'text',
-    dimension: 'sm'
+    format: 'sm'
   },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
 }
-// 输入框
+//中等
 export const Mid: Story = {
   args: {
-    variant: 'default',
+    variant: 'primary',
     type: 'text',
-    dimension: 'md'
+    format: 'md'
   },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
 }
-// 输入框
+//带有描述
+export const Description: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    format: 'md',
+    description: '额外提示语，多行请折行,额外提示语，多行请折行,额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行额外提示语，多行请折行',
+  },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
+}
+
+//大号
 export const Large: Story = {
   args: {
-    variant: 'default',
+    variant: 'primary',
     type: 'text',
-    dimension: 'lg'
+    format: 'lg'
   },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
 }
-//成功
+
+// 成功
 export const Success: Story = {
   args: {
     variant: 'success',
     type: 'text',
-    dimension: 'md'
+    format: 'sm'
   },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
 }
-//错误
-export const Error: Story = {
+
+// 破坏性的
+export const Destructive: Story = {
   args: {
-    variant: 'error',
+    variant: 'destructive',
     type: 'text',
-    dimension: 'md'
+    format: 'sm'
   },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
 }
-//警告
+
+// 警示
 export const Warning: Story = {
   args: {
     variant: 'warning',
     type: 'text',
-    dimension: 'md'
+    format: 'sm'
   },
-}
-// 密码输入框
-export const Password: Story = {
-  args: {
-    variant: 'default',
-    type: 'password',
-    dimension: 'md',
-  },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
 }
 
-//带图标的输入框
+export const Disabled: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    format: 'sm',
+    disabled: true
+  },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} />
+    </div>
+  }
+}
+
+export const Icon: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    format: 'sm'
+  },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} frontIcon={<ManIcon className='text-disabled size-3' />} />
+    </div>
+  }
+}
+
+export const MidIcon: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    format: 'md'
+  },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} frontIcon={<ManIcon className='text-disabled size-4' />} />
+    </div>
+  }
+}
+
+export const LargeIcon: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    format: 'md'
+  },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} frontIcon={<ManIcon className='text-disabled size-5' />} />
+    </div>
+  }
+}
+export const PostIconSmall: Story = {
+  args: {
+    variant: 'primary',
+    type: 'text',
+    format: 'sm'
+  },
+  render: (args) => {
+    return <div className='w-100'>
+      <Input {...args} frontIcon={<ManIcon className='text-disabled size-3' />} postIcon={<MagnifierIcon className='text-secondary size-3' />} onClickCallback={() => { alert('乖！自己去实现') }} />
+    </div>
+  }
+}
+
+
+export const Password: Story = {
+  args: {
+    variant: 'primary',
+    format: 'sm'
+  },
+  render: (args) => {
+    const [type, setType] = useState<'text' | 'password'>('password');
+    const changeInputState = () => {
+      if (type === 'text') {
+        setType('password');
+      } else {
+        setType('text');
+      }
+    }
+    return <div className='w-100'>
+      <Input {...args} type={type} frontIcon={<ManIcon className='text-disabled size-3' />} postIcon={type === 'text' ? <Eye className='size-3' /> : <EyeClosed className='size-3' />} onClickCallback={changeInputState} />
+    </div>
+  }
+}
+
+export const CanClose: Story = {
+  args: {
+    variant: 'primary',
+    format: 'sm',
+    showClose: true
+  },
+  render: (args) => {
+    const [value, setValue] = useState<string | undefined>();
+    const onValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value)
+    }
+    const onCloseCallback = () => {
+      setValue('')
+    }
+    return <div className='w-100'>
+      <Input {...args} value={value} onValueChange={onValueChange} onCloseCallback={onCloseCallback}
+        frontIcon={<ManIcon className='text-disabled size-3' />} postIcon={<MagnifierIcon className='text-secondary size-3' />} onClickCallback={() => { alert('嘀嘀嘀打滴滴') }} />
+    </div>
+  }
+}
+
+

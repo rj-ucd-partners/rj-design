@@ -173,13 +173,11 @@ function TableGroup<T extends TableItem>({
   selectdType?: 'checkbox' | 'radio',
   selectedKeys: string[],
   onSelectedChange?: (selectedKeys: string[]) => void,
+  showPage?: boolean,
 }) {
 
   const [data, setData] = React.useState<T[]>(dataSource);
-
-  // 添加过滤状态管理
   const [filters, setFilters] = React.useState<Record<string, string>>({});
-
   const onSelect = (key: string, state: boolean) => {
     if (!showSelected) return;
     let currentSelected: string[] = [];
@@ -191,23 +189,18 @@ function TableGroup<T extends TableItem>({
     }
     if (onSelectedChange) onSelectedChange(currentSelected)
   }
-
   const onSelectedAll = (state: boolean) => {
     let currentSelected: string[] = [];
     if (state) {
-      // 注意：这里应该基于过滤后的数据
       currentSelected = filteredDataSource.map(x => x.key);
     } else {
       currentSelected = [];
     }
     if (onSelectedChange) onSelectedChange(currentSelected)
   }
-
   const [isAll, setIsAll] = React.useState<CheckedState>(false);
-
   const [sortAt, setSortAt] = React.useState<string | undefined>();
   const [rule, setRule] = React.useState<'descend' | 'ascend' | undefined>();
-
   const updateSort = (columnKey: string, currentRule: 'descend' | 'ascend') => {
     if (columnKey === sortAt && currentRule === rule) {
       setData(dataSource);
@@ -248,7 +241,6 @@ function TableGroup<T extends TableItem>({
 
     setData(newData);
   }
-
   const [filterAt, setFilterAt] = React.useState<string | undefined>();
   const showFilterInput = (key: string) => {
     if (filterAt === key) {
@@ -258,10 +250,7 @@ function TableGroup<T extends TableItem>({
       setFilterAt(key);
     }
   }
-
   const [filterStr, setFilterStr] = useState<string | undefined>();
-
-  // 应用过滤逻辑
   const applyFilter = (columnKey: string, filterValue: string) => {
     const newFilters = { ...filters };
     if (filterValue && filterValue.trim()) {
@@ -273,12 +262,8 @@ function TableGroup<T extends TableItem>({
     setFilterAt(undefined);
     setFilterStr(undefined);
   };
-
-  // 计算过滤后的数据源
   const filteredDataSource = useMemo(() => {
     let result = [...data];
-
-    // 应用所有激活的过滤条件
     Object.entries(filters).forEach(([columnKey, filterValue]) => {
       const column = columns.find(col => col.key === columnKey);
       if (!column || !column.onFilter) return;
@@ -290,8 +275,6 @@ function TableGroup<T extends TableItem>({
 
     return result;
   }, [data, filters, columns]);
-
-  // 更新全选状态 - 基于过滤后的数据
   React.useEffect(() => {
     if (filteredDataSource.length === 0) {
       setIsAll(false);
@@ -315,8 +298,6 @@ function TableGroup<T extends TableItem>({
     }
     setIsAll(false);
   }, [filteredDataSource, selectedKeys]);
-
-  // 当原始数据源变化时，重置排序和过滤
   React.useEffect(() => {
     setData(dataSource);
   }, [dataSource]);
