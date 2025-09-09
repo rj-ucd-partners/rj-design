@@ -187,10 +187,9 @@ export const PrimaryShowClear: Story = {
   render: (args) => {
     const [selectValue, setSelectValue] = React.useState<string | undefined>(args.datasource![0].key);
     const onValueChange = (value: string) => {
-      console.log('value', value)
       setSelectValue(value);
     }
-    
+
     return (
       <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
     )

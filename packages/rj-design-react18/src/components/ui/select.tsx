@@ -5,11 +5,10 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import type { BaseNode } from "@/common/type"
-import { useCallback, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { TriangleDownIcon } from "../icon/TriangleDownIcon"
 import { Button } from "./button"
 import { Empty } from "./empty"
-import type { JsxElement } from "typescript"
 import { CloseIcon } from "../icon/closeIcon"
 
 
@@ -247,7 +246,7 @@ function Select({
 }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
-  const selectRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLButtonElement>(null);
   const [width, setWidth] = useState<number | undefined>(undefined);
   const [offsetX, setOffsetX] = useState<number | undefined>(undefined);
   React.useEffect(() => {
@@ -263,6 +262,7 @@ function Select({
       console.log(e)
     }
   }, [triggerRef, selectRef])
+
 
   return (
     <div
@@ -282,8 +282,8 @@ function Select({
           {
             frontIcon
           }
-          <SelectTrigger value={value}>
-            <SelectValue ref={selectRef} placeholder={placeholder ?? '请选择'} />
+          <SelectTrigger ref={selectRef} value={value} >
+            <SelectValue placeholder={placeholder ?? '请选择'} />
           </SelectTrigger>
           <div className="relative">
             {
