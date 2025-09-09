@@ -21,7 +21,7 @@ const popoverContentVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-fill-light-hover-bg text-text',
+        default: 'bg-fill-light-hover-bg text-text-deep text-[12px] leading-[20px]',
       },
       arrow: {
         default: 'bg-fill-light-hover-bg fill-fill-light-hover-bg',
@@ -52,9 +52,9 @@ function PopoverContent({
         alignOffset={alignOffset}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden grid grid-cols-[auto_1fr_auto] gap-x-2 gap-y-2",
-          className,
-          popoverContentVariants({ variant })
+          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md p-4 shadow-md outline-hidden grid grid-cols-[auto_1fr_auto] gap-x-2 gap-y-2",
+          popoverContentVariants({ variant }),
+          className
         )}
         {...props}
       >
@@ -153,7 +153,10 @@ function PopoverDesc({
   return (
     <div
       data-slot="popover-desc"
-      className={cn('inline-flex items-center justify-start text-secondary', className, popoverDescVariants({ grid }))}
+      className={
+        cn('inline-flex items-center justify-start text-secondary text-[13px] leading-[20pxs]',
+          popoverDescVariants({ grid }),
+          className)}
       {...props}
     >
       {children}

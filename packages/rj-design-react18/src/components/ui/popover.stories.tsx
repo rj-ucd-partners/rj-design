@@ -235,7 +235,7 @@ export const ContentTitleAndDesc: Story = {
                             </Button>
                         </PopoverClose> */}
                         <PopoverDesc  >
-                            <p>这是一段内容</p>
+                            这是一段内容
                         </PopoverDesc>
                         {/* <PopoverToolbar  >
                             <div className="flex gap-2 justify-end">

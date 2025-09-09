@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/toggle-group"
 
 const meta: Meta<typeof ToggleGroup> = {
-    title: 'Components/RidioGroup',
+    title: 'Components/ToggleGroup',
     tags: ['autodocs'],
     component: ToggleGroup,
     argTypes: {
