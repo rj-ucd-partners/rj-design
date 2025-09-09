@@ -266,10 +266,9 @@ function TreeSelect({
                         showEdit ?
                             <Input
                                 variant={'select-title'}
-                                dimension={'borderless-sm'}
+                                format={'borderless-sm'}
                                 onChange={(e) => {
                                     e.stopPropagation();
-
                                 }}
                             />
                             :
