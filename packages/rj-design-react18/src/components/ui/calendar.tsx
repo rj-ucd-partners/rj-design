@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import { Button, buttonVariants } from "./button";
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
@@ -251,30 +250,31 @@ function CalendarDropdown({
     }, [])
 
     return (
-        <Select onValueChange={(value) => {
-            // props.onChange()
-            if (onChange) {
-                const syntheticEvent = {
-                    target: { value },
-                    currentTarget: { value }
-                } as React.ChangeEvent<HTMLSelectElement>;
-                onChange(syntheticEvent);
-            }
-        }} >
-            <SelectTrigger variant={"default"} size={'dropdown'} className="text-secondary-information" >
-                <SelectValue placeholder={placeholder} />
-            </SelectTrigger>
-            <SelectContent>
-                {
-                    options?.
-                        slice()
-                        .sort((a, b) => Number(b.value) - Number(a.value)).
-                        map((option) => (
-                            <SelectItem key={option.value} value={option.value.toString()}>{option.label}</SelectItem>
-                        ))
-                }
-            </SelectContent>
-        </Select>
+        <div>aaa</div>
+        //  <Select onValueChange={(value) => {
+        //     // props.onChange()
+        //     if (onChange) {
+        //         const syntheticEvent = {
+        //             target: { value },
+        //             currentTarget: { value }
+        //         } as React.ChangeEvent<HTMLSelectElement>;
+        //         onChange(syntheticEvent);
+        //     }
+        // }} >
+        //     <SelectTrigger variant={"default"} size={'sm'} className="text-secondary-information" >
+        //         <SelectValue placeholder={placeholder} />
+        //     </SelectTrigger>
+        //     <SelectContent>
+        //         {
+        //             options?.
+        //                 slice()
+        //                 .sort((a, b) => Number(b.value) - Number(a.value)).
+        //                 map((option) => (
+        //                     <SelectItem key={option.value} value={option.value.toString()}>{option.label}</SelectItem>
+        //                 ))
+        //         }
+        //     </SelectContent>
+        // </Select>
     );
 }
 

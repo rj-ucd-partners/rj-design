@@ -200,7 +200,7 @@ function Cascader({
             <DropdownMenu open={(!disabled && open)} onOpenChange={setOpen} >
                 <DropdownMenuTrigger>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-60" align='start' variant={'default'} itemVariant={'default'} >
+                <DropdownMenuContent className="w-60" align='start' variant={'page'} >
                     {
                         data.map((item, index) => {
                             return (
