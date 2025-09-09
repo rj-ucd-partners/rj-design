@@ -4,6 +4,8 @@ import type { ComponentProps } from 'react'
 
 import React from 'react';
 import { Select } from './select';
+import { FavoriteIcon } from '../icon/FavoriteIcon';
+import { MagnifierIcon } from '../icon/magnifier-icon';
 
 type SelectProps = ComponentProps<typeof Select>
 
@@ -132,26 +134,65 @@ export const PrimaryEmpty: Story = {
     )
   },
 }
-//前置图标选择器
-// export const Front: Story = {
-//   args: {
-//   },
-//   render: (args) => {
-//     const [value, setValue] = React.useState<string | undefined>(undefined);
-//     return (
-//       <Select {...args} value={value} onValueChange={setValue}>
-//         <SelectTrigger value={value} size={args.size} variant={args.variant}>
-//           <FavoriteIcon className='size-4' />
-//           <SelectValue placeholder='请选择' />
-//         </SelectTrigger>
-//         <SelectContent size={args.size} variant={args.variant}>
-//           <SelectItem value='apple'>爱婆选项</SelectItem>
-//           <SelectItem value='banana'>拔娜娜选项</SelectItem>
-//           <SelectItem value='orange'>欧润吉选项</SelectItem>
-//           <SelectItem value='grape'>哥让普选项</SelectItem>
-//           <SelectItem value='bayberry'>拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项拔倍瑞选项</SelectItem>
-//         </SelectContent>
-//       </Select>
-//     );
-//   },
-// }
+
+export const PrimaryFront: Story = {
+  args: {
+    datasource: items,
+    size: 'lg',
+    disabled: false,
+    placeholder: '请选择',
+    frontIcon: <FavoriteIcon className='size-4' />
+  },
+  render: (args) => {
+    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
+    const onValueChange = (value: string) => {
+      setSelectValue(value);
+    }
+    return (
+      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+    )
+  },
+}
+
+export const PrimaryPost: Story = {
+  args: {
+    datasource: items,
+    size: 'lg',
+    disabled: false,
+    placeholder: '请选择',
+    frontIcon: <FavoriteIcon className='size-4' />,
+    postIcon: <MagnifierIcon className='size-4' />
+  },
+  render: (args) => {
+    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
+    const onValueChange = (value: string) => {
+      setSelectValue(value);
+    }
+    return (
+      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+    )
+  },
+}
+
+export const PrimaryShowClear: Story = {
+  args: {
+    datasource: items,
+    size: 'lg',
+    disabled: false,
+    placeholder: '请选择',
+    frontIcon: <FavoriteIcon className='size-4' />,
+    postIcon: <MagnifierIcon className='size-4' />,
+    showClear: true
+  },
+  render: (args) => {
+    const [selectValue, setSelectValue] = React.useState<string | undefined>(args.datasource![0].key);
+    const onValueChange = (value: string) => {
+      console.log('value', value)
+      setSelectValue(value);
+    }
+    
+    return (
+      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+    )
+  },
+}

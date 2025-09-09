@@ -5,10 +5,12 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import type { BaseNode } from "@/common/type"
-import { useCallback, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { TriangleDownIcon } from "../icon/TriangleDownIcon"
 import { Button } from "./button"
 import { Empty } from "./empty"
+import type { JsxElement } from "typescript"
+import { CloseIcon } from "../icon/closeIcon"
 
 
 function SelectRoot({
@@ -38,27 +40,6 @@ function SelectIcon({
   </SelectPrimitive.Icon>
 }
 
-// const selectTriggerVariants = cva(
-//   "tracking-wider focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] data-[state=open]:outline data-[state=open]:outline-1 [&_[data-slot=select-value]]:font-normal [&_[data-slot=select-value]]:font-['PingFang_SC'] data-[state=open]:outline-offset-[-1px] [&_[data-slot=select-item]]:transition-transform [&_svg]:duration-200 data-[state=open]:[&_[data-slot=tran-icon]]:rotate-180",
-//   {
-//     variants: {
-//       variant: {
-//         default: 'bg-third-background data-[placeholder]:text-secondary-information hover:bg-fill-light-hover-bg disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled focus-visible:outline-primary data-[state=open]:outline-primary',
-//       },
-//       size: {
-//         sm: 'rounded-sm w-60 pl-2 pr-6.5 py-0.5 [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
-//         md: 'rounded-md w-80 pl-2 pr-6.5 py-[5px] [&_[data-slot=select-value]]:h-5 [&_[data-slot=select-value]]:text-xs [&_[data-slot=select-value]]:leading-tight',
-//         lg: 'rounded-md w-80 px-2 pr-7.5 py-2 [&_[data-slot=select-value]]:h-6 [&_[data-slot=select-value]]:text-base [&_[data-slot=select-value]]:leading-snug',
-//         dropdown: 'w-20 px-2 py-[5px] rounded-md'
-//       },
-//     },
-//     defaultVariants: {
-//       variant: 'default',
-//       size: 'md',
-//     },
-//   }
-// )
-
 function SelectTrigger({
   className,
   children,
@@ -68,7 +49,7 @@ function SelectTrigger({
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       className={cn(
-        "flex w-full items-center justify-between whitespace-nowrap bg-transparent data-[placeholder]:text-secondary-information disabled:cursor-not-allowed [&>span]:line-clamp-1",
+        "flex w-full items-center outline-none justify-between whitespace-nowrap bg-transparent data-[placeholder]:text-secondary-information disabled:cursor-not-allowed [&>span]:line-clamp-1",
         className,
       )}
       {...props}
@@ -77,25 +58,6 @@ function SelectTrigger({
     </SelectPrimitive.Trigger>
   )
 }
-
-// const selectContentVariants = cva(
-//   'inline-flex [&_[data-slot=select-item]]:self-stretch shadow-[0px_6px_16px_0px_rgba(0,0,0,0.08)] gap-0.5',
-//   {
-//     variants: {
-//       variant: {
-//         default: 'bg-secondary-background text-text-deep [&_[data-slot=select-item]]:focus:bg-fill-light-hover-bg',
-//       },
-//       size: {
-//         sm: '[&_[data-slot=select-item]]:rounded-sm [&_[data-slot=select-item]]:text-[12px] [&_[data-slot=select-item]]:leading-[20px] [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-px [&_[data-slot=select-item]]:h-4.5 [&_[data-slot=select-item]]:tracking-wider',
-//         md: '[&_[data-slot=select-item]]:rounded-md [&_[data-slot=select-item]]:text-xs [&_[data-slot=select-item]]:leading-tight [&_[data-slot=select-item]]:px-2 [&_[data-slot=select-item]]:py-[3px] [&_[data-slot=select-item]]:h-6.5 [&_[data-slot=select-item]]:tracking-wider',
-//         lg: '[&_[data-slot=select-item]]:rounded-md [&_[data-slot=select-item]]:text-base [&_[data-slot=select-item]]:leading-snug [&_[data-slot=select-item]]:px-3 [&_[data-slot=select-item]]:py-1.5 [&_[data-slot=select-item]]:h-8.5',
-//       }
-//     },
-//     defaultVariants: {
-//       variant: 'default',
-//     },
-//   }
-// )
 
 function SelectContent({
   size,
@@ -268,6 +230,9 @@ function Select({
   datasource,
   value,
   onValueChange,
+  frontIcon,
+  postIcon,
+  showClear,
   className,
   ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof selectVariants> & {
@@ -276,35 +241,79 @@ function Select({
   disabled?: boolean,
   value?: string,
   onValueChange?: (value: string) => void,
+  frontIcon?: React.ReactNode,
+  postIcon?: React.ReactNode,
+  showClear?: boolean,
 }) {
   const [open, setOpen] = useState(false);
-  const onOpenChange = useCallback((state: boolean) => {
-    setOpen(state)
-  }, [])
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number | undefined>(undefined);
+  const [offsetX, setOffsetX] = useState<number | undefined>(undefined);
+  React.useEffect(() => {
+    if (!triggerRef || !selectRef) return;
+    try {
+      const w = triggerRef.current?.clientWidth;
+      setWidth(w);
+      const x1 = selectRef.current?.getBoundingClientRect().left;
+      const x2 = triggerRef.current?.getBoundingClientRect().left;
+      const offsetX = x2! - x1!;
+      setOffsetX(offsetX);
+    } catch (e) {
+      console.log(e)
+    }
+  }, [triggerRef, selectRef])
 
   return (
-    <div className={cn(
-      'rounded-md',
-      disabled ? 'bg-fill-dark-hover-active-disabled text-disabled' :
-        ['bg-third-background hover:bg-fill-light-hover-bg  hover:outline outline-primary',
-          open && 'outline'
-        ],
-      selectVariants({ size }),
-      className
-    )} {...props}>
-      <SelectRoot open={open} onOpenChange={onOpenChange} disabled={disabled} value={value} onValueChange={onValueChange}>
-        <div className="flex flex-row items-center gap-1">
-          <SelectTrigger>
-            <SelectValue placeholder={placeholder ?? '请选择'} />
+    <div
+      ref={triggerRef}
+      className={cn(
+        'rounded-md',
+        disabled ? 'bg-fill-dark-hover-active-disabled text-disabled' :
+          ['bg-third-background hover:bg-fill-light-hover-bg  hover:outline outline-primary',
+            open && 'outline',
+            'hover:[&_[data-slot=clear]]:block'
+          ],
+        selectVariants({ size }),
+        className
+      )} {...props}>
+      <SelectRoot open={open} onOpenChange={setOpen} disabled={disabled} value={value} onValueChange={onValueChange}>
+        <div className="flex flex-row items-center gap-1 [&_svg]:pointer-events-none [&_svg]:text-secondary-information"  >
+          {
+            frontIcon
+          }
+          <SelectTrigger value={value}>
+            <SelectValue ref={selectRef} placeholder={placeholder ?? '请选择'} />
           </SelectTrigger>
-          <Button variant={'transparent'} size={'link'} onClick={() => { onOpenChange(!open) }} >
-            <TriangleDownIcon className={cn(
-              "size-2 text-secondary-informatio transition-transform duration-200",
-              open && "rotate-180"
-            )} />
-          </Button>
+          <div className="relative">
+            {
+              showClear && value
+              &&
+              <div data-slot='clear' className="hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <Button variant={'transparent'} size={'link'} onClick={(e) => {
+                  e.stopPropagation();
+                  if (onValueChange) onValueChange('');
+                }}>
+                  <CloseIcon className="size-4" />
+                </Button>
+              </div>
+            }
+            <Button variant={'transparent'} size={'link'} onClick={() => { setOpen(!open) }} >
+              {
+                postIcon ?
+                  postIcon :
+                  <TriangleDownIcon className={cn(
+                    "size-2 text-secondary-informatio transition-transform duration-200",
+                    open && "rotate-180"
+                  )} />
+              }
+            </Button>
+          </div>
         </div>
-        <SelectContent size={size ?? 'sm'} >
+        <SelectContent size={size ?? 'sm'} style={{
+          width: (width ?? 0) > 0 ? width : undefined,
+          left: offsetX ?? 0
+        }}>
           {
             datasource?.map(item => {
               return (<SelectItem value={item.key} disabled={item.disabled}>{item.label}</SelectItem>)
