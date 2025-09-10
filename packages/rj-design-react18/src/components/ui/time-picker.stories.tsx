@@ -90,7 +90,7 @@ export const PrimarNoSec: Story = {
         useSeconds: false
     },
     render: (args) => {
-        return <div className="w-60">
+        return <div className="w-60 ">
             <TimePicker {...args} />
         </div>
     }

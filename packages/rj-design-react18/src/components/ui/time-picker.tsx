@@ -17,17 +17,27 @@ interface checkedTime {
 }
 
 const timePickerVariants = cva(
-    [
-        'rounded-md',
-        'bg-third-background',
-        'hover:outline hover:outline-primary',
-        'flex flex-row gap-1 items-center justify-center',
-        'w-full',
-        'hover:[&_[data-slot=clear]]:block hover:[&_[data-slot=find]]:hidden',
-        '[[data-state=disabled]_&]:bg-border-disabled [[data-state=disabled]_&]:text-disabled [[data-state=disabled]_&]:outline-none',
-    ],
+    "",
     {
         variants: {
+            variant: {
+                primary: [
+                    'rounded-md',
+                    'bg-third-background',
+                    'hover:outline hover:outline-primary',
+                    'flex flex-row gap-1 items-center justify-center',
+                    'w-full',
+                    'hover:[&_[data-slot=clear]]:block hover:[&_[data-slot=find]]:hidden',
+                    '[[data-state=disabled]_&]:bg-border-disabled [[data-state=disabled]_&]:text-disabled [[data-state=disabled]_&]:outline-none',
+                ],
+                hide: [
+                    'rounded-md',
+                    'bg-transparent',
+                    'flex flex-row gap-1 items-center justify-center',
+                    'w-full',
+                    '[[data-state=disabled]_&]:bg-border-disabled [[data-state=disabled]_&]:text-disabled [[data-state=disabled]_&]:outline-none',
+                ]
+            },
             size: {
                 sm: "px-2 py-0.5 text-[12px] leading-[20px]",
                 md: "px-2 py-[5px] text-[13px] leading-[20px]",
@@ -36,6 +46,7 @@ const timePickerVariants = cva(
         },
     }
 )
+//#region TimePicker
 //生成00-23的小时数组
 const hours: BaseNode[] = Array.from({ length: 29 }, (_, i) => ({
     key: String(i),
@@ -96,7 +107,6 @@ function TimePikerScroller({
         </div>
     );
 }
-
 function TimePikerItem({
     node,
     type,
@@ -134,10 +144,12 @@ function TimePikerItem({
             {node.label}
         </span>)
 }
+//#endregion
 function TimePicker({
     placeholder,
     use12Hours = false,
     useSeconds = true,
+    variant = 'primary',
     size,
     onTimeChange,
     disabled,
@@ -379,10 +391,10 @@ function TimePicker({
         <div
             data-state={disabled ? 'disabled' : 'enabled'}
             data-slot='time-picker'
-            className="flex flex-col items-center justifu-start gap-[2px] w-full">
+            className="relative flex items-center justifu-start gap-[2px] w-full">
             <div
                 className={cn(
-                    timePickerVariants({ size }),
+                    timePickerVariants({ variant, size }),
                     className
                 )}
                 {...props}>
@@ -396,28 +408,31 @@ function TimePicker({
                     onBlur={() => { setFocus(false); }}
                     onChange={handleInputChange}
                 />
-                <div className="relative">
-                    {
-                        value &&
-                        <div data-slot='clear' className="hidden z-50 absolute left-1/2 top-1/2 transform -translate-x-[6px] -translate-y-[8px]">
-                            <Button variant={'transparent'} size={'link'}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    clearValue();
-                                }}>
-                                <CloseIcon className="size-3 text-secondary-information" />
-                            </Button>
-                        </div>
-                    }
-                    <ClockIcon className="text-secondary-information size-3 opacity-50" />
-                </div>
+                {
+                    variant !== 'hide' &&
+                    <div className="relative">
+                        {
+                            value &&
+                            <div data-slot='clear' className="hidden z-50 absolute left-1/2 top-1/2 transform -translate-x-[6px] -translate-y-[8px]">
+                                <Button variant={'transparent'} size={'link'}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        clearValue();
+                                    }}>
+                                    <CloseIcon className="size-3 text-secondary-information" />
+                                </Button>
+                            </div>
+                        }
+                        <ClockIcon className="text-secondary-information size-3 opacity-50" />
+                    </div>
+                }
             </div>
             {
                 open &&
                 <div
                     ref={contextRef}
                     className={cn(
-                        'flex flex-col w-full',
+                        'absolute top-[110%] z-50 flex flex-col w-full',
                         'rounded-md',
                         'bg-secondary-background',
                     )}>
@@ -472,4 +487,4 @@ function TimePicker({
         </div>);
 }
 
-export { TimePicker }
+export { TimePicker, TimePikerScroller }
