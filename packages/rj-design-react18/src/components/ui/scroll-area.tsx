@@ -35,7 +35,9 @@ function ScrollArea({
   horizontal,
   children,
   ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.Root> & VariantProps<typeof scrollAreaVariants>) {
+}: React.ComponentProps<typeof ScrollAreaPrimitive.Root> & VariantProps<typeof scrollAreaVariants> & {
+  transparent?: boolean
+}) {
   return (
     <ScrollAreaPrimitive.Root
       data-slot="scroll-area"
@@ -50,17 +52,20 @@ function ScrollArea({
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
-      <ScrollBar />
+      <ScrollBar transparent={props.transparent} />
       <ScrollAreaPrimitive.Corner />
     </ScrollAreaPrimitive.Root>
   )
 }
 
 function ScrollBar({
+  transparent = false,
   className,
   orientation = "vertical",
   ...props
-}: React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>) {
+}: React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar> & {
+  transparent?: boolean
+}) {
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
       data-slot="scroll-area-scrollbar"
@@ -75,10 +80,13 @@ function ScrollBar({
       )}
       {...props}
     >
-      <ScrollAreaPrimitive.ScrollAreaThumb
-        data-slot="scroll-area-thumb"
-        className="bg-border relative flex-1 rounded-full"
-      />
+      {
+        !transparent &&
+        <ScrollAreaPrimitive.ScrollAreaThumb
+          data-slot="scroll-area-thumb"
+          className="bg-border relative flex-1 rounded-full"
+        />
+      }
     </ScrollAreaPrimitive.ScrollAreaScrollbar>
   )
 }

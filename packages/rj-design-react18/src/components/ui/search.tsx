@@ -1,9 +1,12 @@
 import type { BaseNode } from "@/common/type";
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Empty } from "./empty";
-
+import { TriangleDownIcon } from "../icon/TriangleDownIcon";
+import { Button } from "./button";
+import { CloseIcon } from "../icon/closeIcon";
+import { useClickAway } from 'react-use';
 const searchSelectVariants = cva(
     "",
     {
@@ -61,6 +64,8 @@ function SearchSelect({
         setOpen(false)
         if (onValueChange) onValueChange(key);
     }
+    const contextRef = useRef<HTMLDivElement>(null);
+    useClickAway(contextRef, () => setOpen(false));
     return (
         <div className={cn(
             'inline-flex flex-col gap-1',
@@ -100,25 +105,42 @@ function SearchSelect({
                         value && 'placeholder-text-deep',
                         open && 'placeholder-secondary-information'
                     )}
-                    onFocus={() => { setOpen((true && !disabled)) }}
-                    onBlur={() => {
-                        setTimeout(() => { setOpen(false); },200)
-                    }}
+                    onFocus={() => { setOpen(!disabled) }}
                 />
                 {
-                    postIcon
+                    <div className="relative flex items-center justify-center">
+                        {
+                            showClear && value
+                            &&
+                            <div data-slot='clear' className="hidden absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <Button variant={'transparent'} size={'link'} onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (onValueChange) {
+                                        updateFilter('')
+                                        onValueChange('');
+                                    }
+                                }}>
+                                    <CloseIcon className="size-4" />
+                                </Button>
+                            </div>
+                        }
+                        <Button variant={'transparent'} size={'link'} onClick={() => { setOpen(!open) }} >
+                            {
+                                postIcon ?
+                                    postIcon :
+                                    <TriangleDownIcon className={cn(
+                                        "size-2 text-secondary-informatio transition-transform duration-200",
+                                        open && "rotate-180"
+                                    )} />
+                            }
+                        </Button>
+                    </div>
                 }
             </div>
             {
                 (open && !disabled) &&
                 <div
-                    onFocus={() => {
-                        console.log('哥哥')
-                    }}
-                    onBlur={() => {
-                        console.log('didi')
-
-                    }}
+                    ref={contextRef}
                     className={cn(
                         'w-full',
                         'flex flex-col',

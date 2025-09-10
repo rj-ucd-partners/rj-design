@@ -19,5 +19,8 @@
   "devDependencies": {
     "class-variance-authority": "^0.7.1",
     "prettier": "^3.6.0"
+  },
+  "dependencies": {
+    "react-use": "^17.6.0"
   }
 }
