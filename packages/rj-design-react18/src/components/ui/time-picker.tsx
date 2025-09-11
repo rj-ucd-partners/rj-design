@@ -4,12 +4,12 @@ import { ClockIcon } from "../icon/clock-icon";
 import type { BaseNode } from "@/common/type";
 import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useClickAway } from "react-use";
 import { CloseIcon } from "../icon/closeIcon";
 
 type tiemType = 'hour' | 'min' | 'sec' | 'period';
-interface checkedTime {
+export interface CheckedTime {
     hour: BaseNode,
     min: BaseNode,
     sec?: BaseNode,
@@ -145,28 +145,37 @@ function TimePikerItem({
         </span>)
 }
 //#endregion
-function TimePicker({
+export interface TimePickerProps extends React.ComponentProps<'div'>, VariantProps<typeof timePickerVariants> {
+    time?: CheckedTime,
+    use12Hours?: boolean,
+    useSeconds?: boolean,
+    placeholder?: string,
+    onTimeChange?: (time?: CheckedTime) => void,
+    cancelCallback?: () => void,
+    disabled?: boolean,
+}
+export interface TimePickerRef {
+    open: () => void;
+}
+const TimePicker = forwardRef<TimePickerRef, TimePickerProps>(({
     placeholder,
     use12Hours = false,
     useSeconds = true,
     variant = 'primary',
     size,
+    time,
     onTimeChange,
+    cancelCallback,
     disabled,
     className,
     ...props
-}: React.ComponentProps<'div'> & VariantProps<typeof timePickerVariants> & {
-    use12Hours?: boolean,
-    useSeconds?: boolean,
-    placeholder?: string,
-    onTimeChange?: (time: string) => void,
-    disabled?: boolean,
-}) {
+}, ref) => {
     const [open, setOpen] = useState<boolean>(false);
     const [hour, setHour] = useState<BaseNode>(hours[0]);
     const [min, setMin] = useState<BaseNode>(mins[0]);
     const [sec, setSec] = useState<BaseNode>(mins[0]);
     const [period, setPeriod] = useState<BaseNode>(periods[2]);
+    const inputRef = useRef<HTMLInputElement>(null);
     const contextRef = useRef<HTMLDivElement>(null);
     const onCheckedChange = (key: string, type: tiemType) => {
         if (type === 'hour') {
@@ -202,19 +211,29 @@ function TimePicker({
         setValue(timeStr);
     }
     const [value, setValue] = useState<string | undefined>(undefined);
-    const [time, setTime] = useState<checkedTime | undefined>(undefined);
-    const [focus, setFocus] = useState<boolean>(false);
+    useEffect(() => {
+        if (time) {
+            const timeStr = `${time.hour.label}:${time.min.label}${useSeconds ? `${useSeconds ? `:${time.sec!.label}` : ''}` : ''}${use12Hours ? ' ' + time.period!.label : ''}`
+            setValue(timeStr);
+            setHour(time.hour);
+            setMin(time.min);
+            setSec(useSeconds ? time.sec! : mins[0]);
+            setPeriod(use12Hours ? time.period! : periods[2]);
+        } else {
+            clearValue();
+        }
+    }, [time, use12Hours, useSeconds])
     const onConfirm = () => {
-        setTime({
+        const now = {
             hour: hour,
             min: min,
             sec: sec,
             period: use12Hours ? period : undefined,
-        })
+        };
         const timeStr = `${hour.label}:${min.label}${useSeconds ? `:${sec!.label}` : ''}${use12Hours ? ' ' + period!.label : ''}`
         setValue(timeStr);
         setOpen(false);
-        if (onTimeChange) onTimeChange(timeStr);
+        if (onTimeChange) onTimeChange(now);
     }
     const onCancel = () => {
         if (time) {
@@ -222,20 +241,19 @@ function TimePicker({
             setMin(time.min);
             setSec(useSeconds ? time.sec! : mins[0]);
             setPeriod(use12Hours ? time.period! : periods[2]);
+            setOpen(false);
             const timeStr = `${time.hour.label}:${time.min.label}${useSeconds ? `:${time.sec!.label}` : ''}${use12Hours ? ' ' + time.period!.label : ''}`
             setValue(timeStr);
         } else {
-            setValue('');
-            setHour(hours[0]);
-            setMin(mins[0]);
-            setSec(mins[0]);
-            setPeriod(periods[2]);
+            clearValue();
         }
-
-        setOpen(false);
+        if (cancelCallback) cancelCallback();
     }
-    useClickAway(contextRef, () => {
-        if (!focus) onCancel();
+    useClickAway(contextRef, (e: MouseEvent) => {
+        if (inputRef.current && (e.clientX > inputRef.current.getBoundingClientRect().left && e.clientX < inputRef.current.getBoundingClientRect().right) && (e.clientY > inputRef.current.getBoundingClientRect().top && e.clientY < inputRef.current.getBoundingClientRect().bottom)) {
+            return;
+        }
+        onCancel();
     });
     const getNowTime = () => {
         try {
@@ -253,12 +271,13 @@ function TimePicker({
             setSec(mins[sec]);
             const timeStr = `${hours[hour].label}:${mins[min].label}${useSeconds ? `${useSeconds ? `:${mins[sec].label}` : ''}` : ''}${use12Hours ? ' ' + period : ''}`
             setValue(timeStr);
-            setTime({
+            const nowTime = {
                 hour: hours[hour],
                 min: mins[min],
                 sec: useSeconds ? mins[sec] : undefined,
                 period: use12Hours ? period === 'AM' ? periods[2] : periods[3] : undefined,
-            })
+            };
+            if (onTimeChange) onTimeChange(nowTime);
         } catch (e) {
             console.log(e);
         }
@@ -385,13 +404,20 @@ function TimePicker({
         setMin(mins[0]);
         setSec(mins[0]);
         setPeriod(periods[2]);
-
     }
+    useImperativeHandle(ref, () => ({
+        open: () => {
+            if (!disabled && inputRef.current) {
+                inputRef.current.focus();
+            }
+        },
+    }), [disabled]);
     return (
         <div
             data-state={disabled ? 'disabled' : 'enabled'}
             data-slot='time-picker'
-            className="relative flex items-center justifu-start gap-[2px] w-full">
+            className="relative w-full"
+        >
             <div
                 className={cn(
                     timePickerVariants({ variant, size }),
@@ -399,13 +425,13 @@ function TimePicker({
                 )}
                 {...props}>
                 <input
+                    ref={inputRef}
                     disabled={disabled}
                     type="text"
                     className="border-none outline-none w-full"
                     placeholder={placeholder ?? '请选择时间'}
                     value={value}
-                    onFocus={() => { setFocus(true); setOpen(true) }}
-                    onBlur={() => { setFocus(false); }}
+                    onFocus={() => { setOpen(true) }}
                     onChange={handleInputChange}
                 />
                 {
@@ -418,6 +444,7 @@ function TimePicker({
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         clearValue();
+                                        if (onTimeChange) onTimeChange(undefined);
                                     }}>
                                     <CloseIcon className="size-3 text-secondary-information" />
                                 </Button>
@@ -485,6 +512,6 @@ function TimePicker({
                 </div>
             }
         </div>);
-}
+})
 
 export { TimePicker, TimePikerScroller }

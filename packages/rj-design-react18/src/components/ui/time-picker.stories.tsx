@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { TimePicker } from "./time-picker"
+import { TimePicker, type CheckedTime } from "./time-picker"
+import { useState } from "react"
 
 const meta: Meta<typeof TimePicker> = {
     title: 'Components/TimePicker',
@@ -19,11 +20,15 @@ export const Primary: Story = {
         size: 'sm'
     },
     render: (args) => {
-        const onChange = (time: string) => {
+        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
+        const onChange = (time?: CheckedTime) => {
             console.log(time);
+            setTime(time);
+        }
+        const onCancel = () => {
         }
         return <div className="w-60">
-            <TimePicker {...args} onTimeChange={onChange} />
+            <TimePicker {...args} time={time} onTimeChange={onChange} cancelCallback={onCancel} />
         </div>
     }
 }
@@ -34,11 +39,13 @@ export const Disabled: Story = {
         disabled: true
     },
     render: (args) => {
-        const onChange = (time: string) => {
+        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
+        const onChange = (time?: CheckedTime) => {
             console.log(time);
+            setTime(time);
         }
         return <div className="w-60">
-            <TimePicker {...args} onTimeChange={onChange} />
+            <TimePicker {...args} time={time} onTimeChange={onChange} />
         </div>
     }
 }
@@ -48,11 +55,13 @@ export const PrimaryMd: Story = {
         size: 'md'
     },
     render: (args) => {
-        const onChange = (time: string) => {
+        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
+        const onChange = (time?: CheckedTime) => {
             console.log(time);
+            setTime(time);
         }
         return <div className="w-60">
-            <TimePicker {...args} onTimeChange={onChange} />
+            <TimePicker {...args} time={time} onTimeChange={onChange} />
         </div>
     }
 }
@@ -62,11 +71,13 @@ export const PrimaryLg: Story = {
         size: 'lg'
     },
     render: (args) => {
-        const onChange = (time: string) => {
+        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
+        const onChange = (time?: CheckedTime) => {
             console.log(time);
+            setTime(time);
         }
         return <div className="w-60">
-            <TimePicker {...args} onTimeChange={onChange} />
+            <TimePicker {...args} time={time} onTimeChange={onChange} />
         </div>
     }
 }
@@ -77,8 +88,13 @@ export const Primary12: Story = {
         use12Hours: true
     },
     render: (args) => {
+        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
+        const onChange = (time?: CheckedTime) => {
+            console.log(time);
+            setTime(time);
+        }
         return <div className="w-60">
-            <TimePicker {...args} />
+            <TimePicker {...args} time={time} onTimeChange={onChange} />
         </div>
     }
 }
@@ -90,8 +106,13 @@ export const PrimarNoSec: Story = {
         useSeconds: false
     },
     render: (args) => {
-        return <div className="w-60 ">
-            <TimePicker {...args} />
+        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
+        const onChange = (time?: CheckedTime) => {
+            console.log(time);
+            setTime(time);
+        }
+        return <div className="w-60">
+            <TimePicker {...args} time={time} onTimeChange={onChange} />
         </div>
     }
 }
@@ -103,8 +124,13 @@ export const PrimarNoSecNoUse12Hours: Story = {
         useSeconds: false
     },
     render: (args) => {
+        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
+        const onChange = (time?: CheckedTime) => {
+            console.log(time);
+            setTime(time);
+        }
         return <div className="w-60">
-            <TimePicker {...args} />
+            <TimePicker {...args} time={time} onTimeChange={onChange} />
         </div>
     }
 }
