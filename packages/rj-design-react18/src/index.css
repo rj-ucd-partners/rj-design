@@ -68,9 +68,9 @@
   --color-abnormal-disabled: var(--abnormal-disabled);
   --color-abnormal-special: var(--abnormal-special);
   --color-abnormal-light: var(--abnormal-light);
-  --color-abnormal-link: var(--abnormal-link)
-    /* --警示色-- */
-    --color-warning: var(--warning);
+  --color-abnormal-link: var(--abnormal-link);
+  /* --警示色-- */
+  --color-warning: var(--warning);
   --color-warning-hover: var(--warning-hover);
   --color-warning-active: var(--warning-active);
   --color-warning-disabled: var(--warning-disabled);
@@ -111,6 +111,7 @@
   --color-data-7: var(--data-7);
   --color-data-8: var(--data-8);
   --color-data-9: var(--data-9);
+  --color-data-blue: var(--data-blue);
   /* --半透明色-- */
   --color-cyan-400-20: var(--cyan-400-20);
   --color-teal-400-20: var(--teal-400-20);
@@ -227,6 +228,7 @@
   --data-7: #1681FF;
   --data-8: #797DEA;
   --data-9: #E125FF;
+  --data-blue: #1162FF;
   /* --半透明色-- */
   --cyan-400-20: rgba(0, 207, 244, 0.2);
   --teal-400-20: rgba(0, 255, 168, 0.2);
@@ -342,6 +344,7 @@
   --data-7: #1681FF;
   --data-8: #7F62F2;
   --data-9: #D346EA;
+  --data-blue: #1162FF;
   /* --半透明色-- */
   --cyan-400-20: rgba(0, 207, 244, 0.2);
   --teal-400-20: rgba(0, 255, 168, 0.2);
