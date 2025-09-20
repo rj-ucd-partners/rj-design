@@ -151,15 +151,18 @@ function Input({
           }
         </div>
       </div>
-      <div className={cn(
-        'text-[12px] leading-[20px] p-1',
-        variant === 'primary' && 'text-text-secondary-information',
-        variant === 'destructive' && 'text-danger',
-        variant === 'warning' && 'text-abnormal',
-        variant === 'success' && 'text-success'
-      )}>
-        {description}
-      </div>
+      {
+        description &&
+        <div className={cn(
+          'text-[12px] leading-[20px] p-1',
+          variant === 'primary' && 'text-text-secondary-information',
+          variant === 'destructive' && 'text-danger',
+          variant === 'warning' && 'text-abnormal',
+          variant === 'success' && 'text-success'
+        )}>
+          {description}
+        </div>
+      }
     </div>
   )
 }

@@ -677,9 +677,7 @@ export const SimpleSmall: Story = {
                                 <PaginationPrevious size={args.size} href="#" />
                             </PaginationItem>
                             <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
-                                <Input variant={'page'} placeholder={`${page}/${total}`} className={cn(
-                                    args.size === 'page-sm' && 'h-6',
-                                    args.size === 'page-md' && 'h-8')} />
+                                <Input variant={'page'} format={args.size === 'page-sm' ? 'sm' : 'md'} placeholder={`${page}/${total}`} />
                             </div>
                             <PaginationItem>
                                 <PaginationNext size={args.size} href="#" />
