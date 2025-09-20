@@ -29,6 +29,55 @@ type Story = StoryObj<typeof Switch>
 export const Primary: Story = {
     args: {
         variant: 'primary',
+        size: 'sm'
+    },
+    render: (args) => {
+        return <Switch {...args} />
+    }
+}
+
+// 主要开关
+export const PrimaryMd: Story = {
+    args: {
+        variant: 'primary',
         size: 'md'
     },
+    render: (args) => {
+        return <Switch {...args} />
+    }
+}
+// 主要开关
+export const PrimaryLg: Story = {
+    args: {
+        variant: 'primary',
+        size: 'lg'
+    },
+    render: (args) => {
+        return <Switch {...args} />
+    }
+}
+
+// 主要开关不可用
+export const PrimaryDisabled: Story = {
+    args: {
+        variant: 'primary',
+        size: 'lg',
+        disabled: true
+    },
+    render: (args) => {
+        return <Switch {...args} />
+    }
+}
+
+// 主要开关不可用
+export const PrimaryDesc: Story = {
+    args: {
+        variant: 'primary',
+        size: 'lg',
+        checkedDesc: "开",
+        uncheckedDesc: "关"
+    },
+    render: (args) => {
+        return <Switch {...args} />
+    }
 }

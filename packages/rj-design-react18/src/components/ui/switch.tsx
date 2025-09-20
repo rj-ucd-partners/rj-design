@@ -9,18 +9,13 @@ const switchRootVariants = cva(
   {
     variants: {
       variant: {
-        default: '',
-        primary: 'data-[state=checked]:bg-primary data-[state=unchecked]:bg-fill-emphasize data-[state=checked]:disabled:bg-fill-dark-hover-active-disabled'
+        primary: 'data-[state=checked]:bg-primary data-[state=unchecked]:bg-fill-emphasize disabled:data-[state=checked]:bg-primary-disabled disabled:data-[state=unchecked]:bg-fill-dark-hover-active-disabled'
       },
       size: {
-        sm: 'w-7 h-4 rounded-md',
-        md: 'w-9 h-5 rounded-lg',
-        lg: 'w-11 h-6 rounded-lg',
+        sm: 'min-w-[28px] h-4 rounded-md',
+        md: 'min-w-9 h-5 rounded-lg',
+        lg: 'min-w-11 h-6 rounded-lg',
       },
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'md',
     },
   }
 )
@@ -30,7 +25,6 @@ const switchThumbVariants = cva(
   {
     variants: {
       variant: {
-        default: '',
         primary: 'data-[state=unchecked]:bg-card data-[state=checked]:bg-card'
       },
       size: {
@@ -39,19 +33,20 @@ const switchThumbVariants = cva(
         lg: 'w-5 h-5 rounded-md',
       },
     },
-    defaultVariants: {
-      variant: 'default',
-      size: 'md',
-    },
   }
 )
 
 function Switch({
+  checkedDesc,
+  uncheckedDesc,
   className,
   variant,
   size,
   ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root> & VariantProps<typeof switchRootVariants>) {
+}: React.ComponentProps<typeof SwitchPrimitive.Root> & VariantProps<typeof switchRootVariants> & {
+  checkedDesc?: string,
+  uncheckedDesc?: string
+}) {
   return (
     <SwitchPrimitive.Root
       data-slot="switch"
@@ -65,7 +60,7 @@ function Switch({
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
         className={cn(
-          "pointer-events-none block transition-transform data-[state=checked]:translate-x-[calc(100%)] data-[state=unchecked]:translate-x-1",
+          "pointer-events-none block transition-transform data-[state=checked]:translate-x-[calc(100%+2px)] data-[state=unchecked]:translate-x-[2px]",
           switchThumbVariants({ variant, size })
         )}
       />
