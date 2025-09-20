@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Input } from '@/components/ui/input'
 import { InputNumberSidebar } from './inputNumberSidebar'
 
 const meta: Meta<typeof InputNumberSidebar> = {
@@ -7,9 +6,9 @@ const meta: Meta<typeof InputNumberSidebar> = {
   tags: ['autodocs'],
   component: InputNumberSidebar,
   argTypes: {
-    dimension: {
+    format: {
       control: { type: 'select' },
-      options: ['borderless-sm', 'borderless-md', 'borderless-lg'],
+      options: ['sm', 'md', 'lg'],
     },
     disabled: {
       control: 'boolean'
@@ -19,17 +18,19 @@ const meta: Meta<typeof InputNumberSidebar> = {
 
 export default meta
 
-type Story = StoryObj<typeof Input>
+type Story = StoryObj<typeof InputNumberSidebar>
 
 // 输入框
 export const NumberInput: Story = {
   args: {
-    dimension: 'borderless-md',
+    format: 'md',
     disabled: true
   },
   render: (args) => {
     return (
-      <InputNumberSidebar dimension={args.dimension} disabled={args.disabled} />
+      <div className='w-60'>
+        <InputNumberSidebar format={args.format} disabled={args.disabled} />
+      </div>
     );
   }
 }

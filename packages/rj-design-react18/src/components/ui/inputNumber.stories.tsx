@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Input } from '@/components/ui/input'
 import { InputNumber } from './inputNumber'
 
 const meta: Meta<typeof InputNumber> = {
@@ -16,7 +15,7 @@ const meta: Meta<typeof InputNumber> = {
 
 export default meta
 
-type Story = StoryObj<typeof Input>
+type Story = StoryObj<typeof InputNumber>
 
 // 输入框
 export const NumberInput: Story = {
@@ -26,7 +25,9 @@ export const NumberInput: Story = {
   },
   render: (args) => {
     return (
-      <InputNumber format={args.format} disabled={args.disabled} />
+      <div className='w-40'>
+        <InputNumber format={args.format} disabled={args.disabled} />
+      </div>
     );
   }
 }

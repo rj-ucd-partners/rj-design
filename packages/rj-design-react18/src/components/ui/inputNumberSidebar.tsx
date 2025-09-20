@@ -2,27 +2,40 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Input, type inputVariants } from './input'
 import { useState } from 'react'
-import { Button } from './button'
 import { TriangleUpIcon } from '../icon/TriangleUpIcon'
 import { TriangleDownIcon } from '../icon/TriangleDownIcon'
 
-const inputNumberSidebarVariants = cva(
-    '',
+const inputVariants = cva(
+    'flex flex-row items-center hover:[&_[data-slot=func-menu-bar]]:flex',
     {
         variants: {
             variant: {
-
+                primary: 'bg-third-background hover:bg-fill-emphasize outline outline-transparent focus-within:outline-primary focus-within:bg-primary-light'
             },
-            dimension: {
-                "borderless-sm": 'h-6 w-22 rounded text-[12px]  [&_[data-slot=func-menu]]:w-6 [&_[data-slot=func-menu]]:h-2.5',
-                "borderless-md": 'h-8 w-24 rounded-md [&_[data-slot=func-menu]]:w-7 [&_[data-slot=func-menu]]:h-3.5',
-                "borderless-lg": 'h-10 w-30 rounded-md [&_[data-slot=func-menu]]:w-8 [&_[data-slot=func-menu]]:h-4.5'
+            format: {
+                sm: 'rounded-sm pl-2 py-[1px]',
+                md: 'rounded-md pl-2 py-[1px]',
+                lg: 'rounded-md pl-2 py-[1px]'
             },
-            disabled: {
+        },
+        defaultVariants: {
+        },
+    }
+)
 
-            }
+const inputNumberSidebarVariants = cva(
+    'outline-none w-full',
+    {
+        variants: {
+            variant: {
+                primary: 'disabled:text-disabled'
+            },
+            format: {
+                sm: 'text-[12px] leading-[22px]',
+                md: 'text-[13px] leading-[30px]',
+                lg: 'text-[15px] leading-[38px]'
+            },
         },
         defaultVariants: {
         },
@@ -30,18 +43,16 @@ const inputNumberSidebarVariants = cva(
 )
 
 function InputNumberSidebar({
+    format,
     className,
     disabled,
-    variant,
-    dimension,
     ...props
-}:
-    React.ComponentProps<'input'> &
-    VariantProps<typeof inputVariants> &
-    {
+}: React.ComponentProps<'input'> &
+    VariantProps<typeof inputNumberSidebarVariants> & {
         disabled?: boolean
     }
 ) {
+    const hideNumberArrows = '[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&[type=number]]:[-moz-appearance:textfield]'
     const [value, setValue] = useState<number | undefined>(undefined);
     const increment = () => {
         setValue(prev => (prev !== undefined ? prev + 1 : 1));
@@ -51,33 +62,55 @@ function InputNumberSidebar({
     };
     return (
         <div className={cn(
-            'flex flex-row bg-third-background items-center hover:bg-fill-emphasize outline outline-1 outline-solid outline-offset-[-1px] outline-transparent focus-within:outline-primary focus-within:bg-primary-light',
-            "hover:[&_[data-slot=func-menu-bar]]:block hover:[&_[data-slot=func-menu-bar]]:h-full hover:[&_[data-slot=func-menu-bar]]:flex hover:[&_[data-slot=func-menu-bar]]:justify-between hover:[&_[data-slot=func-menu-bar]]:flex-col",
-            inputNumberSidebarVariants({ dimension }),
+            inputVariants({ variant: 'primary', format: format }),
+            [
+                disabled && 'hover:bg-third-background'
+            ],
             className,
         )}>
-            <Input type='number' variant={'transparent'} dimension={dimension} value={value} disabled={disabled} onChange={(event) => {
-                try {
-                    const num = parseFloat(event.target.value);
-                    setValue(num);
-                } catch (error) {
-                    setValue(undefined);
-                }
-            }} />
-            <div data-slot='func-menu-bar' className='p-[1px] hidden'>
-                <div data-slot='func-menu' className='bg-fill-light-hover-bg flex items-center justify-center rounded-tr-sm hover:cursor-pointer' onClick={!disabled ? increment : undefined}>
-                    <TriangleUpIcon />
+            <input
+                className={cn(
+                    hideNumberArrows,
+                    inputNumberSidebarVariants({ variant: 'primary', format: format }),
+                    className
+                )}
+                disabled={disabled}
+                placeholder={props.placeholder ?? '请输入'}
+                value={value}
+                type='number'
+                onChange={(event) => {
+                    try {
+                        const num = parseFloat(event.target.value);
+                        setValue(num);
+                    } catch (error) {
+                        setValue(undefined);
+                    }
+                }} />
+            {
+                !disabled &&
+                <div data-slot='func-menu-bar' className='hidden flex-col justify-between gap-[2px]'>
+                    <div data-slot='func-menu' className={cn(
+                        'bg-fill-light-hover-bg flex items-center justify-center  hover:cursor-pointer',
+                        [
+                            format === 'sm' && 'h-2.5 w-6 rounded-tr-sm',
+                            format === 'md' && 'h-3.5 w-6.5 rounded-tr-md',
+                            format === 'lg' && 'h-4.5 w-8 rounded-tr-md',
+                        ]
+                    )} onClick={!disabled ? increment : undefined}>
+                        <TriangleUpIcon />
+                    </div>
+                    <div data-slot='func-menu' className={cn(
+                        'bg-fill-light-hover-bg flex items-center justify-center  hover:cursor-pointer',
+                        [
+                            format === 'sm' && 'h-2.5 w-6 rounded-br-sm',
+                            format === 'md' && 'h-3.5 w-6.5 rounded-br-md',
+                            format === 'lg' && 'h-4.5 w-8 rounded-br-md',
+                        ]
+                    )} onClick={!disabled ? decrement : undefined}>
+                        <TriangleDownIcon />
+                    </div>
                 </div>
-                {/* <Button data-slot='func-menu' variant={'link'} size={'link'} className='bg-fill-light-hover-bg flex items-center justify-center rounded-tr-sm hover:cursor-pointer' disabled={disabled} onClick={increment}>
-                    <TriangleUpIcon />
-                </Button>
-                <Button data-slot='func-menu' variant={'link'} size={'link'} className='bg-fill-light-hover-bg flex items-center justify-center rounded-br-sm hover:cursor-pointer' disabled={disabled} onClick={decrement}>
-                    <TriangleDownIcon />
-                </Button> */}
-                <div data-slot='func-menu' className='bg-fill-light-hover-bg flex items-center justify-center rounded-br-sm hover:cursor-pointer' onClick={!disabled ? decrement : undefined}>
-                    <TriangleDownIcon />
-                </div>
-            </div>
+            }
         </div >
     );
 }
