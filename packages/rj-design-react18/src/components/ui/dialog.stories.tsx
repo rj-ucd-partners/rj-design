@@ -146,3 +146,37 @@ export const Feedback: Story = {
         );
     }
 }
+
+export const Feedback2: Story = {
+    args: {
+        variant: 'primary',
+        titleVariant: 'primary',
+    },
+    render: (args) => {
+        return (
+            <Dialog>
+                <form>
+                    <DialogTrigger asChild>
+                        <Button variant="outline">开盖有惊喜</Button>
+                    </DialogTrigger>
+                    <DialogContent showCloseButton={false}>
+                        <DialogHeader hasBorder={false}>
+                            <DialogTitle variant={args.titleVariant}>标题</DialogTitle>
+                        </DialogHeader>
+                        <DialogDetails variant={args.titleVariant === 'default' ? 'default' : 'icon'} hasBorder={false}>
+                            <div>
+                                我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度，我是文案限制长度
+                            </div>
+                        </DialogDetails>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="default" size={'md'}>取消</Button>
+                            </DialogClose>
+                            <Button variant='primary' size={'md'} type="submit">确认</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </form>
+            </Dialog>
+        );
+    }
+}

@@ -233,7 +233,7 @@ function DialogTitle({
         variant === 'abnormal' && (<AbnormalIcon />)
       }
       {
-        variant === 'danger' && (<DestructiveIcon />)
+        variant === 'danger' && (<DestructiveIcon className="size-6"/>)
       }
       {props.children}
     </DialogPrimitive.Title>
