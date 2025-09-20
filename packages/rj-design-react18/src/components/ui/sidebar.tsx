@@ -370,7 +370,9 @@ function SidebarHeader({ className, variant, ...props }: React.ComponentProps<"d
         sidebarHeaderVariants({ variant })
       )}
       {...props}
-    />
+    >
+      <span className="h-9 leading-9"> {props.children}</span>
+    </div>
   )
 }
 

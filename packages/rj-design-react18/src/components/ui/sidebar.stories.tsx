@@ -124,7 +124,7 @@ export const Primary: Story = {
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
 
-                                    <CollapsibleContent>
+                                    <CollapsibleContent variant={'tree'}>
                                         <SidebarMenuSub>
                                             {
                                                 items[0].Children.map((sub, index) => {
@@ -158,7 +158,7 @@ export const Primary: Story = {
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
 
-                                    <CollapsibleContent>
+                                    <CollapsibleContent variant={'tree'}>
                                         <SidebarMenuSub>
                                             {
                                                 items[1].Children.map((sub, index) => {
@@ -192,7 +192,7 @@ export const Primary: Story = {
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
 
-                                    <CollapsibleContent>
+                                    <CollapsibleContent variant={'tree'}>
                                         <SidebarMenuSub>
                                             {
                                                 items[2].Children.map((sub, index) => {

@@ -49,12 +49,12 @@ function SidebarFourthMenu({
         <div
             data-slot="sidebar-fourth-menu"
             className={cn(
-                className,
+                'cursor-default',
                 "flex flex-1 flex-row items-center",
                 "gap-1",
                 "text-[12px] leading-[20px] font-normal",
-
                 checked ? "text-primary" : "text-secondary-information",
+                className,
             )}
             {...props}
         >
