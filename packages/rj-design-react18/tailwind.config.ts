@@ -41,7 +41,6 @@ export default {
         'success-active': 'hsl(var(--success-active))',
         'success-disabled': 'hsl(var(--success-disabled))',
         'success-special': 'hsl(var(--success-special))',
-        'success-light': 'hsl(var(--success-light))',
         /* --告警色-- */
         danger: 'hsl(var(--danger))',
         'danger-hover': 'hsl(var(--danger-hover))',

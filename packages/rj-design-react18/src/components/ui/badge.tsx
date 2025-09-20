@@ -13,7 +13,7 @@ const badgeVariants = cva(
           "bg-primary-light text-secondary-information hover:text-secondary  [a&]:hover:bg-primary/90 ",
         primary: 'bg-primary-light text-primary hover:bg-primary hover:text-text',
         success:
-          "bg-success-light text-success hover:bg-success hover:text-text [a&]:hover:bg-secondary/90",
+          "bg-success-active text-success hover:bg-success hover:text-text [a&]:hover:bg-secondary/90",
         abnormal:
           "bg-abnormal-light text-abnormal hover:bg-abnormal hover:text-text [a&]:hover:bg-destructive/90",
       },

@@ -53,7 +53,6 @@
   --color-success-active: var(--success-active);
   --color-success-disabled: var(--success-disabled);
   --color-success-special: var(--success-special);
-  --color-success-light: var(--success-light);
   /* --告警色-- */
   --color-danger: var(--danger);
   --color-danger-hover: var(--danger-hover);
@@ -165,10 +164,9 @@
   /* --成功色-- */
   --success: #16DE99;
   --success-hover: #47E5AF;
-  --success-active: #00CC86;
+  --success-active: #CCF0E3;
   --success-disabled: #9CF0D3;
   --success-special: #75E58F;
-  --success-light: #CCF0E3;
   /* --告警色-- */
   --danger: #EB2B00;
   --danger-hover: #EB512F;
@@ -284,7 +282,6 @@
   --success-active: #19362D;
   --success-disabled: #0C6E4C;
   --success-special: #005437;
-  --success-light: #19362D;
   /* --告警色-- */
   --danger: #D02500;
   --danger-hover: #FF3C00;
