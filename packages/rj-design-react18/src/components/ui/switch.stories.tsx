@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Switch } from "@/components/ui/switch"
+import { useEffect, useState } from 'react'
 
 const meta: Meta<typeof Switch> = {
     title: 'Components/Switch',
@@ -69,15 +70,21 @@ export const PrimaryDisabled: Story = {
     }
 }
 
-// 主要开关不可用
-export const PrimaryDesc: Story = {
+// 主要开关带描述
+export const PrimaryStatus: Story = {
     args: {
         variant: 'primary',
         size: 'lg',
-        checkedDesc: "开",
-        uncheckedDesc: "关"
+
     },
     render: (args) => {
-        return <Switch {...args} />
+        const [checked, setChecked] = useState<boolean>(false);
+        const [isLoading, setIsLoading] = useState<boolean>(true);
+        useEffect(() => {
+            setTimeout(() => { setIsLoading(false) }, 5000)
+        }, [])
+        return <div className='inline-flex items-center justify-center h-5'>
+            <Switch {...args} checked={checked} onCheckedChange={setChecked} isLoading={isLoading} />
+        </div>
     }
 }

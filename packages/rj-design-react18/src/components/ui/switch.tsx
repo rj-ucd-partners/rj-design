@@ -3,6 +3,7 @@ import * as SwitchPrimitive from "@radix-ui/react-switch"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { LoadingCircle } from "../icon/loading-circle"
 
 const switchRootVariants = cva(
   "",
@@ -37,24 +38,29 @@ const switchThumbVariants = cva(
 )
 
 function Switch({
-  checkedDesc,
-  uncheckedDesc,
-  className,
+  checked,
+  onCheckedChange,
+  isLoading = false,
   variant,
   size,
+  className,
   ...props
 }: React.ComponentProps<typeof SwitchPrimitive.Root> & VariantProps<typeof switchRootVariants> & {
-  checkedDesc?: string,
-  uncheckedDesc?: string
+  isLoading?: boolean
 }) {
+
+
   return (
     <SwitchPrimitive.Root
       data-slot="switch"
       className={cn(
         "peer inline-flex shrink-0 items-center",
-        className,
-        switchRootVariants({ variant, size })
+        "relative",
+        switchRootVariants({ variant, size }),
+        className
       )}
+      checked={checked}
+      onCheckedChange={onCheckedChange}
       {...props}
     >
       <SwitchPrimitive.Thumb
@@ -63,7 +69,19 @@ function Switch({
           "pointer-events-none block transition-transform data-[state=checked]:translate-x-[calc(100%+2px)] data-[state=unchecked]:translate-x-[2px]",
           switchThumbVariants({ variant, size })
         )}
-      />
+      >
+        {
+          isLoading &&
+          <LoadingCircle className={cn(
+            "animate-spin",
+            [
+              size === 'sm' && 'size-3',
+              size === 'md' && 'size-4',
+              size === 'lg' && 'size-5',
+            ]
+          )} />
+        }
+      </SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
   )
 }
