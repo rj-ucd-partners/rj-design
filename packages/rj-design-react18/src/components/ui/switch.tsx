@@ -48,8 +48,6 @@ function Switch({
 }: React.ComponentProps<typeof SwitchPrimitive.Root> & VariantProps<typeof switchRootVariants> & {
   isLoading?: boolean
 }) {
-
-
   return (
     <SwitchPrimitive.Root
       data-slot="switch"

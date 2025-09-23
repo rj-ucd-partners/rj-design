@@ -1,217 +1,467 @@
-import { Tabs, TabsBehindIcon, TabsFrontIcon, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { FavoriteIcon } from '../icon/FavoriteIcon'
-import { CloseIcon } from '../icon/closeIcon'
-import { Button } from './button'
-import { useState } from 'react'
 
+import {
+    Tabs,
+    TabsContent,
+    TabsItem,
+    TabsList,
+    TabsTrigger,
+} from "@/components/ui/tabs"
+import type { Meta, StoryObj } from "@storybook/react-vite"
+import { useState } from "react"
+import { FavoriteIcon } from "../icon/FavoriteIcon"
 
+interface TabsProps extends React.ComponentProps<typeof Tabs> {
+    variant: 'tag' | 'tab' | 'card',
+    size: 'md' | 'lg',
+    frontIcon?: React.ReactNode,
+    showClose?: boolean
+}
 
-const meta: Meta<typeof Tabs> = {
+const meta: Meta<TabsProps> = {
     title: 'Components/Tabs',
     component: Tabs,
     argTypes: {
         variant: {
-            control: { type: 'select' },
-            options: ['default', 'card', 'bottom-card'],
+            control: 'select',
+            options: ['tag', 'tab', 'card']
         },
         size: {
-            control: { type: 'select' },
-            options: ['md', 'lg', 'md-card', 'lg-card', 'md-bottom-card'],
+            control: 'select',
+            options: ['md', 'lg']
         },
     },
 }
 
 export default meta
 
-type Story = StoryObj<typeof Tabs>
+type Story = StoryObj<TabsProps>
+
+
 //标签页
-export const Default: Story = {
+export const PrimaryTag: Story = {
     args: {
-        variant: 'default',
+        variant: 'tag'
+    },
+    render: args => {
+        const tags = [
+            {
+                key: '1',
+                label: "底部选项卡1"
+            },
+            {
+                key: '2',
+                label: "底部选项卡2"
+            },
+            {
+                key: '3',
+                label: "底部选项卡3"
+            },
+            {
+                key: '4',
+                label: "底部选项卡4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        return (<div className="flex flex-col ">
+            <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                <TabsList variant={args.variant}>
+                    {
+                        tags.map((item) => {
+                            return (
+                                <TabsTrigger key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                    <TabsItem>
+                                        {item.label}
+                                    </TabsItem>
+                                </TabsTrigger>
+                            );
+                        })
+                    }
+                </TabsList>
+                <TabsContent value="1">
+                    aaa
+                </TabsContent>
+                <TabsContent value="2">
+                    bbb
+                </TabsContent>
+            </Tabs>
+        </div>)
+    },
+}
+
+export const PrimaryTabMd: Story = {
+    args: {
+        variant: 'tab',
         size: 'md'
     },
-    render: args => (
-        <Tabs defaultValue='account'>
-            <TabsList variant={args.variant} size={args.size}>
-                <TabsTrigger disabled variant={args.variant} size={args.size} value='account'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='password'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='1'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='2'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='3'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='4'>默认选项</TabsTrigger>
-            </TabsList>
-            {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
-            <TabsContent value='password'>Change your password here.</TabsContent> */}
-        </Tabs>
-    ),
-}
-
-
-//卡片项
-export const Card: Story = {
-    args: {
-        variant: 'card',
-        size: 'md-card'
+    render: args => {
+        const tags = [
+            {
+                key: '1',
+                label: "标签选项卡1"
+            },
+            {
+                key: '2',
+                label: "标签选项卡2"
+            },
+            {
+                key: '3',
+                label: "标签选项卡3"
+            },
+            {
+                key: '4',
+                label: "标签选项卡4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        return (<div className="flex flex-col gap-6">
+            <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                <TabsList variant={args.variant} size={args.size}>
+                    {
+                        tags.map((item) => {
+                            return (
+                                <TabsTrigger size={args.size} key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                    <TabsItem>
+                                        {item.label}
+                                    </TabsItem>
+                                </TabsTrigger>
+                            );
+                        })
+                    }
+                </TabsList>
+                <TabsContent value="1">
+                    aaa
+                </TabsContent>
+                <TabsContent value="2">
+                    bbb
+                </TabsContent>
+            </Tabs>
+        </div>)
     },
-    render: args => (
-        <Tabs defaultValue='account'>
-            <TabsList variant={args.variant} size={args.size}>
-                <TabsTrigger disabled variant={args.variant} size={args.size} value='account'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='password'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='1'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='2'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='3'>默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='4'>默认选项</TabsTrigger>
-            </TabsList>
-            {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
-            <TabsContent value='password'>Change your password here.</TabsContent> */}
-        </Tabs>
-    ),
 }
 
-//底部条选项卡
-export const BottomCard: Story = {
+export const PrimaryTabLg: Story = {
     args: {
-        variant: 'bottom-card',
-        size: 'md-bottom-card'
-    },
-    render: args => (
-        <Tabs defaultValue='account'>
-            <TabsList variant={args.variant} size={args.size}>
-                <TabsTrigger disabled variant={args.variant} size={args.size} value='account'>底部条选项卡</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='password'>底部条选项卡</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='1'>底部条选项卡</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='2'>底部条选项卡</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='3'>底部条选项卡</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='4'>底部条选项卡</TabsTrigger>
-            </TabsList>
-            {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
-            <TabsContent value='password'>Change your password here.</TabsContent> */}
-        </Tabs>
-    ),
-}
-
-
-//默认图标
-export const DefaultWithFrontIcon: Story = {
-    args: {
-        variant: 'default',
-    },
-    render: args => (
-        <Tabs defaultValue='account'>
-            <TabsList variant={args.variant} size={args.size}>
-                <TabsTrigger disabled variant={args.variant} size={args.size} value='account'>
-                    <TabsFrontIcon size={args.size}>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                </TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='password'>
-                    <TabsFrontIcon size={args.size}>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                </TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='1'>
-                    <TabsFrontIcon size={args.size}>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                </TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='2'>
-                    <TabsFrontIcon size={args.size}>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='3'>
-                    <TabsFrontIcon size={args.size}>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项</TabsTrigger>
-                <TabsTrigger variant={args.variant} size={args.size} value='4'>
-                    <TabsFrontIcon size={args.size}>
-                        <FavoriteIcon />
-                    </TabsFrontIcon>
-                    默认选项
-                </TabsTrigger>
-            </TabsList>
-            {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
-            <TabsContent value='password'>Change your password here.</TabsContent> */}
-        </Tabs>
-    ),
-}
-
-
-export const CardWithBehindIcon: Story = {
-    args: {
-        variant: 'card',
-        size: 'md-card',
+        variant: 'tab',
+        size: 'lg'
     },
     render: args => {
-        const [line, setLine] = useState<string[]>(['1', '2', '3', '4', 'account', 'password']);
-
-        return (<Tabs defaultValue='account'>
-            <TabsList variant={args.variant} size={args.size}>
-                {
-                    line.map((item, index) => {
-                        return (
-                            <TabsTrigger key={index} variant={args.variant} size={args.size} value={item}>
-                                <TabsFrontIcon size={args.size}>
-                                    <FavoriteIcon />
-                                </TabsFrontIcon>
-                                默认选项
-                                <TabsBehindIcon size={args.size}>
-                                    <Button variant={'transparent'} size={'link'} onClick={() => {
-                                        setLine(line.filter((_, i) => i !== index));
-                                    }}>
-                                        <CloseIcon />
-                                    </Button>
-                                </TabsBehindIcon>
-                            </TabsTrigger>
-                        );
-                    })
-                }
-            </TabsList>
-            {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
-            <TabsContent value='password'>Change your password here.</TabsContent> */}
-        </Tabs>)
+        const tags = [
+            {
+                key: '1',
+                label: "标签选项卡1"
+            },
+            {
+                key: '2',
+                label: "标签选项卡2"
+            },
+            {
+                key: '3',
+                label: "标签选项卡3"
+            },
+            {
+                key: '4',
+                label: "标签选项卡4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        return (<div className="flex flex-col gap-6">
+            <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                <TabsList variant={args.variant} size={args.size}>
+                    {
+                        tags.map((item) => {
+                            return (
+                                <TabsTrigger size={args.size} key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                    <TabsItem>
+                                        {item.label}
+                                    </TabsItem>
+                                </TabsTrigger>
+                            );
+                        })
+                    }
+                </TabsList>
+                <TabsContent value="1">
+                    aaa
+                </TabsContent>
+                <TabsContent value="2">
+                    bbb
+                </TabsContent>
+            </Tabs>
+        </div>)
     },
 }
 
-
-export const DefaultWithBehindIcon: Story = {
+export const PrimaryCardMd: Story = {
     args: {
-        variant: 'default',
+        variant: 'card',
+        size: 'md'
+    },
+    render: args => {
+        const tags = [
+            {
+                key: '1',
+                label: "卡片选项1"
+            },
+            {
+                key: '2',
+                label: "卡片选项2"
+            },
+            {
+                key: '3',
+                label: "卡片选项3"
+            },
+            {
+                key: '4',
+                label: "卡片选项4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        return (
+            <div className="flex flex-col gap-6 bg-card w-full h-100">
+                <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                    <TabsList variant={args.variant} size={args.size}>
+                        {
+                            tags.map((item) => {
+                                return (
+                                    <TabsTrigger size={args.size} key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                        <TabsItem>
+                                            {item.label}
+                                        </TabsItem>
+                                    </TabsTrigger>
+                                );
+                            })
+                        }
+                    </TabsList>
+                    <TabsContent value="1">
+                        aaa
+                    </TabsContent>
+                    <TabsContent value="2">
+                        bbb
+                    </TabsContent>
+                </Tabs>
+            </div>)
+    },
+}
+
+export const PrimaryCardLg: Story = {
+    args: {
+        variant: 'card',
+        size: 'lg'
+    },
+    render: args => {
+        const tags = [
+            {
+                key: '1',
+                label: "卡片选项1"
+            },
+            {
+                key: '2',
+                label: "卡片选项2"
+            },
+            {
+                key: '3',
+                label: "卡片选项3"
+            },
+            {
+                key: '4',
+                label: "卡片选项4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        return (
+            <div className="flex flex-col gap-6 bg-card w-full h-100">
+                <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                    <TabsList variant={args.variant} size={args.size}>
+                        {
+                            tags.map((item) => {
+                                return (
+                                    <TabsTrigger size={args.size} key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                        <TabsItem>
+                                            {item.label}
+                                        </TabsItem>
+                                    </TabsTrigger>
+                                );
+                            })
+                        }
+                    </TabsList>
+                    <TabsContent value="1">
+                        aaa
+                    </TabsContent>
+                    <TabsContent value="2">
+                        bbb
+                    </TabsContent>
+                </Tabs>
+            </div>)
+    },
+}
+
+export const PrimaryTabMdIcon: Story = {
+    args: {
+        variant: 'tab',
         size: 'md',
+        frontIcon: <FavoriteIcon />
     },
     render: args => {
-        const [line, setLine] = useState<string[]>(['1', '2', '3', '4', 'account', 'password']);
+        const tags = [
+            {
+                key: '1',
+                label: "标签选项卡1"
+            },
+            {
+                key: '2',
+                label: "标签选项卡2"
+            },
+            {
+                key: '3',
+                label: "标签选项卡3"
+            },
+            {
+                key: '4',
+                label: "标签选项卡4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        return (<div className="flex flex-col gap-6">
+            <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                <TabsList variant={args.variant} size={args.size}>
+                    {
+                        tags.map((item) => {
+                            return (
+                                <TabsTrigger size={args.size} key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                    <TabsItem frontIcon={args.frontIcon}>
+                                        {item.label}
+                                    </TabsItem>
+                                </TabsTrigger>
+                            );
+                        })
+                    }
+                </TabsList>
+                <TabsContent value="1">
+                    aaa
+                </TabsContent>
+                <TabsContent value="2">
+                    bbb
+                </TabsContent>
+            </Tabs>
+        </div>)
+    },
+}
 
-        return (<Tabs defaultValue='account'>
-            <TabsList variant={args.variant} size={args.size}>
-                {
-                    line.map((item, index) => {
-                        return (
-                            <TabsTrigger key={index} variant={args.variant} size={args.size} value={item}>
-                                <TabsFrontIcon size={args.size}>
-                                    <FavoriteIcon />
-                                </TabsFrontIcon>
-                                默认选项
-                                <TabsBehindIcon size={args.size}>
-                                    <Button variant={'transparent'} size={'link'} onClick={() => {
-                                        setLine(line.filter((_, i) => i !== index));
-                                    }}>
-                                        <CloseIcon />
-                                    </Button>
-                                </TabsBehindIcon>
-                            </TabsTrigger>
-                        );
-                    })
-                }
-            </TabsList>
-            {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
-            <TabsContent value='password'>Change your password here.</TabsContent> */}
-        </Tabs>)
+export const PrimaryTabMdIconShowClose: Story = {
+    args: {
+        variant: 'tab',
+        size: 'md',
+        frontIcon: <FavoriteIcon />,
+        showClose: true
+    },
+    render: args => {
+        const tags = [
+            {
+                key: '1',
+                label: "标签选项卡1"
+            },
+            {
+                key: '2',
+                label: "标签选项卡2"
+            },
+            {
+                key: '3',
+                label: "标签选项卡3"
+            },
+            {
+                key: '4',
+                label: "标签选项卡4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        const closeCallback = () => {
+            alert('受控组件的关闭逻辑');
+        }
+        return (<div className="flex flex-col gap-6">
+            <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                <TabsList variant={args.variant} size={args.size}>
+                    {
+                        tags.map((item) => {
+                            return (
+                                <TabsTrigger size={args.size} key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                    <TabsItem frontIcon={args.frontIcon} showClose={args.showClose} closeCallback={closeCallback}>
+                                        {item.label}
+                                    </TabsItem>
+                                </TabsTrigger>
+                            );
+                        })
+                    }
+                </TabsList>
+                <TabsContent value="1">
+                    aaa
+                </TabsContent>
+                <TabsContent value="2">
+                    bbb
+                </TabsContent>
+            </Tabs>
+        </div>)
+    },
+}
+
+export const PrimaryCardMdIconShowClose: Story = {
+    args: {
+        variant: 'card',
+        size: 'md',
+        frontIcon: <FavoriteIcon />,
+        showClose: true
+    },
+    render: args => {
+        const tags = [
+            {
+                key: '1',
+                label: "标签选项卡1"
+            },
+            {
+                key: '2',
+                label: "标签选项卡2"
+            },
+            {
+                key: '3',
+                label: "标签选项卡3"
+            },
+            {
+                key: '4',
+                label: "标签选项卡4",
+                disabled: true
+            }
+        ]
+        const [value, setValue] = useState<string>('1')
+        const closeCallback = () => {
+            alert('受控组件的关闭逻辑');
+        }
+        return (<div className="flex flex-col gap-6">
+            <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                <TabsList variant={args.variant} size={args.size}>
+                    {
+                        tags.map((item) => {
+                            return (
+                                <TabsTrigger size={args.size} key={item.key} value={item.key} variant={args.variant} disabled={item.disabled ?? false}>
+                                    <TabsItem frontIcon={args.frontIcon} showClose={args.showClose} closeCallback={closeCallback}>
+                                        {item.label}
+                                    </TabsItem>
+                                </TabsTrigger>
+                            );
+                        })
+                    }
+                </TabsList>
+                <TabsContent value="1">
+                    aaa
+                </TabsContent>
+                <TabsContent value="2">
+                    bbb
+                </TabsContent>
+            </Tabs>
+        </div>)
     },
 }

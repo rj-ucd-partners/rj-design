@@ -3,194 +3,174 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Button } from "./button"
+import { CloseIcon } from "../icon/closeIcon"
 
-
-function Tabs({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsPrimitive.Root>) {
-  return (
-    <TabsPrimitive.Root
-      data-slot="tabs"
-      className={cn("flex flex-col gap-2", className,)}
-      {...props}
-    />
-  )
-}
+const Tabs = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Root
+    ref={ref}
+    className={cn(
+      className
+    )}
+    {...props}
+  />
+))
+Tabs.displayName = TabsPrimitive.Root.displayName
 
 const tabsListVariants = cva(
-  'bg-transparent',
+  'flex items-center justify-start',
   {
     variants: {
       variant: {
-        default: '',
-        card: 'gap-1',
-        'bottom-card': 'gap-4'
+        tag: 'gap-4 p-2',
+        tab: 'border-b border-border-split',
+        card: 'gap-1'
       },
       size: {
         md: '',
-        lg: '',
-        'md-card': '',
-        'lg-card': '',
-        'md-bottom-card': ''
+        lg: ''
       }
     },
-    defaultVariants: {
-      variant: 'default',
-      size: 'md'
-    },
   })
+interface TabsListPrors extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>, VariantProps<typeof tabsListVariants> {
 
-function TabsList({
-  className,
-  variant,
-  size,
-  ...props
-}: React.ComponentProps<typeof TabsPrimitive.List> & VariantProps<typeof tabsListVariants>) {
-  return (
-    <TabsPrimitive.List
-      data-slot="tabs-list"
-      className={cn(
-        "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
-        className,
-        tabsListVariants({ variant, size })
-      )}
-      {...props}
-    />
-  )
 }
 
+const TabsList = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.List>,
+  TabsListPrors
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.List
+    ref={ref}
+    className={cn(
+      tabsListVariants({ variant: props.variant }),
+      className
+    )}
+    {...props}
+  />
+))
+TabsList.displayName = TabsPrimitive.List.displayName
+
+interface TabsTriggerPrors extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>, VariantProps<typeof tabsTriggerVariants> {
+  size?: 'md' | 'lg'
+}
 const tabsTriggerVariants = cva(
-  'flex flex-row items-center',
+  "inline-flex items-center justify-center whitespace-nowrap disabled:pointer-events-none [&_[data-slot=tabs-item-close]]:ml-2 [&_[data-slot=tabs-item-close]]:ml-4",
   {
     variants: {
       variant: {
-        native: " data-[state=active]:bg-primary-background dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        default: " p-2 bg-transparent text-secondary-information data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:[&_[data-slot=tabs-trigger-item]]:text-primary dark:data-[state=active]:[&_[data-slot=tabs-trigger-item]]:text-primary data-[state=active]:text-primary dark:data-[state=active]:text-primary dark:data-[state=active]:relative dark:data-[state=active]:after:content-[''] dark:data-[state=active]:after:absolute dark:data-[state=active]:after:bottom-0 dark:data-[state=active]:after:left-0 dark:data-[state=active]:after:w-full dark:data-[state=active]:after:h-[1px] dark:data-[state=active]:after:bg-gradient-to-l dark:data-[state=active]:after:from-cyan-400/0 dark:data-[state=active]:after:via-cyan-400 dark:data-[state=active]:after:to-cyan-400/0 disabled:[&_[data-slot=tabs-trigger-item]]:text-disabled",
-        card: 'inline-flex rounded-tl-[10px] rounded-tr-[10px] bg-primary-background shadow-[0px_1px_0px_0px_rgba(27,37,46,1.00)] data-[state=active]:bg-card data-[state=active]:border-l data-[state=active]:border-r data-[state=active]:border-t data-[state=active]:border-border-split data-[state=active]:text-primary hover:bg-fill-light-hover-bg outline outline-1 outline-offset-[-1px] hover:outline-border-split disabled:bg-card disabled:text-disabled disabled:outline-border-disabled',
-        'bottom-card': 'inline-flex text-secondary-information outline outline-1 outline-offset-[-1px] outline-border data-[state=active]:text-primary  data-[state=active]:outline-primary hover:bg-primary-light hover:text-primary-hover hover:outline-primary-hover disabled:text-disabled disabled:outline-border-disabled'
+        tag: [
+          'text-[13px] leading-5',
+          'text-secondary-information disabled:text-disabled',
+          'data-[state=active]:text-text',
+          '[&_[data-slot=tabs-item]]:border [&_[data-slot=tabs-item]]:border-border',
+          '[&_[data-slot=tabs-item]]:px-2 [&_[data-slot=tabs-item]]:py-1',
+          '[&_[data-slot=tabs-item]]:rounded-md',
+          'hover:[&_[data-slot=tabs-item]]:border-primary hover:[&_[data-slot=tabs-item]]:bg-primary-light hover:[&_[data-slot=tabs-item]]:text-primary hover:data-[state=active]:[&_[data-slot=tabs-item]]:text-text hover:data-[state=active]:[&_[data-slot=tabs-item]]:border-primary disabled:[&_[data-slot=tabs-item]]:border-border-disabled',
+          'data-[state=active]:[&_[data-slot=tabs-item]]:bg-primary',
+          'active:text-primary-active active:[&_[data-slot=tabs-item]]:border-primary-active active:[&_[data-slot=tabs-item]]:bg-primary-light',
+        ],
+        card: [
+          'text-secondary-information disabled:text-disabled',
+          'data-[state=active]:text-primary',
+          'hover:bg-fill-light-hover-bg hover:border hover:border-border-split',
+          'rounded-t-[10px]',
+          'bg-primary-background',
+          'active:bg-fill-dark-hover-active-disabled active:border hover:border-border-split',
+          'disabled:border disabled:bg-border-disabled disabled:bg-card'
+        ],
+        tab: [
+          'text-secondary-information disabled:text-disabled',
+          'data-[state=active]:text-primary',
+          'hover:[&_[data-slot=tabs-item]]:bg-fill-light-hover-bg',
+          'p-2',
+          "dark:data-[state=active]:relative dark:data-[state=active]:after:content-[''] dark:data-[state=active]:after:absolute dark:data-[state=active]:after:bottom-0 dark:data-[state=active]:after:left-0 dark:data-[state=active]:after:w-full dark:data-[state=active]:after:h-[1px] dark:data-[state=active]:after:bg-gradient-to-l dark:data-[state=active]:after:from-cyan-400/0 dark:data-[state=active]:after:via-cyan-400 dark:data-[state=active]:after:to-cyan-400/0",
+          '[&_[data-slot=tabs-item]]:rounded-lg'
+        ]
       },
-      size: {
-        md: 'px-2 py-[5px] text-[13px] leading-[20px]',
-        lg: 'px-4 py-3 text-[15px] leading-[22px]',
-        'md-card': 'px-4 py-2 text-[13px] leading-[20px]',
-        'lg-card': 'px-6 py-5 text-[15px] leading-[22px]',
-        'md-bottom-card': 'px-2 py-1 rounded-md text-[13px] leading-[20px]',
-      }
-    },
-    defaultVariants: {
-      variant: 'default'
     },
   })
+const TabsTrigger = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Trigger>,
+  TabsTriggerPrors
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      tabsTriggerVariants({ variant: props.variant }),
 
-function TabsTrigger({
-  className,
-  variant,
-  size,
-  ...props
-}: React.ComponentProps<typeof TabsPrimitive.Trigger> & VariantProps<typeof tabsTriggerVariants>) {
-  return (
-    <TabsPrimitive.Trigger
-      data-slot="tabs-trigger"
-      className={cn(
-        "",
-        className,
-        variant == 'default' ? tabsTriggerVariants({ variant }) : tabsTriggerVariants({ variant, size })
-      )}
-      {...props}
-    >
-      {
-        variant == 'default' ?
-          <div data-slot="tabs-trigger-item" className={cn(
-            "flex rounded-lg hover:bg-fill-light-hover-bg active:bg-fill-dark-hover-active-disabled ",
-            tabsTriggerVariants({ size })
-          )}>
-            {props.children}
-          </div>
-          :
-          props.children
-      }
-    </TabsPrimitive.Trigger>
-  )
+      props.variant === 'tab' &&
+      [
+        props.size === 'md' && '[&_[data-slot=tabs-item]]:px-2 [&_[data-slot=tabs-item]]:py-[5px] text-[13px] leading-5 [&_[data-slot=tabs-item]]:[&_svg]:size-4',
+        props.size === 'lg' && '[&_[data-slot=tabs-item]]:px-4 [&_[data-slot=tabs-item]]:py-3 text-[15px] leading-[22px] [&_[data-slot=tabs-item]]:[&_svg]:size-5'
+      ],
+      props.variant === 'card' &&
+      [
+        props.size === 'md' && '[&_[data-slot=tabs-item]]:px-4 [&_[data-slot=tabs-item]]:py-2 text-[13px] leading-5 [&_[data-slot=tabs-item]]:[&_svg]:size-4',
+        props.size === 'lg' && '[&_[data-slot=tabs-item]]:px-6 [&_[data-slot=tabs-item]]:py-5 text-[15px] leading-[22px] [&_[data-slot=tabs-item]]:[&_svg]:size-5'
+      ],
+      className
+    )}
+    {...props}
+  />
+))
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+
+
+interface TabsItemPrors extends React.ComponentPropsWithoutRef<'div'> {
+  frontIcon?: React.ReactNode,
+  showClose?: boolean,
+  closeCallback?: () => void
 }
+const TabsItem = React.forwardRef<
+  React.ElementRef<'div'>,
+  TabsItemPrors
+>(({ className, frontIcon, showClose, ...props }, ref) => (
+  <div
+    ref={ref}
+    data-slot="tabs-item"
+    className={cn(
+      'inline-flex flex-row items-center justify-start',
+      className
+    )}
+    {...props}
+  >
+    {
+      frontIcon &&
+      <div className={cn(
+        "inline-flex mr-2",
+      )}>
+        {frontIcon}
+      </div>
+    }
+    {
+      props.children
+    }
+    {
+      showClose &&
+      <Button data-slot="tabs-item-close" variant={'transparent'} size={'link'} onClick={props.closeCallback}>
+        <CloseIcon />
+      </Button>
+    }
+  </div >
+))
 
-function TabsContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsPrimitive.Content>) {
-  return (
-    <TabsPrimitive.Content
-      data-slot="tabs-content"
-      className={cn("flex-1 outline-none", className)}
-      {...props}
-    />
-  )
-}
+const TabsContent = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Content
+    ref={ref}
+    className={cn(
+      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      className
+    )}
+    {...props}
+  />
+))
+TabsContent.displayName = TabsPrimitive.Content.displayName
 
-const tabsFrontIconVariants = cva(
-  '',
-  {
-    variants: {
-      variant: {
-      },
-      size: {
-        md: 'size-4',
-        lg: 'size-4.5',
-        'md-card': 'size-4',
-        'lg-card': 'size-4.5',
-        'md-bottom-card': 'size-4',
-      }
-    },
-    defaultVariants: {
-    },
-  })
-
-function TabsFrontIcon({
-  className,
-  size,
-  ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof tabsFrontIconVariants>) {
-  return (
-    <div
-      data-slot="tabs-front-icon"
-      className={cn("mr-2", className, tabsFrontIconVariants({ size }))}
-      {...props}
-    />
-  )
-}
-
-const tabsBehindIconVariants = cva(
-  '',
-  {
-    variants: {
-      variant: {
-      },
-      size: {
-        md: 'size-4',
-        lg: 'size-4.5',
-        'md-card': 'size-4',
-        'lg-card': 'size-4.5',
-        'md-bottom-card': 'size-4',
-      }
-    },
-    defaultVariants: {
-    },
-  })
-
-function TabsBehindIcon({
-  className,
-  size,
-  ...props
-}: React.ComponentProps<"div">
-  & VariantProps<typeof tabsBehindIconVariants>
-) {
-  return (
-    <div
-      data-slot="tabs-behind-icon"
-      className={cn("ml-4", className, tabsBehindIconVariants({ size }))}
-      {...props}
-    />
-  )
-}
-
-export { Tabs, TabsList, TabsTrigger, TabsContent, TabsFrontIcon, TabsBehindIcon }
+export { Tabs, TabsList, TabsTrigger, TabsContent, TabsItem }
