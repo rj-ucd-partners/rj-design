@@ -151,7 +151,11 @@ const TabsItem = React.forwardRef<
     }
     {
       showClose &&
-      <Button data-slot="tabs-item-close" variant={'transparent'} size={'link'} onClick={props.closeCallback}>
+      <Button
+        data-slot="tabs-item-close"
+        variant={'transparent'}
+        size={'link'}
+        onClick={props.closeCallback}>
         <CloseIcon />
       </Button>
     }

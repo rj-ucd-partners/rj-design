@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
-import { type VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { toggleVariants } from "@/components/ui/toggle"
@@ -9,8 +9,34 @@ const ToggleGroupContext = React.createContext<
   VariantProps<typeof toggleVariants>
 >({
   size: "sm",
-  variant: "default",
+  variant: "primary",
 })
+
+const toggleGroupVariants = cva(
+  "group/toggle-group flex w-fit items-center data-[variant=outline]:shadow-xs",
+  {
+    variants: {
+      variant: {
+        default: "",
+        outline:
+          "",
+        primary: [
+          "bg-fill"
+        ],
+      },
+      size: {
+        sm: "rounded-md",
+        md: "rounded-lg",
+        lg: "rounded-lg",
+      },
+
+    },
+    defaultVariants: {
+      variant: "primary",
+      size: "sm",
+    },
+  }
+)
 
 function ToggleGroup({
   className,
@@ -26,7 +52,7 @@ function ToggleGroup({
       data-variant={variant}
       data-size={size}
       className={cn(
-        "group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-xs",
+        toggleGroupVariants({ variant, size }),
         className
       )}
       {...props}
@@ -58,7 +84,7 @@ function ToggleGroupItem({
           variant: context.variant || variant,
           size: context.size || size,
         }),
-        "min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-l-md last:rounded-r-md focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l",
+        "min-w-0 flex-1 shrink-0 shadow-none  focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l",
         className
       )}
       {...props}

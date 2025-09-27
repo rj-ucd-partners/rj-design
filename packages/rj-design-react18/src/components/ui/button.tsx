@@ -54,9 +54,6 @@ const buttonVariants = cva(
         'sm-link': 'text-[11px] leading-[16px] gap-1',
         'md-link': 'text-[13px] leading-[20px] gap-2',
         'lg-link': 'text-[15px] leading-[22px] gap-2',
-        'toggle-sm': 'px-2 text-[12px] leading-[20px] font-normal rounded-sm',
-        'toggle-md': 'px-4 py-[1px] text-[13px] leading-[20px] font-normal rounded-md',
-        'toggle-lg': 'px-4 py-[1px] text-[15px] leading-[22px] font-normal rounded-md',
         day: 'size-4'
       },
     },
