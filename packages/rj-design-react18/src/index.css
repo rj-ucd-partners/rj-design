@@ -164,7 +164,7 @@
   /* --成功色-- */
   --success: #16DE99;
   --success-hover: #47E5AF;
-  --success-active: #CCF0E3;
+  --success-active: #00CC86;
   --success-disabled: #9CF0D3;
   --success-special: #75E58F;
   /* --告警色-- */
@@ -212,7 +212,7 @@
   /* --背景-- */
   --background: #F4F6F9;
   --card: #FFFFFF;
-  --secondary-background: #F4F6F9;
+  --secondary-background: #F5F6FA;
   --third-background: #ECF0F7;
   /* --其他-- */
   --scroll: #C7CACC;

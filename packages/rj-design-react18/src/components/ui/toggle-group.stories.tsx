@@ -5,7 +5,6 @@ import {
 } from "@/components/ui/toggle-group"
 import { ManIcon } from "../icon/man-icon"
 import type { BaseNode } from "@/common/type"
-import { it } from "date-fns/locale"
 import { cn } from "@/lib/utils"
 
 const meta: Meta<typeof ToggleGroup> = {

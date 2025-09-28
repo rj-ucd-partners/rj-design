@@ -316,7 +316,7 @@ function Select({
         }}>
           {
             datasource?.map(item => {
-              return (<SelectItem value={item.key} disabled={item.disabled}>{item.label}</SelectItem>)
+              return (<SelectItem key={item.key} value={item.key} disabled={item.disabled}>{item.label}</SelectItem>)
             })
           }{
             (!datasource || datasource.length === 0) &&

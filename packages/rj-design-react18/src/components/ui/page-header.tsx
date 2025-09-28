@@ -22,7 +22,7 @@ function PageHeaderTitle({
     }) {
     return (
         <div className={cn(
-            'flex flex-row items-center justify-between flex-1',
+            'flex flex-row items-center justify-between flex-1 gap-4',
             className)} {...props} />
     )
 }
@@ -50,7 +50,7 @@ function PageHeaderTitleStart({
                 <span className="text-[17px] leading-[24px] font-medium not-italic text-text-deep">{props.title}</span>
                 {
                     props.description &&
-                    <span className="text-[13px] leading-[20px] font-nromal not-italic text-secondary-information">{props.title}</span>
+                    <span className="text-[13px] leading-[20px] font-nromal not-italic text-secondary-information">{props.description}</span>
                 }
                 {props.children}
             </div>

@@ -17,8 +17,8 @@ function Message({
     showClose?: boolean;
 }) {
     useEffect(() => {
-        const timer = setTimeout(() => setShow(false), 3000)
-        return () => clearTimeout(timer)
+        // const timer = setTimeout(() => setShow(false), 3000)
+        // return () => clearTimeout(timer)
     }, [])
 
     const [show, setShow] = useState(true);
@@ -31,7 +31,7 @@ function Message({
         'bg-text',
         'inline-flex flex-row items-center justify-center gap-2',
         'px-4 py-3 rounded-md',
-        'border border-disabled shadow-[0px_5px_20px_0px] shadow-background',
+        'border border-border-disabled shadow-[0px_5px_20px] shadow-primary-background',
         !show && 'hidden',
         className
     )} {...props}>

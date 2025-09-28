@@ -5,10 +5,15 @@ import { Badge } from "./badge"
 import { Button } from "./button"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./breadcrumb"
 import { SlashIcon } from "@radix-ui/react-icons"
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsItem, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import type { BaseNode } from "@/common/type"
+import { useState } from "react"
+import { Input } from "./input"
+import { cn } from "@/lib/utils"
 interface PageHeaderProps extends React.ComponentProps<"div"> {
     title: string,
     description?: string,
+    inputmargin?: number
 }
 
 const meta: Meta<PageHeaderProps> = {
@@ -239,82 +244,129 @@ export const Primary1: Story = {
     )
 }
 
+const tags: BaseNode[] = Array.from({ length: 8 }).map((_, index) => {
+    return {
+        key: (index + 1).toString(),
+        label: `默认标签${index + 1}`
+    } as BaseNode
+})
+
 // 标题
 export const Primary2: Story = {
     args: {
         title: '标题名称',
-        description: '辅助信息',
+        description: '辅助信息1',
     },
-    render: (args) => (
-        <PageHeader >
-            <Breadcrumb>
-                <BreadcrumbList variant={'default'}>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                            <span>Home</span>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator>
-                        <SlashIcon />
-                    </BreadcrumbSeparator>
-                    <BreadcrumbItem>
-                        <span>上个页面</span>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator>
-                        <SlashIcon />
-                    </BreadcrumbSeparator>
-                    <BreadcrumbItem>
-                        <BreadcrumbPage>当前页面</BreadcrumbPage>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
+    render: (args) => {
+        const [value, setValue] = useState<string>();
+        return (
+            <PageHeader >
+                <Breadcrumb>
+                    <BreadcrumbList variant={'default'}>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink asChild>
+                                <span>Home</span>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator>
+                            <SlashIcon />
+                        </BreadcrumbSeparator>
+                        <BreadcrumbItem>
+                            <span>上个页面</span>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator>
+                            <SlashIcon />
+                        </BreadcrumbSeparator>
+                        <BreadcrumbItem>
+                            <BreadcrumbPage>当前页面</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
+                <PageHeaderTitle>
+                    <PageHeaderTitleStart {...args} >
+                        <Info size={16} />
+                        <Badge variant={'default'}>
+                            标签
+                        </Badge>
+                        <Button variant={'link'} size={'link'} className="text-[13px] leading-[20px]">
+                            链接按钮
+                        </Button>
+                    </PageHeaderTitleStart>
+                    <PageHeaderTitleEnd {...args} >
+                        <Button variant={'primary'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                            默认按钮
+                        </Button>
+                        <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                            默认按钮
+                        </Button>
+                        <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                            默认按钮
+                        </Button>
+                        <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                            默认按钮
+                        </Button>
+                        <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                            默认按钮
+                        </Button>
+                        <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
+                            默认按钮
+                        </Button>
+                        <Button variant={'default'} size={'md-icon'} onClick={() => { alert('点什么，手多？') }}>
+                            <Ellipsis size={4} />
+                        </Button>
+                    </PageHeaderTitleEnd>
+                </PageHeaderTitle>
+                <Tabs defaultValue="1" value={value} onValueChange={(e) => { setValue(e) }}>
+                    <TabsList variant={'tab'} size={'md'}>
+                        {
+                            tags.map((item) => {
+                                return (
+                                    <TabsTrigger size={'md'} key={item.key} value={item.key} variant={'tab'} disabled={item.disabled ?? false}>
+                                        <TabsItem>
+                                            {item.label}
+                                        </TabsItem>
+                                    </TabsTrigger>
+                                );
+                            })
+                        }
+                    </TabsList>
+                </Tabs>
+            </PageHeader>
+
+        )
+    }
+}
+
+//带输入框的标题
+export const PrimaryInput: Story = {
+    args: {
+        title: '标题名称',
+        description: '辅助信息',
+        inputmargin: 40,
+    },
+    render: (args) => {
+        return (<PageHeader >
             <PageHeaderTitle>
-                <PageHeaderTitleStart {...args} >
-                    <Info size={16} />
-                    <Badge variant={'default'}>
-                        标签
-                    </Badge>
-                    <Button variant={'link'} size={'link'} className="text-[13px] leading-[20px]">
-                        链接按钮
-                    </Button>
-                </PageHeaderTitleStart>
-                <PageHeaderTitleEnd {...args} >
-                    <Button variant={'primary'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
-                        默认按钮
-                    </Button>
-                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
-                        默认按钮
-                    </Button>
-                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
-                        默认按钮
-                    </Button>
-                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
-                        默认按钮
-                    </Button>
-                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
-                        默认按钮
-                    </Button>
-                    <Button variant={'default'} size={'md'} onClick={() => { alert('点什么，手多？') }}>
-                        默认按钮
-                    </Button>
-                    <Button variant={'default'} size={'md-icon'} onClick={() => { alert('点什么，手多？') }}>
-                        <Ellipsis size={4} />
-                    </Button>
+                <PageHeaderTitleStart {...args} />
+                <PageHeaderTitleEnd className="flex-1">
+                    <div className="flex flex-1 flex-row items-center justify-center gap-[120px]">
+                        <input
+                            placeholder="请输入"
+                            className="w-full outline-none bg-secondary-background rounded-md px-[8px] py-[5px] text-[12px] leading-[20px]"
+                            style={{
+                                marginLeft: args.inputmargin ? `${args.inputmargin}px` : undefined
+                            }}
+                        />
+                        <input
+                            placeholder="请输入"
+                            className="w-full outline-none bg-secondary-background rounded-md px-[8px] py-[5px] text-[12px] leading-[20px]"
+                            style={{
+                                marginLeft: args.inputmargin ? `${args.inputmargin}px` : undefined
+                            }}
+                        />
+                    </div>
                 </PageHeaderTitleEnd>
             </PageHeaderTitle>
-            <Tabs defaultValue='account'>
-                <TabsList variant={'default'} size={'md'}>
-                    <TabsTrigger disabled variant={'default'} size={'md'} value='account'>默认选项</TabsTrigger>
-                    <TabsTrigger variant={'default'} size={'md'} value='password'>默认选项</TabsTrigger>
-                    <TabsTrigger variant={'default'} size={'md'} value='1'>默认选项</TabsTrigger>
-                    <TabsTrigger variant={'default'} size={'md'} value='2'>默认选项</TabsTrigger>
-                    <TabsTrigger variant={'default'} size={'md'} value='3'>默认选项</TabsTrigger>
-                    <TabsTrigger variant={'default'} size={'md'} value='4'>默认选项</TabsTrigger>
-                </TabsList>
-                {/* <TabsContent value='account'>Make changes to your account here.</TabsContent>
-            <TabsContent value='password'>Change your password here.</TabsContent> */}
-            </Tabs>
-        </PageHeader>
-
-    )
+        </PageHeader>)
+    }
 }
