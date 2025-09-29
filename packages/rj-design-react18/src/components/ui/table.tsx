@@ -366,8 +366,8 @@ function TableGroup<T extends TableItem>({
                 >
                   <div className="flex flex-1 flex-col gap-2 ">
                     <Input
-                      variant={'default'}
-                      dimension={'sm'}
+                      variant={'primary'}
+                      format={'sm'}
                       placeholder="请输入"
                       value={filterStr || filters[column.key] || ''}
                       onChange={(e) => {
