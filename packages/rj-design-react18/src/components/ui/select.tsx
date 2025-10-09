@@ -72,6 +72,7 @@ function SelectContent({
       <SelectPrimitive.Content
         data-slot="select-content"
         className={cn(
+          'bg-secondary-background',
           'rounded-md',
           'text-text-deep',
           'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -310,10 +311,13 @@ function Select({
             </Button>
           </div>
         </div>
-        <SelectContent size={size ?? 'sm'} style={{
-          width: (width ?? 0) > 0 ? width : undefined,
-          left: offsetX ?? 0
-        }}>
+        <SelectContent
+          className="h-50"
+          size={size ?? 'sm'}
+          style={{
+            width: (width ?? 0) > 0 ? width : undefined,
+            left: offsetX ?? 0
+          }}>
           {
             datasource?.map(item => {
               return (<SelectItem key={item.key} value={item.key} disabled={item.disabled}>{item.label}</SelectItem>)
