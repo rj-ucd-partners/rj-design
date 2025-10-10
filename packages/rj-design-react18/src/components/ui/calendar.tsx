@@ -19,13 +19,11 @@ function Calendar({
     showOutsideDays = true,
     captionLayout = "label",
     buttonVariant = "ghost",
-    toToday,
     formatters,
     components,
     ...props
 }: React.ComponentProps<typeof DayPicker> & {
     buttonVariant?: React.ComponentProps<typeof Button>["variant"],
-    toToday?: (today: Date) => void
 }) {
     const defaultClassNames = getDefaultClassNames()
 
@@ -41,7 +39,7 @@ function Calendar({
             captionLayout={captionLayout}
             formatters={{
                 formatMonthDropdown: (date) =>
-                    date.toLocaleString("default", { month: "short" }),
+                    date.toLocaleString("en-US", { month: "short" }),
                 ...formatters,
             }}
             classNames={{
@@ -50,7 +48,7 @@ function Calendar({
                     "relative flex flex-col gap-4 md:flex-row",
                     defaultClassNames.months
                 ),
-                month: cn("flex w-full flex-col gap-4", defaultClassNames.month),
+                month: cn("flex w-full flex-col  gap-4", defaultClassNames.month),
                 nav: cn(
                     "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
                     defaultClassNames.nav
@@ -74,7 +72,7 @@ function Calendar({
                     defaultClassNames.dropdowns
                 ),
                 dropdown_root: cn(
-                    "has-focus:border-ring border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] relative rounded-md border",
+                    "has-focus:border-ring border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] relative rounded-md border bg-background text-foreground",
                     defaultClassNames.dropdown_root
                 ),
                 dropdown: cn("absolute inset-0 opacity-0", defaultClassNames.dropdown),
@@ -167,8 +165,8 @@ function Calendar({
                         </td>
                     )
                 },
-                DropdownNav: ({ children, ...props }) => (
-                    <div {...props}>
+                DropdownNav: ({ children, ...subProps }) => (
+                    <div {...subProps}>
                         <div className="flex flex-row gap-4">
                             {children}
                         </div>
@@ -177,7 +175,8 @@ function Calendar({
                             size="md"
                             onClick={() => {
                                 const today = new Date()
-                                if (toToday) toToday(today)
+                                if (props.onMonthChange) props.onMonthChange(today)
+
                             }}
                             className="text-md"
                         >
@@ -185,16 +184,13 @@ function Calendar({
                         </Button>
                     </div>
                 ),
-                // MonthsDropdown: CalendarMonthDropdown,
-                // YearsDropdown: CalendarYearDropdown,
+                MonthsDropdown: CalendarMonthDropdown,
                 ...components,
             }}
             {...props}
         />
     )
 }
-
-
 
 function CalendarDayButton({
     className,
@@ -237,55 +233,60 @@ function CalendarDayButton({
     )
 }
 
-// function CalendarMonthDropdown({
-//     options,
-// }: React.ComponentProps<typeof Dropdown>) {
-//     const [value, setValue] = React.useState<string>("")
+function CalendarMonthDropdown({
+    options,
+    onChange,
+}: React.ComponentProps<typeof Dropdown>) {
+    // 受控优先：从 options 推导当前选中的月份
+    const currentValueFromOptions = React.useMemo(() => {
+        if (!options || options.length === 0) return undefined
+        // 优先找带 selected 标记的项；若无，则回退为 DayPicker 提供的第一个匹配当前月的项（value 等于当前展示的月份索引）
+        const selected = (options as any[]).find((o) => o.selected)
+        if (selected) return String(selected.value)
+        // 假设 options 顺序是 0..11，且当前月份由 DayPicker 控制，尽量不做浪漫假设，若无法识别则不返回
+        return undefined
+    }, [options])
 
-//     const datasource: BaseNode[] = React.useMemo(() =>
-//         options?.map(item => ({
-//             key: item.value.toString(),
-//             label: item.label,
-//         } as BaseNode)) ?? [],
-//         [options])
-//     React.useEffect(() => {
-//         const date = new Date()
-//         setValue(date.getMonth().toString())
-//     }, [])
+    const [value, setValue] = React.useState<string>("")
 
-//     return (
-//         <Select
-//             datasource={datasource}
-//             value={value}
-//             onValueChange={setValue}
-//         />
-//     )
-// }
+    // 构建数据源（英文缩写）
+    const datasource: BaseNode[] = React.useMemo(() =>
+        options?.map(item => ({
+            key: item.value.toString(),
+            label: new Date(2000, Number(item.value), 1).toLocaleString("en-US", { month: "short" }),
+        } as BaseNode)) ?? [],
+        [options])
 
-// function CalendarYearDropdown({
-//     options,
-// }: React.ComponentProps<typeof Dropdown>) {
-//     const [value, setValue] = React.useState<string>("")
+    // 当 options 变化时，同步当前选中值；若无法从 options 识别，则回退为当前日期月份字符串
+    React.useEffect(() => {
+        if (currentValueFromOptions != null) {
+            setValue(currentValueFromOptions)
+        } else {
+            const date = new Date()
+            setValue(date.getMonth().toString())
+        }
+    }, [currentValueFromOptions, options])
 
-//     const datasource: BaseNode[] = React.useMemo(() =>
-//         options?.map(item => ({
-//             key: item.value.toString(),
-//             label: item.label,
-//         } as BaseNode)) ?? [],
-//         [options])
+    const handleValueChange = (newValue: string) => {
+        setValue(newValue)
+        if (onChange) {
+            const event = {
+                target: { value: newValue }
+            } as React.ChangeEvent<HTMLSelectElement>
+            onChange(event)
+        }
+    }
 
-//     React.useEffect(() => {
-//         const date = new Date()
-//         setValue(date.getFullYear().toString())
-//     }, [])
-
-//     return (
-//         <Select
-//             datasource={datasource}
-//             value={value}
-//             onValueChange={setValue}
-//         />
-//     )
-// }
+    return (
+        <Select
+            datasource={datasource}
+            value={value}
+            onValueChange={handleValueChange}
+            contentClassName="bg-secondary-background text-text-deep border border-border shadow-md"
+            itemClassName="bg-secondary-background text-text-deep hover:bg-fill-light-hover-bg data-[state=checked]:bg-primary-light data-[state=checked]:text-primary"
+            size="sm"
+        />
+    )
+}
 
 export { Calendar, CalendarDayButton }

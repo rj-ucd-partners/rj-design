@@ -233,6 +233,8 @@ function Select({
   frontIcon,
   postIcon,
   showClear,
+  contentClassName,
+  itemClassName,
   className,
   ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof selectVariants> & {
@@ -244,6 +246,8 @@ function Select({
   frontIcon?: React.ReactNode,
   postIcon?: React.ReactNode,
   showClear?: boolean,
+  contentClassName?: string,
+  itemClassName?: string,
 }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -312,7 +316,7 @@ function Select({
           </div>
         </div>
         <SelectContent
-          className="h-50"
+          className={cn("h-50", contentClassName)}
           size={size ?? 'sm'}
           style={{
             width: (width ?? 0) > 0 ? width : undefined,
@@ -320,7 +324,7 @@ function Select({
           }}>
           {
             datasource?.map(item => {
-              return (<SelectItem key={item.key} value={item.key} disabled={item.disabled}>{item.label}</SelectItem>)
+              return (<SelectItem key={item.key} value={item.key} disabled={item.disabled} className={itemClassName}>{item.label}</SelectItem>)
             })
           }{
             (!datasource || datasource.length === 0) &&
