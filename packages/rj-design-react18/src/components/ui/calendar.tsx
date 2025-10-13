@@ -10,8 +10,7 @@ import { DayButton, DayPicker, Dropdown, getDefaultClassNames } from "react-day-
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import type { BaseNode } from "@/common/type"
-import { Select } from "./select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./select"
 
 function Calendar({
     className,
@@ -99,7 +98,9 @@ function Calendar({
                     defaultClassNames.week_number
                 ),
                 day: cn(
-                    "group/day relative aspect-square h-full w-full select-none p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md",
+                    ["group/day relative aspect-square h-full w-full select-none text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md",
+                        props.mode === 'multiple' ? 'p-1' : 'p-0'
+                    ],
                     defaultClassNames.day
                 ),
                 range_start: cn(
@@ -113,7 +114,7 @@ function Calendar({
                     defaultClassNames.today
                 ),
                 outside: cn(
-                    "text-muted-foreground aria-selected:text-muted-foreground",
+                    "text-disabled aria-selected:text-disabled",
                     defaultClassNames.outside
                 ),
                 disabled: cn(
@@ -167,7 +168,7 @@ function Calendar({
                 },
                 DropdownNav: ({ children, ...subProps }) => (
                     <div {...subProps}>
-                        <div className="flex flex-row gap-4">
+                        <div className="flex flex-row gap-2">
                             {children}
                         </div>
                         <Button
@@ -184,7 +185,8 @@ function Calendar({
                         </Button>
                     </div>
                 ),
-                MonthsDropdown: CalendarMonthDropdown,
+                MonthsDropdown: CalendarDropdown,
+                YearsDropdown: CalendarDropdown,
                 ...components,
             }}
             {...props}
@@ -222,9 +224,13 @@ function CalendarDayButton({
             data-range-middle={modifiers.range_middle}
             className={cn(
                 [
+                    !modifiers.outside && "text-secondary",
+                    modifiers.today && "text-primary",
                     "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-text data-[selected-single=true]:rounded-md",
+                    "data-[range-middle=true]:bg-fill data-[range-middle=true]:text-secondary-information data-[range-middle=true]:rounded-none",
+                    "data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground",
                 ],
-                "data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 flex aspect-square h-auto w-full min-w-[--cell-size] flex-col gap-1 font-normal leading-none data-[range-end=true]:rounded-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] [&>span]:text-xs [&>span]:opacity-70",
+                "group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 flex aspect-square h-auto w-full min-w-[--cell-size] flex-col gap-1 font-normal leading-none data-[range-end=true]:rounded-md data-[range-start=true]:rounded-md group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] [&>span]:text-xs [&>span]:opacity-70",
                 defaultClassNames.day,
                 className
             )}
@@ -233,59 +239,40 @@ function CalendarDayButton({
     )
 }
 
-function CalendarMonthDropdown({
+function CalendarDropdown({
     options,
+    value: externalValue,
     onChange,
 }: React.ComponentProps<typeof Dropdown>) {
-    // 受控优先：从 options 推导当前选中的月份
-    const currentValueFromOptions = React.useMemo(() => {
-        if (!options || options.length === 0) return undefined
-        // 优先找带 selected 标记的项；若无，则回退为 DayPicker 提供的第一个匹配当前月的项（value 等于当前展示的月份索引）
-        const selected = (options as any[]).find((o) => o.selected)
-        if (selected) return String(selected.value)
-        // 假设 options 顺序是 0..11，且当前月份由 DayPicker 控制，尽量不做浪漫假设，若无法识别则不返回
-        return undefined
-    }, [options])
 
-    const [value, setValue] = React.useState<string>("")
-
-    // 构建数据源（英文缩写）
-    const datasource: BaseNode[] = React.useMemo(() =>
-        options?.map(item => ({
-            key: item.value.toString(),
-            label: new Date(2000, Number(item.value), 1).toLocaleString("en-US", { month: "short" }),
-        } as BaseNode)) ?? [],
-        [options])
-
-    // 当 options 变化时，同步当前选中值；若无法从 options 识别，则回退为当前日期月份字符串
-    React.useEffect(() => {
-        if (currentValueFromOptions != null) {
-            setValue(currentValueFromOptions)
-        } else {
-            const date = new Date()
-            setValue(date.getMonth().toString())
-        }
-    }, [currentValueFromOptions, options])
-
-    const handleValueChange = (newValue: string) => {
-        setValue(newValue)
-        if (onChange) {
-            const event = {
-                target: { value: newValue }
+    const handleValueChange = (current: string) => {
+        const selectedOption = options?.find(opt => opt.value.toString() === current)
+        if (selectedOption && onChange) {
+            const syntheticEvent = {
+                target: { value: selectedOption.value.toString() }
             } as React.ChangeEvent<HTMLSelectElement>
-            onChange(event)
+            onChange(syntheticEvent)
         }
     }
 
     return (
-        <Select
-            datasource={datasource}
-            value={value}
-            onValueChange={handleValueChange}
-            contentClassName="bg-secondary-background text-text-deep border border-border shadow-md"
-            itemClassName="bg-secondary-background text-text-deep hover:bg-fill-light-hover-bg data-[state=checked]:bg-primary-light data-[state=checked]:text-primary"
-            size="sm"
-        />
+        <div className="w-[80px]">
+            <Select value={externalValue?.toString()} onValueChange={handleValueChange}>
+                <SelectTrigger>
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="h-[300px]">
+                    <SelectGroup>
+                        {
+                            options?.map((item) => {
+                                return (<SelectItem key={item.value} value={item.value.toString()}>{item.label}</SelectItem>)
+                            })
+                        }
+                    </SelectGroup>
+
+                </SelectContent>
+            </Select>
+        </div>
     )
 }
 

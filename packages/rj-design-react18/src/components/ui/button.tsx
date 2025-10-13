@@ -41,9 +41,9 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        sm: 'h-6 px-2 py-1 rounded-sm text-[11px] leading-[16px] gap-1',
-        md: 'h-8 px-3 py-1 rounded-md text-[13px] leading-[20px] gap-1',
-        lg: 'h-10 px-4 py-2 rounded-md text-[15px] leading-[22px] gap-2',
+        sm: "h-6 px-2 py-1 rounded-sm text-[11px] leading-[16px] gap-1 [&_svg:not([class*='size-'])]:size-3",
+        md: "h-8 px-3 py-1 rounded-md text-[13px] leading-[20px] gap-1 [&_svg:not([class*='size-'])]:size-4",
+        lg: "h-10 px-4 py-2 rounded-md text-[15px] leading-[22px] gap-2 [&_svg:not([class*='size-'])]:size-5",
         icon: "size-9",
         'page-sm': "size-6 rounded-sm text-[11px] leading-[16px]",
         'page-md': "size-8 rounded-md",
