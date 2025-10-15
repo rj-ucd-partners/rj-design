@@ -59,11 +59,17 @@ function Empty({
                     <div className="inline-flex flex-col gap-4">
                         <div className="inline-flex flex-row items-center justify-center gap-2">
                             <span>{desc}</span>
-                            <Button variant={'link'} size={'link'} onClick={onDO}>{handlerDesc ?? '相关操作'}</Button>
+                            {
+                                (onDO && handlerDesc) && <Button variant={'link'} size={'link'} onClick={onDO}>{handlerDesc ?? '相关操作'}</Button>
+                            }
                         </div>
-                        <Button variant={'primary'} size={'md'} onClick={onOK}>
-                            <span>知道了</span>
-                        </Button>
+                        {
+                            onOK &&
+                            <Button variant={'primary'} size={'md'} onClick={onOK}>
+                                <span>知道了</span>
+                            </Button>
+
+                        }
                     </div>
                     :
                     <span>暂无内容</span>

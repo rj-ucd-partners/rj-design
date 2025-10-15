@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { ComponentProps } from 'react'
-
-
-import React from 'react';
-import { Select } from './select';
+import React, { useState } from 'react';
+import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from './select';
 import { FavoriteIcon } from '../icon/FavoriteIcon';
-import { MagnifierIcon } from '../icon/magnifier-icon';
+import { Card, CardContent, CardFooter } from './card';
+import { Button } from './button';
+
 
 type SelectProps = ComponentProps<typeof Select>
 
@@ -14,6 +14,10 @@ const meta: Meta<SelectProps> = {
   component: Select,
   tags: ['autodocs'],
   argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['primary'],
+    },
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
@@ -64,134 +68,223 @@ const items = [
   }
 ]
 
-export const Primary: Story = {
+export const PrimarySmallSelect: Story = {
   args: {
-    datasource: items,
+    variant: 'primary',
     size: 'sm',
-    disabled: false,
   },
   render: (args) => {
-    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
-    const onValueChange = (value: string) => {
-      setSelectValue(value);
-    }
+    const [data, setDate] = useState<string>('');
+
     return (
-      <Select datasource={args.datasource} size={args.size} disabled={args.disabled} value={selectValue} onValueChange={onValueChange} className='w-100' />
+      <Select value={data} onValueChange={setDate} {...args} >
+        <SelectTrigger className='w-80' >
+          <SelectValue placeholder="请选择" />
+        </SelectTrigger>
+        <SelectContent>
+          {items.map(item => {
+            return <SelectItem key={item.key} value={item.key} disabled={item.disabled} >
+              {item.label}
+            </SelectItem>
+          })}
+        </SelectContent>
+      </Select>
+
     )
   },
 }
 
-export const PrimaryMd: Story = {
+
+export const PrimaryMiddleSelect: Story = {
   args: {
-    datasource: items,
+    variant: 'primary',
     size: 'md',
-    disabled: false,
-    placeholder: '请选择',
   },
   render: (args) => {
-    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
-    const onValueChange = (value: string) => {
-      setSelectValue(value);
-    }
+    const [data, setDate] = useState<string>('');
+
     return (
-      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+      <Select value={data} onValueChange={setDate} {...args} >
+        <SelectTrigger className='w-80' >
+          <SelectValue placeholder="请选择" />
+        </SelectTrigger>
+        <SelectContent>
+          {items.map(item => {
+            return <SelectItem key={item.key} value={item.key} disabled={item.disabled} >
+              {item.label}
+            </SelectItem>
+          })}
+        </SelectContent>
+      </Select>
+
     )
   },
 }
 
-export const PrimaryLg: Story = {
+
+export const PrimaryLargeSelect: Story = {
   args: {
-    datasource: items,
+    variant: 'primary',
     size: 'lg',
-    disabled: false,
-    placeholder: '请选择',
   },
   render: (args) => {
-    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
-    const onValueChange = (value: string) => {
-      setSelectValue(value);
-    }
+    const [data, setDate] = useState<string>('');
+
     return (
-      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+      <Select value={data} onValueChange={setDate} {...args} >
+        <SelectTrigger className='w-80' >
+          <SelectValue placeholder="请选择" />
+        </SelectTrigger>
+        <SelectContent>
+          {items.map(item => {
+            return <SelectItem key={item.key} value={item.key} disabled={item.disabled}>
+              {item.label}
+            </SelectItem>
+          })}
+        </SelectContent>
+      </Select>
+
     )
   },
 }
 
-export const PrimaryEmpty: Story = {
+export const PrimaryMiddleCanCloseSelect: Story = {
   args: {
-    datasource: [],
-    size: 'lg',
-    disabled: false,
-    placeholder: '请选择',
+    variant: 'primary',
+    size: 'md',
   },
   render: (args) => {
-    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
-    const onValueChange = (value: string) => {
-      setSelectValue(value);
-    }
+    const [data, setDate] = useState<string>('');
+
     return (
-      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+      <Select value={data} onValueChange={setDate} {...args} >
+        <SelectTrigger value={data} closeCallback={() => setDate('')} className='w-80' >
+          <SelectValue placeholder="请选择" />
+        </SelectTrigger>
+        <SelectContent>
+          {items.map(item => {
+            return <SelectItem key={item.key} value={item.key} disabled={item.disabled} >
+              {item.label}
+            </SelectItem>
+          })}
+        </SelectContent>
+      </Select>
+
     )
   },
 }
 
-export const PrimaryFront: Story = {
+export const PrimaryMiddleSelectDisabled: Story = {
   args: {
-    datasource: items,
-    size: 'lg',
-    disabled: false,
-    placeholder: '请选择',
-    frontIcon: <FavoriteIcon className='size-4' />
+    variant: 'primary',
+    size: 'md',
+    disabled: true,
   },
   render: (args) => {
-    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
-    const onValueChange = (value: string) => {
-      setSelectValue(value);
-    }
+    const [data, setDate] = useState<string>('');
+
     return (
-      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+      <Select value={data} onValueChange={setDate} {...args}  >
+        <SelectTrigger value={data} closeCallback={() => setDate('')} className='w-80' >
+          <SelectValue placeholder="请选择" />
+        </SelectTrigger>
+        <SelectContent>
+          {items.map(item => {
+            return <SelectItem key={item.key} value={item.key} disabled={item.disabled} >
+              {item.label}
+            </SelectItem>
+          })}
+        </SelectContent>
+      </Select>
+
     )
   },
 }
 
-export const PrimaryPost: Story = {
+
+export const PrimaryMiddleEmptySelect: Story = {
   args: {
-    datasource: items,
-    size: 'lg',
-    disabled: false,
-    placeholder: '请选择',
-    frontIcon: <FavoriteIcon className='size-4' />,
-    postIcon: <MagnifierIcon className='size-4' />
+    variant: 'primary',
+    size: 'md',
+    disabled: true,
   },
   render: (args) => {
-    const [selectValue, setSelectValue] = React.useState<string | undefined>(undefined);
-    const onValueChange = (value: string) => {
-      setSelectValue(value);
-    }
+    const [data, setDate] = useState<string>('');
+
     return (
-      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+      <Select value={data} onValueChange={setDate} {...args}  >
+        <SelectTrigger value={data} closeCallback={() => setDate('')} className='w-80' >
+          <SelectValue placeholder="请选择" />
+        </SelectTrigger>
+        <SelectContent>
+
+        </SelectContent>
+      </Select>
+
     )
   },
 }
 
-export const PrimaryShowClear: Story = {
+
+export const PrimaryHasIconMiddleCanCloseSelect: Story = {
   args: {
-    datasource: items,
-    size: 'lg',
-    disabled: false,
-    placeholder: '请选择',
-    frontIcon: <FavoriteIcon className='size-4' />,
-    postIcon: <MagnifierIcon className='size-4' />,
-    showClear: true
+    variant: 'primary',
+    size: 'md',
   },
   render: (args) => {
-    const [selectValue, setSelectValue] = React.useState<string | undefined>(args.datasource![0].key);
-    const onValueChange = (value: string) => {
-      setSelectValue(value);
-    }
-
+    const [data, setDate] = useState<string>('');
     return (
-      <Select {...args} value={selectValue} onValueChange={onValueChange} className='w-100' />
+      <Select value={data} onValueChange={setDate} {...args} >
+        <SelectTrigger value={data} closeCallback={() => setDate('')} className='w-80' >
+          <div className='flex items-center justify-start gap-2'>
+            <FavoriteIcon />
+            <SelectValue placeholder="请选择" />
+          </div>
+        </SelectTrigger>
+        <SelectContent>
+          {items.map(item => {
+            return <SelectItem key={item.key} value={item.key} disabled={item.disabled} >
+              {item.label}
+            </SelectItem>
+          })}
+        </SelectContent>
+      </Select>
+
+    )
+  },
+}
+
+
+export const PrimaryHasIconMiddleCanCloseCanAddSelect: Story = {
+  args: {
+    variant: 'primary',
+    size: 'md',
+  },
+  render: (args) => {
+    const [options, setOptions] = useState<{
+      key: string;
+      label: string;
+      disabled?: boolean;
+    }[]>([]);
+    const [data, setDate] = useState<string>('');
+    return (
+      <Select value={data} onValueChange={setDate} {...args} >
+        <SelectTrigger value={data} closeCallback={() => setDate('')} className='w-80' >
+          <div className='flex items-center justify-start gap-2'>
+            <FavoriteIcon />
+            <SelectValue placeholder="请选择" />
+          </div>
+        </SelectTrigger>
+        <SelectContent  >
+          {options.length > 0 && options.map(item => {
+            return <SelectItem key={item.key} value={item.key} disabled={item.disabled} >
+              {item.label}
+            </SelectItem>
+          })}
+        </SelectContent>
+
+      </Select>
+
     )
   },
 }

@@ -261,7 +261,7 @@ function CalendarDropdown({
                 <SelectTrigger>
                     <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="h-[300px]">
+                <SelectContent className="h-[300px]" >
                     <SelectGroup>
                         {
                             options?.map((item) => {
