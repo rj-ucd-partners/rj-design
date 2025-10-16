@@ -1,11 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { ComponentProps } from 'react'
-import React, { useState } from 'react';
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from './select';
 import { FavoriteIcon } from '../icon/FavoriteIcon';
-import { Card, CardContent, CardFooter } from './card';
-import { Button } from './button';
-
+import React, { useState } from 'react';
 
 type SelectProps = ComponentProps<typeof Select>
 
@@ -74,7 +71,7 @@ export const PrimarySmallSelect: Story = {
     size: 'sm',
   },
   render: (args) => {
-    const [data, setDate] = useState<string>('');
+    const [data, setDate] = React.useState<string>('');
 
     return (
       <Select value={data} onValueChange={setDate} {...args} >
@@ -267,15 +264,20 @@ export const PrimaryHasIconMiddleCanCloseCanAddSelect: Story = {
       disabled?: boolean;
     }[]>([]);
     const [data, setDate] = useState<string>('');
+    const AddOption = (value: string) => {
+      if (!value) return;
+      if (options.find(item => item.key === value)) return;
+      setOptions([...options, { key: value, label: value }])
+    }
     return (
-      <Select value={data} onValueChange={setDate} {...args} >
+      <Select value={data} onValueChange={setDate} {...args}>
         <SelectTrigger value={data} closeCallback={() => setDate('')} className='w-80' >
           <div className='flex items-center justify-start gap-2'>
             <FavoriteIcon />
             <SelectValue placeholder="请选择" />
           </div>
         </SelectTrigger>
-        <SelectContent  >
+        <SelectContent editable={true} editCallback={AddOption}>
           {options.length > 0 && options.map(item => {
             return <SelectItem key={item.key} value={item.key} disabled={item.disabled} >
               {item.label}

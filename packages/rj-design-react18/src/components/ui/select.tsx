@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils"
 import { cva } from "class-variance-authority";
 import { CloseIcon } from "../icon/closeIcon";
 import { Empty } from "./empty";
+import { Button } from "./button";
+import { InputGroup, InputGroupInput } from "./input-group";
 
 export interface SelectVariantsProps {
   variant?: 'primary',
@@ -197,9 +199,15 @@ const selectContentVariants = cva(
 
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
+    editable?: boolean
+    editCallback?: (value: string) => void
+  }
+>(({ editable = false, editCallback, className, children, position = "popper", ...props }, ref) => {
   const { size, variant } = useSelectContext()
+  const [edit, setEdit] = React.useState<boolean>(false);
+  const [value, setValue] = React.useState<string>('');
+
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
@@ -228,6 +236,52 @@ const SelectContent = React.forwardRef<
             <Empty size={'md'} desc="暂无相关内容" />
           }
         </SelectPrimitive.Viewport>
+        {
+          editable &&
+          <div className="flex border-t border-border-foreground items-center justify-center ">
+            {
+              edit ?
+                <div className="flex flex-col flex-1 items-center justify-center p-2 gap-2 ">
+                  <InputGroup className="flex flex-1" size={size}>
+                    <InputGroupInput value={value} onChange={(e) => {
+                      setValue(e.target.value)
+                    }} />
+                  </InputGroup>
+                  <div className="flex w-full gap-2 items-center justify-end">
+                    <Button
+                      variant={'primary'}
+                      size={size}
+                      onClick={() => {
+                        if (editCallback) editCallback(value);
+                        setEdit(false);
+                        setValue('');
+                      }}
+                    >
+                      确认
+                    </Button>
+                    <Button
+                      variant={'default'}
+                      size={size}
+                      onClick={() => { setEdit(false); setValue(''); }}
+                    >
+                      取消
+                    </Button>
+                  </div>
+                </div> :
+                <div className="flex items-center justify-center h-[50px]">
+                  <span>
+                    +
+                  </span>
+                  <Button
+                    variant={'link'}
+                    size={size}
+                    onClick={() => { setEdit(true) }}
+                  >
+                    新增选项
+                  </Button>
+                </div>
+            }
+          </div>}
         <SelectScrollDownButton />
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
