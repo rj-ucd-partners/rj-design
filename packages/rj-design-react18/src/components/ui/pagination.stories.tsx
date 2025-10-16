@@ -129,22 +129,21 @@ export const Main: Story = {
         const sizes: number[] = [10, 20, 30, 50, 100];
         const updateSize = (s: number) => {
             setSize(s);
-            //其他逻辑
         }
         return (
             <div className="inline-flex flex flex-row gap-4">
-                <DropdownMenu >
+                <DropdownMenu variant={"primary"}>
                     <DropdownMenuTrigger asChild>
                         <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
                             <span className='w-min-10'>{size}/页</span>
                             <TriangleDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" variant={"page"}  >
+                    <DropdownMenuContent align="start"  >
                         <DropdownMenuGroup>
                             {
                                 sizes.map((s, index) => {
-                                    return (<DropdownMenuItem hasSeparator={"default"} status={"page"} key={index} onClick={() => { updateSize(s) }}>
+                                    return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
                                         {s}页
                                     </DropdownMenuItem>)
                                 })
@@ -185,7 +184,7 @@ export const Main: Story = {
                     <span>
                         跳至
                     </span>
-                    <Input variant={'page'} placeholder={`${page}/${total}`} />
+                    <Input variant={'page'} format={args.size === 'page-md' ? 'md' : 'sm'} placeholder={`${page}/${total}`} />
                     <span>
                         页
                     </span>
@@ -207,18 +206,18 @@ export const MainSmall: Story = {
         }
         return (
             <div className="inline-flex flex-row gap-4 items-center justify-center">
-                <DropdownMenu >
+                <DropdownMenu variant={"primary"} >
                     <DropdownMenuTrigger asChild>
                         <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
                             <span className='w-min-10'>{size}/页</span>
                             <TriangleDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" variant={"page"}  >
+                    <DropdownMenuContent align="start"  >
                         <DropdownMenuGroup>
                             {
                                 sizes.map((s, index) => {
-                                    return (<DropdownMenuItem hasSeparator={"default"} status={"page"} key={index} onClick={() => { updateSize(s) }}>
+                                    return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
                                         {s}页
                                     </DropdownMenuItem>)
                                 })
@@ -272,7 +271,7 @@ export const MainSmall: Story = {
 // 全部状态
 export const Full: Story = {
     args: {
-
+        size: 'page-md'
     },
     render: (args) => {
         const total = 25;
@@ -281,7 +280,6 @@ export const Full: Story = {
         const sizes: number[] = [10, 20, 30, 50, 100];
         const updateSize = (s: number) => {
             setSize(s);
-            //其他逻辑
         }
         return (
             <div className='w-200'>
@@ -294,18 +292,18 @@ export const Full: Story = {
                         共 {total} 条数据
                     </div>
                     <div className="flex flex-row gap-4">
-                        <DropdownMenu >
+                        <DropdownMenu variant='primary' >
                             <DropdownMenuTrigger asChild>
-                                <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
+                                <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'} className='w-[96px] justify-between'>
                                     <span className='w-min-10'>{size}/页</span>
                                     <TriangleDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" variant={"page"}  >
+                            <DropdownMenuContent align="start"  >
                                 <DropdownMenuGroup>
                                     {
                                         sizes.map((s, index) => {
-                                            return (<DropdownMenuItem hasSeparator={"default"} status={"page"} key={index} onClick={() => { updateSize(s) }}>
+                                            return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
                                                 {s}页
                                             </DropdownMenuItem>)
                                         })
@@ -421,18 +419,18 @@ export const FullSmall: Story = {
                         共 {total} 条数据
                     </div>
                     <div className="flex flex-row gap-4">
-                        <DropdownMenu >
+                        <DropdownMenu variant={"primary"}>
                             <DropdownMenuTrigger asChild>
                                 <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
                                     <span className='w-min-10'>{size}/页</span>
                                     <TriangleDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" variant={"page"}  >
+                            <DropdownMenuContent align="start"  >
                                 <DropdownMenuGroup>
                                     {
                                         sizes.map((s, index) => {
-                                            return (<DropdownMenuItem hasSeparator={"default"} status={"page"} key={index} onClick={() => { updateSize(s) }}>
+                                            return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
                                                 {s}页
                                             </DropdownMenuItem>)
                                         })
@@ -523,18 +521,18 @@ export const Simple: Story = {
         return (
             <div className="flex flex-row w-full justify-center items-center px-3 py-4">
                 <div className="flex flex-row gap-4">
-                    <DropdownMenu >
+                    <DropdownMenu variant={"primary"}>
                         <DropdownMenuTrigger asChild>
                             <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
                                 <span className='w-min-10'>{size}/页</span>
                                 <TriangleDownIcon />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" variant={"page"}  >
+                        <DropdownMenuContent align="start"  >
                             <DropdownMenuGroup>
                                 {
                                     sizes.map((s, index) => {
-                                        return (<DropdownMenuItem hasSeparator={"default"} status={"page"} key={index} onClick={() => { updateSize(s) }}>
+                                        return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
                                             {s}页
                                         </DropdownMenuItem>)
                                     })
@@ -589,18 +587,18 @@ export const SimpleHasTotal: Story = {
                         共 {total} 条数据
                     </div>
                     <div className="flex flex-row gap-4">
-                        <DropdownMenu >
+                        <DropdownMenu variant={"primary"}>
                             <DropdownMenuTrigger asChild>
                                 <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
                                     <span className='w-min-10'>{size}/页</span>
                                     <TriangleDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" variant={"page"}  >
+                            <DropdownMenuContent align="start"   >
                                 <DropdownMenuGroup>
                                     {
                                         sizes.map((s, index) => {
-                                            return (<DropdownMenuItem hasSeparator={"default"} status={"page"} key={index} onClick={() => { updateSize(s) }}>
+                                            return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
                                                 {s}页
                                             </DropdownMenuItem>)
                                         })
@@ -651,18 +649,18 @@ export const SimpleSmall: Story = {
         return (
             <div className="flex flex-row w-full justify-center items-center px-3 py-4">
                 <div className="flex flex-row gap-4">
-                    <DropdownMenu >
+                    <DropdownMenu variant={"primary"}>
                         <DropdownMenuTrigger asChild>
                             <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
                                 <span className='w-min-10'>{size}/页</span>
                                 <TriangleDownIcon />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start" variant={"page"}  >
+                        <DropdownMenuContent align="start"   >
                             <DropdownMenuGroup>
                                 {
                                     sizes.map((s, index) => {
-                                        return (<DropdownMenuItem hasSeparator={"default"} status={"page"} key={index} onClick={() => { updateSize(s) }}>
+                                        return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
                                             {s}页
                                         </DropdownMenuItem>)
                                     })

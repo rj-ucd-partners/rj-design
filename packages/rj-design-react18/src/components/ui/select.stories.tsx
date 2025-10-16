@@ -251,7 +251,6 @@ export const PrimaryHasIconMiddleCanCloseSelect: Story = {
   },
 }
 
-
 export const PrimaryHasIconMiddleCanCloseCanAddSelect: Story = {
   args: {
     variant: 'primary',
@@ -284,9 +283,7 @@ export const PrimaryHasIconMiddleCanCloseCanAddSelect: Story = {
             </SelectItem>
           })}
         </SelectContent>
-
       </Select>
-
     )
   },
 }

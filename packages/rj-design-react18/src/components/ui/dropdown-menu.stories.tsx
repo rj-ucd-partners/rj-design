@@ -1,13 +1,10 @@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuIcon,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
@@ -16,38 +13,27 @@ import {
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Button } from "./button"
 import { TriangleDownIcon } from "@radix-ui/react-icons"
-import type { DropdownMenuProps } from "@radix-ui/react-dropdown-menu"
-import { FavoriteIcon } from "../icon/FavoriteIcon"
+import { DropdownMenuGroup, type DropdownMenuProps } from "@radix-ui/react-dropdown-menu"
 import type { TreeSelectableNode } from "@/common/type"
-import { useState } from "react"
-import { Empty } from "./empty"
+import { useState, type ReactNode } from "react"
+import { FavoriteIcon } from "../icon/FavoriteIcon"
 
 interface ExtendedDropdownMenuProps extends DropdownMenuProps {
     disabled: boolean,
-    dropdownMenuItemHasSeparator: 'default' | 'separator',
-    dropdownMenuTriggerButton: 'default' | 'secondary-text',
-    status: 'default' | 'success' | 'danger' | 'abnormal'
+    variant: 'primary'
 }
 
 const meta: Meta<ExtendedDropdownMenuProps> = {
-    title: 'Components/DropdownMenu ',
+    title: 'Components/DropdownMenu',
     tags: ['autodocs'],
     component: DropdownMenu,
     argTypes: {
         disabled: {
             control: 'boolean'
         },
-        dropdownMenuItemHasSeparator: {
+        variant: {
             control: { type: 'select' },
-            options: ['default', 'separator'],
-        },
-        dropdownMenuTriggerButton: {
-            control: { type: 'select' },
-            options: ['default', 'secondary-text'],
-        },
-        status: {
-            control: { type: 'select' },
-            options: ['default', 'success', 'danger', 'abnormal'],
+            options: ['primary'],
         }
     },
 }
@@ -64,62 +50,80 @@ const menus: TreeSelectableNode[] = [
             {
                 key: "1-1",
                 label: "下拉选项1-1",
-                disabled: true
+                children: [
+                    {
+                        key: "1-1-1",
+                        label: "下拉选项1-1-1",
+                    },
+                    {
+                        key: "1-1-2",
+                        label: "下拉选项1-1-2",
+                    },
+                ]
+            },
+            {
+                key: "1-2",
+                label: "下拉选项1-2",
+            },
+            {
+                key: "1-3",
+                label: "下拉选项1-3",
             }
         ]
     },
     {
         key: "2",
         label: "下拉选项2",
+        disabled: true
     },
     {
         key: "3",
         label: "下拉选项3",
-    }
+    },
+    {
+        key: "4",
+        label: "下拉选项4",
+    },
+    {
+        key: "5",
+        label: "下拉选项5",
+    },
 ]
 
-const renderMenuItem = (menu: TreeSelectableNode, hasSeparator: 'default' | 'separator', status: 'default' | 'success' | 'danger' | 'abnormal', selectedKeys: string[], onClick?: (key: string) => void) => {
+const renderMenuItem = (menu: TreeSelectableNode, selectedKeys: string[], onClick?: (key: string) => void, icon?: ReactNode) => {
     return (
         (menu.children && menu.children.length > 0) ?
-            <DropdownMenuSub>
-                <DropdownMenuSubTrigger disabled={menu.disabled} hasSeparator={hasSeparator} status={status}>
-                    {
-                        menu.icon &&
-                        <DropdownMenuIcon size={'md'}>
-                            {menu.icon}
-                        </DropdownMenuIcon>
-                    }
-                    {menu.label}</DropdownMenuSubTrigger>
+            <DropdownMenuSub key={menu.key} >
+                <DropdownMenuSubTrigger disabled={menu.disabled}>
+                    {icon}
+                    {menu.label}
+                </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
+                    <DropdownMenuSubContent sideOffset={10} >
                         {menu.children.map((item) => {
-                            return renderMenuItem(item, hasSeparator, status, selectedKeys, onClick)
+                            return renderMenuItem(item, selectedKeys, onClick, icon)
                         })}
                     </DropdownMenuSubContent>
                 </DropdownMenuPortal>
             </DropdownMenuSub> :
-            <DropdownMenuItem disabled={menu.disabled} hasSeparator={hasSeparator} status={status} checked={selectedKeys.includes(menu.key)} onClick={() => {
+            <DropdownMenuItem key={menu.key} disabled={menu.disabled} onClick={() => {
                 if (onClick) onClick(menu.key)
             }}>
-                {
-                    menu.icon &&
-                    <DropdownMenuIcon size={'md'}>
-                        {menu.icon}
-                    </DropdownMenuIcon>
-                }
-                {menu.label}</DropdownMenuItem>
+                {icon}
+                {menu.label}
+            </DropdownMenuItem>
     );
 }
 
 //一级选项
 // 默认
-export const Default: Story = {
+export const DefaultDropdownMenu: Story = {
     args: {
         disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'default',
+        variant: 'primary',
     },
     render: (args) => {
+        const { variant } = args;
         const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
         const onSelectedChanged = (key: string) => {
             if (selectedKeys.includes(key)) {
@@ -131,29 +135,28 @@ export const Default: Story = {
             }
         }
         return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
+            <DropdownMenu open={true} variant={variant} >
+                <DropdownMenuTrigger asChild >
+                    <Button disabled={args.disabled} variant={'default'} size={"md"}>
+                        <span>更多</span>
+                        <TriangleDownIcon data-slot="tran-icon" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuContent className="w-56" align="start"  >
+                    <DropdownMenuLabel>分组文字</DropdownMenuLabel>
                     {menus.map((menu) => {
-                        return renderMenuItem(menu, args.dropdownMenuItemHasSeparator, args.status, selectedKeys, onSelectedChanged)
+                        return renderMenuItem(menu, selectedKeys, onSelectedChanged)
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>)
     }
 }
-//成功
-export const Success: Story = {
+
+
+export const SecondaryTextDropdownMenu: Story = {
     args: {
         disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'success',
+        variant: 'primary',
     },
     render: (args) => {
         const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -167,29 +170,26 @@ export const Success: Story = {
             }
         }
         return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
+            <DropdownMenu {...args}>
+                <DropdownMenuTrigger asChild >
+                    <Button disabled={args.disabled} variant={'secondary-text'} size={"md"}>
+                        <span>更多</span>
+                        <TriangleDownIcon data-slot="tran-icon" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuContent className="w-56" align="start"  >
                     {menus.map((menu) => {
-                        return renderMenuItem(menu, args.dropdownMenuItemHasSeparator, args.status, selectedKeys, onSelectedChanged)
+                        return renderMenuItem(menu, selectedKeys, onSelectedChanged)
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>)
     }
 }
-//破坏性的
-export const Destructive: Story = {
+
+export const PrimaryDropdownMenu: Story = {
     args: {
         disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'danger',
+        variant: 'primary',
     },
     render: (args) => {
         const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -203,29 +203,27 @@ export const Destructive: Story = {
             }
         }
         return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
+            <DropdownMenu {...args}>
+                <DropdownMenuTrigger asChild >
+                    <Button disabled={args.disabled} variant={'primary'} size={"md"}>
+                        <span>更多</span>
+                        <TriangleDownIcon data-slot="tran-icon" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuContent className="w-56" align="start" >
                     {menus.map((menu) => {
-                        return renderMenuItem(menu, args.dropdownMenuItemHasSeparator, args.status, selectedKeys, onSelectedChanged)
+                        return renderMenuItem(menu, selectedKeys, onSelectedChanged)
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>)
     }
 }
-//告警
-export const Warning: Story = {
+
+
+export const IconDropdownMenu: Story = {
     args: {
         disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'abnormal',
+        variant: 'primary',
     },
     render: (args) => {
         const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -239,57 +237,32 @@ export const Warning: Story = {
             }
         }
         return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
+            <DropdownMenu {...args}>
+                <DropdownMenuTrigger asChild >
+                    <Button disabled={args.disabled} variant={'hover-icon'} size={"md"}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9C2.44775 9 2 8.55228 2 8C2 7.44772 2.44775 7 3 7C3.55225 7 4 7.44772 4 8C4 8.55228 3.55225 9 3 9Z" fill="white" />
+                            <path d="M7 8C7 8.55228 7.44775 9 8 9C8.55225 9 9 8.55228 9 8C9 7.44772 8.55225 7 8 7C7.44775 7 7 7.44772 7 8Z" fill="white" />
+                            <path d="M12 8C12 8.55228 12.4478 9 13 9C13.5522 9 14 8.55228 14 8C14 7.44772 13.5522 7 13 7C12.4478 7 12 7.44772 12 8Z" fill="white" />
+                        </svg>
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuContent className="w-56" align="start"  >
                     {menus.map((menu) => {
-                        return renderMenuItem(menu, args.dropdownMenuItemHasSeparator, args.status, selectedKeys, onSelectedChanged)
+                        return renderMenuItem(menu, selectedKeys, onSelectedChanged)
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>)
     }
 }
-const iconMenus: TreeSelectableNode[] = [
-    {
-        key: "1",
-        label: "下拉选项1",
-        icon: <FavoriteIcon />,
-        disabled: true,
-        children: [
-            {
-                key: "1-1",
-                label: "下拉选项1-1",
-                icon: <FavoriteIcon />,
-            }
-        ]
-    },
-    {
-        key: "2",
-        label: "下拉选项2",
-        icon: <FavoriteIcon />,
-    },
-    {
-        key: "3",
-        label: "下拉选项3",
-        icon: <FavoriteIcon />,
-        disabled: true
-    }
-]
-//带图标的
-export const Icon: Story = {
+
+export const DropdownMenuItemHasIcon: Story = {
     args: {
         disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'abnormal',
+        variant: 'primary',
     },
     render: (args) => {
+        const { variant } = args;
         const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
         const onSelectedChanged = (key: string) => {
             if (selectedKeys.includes(key)) {
@@ -301,90 +274,51 @@ export const Icon: Story = {
             }
         }
         return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
+            <DropdownMenu open={true} variant={variant} >
+                <DropdownMenuTrigger asChild >
+                    <Button disabled={args.disabled} variant={'default'} size={"md"}>
+                        <span>更多</span>
+                        <TriangleDownIcon data-slot="tran-icon" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
-                    {iconMenus.map((menu) => {
-                        return renderMenuItem(menu, args.dropdownMenuItemHasSeparator, args.status, selectedKeys, onSelectedChanged)
+                <DropdownMenuContent className="w-56" align="start"  >
+                    <DropdownMenuLabel>分组文字</DropdownMenuLabel>
+                    {menus.map((menu) => {
+                        return renderMenuItem(menu, selectedKeys, onSelectedChanged, <FavoriteIcon />)
                     })}
                 </DropdownMenuContent>
             </DropdownMenu>)
     }
 }
-export const Disabled: Story = {
-    args: {
-        disabled: true,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'abnormal',
-    },
-    render: (args) => {
-        const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-        const onSelectedChanged = (key: string) => {
-            if (selectedKeys.includes(key)) {
-                const keys = selectedKeys.filter(item => item !== key);
-                setSelectedKeys(keys);
-            } else {
-                const keys = [...selectedKeys, key];
-                setSelectedKeys(keys);
-            }
-        }
-        return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
-                    {iconMenus.map((menu) => {
-                        return renderMenuItem(menu, args.dropdownMenuItemHasSeparator, args.status, selectedKeys, onSelectedChanged)
-                    })}
-                </DropdownMenuContent>
-            </DropdownMenu>)
-    }
-}
-export const Group: Story = {
+
+export const DropdownMenuItemHasIconSeparator: Story = {
     args: {
         disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'abnormal',
+        variant: 'primary',
     },
     render: (args) => {
-        const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-        const onSelectedChanged = (key: string) => {
-            if (selectedKeys.includes(key)) {
-                const keys = selectedKeys.filter(item => item !== key);
-                setSelectedKeys(keys);
-            } else {
-                const keys = [...selectedKeys, key];
-                setSelectedKeys(keys);
-            }
-        }
+        const { variant } = args;
         return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
+            <DropdownMenu open={true} variant={variant} >
+                <DropdownMenuTrigger asChild >
+                    <Button disabled={args.disabled} variant={'default'} size={"md"}>
+                        <span>更多</span>
+                        <TriangleDownIcon data-slot="tran-icon" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuContent className="w-56" align="start"  >
                     <DropdownMenuGroup>
-                        <DropdownMenuLabel>分组</DropdownMenuLabel>
-                        {iconMenus.map((menu) => {
-                            return renderMenuItem(menu, args.dropdownMenuItemHasSeparator, args.status, selectedKeys, onSelectedChanged)
+                        <DropdownMenuLabel>分组文字</DropdownMenuLabel>
+                        {menus.map((menu, index) => {
+                            return <div key={menu.key}>
+                                <DropdownMenuItem disabled={menu.disabled} >
+                                    {<FavoriteIcon />}
+                                    {menu.label}
+                                </DropdownMenuItem>
+                                {
+                                    index < menus.length - 1 && <DropdownMenuSeparator />
+                                }
+                            </div>
                         })}
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
@@ -392,343 +326,69 @@ export const Group: Story = {
     }
 }
 
-const emptyMenus = [];
-
-export const EmptyMenus: Story = {
+export const DropdownMenuItemHasIconWithStatus: Story = {
     args: {
         disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        status: 'abnormal',
+        variant: 'primary',
     },
     render: (args) => {
-        const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-        const onSelectedChanged = (key: string) => {
-            if (selectedKeys.includes(key)) {
-                const keys = selectedKeys.filter(item => item !== key);
-                setSelectedKeys(keys);
-            } else {
-                const keys = [...selectedKeys, key];
-                setSelectedKeys(keys);
-            }
-        }
+        const { variant } = args;
         return (
-            <DropdownMenu >
-                <DropdownMenuTrigger asChild>
-                    <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                        <div className="inline-flex justify-between items-center w-full gap-1">
-                            <span>更多</span>
-                            <TriangleDownIcon data-slot="tran-icon" />
-                        </div>
+            <DropdownMenu open={true} variant={variant} >
+                <DropdownMenuTrigger asChild >
+                    <Button disabled={args.disabled} variant={'default'} size={"md"}>
+                        <span>更多</span>
+                        <TriangleDownIcon data-slot="tran-icon" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 h-60" align="start">
-                    {
-                        emptyMenus.length === 0 &&
-                        <Empty size={'md'} />
-                    }
+                <DropdownMenuContent className="w-56" align="start"  >
+                    <DropdownMenuGroup>
+                        <DropdownMenuLabel>主题色</DropdownMenuLabel>
+                        {
+                            Array.from({ length: 5 }).map((_, index) => {
+                                return <DropdownMenuItem key={index} disabled={index === 2} status={'primary'} >
+                                    {<FavoriteIcon />}
+                                    {`选项${index}`}
+                                </DropdownMenuItem>
+                            })
+                        }
+                    </DropdownMenuGroup>
+                    <DropdownMenuGroup>
+                        <DropdownMenuLabel>成功色</DropdownMenuLabel>
+                        {
+                            Array.from({ length: 5 }).map((_, index) => {
+                                return <DropdownMenuItem key={index + 10} disabled={index === 2} status={'success'} >
+                                    {<FavoriteIcon />}
+                                    {`选项${index}`}
+                                </DropdownMenuItem>
+                            })
+                        }
+                    </DropdownMenuGroup>
+                    <DropdownMenuGroup>
+                        <DropdownMenuLabel>破坏性</DropdownMenuLabel>
+                        {
+                            Array.from({ length: 5 }).map((_, index) => {
+                                return <DropdownMenuItem key={index + 10} disabled={index === 2} status={'destructive'} >
+                                    {<FavoriteIcon />}
+                                    {`选项${index}`}
+                                </DropdownMenuItem>
+                            })
+                        }
+                    </DropdownMenuGroup>
+                    <DropdownMenuGroup>
+                        <DropdownMenuLabel>警告色</DropdownMenuLabel>
+                        {
+                            Array.from({ length: 5 }).map((_, index) => {
+                                return <DropdownMenuItem key={index + 10} disabled={index === 2} status={'warning'} >
+                                    {<FavoriteIcon />}
+                                    {`选项${index}`}
+                                </DropdownMenuItem>
+                            })
+                        }
+                    </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>)
     }
 }
-//默认:有分割线
-export const DefaultHasSeparator: Story = {
-    args: {
-        disabled: false,
-        dropdownMenuItemHasSeparator: 'separator',
-    },
-    render: (args) => (
-        <DropdownMenu >
-            <DropdownMenuTrigger asChild>
-                <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                    <div className="inline-flex justify-between items-center w-full gap-1">
-                        <span>更多</span>
-                        <TriangleDownIcon data-slot="tran-icon" />
-                    </div>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="start" >
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status={"success"}>
-                        Profile
-                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='danger'>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='abnormal'>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status={"success"}>
-                        Profile
-                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status="default">
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='danger'>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='abnormal'>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    )
-}
-//主要
-export const Primary: Story = {
-    args: {
-        disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-    },
-    render: (args) => (
-        <DropdownMenu >
-            <DropdownMenuTrigger asChild>
-                <Button disabled={args.disabled} variant={'primary'} size={"md"}>
-                    <div className="inline-flex justify-between items-center w-full gap-1">
-                        <span>更多</span>
-                        <TriangleDownIcon data-slot="tran-icon" />
-                    </div>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="start" >
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status={"success"}>
-                        Profile
-                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='danger'>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='abnormal'>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status={"success"}>
-                        Profile
-                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status="default">
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='danger'>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='abnormal'>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    )
-}
-//文字按钮
-export const Text: Story = {
-    args: {
-        disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        dropdownMenuTriggerButton: 'secondary-text'
-    },
-    render: (args) => (
-        <DropdownMenu >
-            <DropdownMenuTrigger asChild>
-                <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                    <div className="inline-flex justify-between items-center w-full gap-1">
-                        <span>更多</span>
-                        <TriangleDownIcon data-slot="tran-icon" />
-                    </div>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="start" >
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status={"success"}>
-                        Profile
-                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='danger'>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status='abnormal'>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status={"success"}>
-                        Profile
-                        <DropdownMenuShortcut>这啥</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status="default">
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='danger'>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} disabled status='abnormal'>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    )
-}
-//二级菜单
-export const Sub: Story = {
-    args: {
-        disabled: false,
-        dropdownMenuItemHasSeparator: 'default',
-        dropdownMenuTriggerButton: 'secondary-text',
-    },
-    render: (args) => (
-        <DropdownMenu >
-            <DropdownMenuTrigger asChild>
-                <Button disabled={args.disabled} variant={args.dropdownMenuTriggerButton} size={"md"}>
-                    <div className="inline-flex justify-between items-center w-full gap-1">
-                        <span>更多</span>
-                        <TriangleDownIcon data-slot="tran-icon" />
-                    </div>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="start">
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>二级选项1</DropdownMenuLabel>
-                    <DropdownMenuSub key="suv1">
-                        <DropdownMenuSubTrigger hasSeparator={args.dropdownMenuItemHasSeparator} status="success">Invite users</DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">Email</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="success">VX</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="danger">Message</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="abnormal">QQ</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuSub>
-                                    <DropdownMenuLabel>三级选项1</DropdownMenuLabel>
-                                    <DropdownMenuSubTrigger>More  ...</DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <DropdownMenuItem>Email</DropdownMenuItem>
-                                            <DropdownMenuItem>Message</DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem>More...</DropdownMenuItem>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuSub key="suv2">
-                        <DropdownMenuSubTrigger hasSeparator={args.dropdownMenuItemHasSeparator} status="default">Invite users</DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">Email</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="success">VX</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="danger">Message</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="abnormal">QQ</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuSub>
-                                    <DropdownMenuLabel>三级选项1</DropdownMenuLabel>
-                                    <DropdownMenuSubTrigger hasSeparator={args.dropdownMenuItemHasSeparator} >More  ...</DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >Email</DropdownMenuItem>
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >Message</DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >More...</DropdownMenuItem>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuSub key="suv3">
-                        <DropdownMenuSubTrigger hasSeparator={args.dropdownMenuItemHasSeparator} status="danger">Invite users</DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">Email</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="success">VX</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="danger">Message</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="abnormal">QQ</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuSub>
-                                    <DropdownMenuLabel>三级选项1</DropdownMenuLabel>
-                                    <DropdownMenuSubTrigger hasSeparator={args.dropdownMenuItemHasSeparator} >More  ...</DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >Email</DropdownMenuItem>
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >Message</DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >More...</DropdownMenuItem>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuSub key="suv4">
-                        <DropdownMenuSubTrigger hasSeparator={args.dropdownMenuItemHasSeparator} status="abnormal">Invite users</DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="default">Email</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="success">VX</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="danger">Message</DropdownMenuItem>
-                                <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} status="abnormal">QQ</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuSub>
-                                    <DropdownMenuLabel>三级选项1</DropdownMenuLabel>
-                                    <DropdownMenuSubTrigger hasSeparator={args.dropdownMenuItemHasSeparator} >More  ...</DropdownMenuSubTrigger>
-                                    <DropdownMenuPortal>
-                                        <DropdownMenuSubContent>
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >Email</DropdownMenuItem>
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >Message</DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem hasSeparator={args.dropdownMenuItemHasSeparator} >More...</DropdownMenuItem>
-                                        </DropdownMenuSubContent>
-                                    </DropdownMenuPortal>
-                                </DropdownMenuSub>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
-    )
-}
+
+
