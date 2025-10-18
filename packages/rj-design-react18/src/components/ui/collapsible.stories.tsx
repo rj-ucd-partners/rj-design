@@ -61,7 +61,7 @@ export const Primary: Story = {
             >
                 <CollapsibleHeader layout={args.layout} variant={args.variant} size={args.size} border={args.border} disabled={args.disabled}>
                     <CollapsibleTrigger asChild>
-                        <Button variant={'collapsible'} size={'page'} >
+                        <Button variant={'collapsible'}  >
                             <TriangleRightIcon />
                         </Button>
                     </CollapsibleTrigger>
@@ -100,7 +100,7 @@ export const Border: Story = {
             >
                 <CollapsibleHeader layout={args.layout} variant={args.variant} size={args.size} border={args.border}>
                     <CollapsibleTrigger asChild>
-                        <Button variant={'collapsible'} size={'page'} >
+                        <Button variant={'collapsible'}  >
                             <TriangleRightIcon />
                         </Button>
                     </CollapsibleTrigger>
@@ -139,7 +139,7 @@ export const Back: Story = {
                         这是一个折叠面板标题
                     </h4>
                     <CollapsibleTrigger asChild>
-                        <Button variant={'collapsible'} size={'page'} >
+                        <Button variant={'collapsible'}  >
                             <TriangleRightIcon />
                         </Button>
                     </CollapsibleTrigger>
@@ -171,7 +171,7 @@ export const Disabled: Story = {
             >
                 <CollapsibleHeader layout={args.layout} variant={args.variant} size={args.size} border={args.border} disabled={args.disabled}>
                     <CollapsibleTrigger asChild>
-                        <Button variant={'collapsible'} size={'page'} >
+                        <Button variant={'collapsible'}  >
                             <TriangleRightIcon />
                         </Button>
                     </CollapsibleTrigger>

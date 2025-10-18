@@ -355,7 +355,7 @@ function TransferPage({
                                 <TriangleLeftIcon className="size-2 text-disabled" />
                             </Button>
 
-                            <DropdownMenu >
+                            <DropdownMenu variant="primary">
                                 <DropdownMenuTrigger asChild>
                                     <Button variant={"page"} className="h-6 px-[6px] bg-third-background rounded-md">
                                         <div className="inline-flex justify-between items-center gap-4 text-[12px] leading-[20px] text-secondary-information">
@@ -364,9 +364,9 @@ function TransferPage({
                                         </div>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start" variant={"page"} >
+                                <DropdownMenuContent align="start" >
                                     <DropdownMenuGroup>
-                                        {Array.from({ length: pageCount }, (_, i) => i + 1).map((pageNumber) => (<DropdownMenuItem hasSeparator={"default"} status={'page'} key={pageNumber} onSelect={() => { onSelectPageChange(pageNumber) }}> {pageNumber} </DropdownMenuItem>))}
+                                        {Array.from({ length: pageCount }, (_, i) => i + 1).map((pageNumber) => (<DropdownMenuItem key={pageNumber} onSelect={() => { onSelectPageChange(pageNumber) }}> {pageNumber} </DropdownMenuItem>))}
                                     </DropdownMenuGroup>
                                 </DropdownMenuContent>
                             </DropdownMenu>

@@ -8,8 +8,6 @@ import { SlashIcon } from "@radix-ui/react-icons"
 import { Tabs, TabsItem, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import type { BaseNode } from "@/common/type"
 import { useState } from "react"
-import { Input } from "./input"
-import { cn } from "@/lib/utils"
 interface PageHeaderProps extends React.ComponentProps<"div"> {
     title: string,
     description?: string,

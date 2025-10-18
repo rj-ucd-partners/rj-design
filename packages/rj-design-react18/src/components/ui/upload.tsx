@@ -552,11 +552,11 @@ function AvatarUpload({
     className,
     ...props
 }: UploadProps & {
-    deleteCallback?: Function
+    deleteCallback?: () => void
 }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [file, setFile] = useState<FileItem | undefined>(undefined);
-    const [isUploading, setIsUploading] = useState(false);
+    // const [isUploading, setIsUploading] = useState(false);
 
     const addFiles = useCallback((newFiles: FileList | null) => {
         if (!newFiles) return;
@@ -589,7 +589,7 @@ function AvatarUpload({
         }
     }, [addFiles]);
     const uploadSingleFile = async (fileItem: FileItem) => {
-        setIsUploading(true);
+        // setIsUploading(true);
         try {
             // 更新状态为上传中
             setFile({ ...file!, status: 'uploading' })
@@ -599,14 +599,14 @@ function AvatarUpload({
             formData.append('filename', fileItem.file.name);
 
             // 使用 XMLHttpRequest 以便监听上传进度
-            const response = await uploadWithProgress(formData, fileItem.id);
+            await uploadWithProgress(formData, fileItem.id);
             setFile({ ...file!, progress: 100, status: 'success', url: 'https://picx.zhimg.com/v2-ed005842502c6cb29590c2e38d5a1d0b_1440w.jpg' });
             // 上传成功
         } catch (error) {
             console.error('上传失败:', error);
             setFile({ ...file!, status: 'error' })
         }
-        setIsUploading(false);
+        // setIsUploading(false);
     }
     const uploadWithProgress = (formData: FormData, fileId: string): Promise<any> => {
         return new Promise((resolve, reject) => {
@@ -628,7 +628,8 @@ function AvatarUpload({
                         console.log('xhr', xhr.responseText)
 
                         resolve({ success: true, });
-                    } catch (e) {
+                    } catch (error) {
+                        console.error('解析失败', error);
                         resolve({ success: true, url: '11' });
                     }
                 } else {
@@ -652,22 +653,22 @@ function AvatarUpload({
     }
     const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsUploading(true);
+        // setIsUploading(true);
     }, []);
     const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsUploading(false);
+        // setIsUploading(false);
     }, []);
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         if (file?.status === 'success') return;
         e.preventDefault();
-        setIsUploading(false);
+        // setIsUploading(false);
         addFiles(e.dataTransfer.files);
     };
     const clearFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         setFile(undefined);
-        props.deleteCallback && props.deleteCallback();
+        if (props.deleteCallback) props.deleteCallback();
     }
 
     return (
@@ -757,18 +758,16 @@ function AvatarFrame({
     onUploadProgress,
     uploadUrl = "http://localhost:3001/api/upload",
     maxFileSize = 10,
-    className,
     imageName = "图片名称",
     information = 'XXXX',
     ...props
 }: UploadProps & {
     imageName: string,
     information: string,
-    deleteCallback?: Function,
+    deleteCallback?: () => void,
 }) {
     const [file, setFile] = useState<FileItem | undefined>(undefined);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [isUploading, setIsUploading] = useState(false);
 
     const addFiles = useCallback((newFiles: FileList | null) => {
         if (!newFiles) return;
@@ -801,7 +800,7 @@ function AvatarFrame({
         }
     }, [addFiles]);
     const uploadSingleFile = async (fileItem: FileItem) => {
-        setIsUploading(true);
+        // setIsUploading(true);
         try {
             // 更新状态为上传中
             setFile({ ...file!, status: 'uploading' })
@@ -811,14 +810,14 @@ function AvatarFrame({
             formData.append('filename', fileItem.file.name);
 
             // 使用 XMLHttpRequest 以便监听上传进度
-            const response = await uploadWithProgress(formData, fileItem.id);
+            await uploadWithProgress(formData, fileItem.id);
             setFile({ ...file!, progress: 100, status: 'success', url: 'https://picx.zhimg.com/v2-ed005842502c6cb29590c2e38d5a1d0b_1440w.jpg' });
             // 上传成功
         } catch (error) {
             console.error('上传失败:', error);
             setFile({ ...file!, status: 'error' })
         }
-        setIsUploading(false);
+        // setIsUploading(false);
     }
     const uploadWithProgress = (formData: FormData, fileId: string): Promise<any> => {
         return new Promise((resolve, reject) => {
@@ -839,7 +838,8 @@ function AvatarFrame({
                     try {
                         console.log('xhr', xhr.responseText)
                         resolve({ success: true, });
-                    } catch (e) {
+                    } catch (error) {
+                        console.error('xhr', error)
                         resolve({ success: true, url: '11' });
                     }
                 } else {
@@ -863,22 +863,22 @@ function AvatarFrame({
     }
     const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsUploading(true);
+        // setIsUploading(true);
     }, []);
     const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
-        setIsUploading(false);
+        // setIsUploading(false);
     }, []);
     const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
         if (file?.status === 'success') return;
         e.preventDefault();
-        setIsUploading(false);
+        // setIsUploading(false);
         addFiles(e.dataTransfer.files);
     };
     const clearFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.stopPropagation();
         setFile(undefined);
-        props.deleteCallback && props.deleteCallback();
+        // props.deleteCallback && props.deleteCallback();
     }
     return (
         <div className={cn(

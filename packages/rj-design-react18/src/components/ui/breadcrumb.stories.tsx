@@ -16,7 +16,6 @@ import {
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDownIcon, SlashIcon } from "@radix-ui/react-icons"
 import { HomeIcon } from "../icon/home-icon";
-import type { ReactNode } from "react";
 
 const meta: Meta<typeof Breadcrumb> = {
     title: 'Components/Breadcrumb',
@@ -32,37 +31,6 @@ const meta: Meta<typeof Breadcrumb> = {
 }
 
 export default meta
-
-interface item {
-    title: string,
-    Icon?: ReactNode,
-    href: string,
-
-}
-
-const data: item[] = [
-    {
-        title: 'Home',
-        Icon: <HomeIcon />,
-        href: '/',
-    },
-    {
-        title: 'Comp',
-        href: '/',
-    },
-    {
-        title: 'Next',
-        href: '/',
-    },
-    {
-        title: 'Next',
-        href: '/',
-    },
-    {
-        title: 'Current',
-        href: '/',
-    }
-]
 
 type Story = StoryObj<typeof Breadcrumb>
 
@@ -90,7 +58,7 @@ export const Default: Story = {
                     <SlashIcon />
                 </BreadcrumbSeparator>
                 <BreadcrumbItem>
-                    <DropdownMenu>
+                    <DropdownMenu variant="primary">
                         <DropdownMenuTrigger className="flex items-center gap-1 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5 ">
                             Components
                             <ChevronDownIcon />

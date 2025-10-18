@@ -176,8 +176,8 @@ function Search({
     return (
         <div className={cn(
             className
-        )}>
-            <Command value="Calendar" className="rounded-lg border shadow-md md:min-w-[450px]">
+        )} {...props}>
+            <Command value="Calendar" className="rounded-lg border shadow-md md:min-w-[450px]" >
                 <CommandInput placeholder="Type a command or search..." />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>

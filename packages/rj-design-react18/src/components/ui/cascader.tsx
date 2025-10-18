@@ -197,10 +197,10 @@ function Cascader({
                 updateDisableCheckboxCheckeds={updateDisableCheckboxCheckeds}
                 clearCheckeds={clearCheckeds}
                 disabled={disabled} />
-            <DropdownMenu open={(!disabled && open)} onOpenChange={setOpen} >
+            <DropdownMenu open={(!disabled && open)} onOpenChange={setOpen} variant="primary" >
                 <DropdownMenuTrigger>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-60" align='start' variant={'page'} >
+                <DropdownMenuContent className="w-60" align='start'  >
                     {
                         data.map((item, index) => {
                             return (
@@ -467,8 +467,8 @@ function CascaderSelectedItem({
 }) {
     return (
         (props.item.children && props.item.children.length > 0) ?
-            <DropdownMenuSub>
-                <DropdownMenuSubTrigger hasSeparator={'default'} >
+            <DropdownMenuSub >
+                <DropdownMenuSubTrigger  >
                     {
                         props.disableCheckbox ?
                             <div className="inline-flex flex-row items-center justify-start gap-2">

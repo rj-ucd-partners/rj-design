@@ -96,11 +96,17 @@ function NavigationMenuOptionsBar({
     avatar?: string
 }) {
     return <div className={cn(
-        "flex flex-row gap-8",
+        "flex flex-row gap-8 items-center justify-end",
         className
     )} {...props}>
         {
             outButton
+        }
+        {
+            outButton &&
+            <svg width="1" height="18" viewBox="0 0 1 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.5 0V17.5" stroke="#13405A" />
+            </svg>
         }
         {
             toSet
