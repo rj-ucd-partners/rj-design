@@ -135,7 +135,7 @@ export const DefaultDropdownMenu: Story = {
             }
         }
         return (
-            <DropdownMenu open={true} variant={variant} >
+            <DropdownMenu variant={variant} >
                 <DropdownMenuTrigger asChild >
                     <Button disabled={args.disabled} variant={'default'} size={"md"}>
                         <span>更多</span>
