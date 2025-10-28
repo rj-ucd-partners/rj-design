@@ -131,7 +131,9 @@ function InputGroupAddon({
       role="group"
       data-slot="input-group-addon"
       data-align={align}
-      className={cn(inputGroupAddonVariants({ align }), className)}
+      className={
+        cn(inputGroupAddonVariants({ align }),
+          "text-secondary", className)}
       onClick={(e) => {
         if ((e.target as HTMLElement).closest("button")) {
           return

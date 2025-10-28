@@ -257,6 +257,7 @@ export const PrimaryHasIconMiddleCanCloseCanAddSelect: Story = {
     size: 'md',
   },
   render: (args) => {
+
     const [options, setOptions] = useState<{
       key: string;
       label: string;

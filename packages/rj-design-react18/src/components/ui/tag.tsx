@@ -34,9 +34,9 @@ const tagVariants = cva(
                 ],
                 abnormal: [
                     'bg-[#FFA800]/10',
-                    'text-abnormal-link',
+                    'text-abnormal',
                     'data-[state=disabled]:text-abnormal-disabled',
-                    'border-abnormal-link',
+                    'border-abnormal',
                     'data-[state=disabled]:border-abnormal-disabled'
                 ],
                 success: [
@@ -168,7 +168,7 @@ const tagCheckIconVariants = cva(
                     'data-[state=disabled]:text-danger-disabled',
                 ],
                 abnormal: [
-                    'text-abnormal-link',
+                    'text-abnormal',
                     'data-[state=disabled]:text-abnormal-disabled',
                 ],
                 success: [
@@ -287,7 +287,7 @@ const heavyTagVariants = cva(
                     'data-[state=disabled]:text-danger-disabled',
                 ],
                 abnormal: [
-                    'bg-abnormal-link',
+                    'bg-abnormal',
                     'text-text',
                     'data-[state=disabled]:bg-abnormal-light',
                     'data-[state=disabled]:text-abnormal-disabled',

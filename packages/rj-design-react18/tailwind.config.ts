@@ -55,7 +55,6 @@ export default {
         'abnormal-disabled': 'hsl(var(--abnormal-disabled))',
         'abnormal-special': 'hsl(var(--abnormal-special))',
         'abnormal-light': 'hsl(var(--abnormal-light))',
-        'abnormal-link': 'hsl(var(--abnormal-link))',
         /* --警示色-- */
         warning: 'hsl(var(--warning))',
         'warning-hover': 'hsl(var(--warning-hover))',
@@ -81,25 +80,17 @@ export default {
         'fill-emphasize': 'hsl(var(--fill-emphasize))',
         'fill-light-hover-bg': 'hsl(var(--fill-light-hover-bg))',
         'fill-dark-hover-active-disabled': 'hsl(var(--fill-dark-hover-active-disabled))',
-        'fill-dark': 'hsl(var(--fill-dark))',
         /* --其他-- */
         scroll: 'hsl(var(--scroll))',
         /* --数据-- */
-        'data-1': 'hsl(var(--data-1))',
         'data-2': 'hsl(var(--data-2))',
         'data-3': 'hsl(var(--data-3))',
         'data-4': 'hsl(var(--data-4))',
-        'data-5': 'hsl(var(--data-5))',
         'data-6': 'hsl(var(--data-6))',
         'data-7': 'hsl(var(--data-7))',
         'data-8': 'hsl(var(--data-8))',
         'data-9': 'hsl(var(--data-9))',
         'data-blue': 'hsl(var(--data-blue))',
-        'cyan-400-20': 'hsl(var(--cyan-400-20))',
-        'teal-400-20': 'hsl(var(--teal-400-20))',
-        'orange-600-20': 'hsl(var(--orange-600-20))',
-        'amber-500-20': 'hsl(var(--amber-500-20))',
-        'amber-500-10': 'hsl(var(--amber-500-10))',
         'mask': 'hsl(var(--mask))'
       }
     },
