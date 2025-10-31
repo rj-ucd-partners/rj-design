@@ -2,13 +2,35 @@ import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 import { cn } from "@/lib/utils"
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva } from "class-variance-authority"
 
-function Popover({
-  ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Root>) {
-  return <PopoverPrimitive.Root data-slot="popover" {...props} />
+export interface PopoverProps extends PopoverPrimitive.PopoverProps, PopoverPrimitive.PopoverContentProps {
+  className?: string
+  variant?: 'primary'
 }
+
+export interface PopoverContentProps {
+  className?: string
+  variant?: 'primary'
+}
+
+const PopoverContext = React.createContext<PopoverContentProps | undefined>(undefined)
+function usePopoverContext() {
+  const context = React.useContext(PopoverContext)
+  if (context === undefined) {
+    throw new Error('useSelectContext must be used within a Select')
+  }
+  return context
+}
+
+const Popover = React.forwardRef<
+  unknown,
+  PopoverProps>(({ variant, ...props }) => {
+    return <PopoverContext.Provider value={{ variant: variant }}>
+      <PopoverPrimitive.Root {...props} />
+    </PopoverContext.Provider>
+
+  })
 
 function PopoverTrigger({
   ...props
@@ -16,180 +38,72 @@ function PopoverTrigger({
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />
 }
 
-const popoverContentVariants = cva(
-  '',
+const PopoverAnchor = PopoverPrimitive.Anchor
+
+const popoverArrowVariants = cva(
+  "",
   {
     variants: {
       variant: {
-        default: 'bg-fill-light-hover-bg text-text-deep text-[12px] leading-[20px]',
-      },
-      arrow: {
-        default: 'bg-fill-light-hover-bg fill-fill-light-hover-bg',
+        primary: 'fill-fill-light-hover-bg',
       }
     },
     defaultVariants: {
     },
-  })
+  }
+)
 
-function PopoverContent({
-  className,
-  variant,
-  arrow,
-  side = "left",
-  align = "center",
-  sideOffset = 0,
-  alignOffset = 0,
-  children,
-  ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Content>
-  & VariantProps<typeof popoverContentVariants>) {
+const PopoverArrow = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Arrow>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Arrow>
+>(({ className, ...props }, ref) => {
+  const { variant } = usePopoverContext()
   return (
-    <PopoverPrimitive.Portal>
-      <PopoverPrimitive.Content
-        data-slot="popover-content"
-        side={side}
-        align={align}
-        alignOffset={alignOffset}
-        sideOffset={sideOffset}
-        className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md p-4 shadow-md outline-hidden grid grid-cols-[auto_1fr_auto] gap-x-2 gap-y-2",
-          popoverContentVariants({ variant }),
-          className
-        )}
-        {...props}
-      >
-        {children}
-        <PopoverPrimitive.Arrow className={cn("bg-primary fill-primary z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px]",
-          popoverContentVariants({ arrow }))} />
-      </PopoverPrimitive.Content>
-    </PopoverPrimitive.Portal>
-  )
-}
-
-function PopoverAnchor({
-  ...props
-}: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {
-  return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />
-}
-
-interface PopoverCustomProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  grid?: 'default' | 'icon'
-}
-
-//自定义的Content 用来定位
-//前置图标
-function PopoverIcon({
-  children,
-  className,
-  ...props
-}: PopoverCustomProps) {
-  return (
-    <div
-      data-slot="popover-icon"
-      className={cn('col-start-1 row-start-1 inline-flex items-center justify-center', className)}
+    <PopoverPrimitive.Arrow
+      ref={ref}
+      className={cn(
+        popoverArrowVariants({ variant }),
+        className
+      )}
       {...props}
-    >
-      {children}
-    </div>
+    />
   );
-}
-//标题
-function PopoverTitle({
-  children,
-  className,
-  ...props
-}: PopoverCustomProps) {
-  return (
-    <div
-      data-slot="popover-title"
-      className={cn('col-start-2 row-start-1 inline-flex items-center justify-start text-text-deep text-[15px] leading-[22px] font-normal', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
+});
+PopoverArrow.displayName = "PopoverArrow";
 
-//关闭
-function PopoverClose({
-  children,
-  className,
-  ...props
-}: PopoverCustomProps) {
-  return (
-    <div
-      data-slot="popover-close"
-      className={cn('col-start-3 row-start-1 inline-flex items-center justify-end', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-const popoverDescVariants = cva(
-  '',
+const popoverContentVariants = cva(
+  "",
   {
     variants: {
-      grid: {
-        default: 'col-start-2 row-start-2',
-        icon: 'col-span-3 row-start-2',
-      },
-
+      variant: {
+        primary: 'bg-fill-light-hover-bg',
+      }
     },
     defaultVariants: {
     },
-  })
+  }
+)
 
 
-//关闭
-function PopoverDesc({
-  children,
-  className,
-  grid = 'default',
-  ...props
-}: PopoverCustomProps) {
-  return (
-    <div
-      data-slot="popover-desc"
-      className={
-        cn('inline-flex items-center justify-start text-secondary text-[13px] leading-[20pxs]',
-          popoverDescVariants({ grid }),
-          className)}
+const PopoverContent = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
+>(({ className, align = "center", sideOffset = 4, ...props }, ref) => {
+  const { variant } = usePopoverContext()
+  return <PopoverPrimitive.Portal>
+    <PopoverPrimitive.Content
+      ref={ref}
+      align={align}
+      sideOffset={sideOffset}
+      className={cn(
+        "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-popover-content-transform-origin]",
+        popoverContentVariants({ variant: variant }),
+        className
+      )}
       {...props}
-    >
-      {children}
-    </div>
-  );
-}
+    />
+  </PopoverPrimitive.Portal>
+})
+PopoverContent.displayName = PopoverPrimitive.Content.displayName
 
-
-//工具栏
-function PopoverToolbar({
-  children,
-  className,
-  ...props
-}: PopoverCustomProps) {
-  return (
-    <div
-      data-slot="popover-toolbar"
-      className={cn('col-span-3 row-start-3 inline-flex items-center justify-end', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-export {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverAnchor,
-  PopoverIcon,
-  PopoverTitle,
-  PopoverClose,
-  PopoverDesc,
-  PopoverToolbar
-}
+export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor, PopoverArrow }

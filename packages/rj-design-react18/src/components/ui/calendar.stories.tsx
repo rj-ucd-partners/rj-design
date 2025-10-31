@@ -452,6 +452,111 @@ export const TimeCalendaPopover: Story = {
     )
   }
 }
+//带顶部工作区的日历
+export const CalendaCardTopPopover: Story = {
+  args: {
+  },
+  render: () => {
+    const [date, setDate] = useState<Date | undefined>(undefined)
+    const [month, setMonth] = useState(new Date())
+    return (
+      <Card className='inline-flex flex-col bg-secondary-background p-0'>
+        <CardHeader className="p-0">
+          <div className='flex justify-between items-center py-2 px-3 gap-2' >
+            <div className='flex items-center bg-primary-disabled flex-1 h-[32px] text-[13px] leading-[32px] items-center justify-center text-primary'>
+              自定义工作区
+            </div>
+            <div className='flex items-center  gap-2'>
+              <Button
+                variant={'link'}
+                size={'md-link'}
+                onClick={() => {
+                  alert('工作区可以自由组装')
+                }}
+              >
+                取消
+              </Button>
+              <Button
+                variant={'primary'}
+                size={'md'}
+                onClick={() => {
+                  alert('工作区可以自由组装')
+                }}
+              >
+                确认
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0 ">
+          <Calendar
+            locale={enUS}
+            mode='single'
+            selected={date}
+            onSelect={setDate}
+            month={month}
+            onMonthChange={setMonth}
+            captionLayout="dropdown"
+            className='bg-transparent border-none rounded-none w-100'
+          />
+        </CardContent>
+      </Card>
+    );
+  }
+}
+//带底部工作区的日历
+export const CalendaCardBottomPopover: Story = {
+  args: {
+  },
+  render: () => {
+    const [date, setDate] = useState<Date | undefined>(undefined)
+    const [month, setMonth] = useState(new Date())
+    return (
+      <Card className='inline-flex flex-col bg-secondary-background p-0'>
+
+        <CardContent className="p-0 ">
+          <Calendar
+            locale={enUS}
+            mode='single'
+            selected={date}
+            onSelect={setDate}
+            month={month}
+            onMonthChange={setMonth}
+            captionLayout="dropdown"
+            className='bg-transparent border-none rounded-none w-100'
+          />
+        </CardContent>
+        <CardFooter className="flex gap-2 border-t *:[div]:w-full p-0">
+          <div className='flex justify-between items-center py-2 px-3 gap-2' >
+            <div className='flex items-center bg-primary-disabled flex-1 h-[32px] text-[13px] leading-[32px] items-center justify-center text-primary'>
+              自定义工作区
+            </div>
+            <div className='flex items-center gap-2'>
+              <Button
+                variant={'link'}
+                size={'md-link'}
+                onClick={() => {
+                  alert('工作区可以自由组装')
+                }}
+              >
+                取消
+              </Button>
+              <Button
+                variant={'primary'}
+                size={'md'}
+                onClick={() => {
+                  alert('工作区可以自由组装')
+                }}
+              >
+                确认
+              </Button>
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
+    );
+  }
+}
 //带工作区的日历
 export const CalendaCardPopover: Story = {
   args: {
@@ -460,7 +565,7 @@ export const CalendaCardPopover: Story = {
     const [date, setDate] = useState<Date | undefined>(undefined)
     const [month, setMonth] = useState(new Date())
     return (
-      <Card className='inline-flex flex-col bg-secondary-background p-0'>
+      <Card className='inline-flex flex-col bg-secondary-background p-0 text-primary'>
         <CardHeader className="p-0">
           <div className='flex justify-between items-center py-2 px-3 gap-2' >
             <div className='flex items-center bg-primary-disabled flex-1 h-[32px] text-[13px] leading-[32px] items-center justify-center'>
@@ -499,6 +604,181 @@ export const CalendaCardPopover: Story = {
             captionLayout="dropdown"
             className='bg-transparent border-none rounded-none w-100'
           />
+        </CardContent>
+        <CardFooter className="flex gap-2 border-t *:[div]:w-full p-0">
+          <div className='flex justify-between items-center py-2 px-3 gap-2' >
+            <div className='flex items-center bg-primary-disabled flex-1 h-[32px] text-[13px] leading-[32px] items-center justify-center'>
+              自定义工作区
+            </div>
+            <div className='flex items-center gap-2'>
+              <Button
+                variant={'link'}
+                size={'md-link'}
+                onClick={() => {
+                  alert('工作区可以自由组装')
+                }}
+              >
+                取消
+              </Button>
+              <Button
+                variant={'primary'}
+                size={'md'}
+                onClick={() => {
+                  alert('工作区可以自由组装')
+                }}
+              >
+                确认
+              </Button>
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
+    );
+  }
+}
+
+//带工作区的日历
+export const CalendaTimeCardPopover: Story = {
+  args: {
+  },
+  render: () => {
+    const [date, setDate] = useState<Date | undefined>(undefined)
+    const [month, setMonth] = useState<Date>(new Date());
+    const [time, setTime] = useState<{
+      hour: number
+      minute: number,
+      second: number
+    } | undefined>(undefined)
+    const [dateStr, setDateStr] = useState<string | undefined>()
+    useEffect(() => {
+      if (!date || !time) return;
+      setDateStr(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${time.hour.toString().padStart(2, "0") + ':' + time.minute.toString().padStart(2, "0") + ':' + time.second.toString().padStart(2, "0")}`)
+    }, [date, time])
+    function handleTimeChange(type: "hour" | "minute" | "second", value: string) {
+      const numValue = parseInt(value, 10);
+
+      setTime((prevTime) => {
+        // 如果之前没有时间，初始化为 00:00:00
+        const currentTime = prevTime || { hour: 0, minute: 0, second: 0 };
+
+        return {
+          ...currentTime,
+          [type]: numValue
+        };
+      });
+    }
+
+    return (
+      <Card className='inline-flex flex-col bg-secondary-background p-0'>
+        <CardContent className="p-0">
+          <div className='sm:flex rounded-lg border shadow-sm bg-secondary-background'>
+            <Calendar
+              mode="single"
+              selected={date}
+              month={month}
+              onMonthChange={setMonth}
+              captionLayout="dropdown"
+              onSelect={(date) => {
+                setDate(date)
+              }}
+            />
+            <div className='sm:flex-1 flex flex-col py-3'>
+              <div className='h-8 text-center leading-[32px]'>
+                {time ? time?.hour.toString().padStart(2, "0") + ':' + time?.minute.toString().padStart(2, "0") + ':' + time?.second.toString().padStart(2, "0") : undefined}
+              </div>
+              <div className="flex flex-col sm:flex-row sm:h-[240px] gap-2 py-[15px] px-[12px]">
+                <ScrollArea transparent={true}>
+                  <div className="flex sm:flex-col gap-1">
+                    {Array.from({ length: 24 }, (_, i) => i)
+                      .map((hour) => (
+                        <Button
+                          key={hour}
+                          variant={"transparent"}
+                          className={cn(
+                            "sm:w-full shrink-0 aspect-square",
+                            "w-[60px] h-[24px]",
+                            "text-center",
+                            "text-[13px] leading-[24px]",
+                            "hover:bg-fill",
+                            "rounded-sm",
+                            time?.hour === hour && "text-primary"
+                          )}
+                          onClick={() =>
+                            handleTimeChange("hour", hour.toString())
+                          }
+                        >
+                          {hour.toString().padStart(2, "0")}
+                        </Button>
+                      ))}
+                  </div>
+                  <ScrollBar
+                    orientation="horizontal"
+                    className="sm:hidden"
+                  />
+                </ScrollArea>
+                <ScrollArea className="sm:w-auto" transparent={true}>
+                  <div className="flex sm:flex-col gap-1">
+                    {Array.from({ length: 60 }, (_, i) => i).map(
+                      (minute) => (
+                        <Button
+                          key={minute}
+                          variant={"transparent"}
+                          className={cn(
+                            "sm:w-full shrink-0 aspect-square",
+                            "w-[60px] h-[24px]",
+                            "text-center",
+                            "text-[13px] leading-[24px]",
+                            "hover:bg-fill",
+                            "rounded-sm",
+                            time?.minute === minute && "text-primary"
+                          )}
+                          onClick={() =>
+                            handleTimeChange("minute", minute.toString())
+                          }
+                        >
+                          {minute.toString().padStart(2, "0")}
+                        </Button>
+                      )
+                    )}
+                  </div>
+                  <ScrollBar
+                    orientation="horizontal"
+                    className="sm:hidden"
+                  />
+                </ScrollArea>
+                <ScrollArea className="sm:w-auto" transparent={true}>
+                  <div className="flex sm:flex-col gap-1">
+                    {Array.from({ length: 60 }, (_, i) => i).map(
+                      (second) => (
+                        <Button
+                          key={second}
+                          variant={"transparent"}
+                          className={cn(
+                            "sm:w-full shrink-0 aspect-square",
+                            "w-[60px] h-[24px]",
+                            "text-center",
+                            "text-[13px] leading-[24px]",
+                            "hover:bg-fill",
+                            "rounded-sm",
+                            time?.second === second && "text-primary"
+                          )}
+                          onClick={() =>
+                            handleTimeChange("second", second.toString())
+                          }
+                        >
+                          {second.toString().padStart(2, "0")}
+                        </Button>
+                      )
+                    )}
+                  </div>
+                  <ScrollBar
+                    orientation="horizontal"
+                    className="sm:hidden"
+                  />
+                </ScrollArea>
+              </div>
+            </div>
+          </div>
         </CardContent>
         <CardFooter className="flex gap-2 border-t *:[div]:w-full p-0">
           <div className='flex justify-between items-center py-2 px-3 gap-2' >

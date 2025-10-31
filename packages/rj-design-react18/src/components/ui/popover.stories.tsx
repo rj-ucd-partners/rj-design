@@ -1,429 +1,579 @@
 import { Button } from "@/components/ui/button"
-
 import {
     Popover,
+    PopoverArrow,
     PopoverContent,
-    PopoverDesc,
-    PopoverIcon,
-    PopoverTitle,
-    PopoverToolbar,
     PopoverTrigger,
+    type PopoverProps,
 } from "@/components/ui/popover"
-import { PopoverClose, type PopoverProps } from "@radix-ui/react-popover";
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { InfoCirecledIcon } from "../icon/infoCirecledIcon";
-// import { CrossCircledIcon } from "@radix-ui/react-icons";
+import { PopoverItem } from "./item-primary"
+import { useState, type JSX } from "react";
 
-interface ExtendedPopoverProps extends PopoverProps {
-    contentVariant: 'default';
-    contentArrowVariant: 'default';
-    contentSideOffset: number;
-    contentAlignOffset: number;
-    contentSide: "top" | "right" | "bottom" | "left",
-    contentAlign: "center" | "start" | "end",
-    grid: 'default' | 'icon'
+interface ItemPopoverProps extends PopoverProps {
+    title?: string;
+    description?: string | React.ReactNode | JSX.Element;
+    showIcon?: boolean;
+    icon?: React.ReactNode | JSX.Element;
+    showClose?: boolean;
+    onClose?: () => void;
+    onConfirm?: () => void;
+    onCancel?: () => void;
+    showFoot?: boolean;
 }
 
-const meta: Meta<ExtendedPopoverProps> = {
+const meta: Meta<ItemPopoverProps> = {
     title: 'Components/Popover',
     tags: ['autodocs'],
     component: Popover,
     argTypes: {
-        contentVariant: {
+        side: {
             control: { type: 'select' },
-            options: ['default'],
+            options: ['top', 'right', 'bottom', 'left'],
         },
-        contentArrowVariant: {
+        align: {
             control: { type: 'select' },
-            options: ['default'],
-        },
-        contentSideOffset: {
-            control: 'number',
-        },
-        contentAlignOffset: {
-            control: 'number',
-        },
-        contentSide: {
-            control: { type: 'select' },
-            options: ["top", "right", "bottom", "left"],
-        },
-        contentAlign: {
-            control: { type: 'select' },
-            options: ["center", "start", "end"],
-        },
-        grid: {
-            control: { type: 'select' },
-            options: ["default", "icon"],
+            options: ['start', 'center', 'end'],
         }
     },
 }
 
 export default meta
 
-type Story = StoryObj<ExtendedPopoverProps>
+type Story = StoryObj<ItemPopoverProps>
 
 // 上状态
-export const Top: Story = {
+export const TopPrimary: Story = {
     args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'top',
-        contentAlign: 'center'
+        variant: 'primary',
+        side: "top",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "描述内容",
+        showIcon: true,
+        showClose: true,
+
     },
     render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
         return (
             <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        <p>高度将被动态计算</p>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
                     </PopoverContent>
                 </Popover>
             </div>
         );
     }
 }
-
 // 下状态
-export const Bottom: Story = {
+export const BottomPrimary: Story = {
     args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'bottom',
-        contentAlign: 'center'
+        variant: 'primary',
+        side: "bottom",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "描述内容",
+        showIcon: true,
+        showClose: true,
+
     },
     render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
         return (
             <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        <p>高度将被动态计算</p>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
                     </PopoverContent>
                 </Popover>
             </div>
         );
     }
 }
-
 // 左状态
-export const Left: Story = {
+export const LeftPrimary: Story = {
     args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'left',
-        contentAlign: 'center'
-    },
-    render: (args) => {
-        return (
-            <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
-                            没有锚点
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        <p>高度将被动态计算</p>
-                    </PopoverContent>
-                </Popover>
-            </div>
-        );
-    }
-}
+        variant: 'primary',
+        side: "left",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "描述内容",
+        showIcon: true,
+        showClose: true,
 
-// right状态
-export const Right: Story = {
-    args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'right',
-        contentAlign: 'center'
     },
     render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
         return (
             <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        <p>高度将被动态计算</p>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
                     </PopoverContent>
                 </Popover>
             </div>
         );
     }
 }
-//标题+内容
-export const ContentTitleAndDesc: Story = {
+// 右状态
+export const RightPrimary: Story = {
     args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'right',
-        contentAlign: 'center'
-    },
-    render: (args) => {
-        return (
-            <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
-                            没有锚点
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        {/* <PopoverIcon className="text-primary">
-                            <InfoCirecledIcon />
-                        </PopoverIcon> */}
-                        <PopoverTitle  >
-                            标题
-                        </PopoverTitle>
-                        {/* <PopoverClose>
-                            <Button variant='ghost'>
-                                <CrossCircledIcon />
-                            </Button>
-                        </PopoverClose> */}
-                        <PopoverDesc  >
-                            这是一段内容
-                        </PopoverDesc>
-                        {/* <PopoverToolbar  >
-                            <div className="flex gap-2 justify-end">
-                                <Button variant='primary' size={"md"}>
-                                    确认
-                                </Button>
-                                <Button variant='default' size={"md"}>
-                                    取消
-                                </Button>
-                            </div>
-                        </PopoverToolbar> */}
-                    </PopoverContent>
-                </Popover>
-            </div>
-        );
-    }
-}
-//图标+内容+描述
-export const ContentIconAndTitleAndDesc: Story = {
-    args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'right',
-        contentAlign: 'center',
-        grid: 'icon'
-    },
-    render: (args) => {
-        return (
-            <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
-                            没有锚点
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        <PopoverIcon className="text-primary">
-                            <InfoCirecledIcon />
-                        </PopoverIcon>
-                        <PopoverTitle  >
-                            标题
-                        </PopoverTitle>
-                        {/* <PopoverClose>
-                            <Button variant='ghost'>
-                                <CrossCircledIcon />
-                            </Button>
-                        </PopoverClose> */}
-                        <PopoverDesc grid={args.grid} >
-                            <p>这是一段内容</p>
-                        </PopoverDesc>
-                        {/* <PopoverToolbar  >
-                            <div className="flex gap-2 justify-end">
-                                <Button variant='primary' size={"md"}>
-                                    确认
-                                </Button>
-                                <Button variant='default' size={"md"}>
-                                    取消
-                                </Button>
-                            </div>
-                        </PopoverToolbar> */}
-                    </PopoverContent>
-                </Popover>
-            </div>
-        );
-    }
-}
+        variant: 'primary',
+        side: "right",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "描述内容",
+        showIcon: true,
+        showClose: true,
 
-//图标+内容+描述
-export const ContentIconAndTitleAndCloseAndDesc: Story = {
-    args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'right',
-        contentAlign: 'center',
-        grid: 'icon'
     },
     render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
         return (
             <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        <PopoverIcon className="text-primary">
-                            <InfoCirecledIcon />
-                        </PopoverIcon>
-                        <PopoverTitle  >
-                            标题
-                        </PopoverTitle>
-                        <PopoverClose>
-                            <Button variant='ghost'>
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7 14C10.866 14 14 10.866 14 7C14 3.13401 10.866 0 7 0C3.13401 0 0 3.13401 0 7C0 10.866 3.13401 14 7 14ZM10.046 4.71554L7.7615 7.00004L10.046 9.28454L9.2845 10.046L7 7.76154L4.7155 10.046L3.954 9.28454L6.2385 7.00004L3.954 4.71554L4.7155 3.95405L7 6.23854L9.2845 3.95405L10.046 4.71554Z" fill="#97A7B5" />
-                                </svg>
-                            </Button>
-                        </PopoverClose>
-                        <PopoverDesc grid={args.grid} >
-                            <p>这是一段内容</p>
-                        </PopoverDesc>
-                        {/* <PopoverToolbar  >
-                            <div className="flex gap-2 justify-end">
-                                <Button variant='primary' size={"md"}>
-                                    确认
-                                </Button>
-                                <Button variant='default' size={"md"}>
-                                    取消
-                                </Button>
-                            </div>
-                        </PopoverToolbar> */}
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
                     </PopoverContent>
                 </Popover>
             </div>
         );
     }
 }
-
-//内容部分
-export const ContentIconAndTitleAndCloseAndDescAndToolbar: Story = {
+export const StartPrimary: Story = {
     args: {
-        contentVariant: 'default',
-        contentArrowVariant: 'default',
-        contentSideOffset: 0,
-        contentAlignOffset: 0,
-        contentSide: 'right',
-        contentAlign: 'center',
-        grid: 'icon'
+        variant: 'primary',
+        side: "right",
+        align: "start",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "描述内容",
+        showIcon: true,
+        showClose: true,
+
     },
     render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
         return (
             <div className="flex items-center justify-center h-[200px]">
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant={"primary"} size={"md"}>
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
                             没有锚点
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                        variant={args.contentVariant}
-                        arrow={args.contentArrowVariant}
-                        side={args.contentSide}
-                        align={args.contentAlign}
-                        alignOffset={args.contentAlignOffset}
-                        sideOffset={args.contentSideOffset}>
-                        <PopoverIcon className="text-primary">
-                            <InfoCirecledIcon />
-                        </PopoverIcon>
-                        <PopoverTitle  >
-                            标题
-                        </PopoverTitle>
-                        <PopoverClose>
-                            <Button variant='ghost'>
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M7 14C10.866 14 14 10.866 14 7C14 3.13401 10.866 0 7 0C3.13401 0 0 3.13401 0 7C0 10.866 3.13401 14 7 14ZM10.046 4.71554L7.7615 7.00004L10.046 9.28454L9.2845 10.046L7 7.76154L4.7155 10.046L3.954 9.28454L6.2385 7.00004L3.954 4.71554L4.7155 3.95405L7 6.23854L9.2845 3.95405L10.046 4.71554Z" fill="#97A7B5" />
-                                </svg>
-                            </Button>
-                        </PopoverClose>
-                        <PopoverDesc grid={args.grid} >
-                            <p>这是一段内容</p>
-                        </PopoverDesc>
-                        <PopoverToolbar  >
-                            <div className="flex gap-3 justify-end">
-                                <Button variant='default' size={"md"}>
-                                    取消
-                                </Button>
-                                <Button variant='primary' size={"md"}>
-                                    确认
-                                </Button>
-                            </div>
-                        </PopoverToolbar>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+}
+export const EndPrimary: Story = {
+    args: {
+        variant: 'primary',
+        side: "right",
+        align: "end",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "描述内容",
+        showIcon: true,
+        showClose: true,
+
+    },
+    render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
+                            没有锚点
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+}
+export const BasicPrimary: Story = {
+    args: {
+        variant: 'primary',
+        side: "right",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        description: "较多的内容描述，否则用tooltip",
+        showIcon: false,
+        showClose: false,
+    },
+    render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
+                            没有锚点
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+}
+export const TitlePrimary: Story = {
+    args: {
+        variant: 'primary',
+        side: "right",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "较多的内容描述，否则用tooltip",
+        showIcon: false,
+        showClose: false,
+    },
+    render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
+                            没有锚点
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+}
+export const ClosePrimary: Story = {
+    args: {
+        variant: 'primary',
+        side: "right",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "较多的内容描述，否则用tooltip",
+        showIcon: false,
+        showClose: true,
+    },
+    render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
+                            没有锚点
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+}
+export const IconPrimary: Story = {
+    args: {
+        variant: 'primary',
+        side: "right",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "较多的内容描述，否则用tooltip",
+        showIcon: true,
+        showClose: true,
+    },
+    render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
+                            没有锚点
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onClose}
+                            onClose={onClose}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+}
+export const ShowFootPrimary: Story = {
+    args: {
+        variant: 'primary',
+        side: "right",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: "较多的内容描述，否则用tooltip",
+        showIcon: true,
+        showClose: true,
+        showFoot: true,
+    },
+    render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose, showFoot } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
+        const onConfirm = () => {
+            alert("confirm")
+        }
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
+                            没有锚点
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onConfirm}
+                            onClose={onClose}
+                            showFoot={showFoot}
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
+        );
+    }
+}
+const getCustomArea = () => {
+    return <div className="bg-primary-light w-full h-[52px] flex items-center justify-center">自定义区域</div>
+}
+export const CustomAreaPrimary: Story = {
+    args: {
+        variant: 'primary',
+        side: "right",
+        align: "center",
+        sideOffset: 0,
+        alignOffset: 0,
+        title: "标题",
+        description: getCustomArea(),
+        showIcon: true,
+        showClose: true,
+        showFoot: false,
+    },
+    render: (args) => {
+        const { variant, side, align, sideOffset, alignOffset, title, description, showIcon, showClose, showFoot } = args;
+        const [open, setOpen] = useState<boolean>(false)
+        const onClose = () => {
+            setOpen(false)
+        }
+        const onConfirm = () => {
+            alert("confirm")
+        }
+
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <Popover variant={variant} open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild >
+                        <Button variant={"primary"} size={"md"} onClick={() => setOpen(true)}>
+                            没有锚点
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset}>
+                        <PopoverArrow />
+                        <PopoverItem
+                            title={title}
+                            description={description}
+                            showIcon={showIcon}
+                            showClose={showClose}
+                            onCancel={onClose}
+                            onConfirm={onConfirm}
+                            onClose={onClose}
+                            showFoot={showFoot}
+                        />
                     </PopoverContent>
                 </Popover>
             </div>

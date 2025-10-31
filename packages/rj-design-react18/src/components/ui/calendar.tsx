@@ -179,7 +179,7 @@ function Calendar({
                                 if (props.onMonthChange) props.onMonthChange(today)
 
                             }}
-                            className="text-md"
+                            className="text-[12px] leading-[20px] font-semibold"
                         >
                             当前
                         </Button>
@@ -258,10 +258,10 @@ function CalendarDropdown({
     return (
         <div className="w-[80px]">
             <Select value={externalValue?.toString()} onValueChange={handleValueChange}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-third-background h-[32px] text-secondary-information">
                     <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="h-[300px]" >
+                <SelectContent className="h-[300px] bg-third-background" >
                     <SelectGroup>
                         {
                             options?.map((item) => {
