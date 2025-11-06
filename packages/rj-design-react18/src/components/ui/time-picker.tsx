@@ -1,517 +1,599 @@
-import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
-import { ClockIcon } from "../icon/clock-icon";
-import type { BaseNode } from "@/common/type";
-import { ScrollArea } from "./scroll-area";
-import { Button } from "./button";
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-import { useClickAway } from "react-use";
-import { CloseIcon } from "../icon/closeIcon";
+import { cn } from "@/lib/utils"
+import { useState, useCallback } from "react"
+import { Button } from "./button"
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "./input-group"
+import { Clock } from "lucide-react"
+import { CloseIcon } from "../icon/closeIcon"
+import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover';
+import React from "react"
 
-type tiemType = 'hour' | 'min' | 'sec' | 'period';
-export interface CheckedTime {
-    hour: BaseNode,
-    min: BaseNode,
-    sec?: BaseNode,
-    period?: BaseNode,
+export interface TimeValue {
+    hour: number
+    minute: number
+    second: number
+    period: 'AM' | 'PM'
 }
 
-const timePickerVariants = cva(
-    "",
-    {
-        variants: {
-            variant: {
-                primary: [
-                    'rounded-md',
-                    'bg-third-background',
-                    'hover:outline hover:outline-primary',
-                    'flex flex-row gap-1 items-center justify-center',
-                    'w-full',
-                    'hover:[&_[data-slot=clear]]:block hover:[&_[data-slot=find]]:hidden',
-                    '[[data-state=disabled]_&]:bg-border-disabled [[data-state=disabled]_&]:text-disabled [[data-state=disabled]_&]:outline-none',
-                ],
-                hide: [
-                    'rounded-md',
-                    'bg-transparent',
-                    'flex flex-row gap-1 items-center justify-center',
-                    'w-full',
-                    '[[data-state=disabled]_&]:bg-border-disabled [[data-state=disabled]_&]:text-disabled [[data-state=disabled]_&]:outline-none',
-                ]
-            },
-            size: {
-                sm: "px-2 py-0.5 text-[12px] leading-[20px]",
-                md: "px-2 py-[5px] text-[13px] leading-[20px]",
-                lg: "px-3 py-2 text-[15px] leading-[22px]",
-            },
-        },
-    }
-)
-//#region TimePicker
-//生成00-23的小时数组
-const hours: BaseNode[] = Array.from({ length: 29 }, (_, i) => ({
-    key: String(i),
-    label: i > 23 ? '' : String(i).padStart(2, '0'),
-    disabled: i > 23,
-}));
-const hours12: BaseNode[] = Array.from({ length: 17 }, (_, i) => ({
-    key: String(i),
-    label: i > 11 ? '' : String(i).padStart(2, '0'),
-    disabled: i > 11,
-}));
-//生成00-59的分秒数组
-const mins: BaseNode[] = Array.from({ length: 65 }, (_, i) => ({
-    key: String(i),
-    label: i > 59 ? '' : String(i).padStart(2, '0'),
-    disabled: i > 59,
-}));
-const periods: BaseNode[] = Array.from({ length: 6 }, (_, i) => ({
-    key: String(i),
-    label: i === 2 ? 'AM' : i === 3 ? 'PM' : '',
-    disabled: i !== 2 && i !== 3,
-}));
-function TimePikerScroller({
+export interface TimeRanges {
+    start: TimeValue
+    end: TimeValue
+}
+
+export interface TimePickerProps extends React.ComponentProps<'div'> {
+    format?: "hh:mm:ss" | "hh:mm" | "hh:mm:ss a" | "hh:mm a"
+    value?: TimeValue,
+    size?: 'sm' | 'md' | 'lg',
+    showFoot?: boolean,
+    onConfirm?: (time?: TimeValue) => void,
+    onCancel?: () => void,
+    contentClassName?: string
+}
+
+export interface TimePickerRangeProps extends Omit<React.ComponentProps<'div'>, 'onConfirm'> {
+    format?: "hh:mm:ss" | "hh:mm" | "hh:mm:ss a" | "hh:mm a"
+    size?: 'sm' | 'md' | 'lg',
+    values?: TimeRanges,
+    showFoot?: boolean,
+    onConfirm?: (times?: TimeRanges) => void,
+    onCancel?: () => void,
+    contentClassName?: string
+}
+function TimePickerContent({
+    format = "hh:mm:ss",
     value,
-    times,
-    type,
-    onCheckedChange,
-    onMouseMoveItem,
-    onMouseLevelItem,
-}: React.ComponentProps<'div'> & {
-    times: BaseNode[],
-    checked?: boolean,
-    value?: string,
-    onCheckedChange: (key: string, type: tiemType) => void,
-    type: tiemType,
-    onMouseMoveItem: (key: string, type: tiemType) => void,
-    onMouseLevelItem: () => void,
-}) {
-    return (
-        <div className="w-full">
-            <ScrollArea variant={'default'} className="h-[174px] w-full rounded-md " transparent={true}>
-                <div className="flex flex-col items-center justify-start gap-[6px] w-full">
-                    {
-                        times.map((time, index) => (
-                            <TimePikerItem
-                                key={time.key}
-                                node={time}
-                                checked={value ? (index === parseInt(value)) : false}
-                                onCheckedChange={onCheckedChange}
-                                type={type}
-                                onMouseMoveItem={onMouseMoveItem}
-                                onMouseLevelItem={onMouseLevelItem}
-                            />
-                        ))
-                    }
-                </div>
-            </ScrollArea>
-        </div>
+    onConfirm,
+    onCancel,
+    showFoot = true,
+    className,
+    ...props
+}: TimePickerProps) {
+    const showHour = format.includes('hh')
+    const showMinute = format.includes('mm')
+    const showSecond = format.includes('ss')
+    const showPeriod = format.includes('a')
+    const is12Hour = showPeriod
+    const isControlled = value !== undefined;
+    const [timeValue, setTimeValue] = useState<TimeValue>(() => {
+        if (isControlled && value) {
+            return value
+        }
+        return { hour: is12Hour ? 1 : 0, minute: 0, second: 0, period: 'AM' }
+    })
+
+    // 同步外部 value 变化
+    React.useEffect(() => {
+        if (isControlled && value) {
+            setTimeValue(value)
+        }
+    }, [isControlled, value])
+
+    const handleTimeChange = useCallback((type: keyof TimeValue, newValue: number | 'AM' | 'PM') => {
+        const updatedTime = { ...timeValue, [type]: newValue }
+        setTimeValue(updatedTime)
+        if (!showFoot && onConfirm) {
+            onConfirm(updatedTime);
+        }
+    }, [onConfirm, showFoot, timeValue])
+
+    const updatedTime = () => {
+        if (onConfirm) {
+            onConfirm(timeValue)
+        }
+    }
+    const setCurrentTime = useCallback(() => {
+        const now = new Date()
+        let hour = now.getHours()
+        const minute = now.getMinutes()
+        const second = now.getSeconds()
+        let period: 'AM' | 'PM' = 'AM'
+
+        if (is12Hour) {
+            // 12小时制转换
+            period = hour >= 12 ? 'PM' : 'AM'
+            hour = hour % 12
+            if (hour === 0) hour = 12 // 0点显示为12点
+        }
+
+        const currentTime: TimeValue = { hour, minute, second, period }
+        setTimeValue(currentTime)
+
+        // 如果没有底部按钮，直接触发确认
+        if (!showFoot && onConfirm) {
+            onConfirm(currentTime)
+        }
+    }, [is12Hour, showFoot, onConfirm])
+
+    // 检查是否有外部传入的高度样式
+    const hasHeightClass = className && (
+        className.includes('h-') ||
+        className.includes('max-h-') ||
+        className.includes('min-h-')
     );
-}
-function TimePikerItem({
-    node,
-    type,
-    checked,
-    className,
-    onMouseMoveItem,
-    onMouseLevelItem,
-    ...props
-}: React.ComponentProps<'div'> & {
-    node: BaseNode,
-    checked?: boolean,
-    onCheckedChange: (key: string, type: tiemType) => void,
-    type: tiemType,
-    onMouseMoveItem: (key: string, type: tiemType) => void,
-    onMouseLevelItem: () => void,
-}) {
-    return (
-        <span
-            className={cn(
-                'w-full h-6 rounded-sm text-center cursor-default text-[13px] leading-6 text-secondary',
-                !node.disabled && 'hover:bg-fill-light-hover-bg cursor-pointer hover:text-text-deep',
-                checked && 'text-primary bg-fill cursor-pointer ',
-                className
-            )}
-            onClick={() => {
-                if (!node.disabled) props.onCheckedChange(node.key, type);
-            }}
-            onMouseMove={() => {
-                if (!node.disabled) onMouseMoveItem(node.key, type);
-            }}
-            onMouseLeave={() => {
-                if (!node.disabled) onMouseLevelItem();
-            }}
-            {...props}>
-            {node.label}
-        </span>)
-}
-//#endregion
-export interface TimePickerProps extends React.ComponentProps<'div'>, VariantProps<typeof timePickerVariants> {
-    time?: CheckedTime,
-    use12Hours?: boolean,
-    useSeconds?: boolean,
-    placeholder?: string,
-    onTimeChange?: (time?: CheckedTime) => void,
-    cancelCallback?: () => void,
-    disabled?: boolean,
-}
-export interface TimePickerRef {
-    open: () => void;
-}
-const TimePicker = forwardRef<TimePickerRef, TimePickerProps>(({
-    placeholder,
-    use12Hours = false,
-    useSeconds = true,
-    variant = 'primary',
-    size,
-    time,
-    onTimeChange,
-    cancelCallback,
-    disabled,
-    className,
-    ...props
-}, ref) => {
-    const [open, setOpen] = useState<boolean>(false);
-    const [hour, setHour] = useState<BaseNode>(hours[0]);
-    const [min, setMin] = useState<BaseNode>(mins[0]);
-    const [sec, setSec] = useState<BaseNode>(mins[0]);
-    const [period, setPeriod] = useState<BaseNode>(periods[2]);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const contextRef = useRef<HTMLDivElement>(null);
-    const onCheckedChange = (key: string, type: tiemType) => {
-        if (type === 'hour') {
-            setHour(hours.find((item) => item.key === key)!);
-        } else if (type === 'min') {
-            setMin(mins.find((item) => item.key === key)!);
-        } else if (type === 'sec') {
-            setSec(mins.find((item) => item.key === key)!);
-        } else if (type === 'period') {
-            setPeriod(periods.find((item) => item.key === key)!);
-        }
-    }
-    const getLabel = (label: string, type: tiemType) => {
-        const timeStr = `${type === 'hour' ? label : hour.label}:${type === 'min' ? label : min.label}${useSeconds ? `:${type === 'sec' ? label : sec.label}` : ''}${use12Hours ? ' ' + (type === 'period' ? label : period.label) : ''}`
-        return timeStr;
-    }
-    const onMouseMoveItem = (key: string, type: tiemType) => {
-        let label = '';
-        if (type === 'hour') {
-            label = hours.find((item) => item.key === key)!.label;
-        } else if (type === 'min') {
-            label = mins.find((item) => item.key === key)!.label;
-        } else if (type === 'sec') {
-            label = mins.find((item) => item.key === key)!.label;
-        } else if (type === 'period') {
-            label = periods.find((item) => item.key === key)!.label;
-        }
-        const str = getLabel(label, type);
-        setValue(str);
-    }
-    const onMouseLevelItem = () => {
-        const timeStr = `${hour.label}:${min.label}${useSeconds ? `:${sec.label}` : ''}${use12Hours ? ' ' + period.label : ''}`
-        setValue(timeStr);
-    }
-    const [value, setValue] = useState<string | undefined>(undefined);
-    useEffect(() => {
-        if (time) {
-            const timeStr = `${time.hour.label}:${time.min.label}${useSeconds ? `${useSeconds ? `:${time.sec!.label}` : ''}` : ''}${use12Hours ? ' ' + time.period!.label : ''}`
-            setValue(timeStr);
-            setHour(time.hour);
-            setMin(time.min);
-            setSec(useSeconds ? time.sec! : mins[0]);
-            setPeriod(use12Hours ? time.period! : periods[2]);
-        } else {
-            clearValue();
-        }
-    }, [time, use12Hours, useSeconds])
-    const onConfirm = () => {
-        const now = {
-            hour: hour,
-            min: min,
-            sec: sec,
-            period: use12Hours ? period : undefined,
-        };
-        const timeStr = `${hour.label}:${min.label}${useSeconds ? `:${sec!.label}` : ''}${use12Hours ? ' ' + period!.label : ''}`
-        setValue(timeStr);
-        setOpen(false);
-        if (onTimeChange) onTimeChange(now);
-    }
-    const onCancel = () => {
-        if (time) {
-            setHour(time.hour);
-            setMin(time.min);
-            setSec(useSeconds ? time.sec! : mins[0]);
-            setPeriod(use12Hours ? time.period! : periods[2]);
-            setOpen(false);
-            const timeStr = `${time.hour.label}:${time.min.label}${useSeconds ? `:${time.sec!.label}` : ''}${use12Hours ? ' ' + time.period!.label : ''}`
-            setValue(timeStr);
-        } else {
-            clearValue();
-        }
-        if (cancelCallback) cancelCallback();
-    }
-    useClickAway(contextRef, (e: MouseEvent) => {
-        if (inputRef.current && (e.clientX > inputRef.current.getBoundingClientRect().left && e.clientX < inputRef.current.getBoundingClientRect().right) && (e.clientY > inputRef.current.getBoundingClientRect().top && e.clientY < inputRef.current.getBoundingClientRect().bottom)) {
-            return;
-        }
-        onCancel();
-    });
-    const getNowTime = () => {
-        try {
-            const now = new Date();
-            let hour = now.getHours();
-            const min = now.getMinutes();
-            const sec = now.getSeconds();
-            const period = hour > 12 ? 'PM' : 'AM';
-            setPeriod(period === 'AM' ? periods[2] : periods[3]);
-            if (use12Hours) {
-                hour = hour > 12 ? hour - 12 : hour;
-            }
-            setHour(hours[hour]);
-            setMin(mins[min]);
-            setSec(mins[sec]);
-            const timeStr = `${hours[hour].label}:${mins[min].label}${useSeconds ? `${useSeconds ? `:${mins[sec].label}` : ''}` : ''}${use12Hours ? ' ' + period : ''}`
-            setValue(timeStr);
-            const nowTime = {
-                hour: hours[hour],
-                min: mins[min],
-                sec: useSeconds ? mins[sec] : undefined,
-                period: use12Hours ? period === 'AM' ? periods[2] : periods[3] : undefined,
-            };
-            if (onTimeChange) onTimeChange(nowTime);
-        } catch (e) {
-            console.log(e);
-        }
-        setOpen(false);
-    }
-    const debounceTimerRef = useRef<NodeJS.Timeout>(null);
-    const debouncedOnInput = (str: string) => {
-        // 清除之前的定时器
-        if (debounceTimerRef.current) {
-            clearTimeout(debounceTimerRef.current);
-        }
-        const onInput = (str: string) => {
-            const setCheckedTime = () => {
-                const timeStr = `${hour.label}:${min.label}${useSeconds ? `:${sec!.label}` : ''}${use12Hours ? ' ' + period!.label : ''}`
-                setValue(timeStr);
-            }
-            if (!str.trim()) {
-                setCheckedTime();
-                return;
-            }
-            try {
-                const timeRegex = buildTimeRegex(useSeconds, use12Hours);
-                const match = str.match(timeRegex);
 
-                if (!match) {
-                    console.warn('时间格式不正确');
-                    setCheckedTime();
-                    return;
-                }
-                const parsedTime = parseTimeString(match, useSeconds, use12Hours);
-                if (!validateTimeRange(parsedTime, use12Hours)) {
-                    console.warn('时间范围不正确');
-                    setCheckedTime();
-                    return;
-                }
-                const newHour = hours[parsedTime.hour];
-                const newMin = mins[parsedTime.minute];
-                const newSec = useSeconds ? mins[parsedTime.second] : mins[0];
-                const newPeriod = use12Hours ? periods[parsedTime.period === 'AM' ? 2 : 3] : periods[2];
-                setHour(newHour);
-                setMin(newMin);
-                setSec(newSec);
-                setPeriod(newPeriod);
-                const timeStr = `${newHour.label}:${newMin.label}${useSeconds ? `:${newSec.label}` : ''}${use12Hours ? ' ' + newPeriod.label : ''}`
-                setValue(timeStr);
-            } catch (error) {
-                console.error('解析时间失败:', error);
-            }
-        };
-        // 设置新的定时器
-        debounceTimerRef.current = setTimeout(() => {
-            onInput(str);
-        }, 1000);
-    };
-    const buildTimeRegex = (includeSeconds: boolean, is12Hour: boolean): RegExp => {
-        let pattern = '^(\\d{1,2}):(\\d{2})'; // hh:mm
-
-        if (includeSeconds) {
-            pattern += ':(\\d{2})'; // :ss
-        }
-
-        if (is12Hour) {
-            pattern += '\\s*(AM|PM|am|pm)'; // AM/PM
-        }
-
-        pattern += '$';
-
-        return new RegExp(pattern);
-    };
-    const parseTimeString = (
-        match: RegExpMatchArray,
-        includeSeconds: boolean,
-        is12Hour: boolean
-    ) => {
-        const hour = parseInt(match[1], 10);
-        const minute = parseInt(match[2], 10);
-        const second = includeSeconds ? parseInt(match[3], 10) : 0;
-        const period = is12Hour ? match[includeSeconds ? 4 : 3]?.toUpperCase() : null;
-
-        return { hour, minute, second, period };
-    };
-    const validateTimeRange = (
-        time: { hour: number; minute: number; second: number; period: string | null },
-        is12Hour: boolean
-    ): boolean => {
-        const { hour, minute, second } = time;
-
-        // 校验分钟和秒
-        if (minute < 0 || minute > 59 || second < 0 || second > 59) {
-            return false;
-        }
-
-        // 校验小时
-        if (is12Hour) {
-            // 12小时制：1-12
-            if (hour < 1 || hour > 12) {
-                return false;
-            }
-        } else {
-            // 24小时制：0-23
-            if (hour < 0 || hour > 23) {
-                return false;
-            }
-        }
-
-        return true;
-    };
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputValue = e.target.value;
-        setValue(inputValue); // 立即更新显示值
-        debouncedOnInput(inputValue); // 防抖处理
-    };
-    useEffect(() => {
-        return () => {
-            if (debounceTimerRef.current) {
-                clearTimeout(debounceTimerRef.current);
-            }
-        };
-    }, []);
-    const clearValue = () => {
-        setValue('');
-        setOpen(false);
-        setHour(hours[0]);
-        setMin(mins[0]);
-        setSec(mins[0]);
-        setPeriod(periods[2]);
-    }
-    useImperativeHandle(ref, () => ({
-        open: () => {
-            if (!disabled && inputRef.current) {
-                inputRef.current.focus();
-            }
-        },
-    }), [disabled]);
     return (
         <div
-            data-state={disabled ? 'disabled' : 'enabled'}
-            data-slot='time-picker'
-            className="relative w-full"
+            className={cn(
+                "flex flex-col w-full rounded-md",
+                !hasHeightClass && "h-[200px]",
+                className
+            )}
+            style={props.style}
         >
             <div
                 className={cn(
-                    timePickerVariants({ variant, size }),
-                    className
+                    "flex items-center justify-center rounded-md bg-transparent gap-2",
+                    "px-[12px] py-[15px]",
+                    "flex-1 min-h-0"
                 )}
-                {...props}>
-                <input
-                    ref={inputRef}
-                    disabled={disabled}
-                    type="text"
-                    className="border-none outline-none w-full"
-                    placeholder={placeholder ?? '请选择时间'}
-                    value={value}
-                    onFocus={() => { setOpen(true) }}
-                    onChange={handleInputChange}
-                />
-                {
-                    variant !== 'hide' &&
-                    <div className="relative">
-                        {
-                            value &&
-                            <div data-slot='clear' className="hidden z-50 absolute left-1/2 top-1/2 transform -translate-x-[6px] -translate-y-[8px]">
-                                <Button variant={'transparent'} size={'link'}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        clearValue();
-                                        if (onTimeChange) onTimeChange(undefined);
-                                    }}>
-                                    <CloseIcon className="size-3 text-secondary-information" />
-                                </Button>
-                            </div>
-                        }
-                        <ClockIcon className="text-secondary-information size-3 opacity-50" />
-                    </div>
-                }
+            >
+                {showHour && (
+                    <TimePickerScrollArea
+                        type="hour"
+                        is12Hour={is12Hour}
+                        value={timeValue.hour}
+                        handleTimeChange={handleTimeChange}
+                    />
+                )}
+                {showMinute && (
+                    <TimePickerScrollArea
+                        type="minute"
+                        value={timeValue.minute}
+                        handleTimeChange={handleTimeChange}
+                    />
+                )}
+                {showSecond && (
+                    <TimePickerScrollArea
+                        type="second"
+                        value={timeValue.second}
+                        handleTimeChange={handleTimeChange}
+                    />
+                )}
+                {showPeriod && (
+                    <TimePickerScrollArea
+                        type="period"
+                        value={timeValue.period === 'AM' ? 0 : 1}
+                        handleTimeChange={handleTimeChange}
+                    />
+                )}
             </div>
             {
-                open &&
-                <div
-                    ref={contextRef}
-                    className={cn(
-                        'absolute top-[110%] z-50 flex flex-col w-full',
-                        'rounded-md',
-                        'bg-secondary-background',
-                    )}>
-                    <div className="flex flex-row items-center justify-center gap-2 w-full px-3 py-[15px]">
-                        <TimePikerScroller
-                            times={use12Hours ? hours12 : hours}
-                            onCheckedChange={onCheckedChange}
-                            type={"hour"} value={hour.key}
-                            onMouseMoveItem={onMouseMoveItem}
-                            onMouseLevelItem={onMouseLevelItem}
-                        />
-                        <TimePikerScroller
-                            times={mins}
-                            onCheckedChange={onCheckedChange}
-                            type={"min"}
-                            value={min.key}
-                            onMouseMoveItem={onMouseMoveItem}
-                            onMouseLevelItem={onMouseLevelItem}
-                        />
-                        {
-                            useSeconds &&
-                            <TimePikerScroller
-                                times={mins}
-                                onCheckedChange={onCheckedChange}
-                                type={"sec"}
-                                value={sec.key}
-                                onMouseMoveItem={onMouseMoveItem}
-                                onMouseLevelItem={onMouseLevelItem}
-                            />
-                        }
-                        {
-                            use12Hours &&
-                            <TimePikerScroller
-                                times={periods}
-                                onCheckedChange={onCheckedChange}
-                                type={"period"}
-                                value={period.key}
-                                onMouseMoveItem={onMouseMoveItem}
-                                onMouseLevelItem={onMouseLevelItem}
-                            />
-                        }
-                    </div>
-                    <div className="p-3 flex flex-row items-center justify-between w-full border-t border-border-disabled">
-                        <Button variant={'link'} size={'md'} onClick={getNowTime}>此刻</Button>
-                        <div className="flex flex-row items-center justify-center gap-1">
-                            <Button variant={'link'} size={'md'} onClick={onCancel}>取消</Button>
-                            <Button variant={'primary'} size={'md'} onClick={onConfirm}>确认</Button>
-                        </div>
+                showFoot &&
+                <div className={cn(
+                    "border-t border-border-disabled",
+                    "px-[12px] py-[15px]",
+                    "flex flex-row justify-between items-center"
+                )}>
+                    <Button variant={'link'} size={'md'} onClick={setCurrentTime}>此刻</Button>
+                    <div className="flex flex-row items-center justify-center gap-1">
+                        <Button variant={'link'} size={'md'} onClick={onCancel}>取消</Button>
+                        <Button variant={'primary'} size={'md'} onClick={updatedTime}>确认</Button>
                     </div>
                 </div>
             }
-        </div>);
-})
+        </div>
+    )
+}
+function TimePickerScrollArea({
+    type,
+    is12Hour = false,
+    value = -1,
+    className,
+    handleTimeChange,
+    ...props
+}: React.ComponentProps<'div'> & {
+    type: "hour" | "minute" | "second" | "period"
+    is12Hour?: boolean
+    value?: number,
+    handleTimeChange: (type: keyof TimeValue, newValue: number | 'AM' | 'PM') => void
+}) {
+    const getOptions = () => {
+        switch (type) {
+            case 'hour':
+                {
+                    const maxHour = is12Hour ? 12 : 23
+                    const minHour = is12Hour ? 1 : 0
+                    return Array.from({ length: maxHour - minHour + 1 }, (_, i) => ({
+                        value: minHour + i,
+                        label: String(minHour + i).padStart(2, '0')
+                    }))
+                }
+            case 'minute':
+            case 'second':
+                return Array.from({ length: 60 }, (_, i) => ({
+                    value: i,
+                    label: String(i).padStart(2, '0')
+                }))
+            case 'period':
+                return [
+                    { value: 0, label: 'AM' },
+                    { value: 1, label: 'PM' }
+                ]
+            default:
+                return []
+        }
+    }
+    const options = getOptions()
 
-export { TimePicker, TimePikerScroller }
+    return (
+        <div className="flex-1 h-full overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className={cn(
+                "flex flex-col items-center gap-[6px] w-full px-1 py-1",
+                type === 'period' && "justify-center min-h-full"
+            )} {...props}>
+                {
+                    options.map((time) => (
+                        <Button
+                            key={time.value}
+                            type="button"
+                            variant="transparent"
+                            className={cn(
+                                'w-full h-6 rounded-sm text-center text-[13px] leading-[24px] text-secondary flex-shrink-0',
+                                'hover:bg-fill-light-hover-bg hover:text-text-deep',
+                                value === time.value && 'text-primary bg-fill',
+                                className
+                            )}
+                            onClick={(e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+                                if (type === 'period') {
+                                    handleTimeChange(type, time.value === 0 ? 'AM' : 'PM')
+                                } else {
+                                    handleTimeChange(type, time.value)
+                                }
+                            }}
+                        >
+                            {time.label}
+                        </Button>
+                    ))
+                }
+            </div>
+        </div>
+    )
+}
+function TimePickerPopover({
+    size = 'md',
+    value,
+    format = 'hh:mm:ss',
+    onConfirm,
+    onCancel,
+    className,
+    contentClassName,
+    ...props
+}: TimePickerProps) {
+    // 判断是否为受控组件
+    const isControlled = value !== undefined;
+
+    // 内部状态：仅在非受控模式下使用
+    const [internalValue, setInternalValue] = React.useState<TimeValue | undefined>();
+
+    // Popover 打开状态
+    const [open, setOpen] = React.useState(false);
+
+    // 实际显示的值：受控时用外部 value，非受控时用内部状态
+    const displayValue = isControlled ? value : internalValue;
+
+    // 格式化显示字符串
+    const displayString = displayValue ? formatTimeValue(displayValue, format) : '';
+
+    // 处理时间确认
+    const handleTimeConfirm = useCallback((time: TimeValue) => {
+        if (isControlled) {
+            // 受控模式：调用外部 onConfirm
+            if (onConfirm) {
+                onConfirm(time);
+            }
+        } else {
+            // 非受控模式：更新内部状态
+            setInternalValue(time);
+            if (onConfirm) {
+                onConfirm(time);
+            }
+        }
+        // 确认后关闭 Popover
+        setOpen(false);
+    }, [isControlled, onConfirm]);
+
+    // 处理取消
+    const handleCancel = useCallback(() => {
+        if (onCancel) {
+            onCancel();
+        }
+        // 取消后关闭 Popover
+        setOpen(false);
+    }, [onCancel]);
+
+    // 处理清空
+    const handleClear = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (isControlled) {
+            // 受控模式：调用 onConfirm 传空值
+            if (onConfirm) {
+                onConfirm(undefined);
+            }
+        } else {
+            // 非受控模式：清空内部状态
+            setInternalValue(undefined);
+        }
+    }, [isControlled, onConfirm]);
+
+    return (
+        <Popover {...props} open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <InputGroup variant={'primary'} size={size}>
+                    <InputGroupInput
+                        value={displayString}
+                        id="date"
+                        placeholder='请选择时间'
+                        readOnly
+                    />
+                    {
+                        displayString ?
+                            <InputGroupButton
+                                variant={'transparent'}
+                                size={'icon-xs'}
+                                onClick={handleClear}
+                            >
+                                <CloseIcon />
+                            </InputGroupButton>
+                            :
+                            <InputGroupAddon align={'inline-end'}>
+                                <Clock />
+                            </InputGroupAddon>
+                    }
+                </InputGroup>
+            </PopoverTrigger>
+            <PopoverContent
+                className={
+                    cn("w-[var(--radix-popover-trigger-width)]",
+                        "bg-secondary-background",
+                        "rounded-md",
+                        className)}
+                alignOffset={5}
+                sideOffset={5}
+            >
+                <TimePickerContent
+                    value={displayValue}
+                    format={format}
+                    onConfirm={(value) => { handleTimeConfirm(value!) }}
+                    onCancel={handleCancel}
+                    className={contentClassName}
+                />
+            </PopoverContent>
+        </Popover>
+    );
+}
+function TimePickerRangePopover({
+    size = "md",
+    values,
+    format = 'hh:mm:ss',
+    onConfirm,
+    onCancel,
+    className,
+    contentClassName,
+    ...props
+}: TimePickerRangeProps) {
+    // 判断是否为受控组件
+    const isControlled = values !== undefined;
+
+    // 内部状态：仅在非受控模式下使用
+    const [internalValues, setInternalValues] = React.useState<TimeRanges | undefined>();
+
+    // Popover 打开状态
+    const [open, setOpen] = React.useState(false);
+
+    // 临时状态：用于在确认前暂存选择的时间
+    const [tempStart, setTempStart] = React.useState<TimeValue | undefined>();
+    const [tempEnd, setTempEnd] = React.useState<TimeValue | undefined>();
+
+    // 实际显示的值：受控时用外部 values，非受控时用内部状态
+    const displayValues = isControlled ? values : internalValues;
+
+    // 初始化临时状态
+    React.useEffect(() => {
+        if (open) {
+            setTempStart(displayValues?.start);
+            setTempEnd(displayValues?.end);
+        }
+    }, [open, displayValues]);
+
+    // 比较两个时间值，返回校正后的时间范围
+    const normalizeTimeRange = useCallback((start: TimeValue, end: TimeValue): TimeRanges => {
+        // 将时间值转换为可比较的数值
+        const timeToNumber = (time: TimeValue): number => {
+            let hour = time.hour;
+
+            // 如果是12小时制，转换为24小时制进行比较
+            if (format.includes('a')) {
+                if (time.period === 'PM' && hour !== 12) {
+                    hour += 12;
+                } else if (time.period === 'AM' && hour === 12) {
+                    hour = 0;
+                }
+            }
+
+            return hour * 3600 + time.minute * 60 + time.second;
+        };
+
+        const startTime = timeToNumber(start);
+        const endTime = timeToNumber(end);
+
+        // 如果开始时间晚于结束时间，交换它们
+        if (startTime > endTime) {
+            return { start: end, end: start };
+        }
+
+        return { start, end };
+    }, [format]);
+
+    // 处理开始时间变化
+    const handleStartChange = useCallback((time: TimeValue) => {
+        setTempStart(time);
+
+        // 如果两个时间都已选择，进行时间校正并关闭
+        if (tempEnd) {
+            const normalizedRange = normalizeTimeRange(time, tempEnd);
+
+            if (isControlled) {
+                if (onConfirm) {
+                    onConfirm(normalizedRange);
+                }
+            } else {
+                setInternalValues(normalizedRange);
+                if (onConfirm) {
+                    onConfirm(normalizedRange);
+                }
+            }
+            setOpen(false);
+        }
+    }, [tempEnd, isControlled, onConfirm, normalizeTimeRange]);
+
+    // 处理结束时间变化
+    const handleEndChange = useCallback((time: TimeValue) => {
+        setTempEnd(time);
+
+        // 如果两个时间都已选择，进行时间校正并关闭
+        if (tempStart) {
+            const normalizedRange = normalizeTimeRange(tempStart, time);
+
+            if (isControlled) {
+                if (onConfirm) {
+                    onConfirm(normalizedRange);
+                }
+            } else {
+                setInternalValues(normalizedRange);
+                if (onConfirm) {
+                    onConfirm(normalizedRange);
+                }
+            }
+            setOpen(false);
+        }
+    }, [tempStart, isControlled, onConfirm, normalizeTimeRange]);
+
+    // 处理取消按钮点击
+    const handleTimeCancel = useCallback(() => {
+        if (isControlled) {
+            // 受控模式：调用外部 onCancel
+            if (onCancel) {
+                onCancel();
+            }
+        }
+        setOpen(false);
+
+    }, [isControlled, onCancel]);
+
+    // 处理清空
+    const handleClear = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation();
+
+        if (isControlled) {
+            // 受控模式：调用 onConfirm 传空值
+            if (onConfirm) {
+                onConfirm(undefined);
+            }
+        } else {
+            // 非受控模式：清空内部状态
+            setInternalValues(undefined);
+        }
+    }, [isControlled, onConfirm]);
+
+    // 判断是否有值
+    const hasValue = displayValues?.start || displayValues?.end;
+
+    // 格式化显示字符串
+    const startString = displayValues?.start ? formatTimeValue(displayValues.start, format) : '';
+    const endString = displayValues?.end ? formatTimeValue(displayValues.end, format) : '';
+
+    return (
+        <Popover {...props} open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <InputGroup variant={'primary'} size={size}>
+                    <InputGroupInput
+                        value={startString}
+                        placeholder='起始时间'
+                        readOnly
+                    />
+                    <span className="text-secondary px-1">-</span>
+                    <InputGroupInput
+                        value={endString}
+                        placeholder='终止时间'
+                        readOnly
+                    />
+                    {
+                        hasValue ?
+                            <InputGroupButton
+                                variant={'transparent'}
+                                size={'icon-xs'}
+                                onClick={handleClear}
+                            >
+                                <CloseIcon />
+                            </InputGroupButton>
+                            :
+                            <InputGroupAddon align={'inline-end'}>
+                                <Clock />
+                            </InputGroupAddon>
+                    }
+                </InputGroup>
+            </PopoverTrigger>
+            <PopoverContent
+                className={
+                    cn("w-[var(--radix-popover-trigger-width)]",
+                        "bg-secondary-background",
+                        "rounded-md",
+                        className)}
+                alignOffset={5}
+                sideOffset={5}
+            >
+                <div className="flex flex-row gap-2 p-2">
+                    <TimePickerContent
+                        value={tempStart}
+                        format={format}
+                        onConfirm={(value) => { handleStartChange(value!) }}
+                        onCancel={handleTimeCancel}
+                        showFoot={true}
+                        className={contentClassName}
+                    />
+                    <div className="w-px bg-border self-stretch" />
+                    <TimePickerContent
+                        value={tempEnd}
+                        format={format}
+                        onConfirm={(value) => { handleEndChange(value!) }}
+                        onCancel={handleTimeCancel}
+                        showFoot={true}
+                        className={contentClassName}
+                    />
+                </div>
+            </PopoverContent>
+        </Popover>
+    );
+}
+//#region 
+// 辅助函数：格式化时间值
+export function formatTimeValue(time: TimeValue, format: string): string {
+    const { hour, minute, second, period } = time
+
+    if (format.includes('a')) {
+        // 12小时制
+        const hourStr = String(hour).padStart(2, '0')
+        const minuteStr = String(minute).padStart(2, '0')
+
+        if (format.includes('ss')) {
+            const secondStr = String(second).padStart(2, '0')
+            return `${hourStr}:${minuteStr}:${secondStr} ${period}`
+        } else {
+            return `${hourStr}:${minuteStr} ${period}`
+        }
+    } else {
+        // 24小时制
+        const hourStr = String(hour).padStart(2, '0')
+        const minuteStr = String(minute).padStart(2, '0')
+
+        if (format.includes('ss')) {
+            const secondStr = String(second).padStart(2, '0')
+            return `${hourStr}:${minuteStr}:${secondStr}`
+        } else {
+            return `${hourStr}:${minuteStr}`
+        }
+    }
+}
+//#endregion
+export { TimePickerContent, TimePickerPopover, TimePickerRangePopover }

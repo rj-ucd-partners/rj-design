@@ -1,138 +1,121 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { TimePicker, type CheckedTime } from "./time-picker"
-import { useState } from "react"
+import { TimePickerContent, TimePickerPopover, TimePickerRangePopover, type TimePickerProps, type TimeRanges, type TimeValue } from "./time-picker"
+import React from "react"
 
-const meta: Meta<typeof TimePicker> = {
-    title: 'Components/TimePicker',
+const meta: Meta<TimePickerProps> = {
+    title: 'Components/TimePickerPopover',
     tags: ['autodocs'],
-    component: TimePicker,
+    component: TimePickerPopover,
     argTypes: {
-
+        format: {
+            control: { type: 'select' },
+            options: ['hh:mm:ss', 'hh:mm', 'hh:mm:ss a', 'hh:mm a'],
+        },
+        size: {
+            control: { type: 'select' },
+            options: ['sm', 'md', 'lg'],
+        }
     },
 }
 
 export default meta
 
-type Story = StoryObj<typeof TimePicker>
-
-export const Primary: Story = {
+type Story = StoryObj<TimePickerProps>
+//时间选择滑动条
+export const PrimaryContent: Story = {
     args: {
+        format: "hh:mm:ss a"
+    },
+    render: (args) => {
+        const { format } = args;
+        const [time, setTime] = React.useState<TimeValue | undefined>({ hour: 1, minute: 0, second: 50, period: 'AM' })
+        return <div className="w-100 h-[200px]">
+            <TimePickerContent format={format} showFoot={false} value={time} onConfirm={setTime} />
+        </div>
+    }
+}
+//时间选择滑动条+底部按钮
+export const PrimaryContentWithFoot: Story = {
+    args: {
+        format: "hh:mm:ss a"
+    },
+    render: (args) => {
+        const { format } = args;
+        const [time, setTime] = React.useState<TimeValue | undefined>({ hour: 1, minute: 0, second: 50, period: 'AM' })
+        return <div className="w-100 h-[200px]">
+            <TimePickerContent format={format} value={time} onConfirm={setTime} />
+        </div>
+    }
+}
+//气泡框
+export const PrimaryPopoverWithFoot: Story = {
+    args: {
+        format: "hh:mm:ss",
+
+    },
+    render: (args) => {
+        const { format } = args;
+        const [time, setTime] = React.useState<TimeValue | undefined>({ hour: 10, minute: 30, second: 45, period: 'AM' })
+        return <div className="w-100">
+            <TimePickerPopover format={format} value={time} onConfirm={setTime} contentClassName="h-[300px]" />
+        </div>
+    }
+}
+
+export const PrimaryRangePopoverWithFoot: Story = {
+    args: {
+        format: "hh:mm:ss"
+    },
+    render: (args) => {
+        const { format } = args;
+        const [times, setTimes] = React.useState<TimeRanges>()
+        return <div className="w-200">
+            <TimePickerRangePopover format={format} values={times} onConfirm={setTimes} contentClassName="h-[300px]" />
+        </div>
+    }
+}
+
+export const PrimarySmall: Story = {
+    args: {
+        format: "hh:mm:ss",
         size: 'sm'
     },
     render: (args) => {
-        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
-        const onChange = (time?: CheckedTime) => {
-            console.log(time);
-            setTime(time);
-        }
-        const onCancel = () => {
-        }
-        return <div className="w-60">
-            <TimePicker {...args} time={time} onTimeChange={onChange} cancelCallback={onCancel} />
+        const { format } = args;
+        const [times, setTimes] = React.useState<TimeRanges>()
+        return <div className="w-200">
+            <TimePickerRangePopover format={format} values={times} onConfirm={setTimes} size={args.size} contentClassName="h-[300px]" />
         </div>
     }
 }
 
-export const Disabled: Story = {
+export const PrimaryMiddle: Story = {
     args: {
-        size: 'sm',
-        disabled: true
-    },
-    render: (args) => {
-        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
-        const onChange = (time?: CheckedTime) => {
-            console.log(time);
-            setTime(time);
-        }
-        return <div className="w-60">
-            <TimePicker {...args} time={time} onTimeChange={onChange} />
-        </div>
-    }
-}
-
-export const PrimaryMd: Story = {
-    args: {
+        format: "hh:mm:ss",
         size: 'md'
     },
     render: (args) => {
-        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
-        const onChange = (time?: CheckedTime) => {
-            console.log(time);
-            setTime(time);
-        }
-        return <div className="w-60">
-            <TimePicker {...args} time={time} onTimeChange={onChange} />
+        const { format } = args;
+        const [times, setTimes] = React.useState<TimeRanges>()
+        return <div className="w-200">
+            <TimePickerRangePopover format={format} values={times} onConfirm={setTimes} size={args.size} contentClassName="h-[300px]" />
         </div>
     }
 }
 
-export const PrimaryLg: Story = {
+export const PrimaryLarger: Story = {
     args: {
+        format: "hh:mm:ss",
         size: 'lg'
     },
     render: (args) => {
-        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
-        const onChange = (time?: CheckedTime) => {
-            console.log(time);
-            setTime(time);
-        }
-        return <div className="w-60">
-            <TimePicker {...args} time={time} onTimeChange={onChange} />
+        const { format } = args;
+        const [times, setTimes] = React.useState<TimeRanges>()
+        return <div className="w-200">
+            <TimePickerRangePopover format={format} values={times} onConfirm={setTimes} size={args.size} contentClassName="h-[300px]" />
         </div>
     }
 }
 
-export const Primary12: Story = {
-    args: {
-        size: 'sm',
-        use12Hours: true
-    },
-    render: (args) => {
-        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
-        const onChange = (time?: CheckedTime) => {
-            console.log(time);
-            setTime(time);
-        }
-        return <div className="w-60">
-            <TimePicker {...args} time={time} onTimeChange={onChange} />
-        </div>
-    }
-}
-
-export const PrimarNoSec: Story = {
-    args: {
-        size: 'sm',
-        use12Hours: true,
-        useSeconds: false
-    },
-    render: (args) => {
-        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
-        const onChange = (time?: CheckedTime) => {
-            console.log(time);
-            setTime(time);
-        }
-        return <div className="w-60">
-            <TimePicker {...args} time={time} onTimeChange={onChange} />
-        </div>
-    }
-}
-
-export const PrimarNoSecNoUse12Hours: Story = {
-    args: {
-        size: 'sm',
-        use12Hours: false,
-        useSeconds: false
-    },
-    render: (args) => {
-        const [time, setTime] = useState<CheckedTime | undefined>(undefined);
-        const onChange = (time?: CheckedTime) => {
-            console.log(time);
-            setTime(time);
-        }
-        return <div className="w-60">
-            <TimePicker {...args} time={time} onTimeChange={onChange} />
-        </div>
-    }
-}
 
 
