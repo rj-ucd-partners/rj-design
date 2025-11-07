@@ -113,12 +113,14 @@ function Solution({
 
 function WebResult({
     result,
+    code,
     description,
     onReturn,
     className,
     ...props
 }: React.ComponentProps<'div'> & {
     result?: string;
+    code?: number;
     description?: string | string[];
     status: 'success' | 'fail' | 'warning' | 'info' | 'verify' | 'loading',
     onConfirm?: () => void,
@@ -184,7 +186,17 @@ function WebResult({
             }
             {props.children}
             <div>
-                <Button variant={'primary'} size={'md'} onClick={onReturn}>
+                <Button 
+                    variant={'primary'} 
+                    size={'md'} 
+                    onClick={onReturn} 
+                    className={cn(
+                        code === 403 && 'bg-gradient-to-r from-[#7240FF] to-[#2797FF]'
+                    )}
+                    style={code === 403 ? {
+                        background: 'linear-gradient(270deg, #7240FF -104.46%, #2797FF 100%)'
+                    } : undefined}
+                >
                     回到首页
                 </Button>
             </div>

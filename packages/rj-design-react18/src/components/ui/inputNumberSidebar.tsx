@@ -83,6 +83,9 @@ function InputNumberSidebar({
                         const num = parseFloat(event.target.value);
                         setValue(num);
                     } catch (error) {
+                        if (error instanceof RangeError) {
+                            console.error("范围选择错误" + error.message);
+                        }
                         setValue(undefined);
                     }
                 }} />

@@ -222,7 +222,15 @@ const cascaderTriggerVariants = cva(
     {
         variants: {
             variant: {
-                primary: 'bg-third-background border-primary hover:border hover:bg-fill-light-hover-bg',
+                primary: [
+                    'bg-third-background border-primary',
+                    'hover:enabled:border hover:enabled:bg-fill-light-hover-bg',
+                    'disabled:bg-fill-dark-hover-active-disabled',
+                    'disabled:opacity-100',
+                    'disabled:cursor-not-allowed',
+                    '[&_svg]:text-secondary',
+                    'disabled:[&_svg]:text-disabled',
+                ],
             },
             size: {
                 sm: 'w-60 rounded-md px-1 py-[2px] text-[13px] leading-[20px]',
@@ -409,6 +417,7 @@ function CascaderTrigger({
             'inline-flex flex-row items-center justify-between',
             'font-normal',
             (!disabled && props.items.length > 0) && 'hover:[&_[data-slot=dropdown-menu-trigger-close]]:block hover:[&_[data-slot=dropdown-menu-trigger-turn]]:hidden',
+            disabled && 'cursor-not-allowed',
             cascaderTriggerVariants({ variant: props.variant, size: props.size, disabled }),
             className)}
             {...props}>
@@ -428,7 +437,10 @@ function CascaderTrigger({
                     </div>
                 )}
                 {props.items.length === 0 ? (
-                    <span className="text-secondary-information">请选择</span>
+                    <span className={cn(
+                        "text-secondary-information",
+                        disabled && "text-disabled"
+                    )}>请选择</span>
                 ) : props.disableCheckbox ? (
                     renderTags()
                 ) : (
@@ -441,7 +453,7 @@ function CascaderTrigger({
                 )}
             </div>
             <div className='flex items-center justify-center flex-shrink-0'>
-                {props.items.length > 0 && (
+                {!disabled && props.items.length > 0 && (
                     <Button variant={'transparent'} size={'link'} className="hidden z-50" data-slot="dropdown-menu-trigger-close"
                         onClick={(e) => {
                             e.stopPropagation();

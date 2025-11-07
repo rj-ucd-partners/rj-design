@@ -199,3 +199,21 @@ export const Web1: Story = {
         </div>
     )
 }
+
+export const Web403: Story = {
+    args: {
+        result: '403访问禁止',
+        description: ['没有权限访问此网站', '被禁止访问此网站'],
+        status: 'warning',
+    },
+    render: (args) => (
+        <div style={{
+            width: '580px',
+            height: '716px'
+        }}>
+            <WebResult {...args} onConfirm={onConfirm} onReturn={onReturn} code={403}>
+                <Solution solutionItems={solutionItems1} />
+            </WebResult>
+        </div>
+    )
+}
