@@ -280,34 +280,17 @@ export const InputGroupDescription: Story = {
   },
   render: (args) => {
     const [data, setData] = useState<string>('');
-    const [type, setType] = useState<'password' | 'text'>('password')
-    const changeType = () => {
-      if (type === 'password') {
-        setType('text')
-      } else {
-        setType('password')
-      }
-    }
+
     return <div className='w-100 '>
       <InputGroup {...args}>
-        <InputGroupAddon>
-          <LockIcon />
-        </InputGroupAddon>
         <InputGroupInput
           disabled={args.disabled}
-          type={type}
+          type={'text'}
           value={data}
           onChange={(e) => setData(e.target.value)}
           placeholder="请输入"
         />
-        <InputGroupButton variant={'transparent'} size={'icon-xs'} onClick={changeType} disabled={args.disabled}>
-          {
-            type === 'password' ?
-              <EyeIcon />
-              :
-              <EyeClosed />
-          }
-        </InputGroupButton>
+
       </InputGroup>
       <div className={cn(
         'text-[12px] leading-[20px] p-1',

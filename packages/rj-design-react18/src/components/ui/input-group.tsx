@@ -19,7 +19,7 @@ const inputGroupVariants = cva(
           'data-[disabled=true]:hover:bg-fill-dark-hover-active-disabled dark:data-[disabled=true]:hover:bg-fill-dark-hover-active-disabled data-[disabled=true]:bg-fill-dark-hover-active-disabled dark:data-[disabled=true]:bg-fill-dark-hover-active-disabled data-[disabled=true]:text-disabled data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed'
         ],
         success: [
-          'bg-success-active dark:bg-success-active',
+          'bg-success-light dark:bg-success-light',
           'border-transparent dark:border-transparent',
           "has-[[data-slot=input-group-control]:focus-visible]:ring-success-hover has-[[data-slot=input-group-control]:focus-visible]:ring-1",
           'data-[disabled=true]:text-disabled data-[disabled=true]:opacity-50 data-[disabled=true]:cursor-not-allowed'

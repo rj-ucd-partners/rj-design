@@ -20,9 +20,9 @@ const tagVariants = cva(
                 ],
                 primary: [
                     'bg-primary/10',
-                    'text-data-5',
+                    'text-primary',
                     'data-[state=disabled]:text-primary-disabled',
-                    'border-data-5',
+                    'border-primary',
                     'data-[state=disabled]:border-primary-disabled',
                 ],
                 destructive: [
@@ -160,7 +160,7 @@ const tagCheckIconVariants = cva(
                 default: [
                 ],
                 primary: [
-                    'text-data-5',
+                    'text-primary',
                     'data-[state=disabled]:text-primary-disabled',
                 ],
                 destructive: [

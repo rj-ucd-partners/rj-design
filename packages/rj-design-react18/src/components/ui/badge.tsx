@@ -63,7 +63,7 @@ const badgeDotVariants = cva(
         'secondary-danger': 'bg-danger-hover',
         main: 'bg-data-2',
         secondary: 'bg-data-3',
-        blueness: 'bg-data-5',
+        blueness: 'bg-primary',
         rose: 'bg-data-9',
         green: 'bg-data-4',
         offline: 'bg-disabled',

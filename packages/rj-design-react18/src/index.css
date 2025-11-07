@@ -53,6 +53,7 @@
   --color-success-active: var(--success-active);
   --color-success-disabled: var(--success-disabled);
   --color-success-special: var(--success-special);
+  --color-success-light: var(--success-light);
   /* --告警色-- */
   --color-danger: var(--danger);
   --color-danger-hover: var(--danger-hover);

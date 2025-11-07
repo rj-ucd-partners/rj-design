@@ -10,7 +10,7 @@ const inputNumberVariants = cva(
     {
         variants: {
             variant: {
-                primary: 'bg-third-background text-text-deep disabled:text-disabled hover:bg-fill-emphasize focus:border disabled:bg-third-background focus:border-primary'
+                primary: 'bg-third-background text-text-deep disabled:text-disabled hover:bg-fill-emphasize focus:border disabled:bg-third-background focus:border-primary focus:bg-primary-light'
             },
             format: {
                 sm: 'px-2 py-[2px] text-[12px] h-6 rounded-sm',
@@ -66,6 +66,7 @@ function InputNumber({
                         const num = parseFloat(event.target.value);
                         setValue(num);
                     } catch (error) {
+                        console.log("输入异常" + error);
                         setValue(undefined);
                     }
                 }}

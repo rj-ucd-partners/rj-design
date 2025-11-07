@@ -9,7 +9,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         primary: 'bg-third-background hover:bg-fill-light-hover-bg focus:outline-primary disabled:hover:bg-fill-dark-hover-active-disabled disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled',
-        success: 'bg-success-active outline-success-hover',
+        success: 'bg-success-light outline-success',
         destructive: 'bg-danger-light outline-danger',
         warning: 'bg-warning-light outline-warning',
         page: 'bg-card text-secondary text-center outline-1 outline-solid outline-offset-[-1px] outline-border-split w-20',
