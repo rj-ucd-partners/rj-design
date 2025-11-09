@@ -304,3 +304,30 @@ export const InputGroupDescription: Story = {
     </div>
   }
 }
+
+// 输入框: 带描述
+export const InputGroupClear: Story = {
+  args: {
+    variant: 'primary',
+    size: 'sm',
+    description: "额外提示语，文字过多时输入框宽度折行额外提示语，文字过多时输入框宽度折行额外提示语，文字过多时输入框宽度折行额外提示语，文字过多时输入框宽度折行额外提示语，文字过多时输入框宽度折行额外提示语，文字过多时输入框宽度折行额外提示语，文字过多时输入框宽度折行额外提示语，文字过多时输入框宽度折行"
+  },
+  render: (args) => {
+    const [data, setData] = useState<string>('');
+    const clear = () => {
+      setData('')
+    }
+    return <InputGroup {...args} className='w-40' clearable={true} onClear={clear}>
+      <InputGroupInput
+        disabled={args.disabled}
+        type={'text'}
+        value={data}
+        onChange={(e) => setData(e.target.value)}
+        placeholder="请输入"
+      />
+      <InputGroupAddon align={'inline-end'}>
+        <MagnifierIcon />
+      </InputGroupAddon>
+    </InputGroup>
+  }
+}

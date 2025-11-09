@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { CloseIcon } from "../icon/closeIcon"
 
 const inputGroupVariants = cva(
   "",
@@ -64,8 +65,10 @@ const inputGroupVariants = cva(
   },
 )
 
-function InputGroup({ className, disabled, ...props }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupVariants> & {
-  disabled?: boolean
+function InputGroup({ clearable, onClear, className, disabled, ...props }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupVariants> & {
+  disabled?: boolean,
+  clearable?: boolean,
+  onClear?: () => void
 }) {
   return (
     <div
@@ -95,7 +98,19 @@ function InputGroup({ className, disabled, ...props }: React.ComponentProps<"div
         className
       )}
       {...props}
-    />
+    >
+      {props.children}
+      {clearable &&
+        <Button
+          variant={"transparent"}
+          size={'link'}
+          className={cn("text-secondary hidden group-hover/input-group:block absolute z-10", props.size === 'lg' ? 'right-3' : 'right-2')}
+          onClick={() => { if (onClear) onClear() }}
+        >
+          <CloseIcon />
+        </Button>
+      }
+    </div>
   )
 }
 
