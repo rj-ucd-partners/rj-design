@@ -1,5 +1,7 @@
-export const FileIcon = () => {
-    return <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+import type { JSX, SVGProps } from "react"
+
+export const FileIcon = (args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+    return <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...args}>
         <g clip-path="url(#clip0_15217_1718)">
             <g filter="url(#filter0_f_15217_1718)">
                 <ellipse cx="24.4093" cy="47.3182" rx="23.5909" ry="0.818182" fill="#08121A" />
