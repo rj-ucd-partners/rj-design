@@ -30,7 +30,6 @@ function DialogPortal({
 }
 
 function DialogClose({
-  className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return <DialogPrimitive.Close data-slot="dialog-close"  {...props} />
@@ -115,7 +114,7 @@ function DialogContent({
 
 
 const dialogHeaderVariants = cva(
-  " border-solid border-border-split p-4",
+  "border-solid border-border-split p-4",
   {
     variants: {
       variant: {
@@ -186,7 +185,7 @@ function DialogFooter({
 }
 
 const dialogTitleVariants = cva(
-  "gap-1 flex  flex-row",
+  "gap-1 flex flex-row items-center justify-start",
   {
     variants: {
       variant: {
@@ -224,7 +223,7 @@ function DialogTitle({
       {...props}
     >
       {
-        variant === 'primary' && (<InfoCirecledIcon />)
+        variant === 'primary' && (<InfoCirecledIcon className="text-primary" />)
       }
       {
         variant === 'success' && (<SuccessIcon />)
@@ -233,7 +232,7 @@ function DialogTitle({
         variant === 'abnormal' && (<AbnormalIcon />)
       }
       {
-        variant === 'danger' && (<DestructiveIcon className="size-6"/>)
+        variant === 'danger' && (<DestructiveIcon className="size-6" />)
       }
       {props.children}
     </DialogPrimitive.Title>
@@ -284,7 +283,7 @@ const dialogDescriptionVariants = cva(
         default: '',
         primary: 'bg-primary-light',
         success: '',
-        abnormal: 'bg-amber-500-10',
+        abnormal: 'bg-abnormal/10',
         danger: ''
       },
     },
@@ -314,10 +313,10 @@ function DialogDescription({
     >
       <div className="flex flex-row items-center justify-center gap-0.5">
         {
-          variant === 'primary' && (<InfoCirecledIcon />)
+          variant === 'primary' && (<span className="size-[22px] flex items-center justify-center"><InfoCirecledIcon className="text-primary" /></span>)
         }
         {
-          variant === 'abnormal' && (<AbnormalIcon />)
+          variant === 'abnormal' && (<span className="size-[22px] flex items-center justify-center"><AbnormalIcon className="text-abnormal" /></span>)
         }
         {props.children}
       </div>

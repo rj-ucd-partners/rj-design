@@ -319,7 +319,7 @@ const renderFuncArea = () => {
     const onClick = () => {
         alert('自己传入的子组件')
     }
-    return (<Button variant={'link'} size={'md'} onClick={onClick}>
+    return (<Button variant={'link'} size={'link'} onClick={onClick}>
         相关操作
     </Button>)
 }

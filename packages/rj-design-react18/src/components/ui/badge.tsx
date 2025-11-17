@@ -9,13 +9,13 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-primary-light text-secondary-information hover:text-secondary  [a&]:hover:bg-primary/90 ",
-        primary: 'bg-primary-light text-primary hover:bg-primary hover:text-text',
-        success:
-          "bg-success-active text-success hover:bg-success hover:text-text [a&]:hover:bg-secondary/90",
-        abnormal:
-          "bg-abnormal-light text-abnormal hover:bg-abnormal hover:text-text [a&]:hover:bg-destructive/90",
+        default: "bg-primary-light text-secondary-information hover:text-secondary",
+        'primary-light': 'bg-primary-light text-primary',
+        'primary-heary': 'bg-primary text-text border border-border-split',
+        'success-light': "bg-success-light text-success",
+        'success-heary': "bg-success text-text border border-border-split",
+        'abnormal-light': "bg-warning-light text-abnormal",
+        'abnormal-heary': 'bg-abnormal text-text border border-border-split'
       },
       corner: {
         default: 'rounded-[2px]',

@@ -108,6 +108,7 @@ function Alert({
           "w-full rounded-lg px-4 py-[9px]",
           "inline-flex flex-col items-center justify-center",
           'gap-1',
+          'box-border',
           'animate-fade-in',
           !isVisible && 'hidden',
           alertVariants({ variant, border }),
@@ -153,7 +154,9 @@ function AlertHeader({
           </div>
         }
         {props.children}
-        {titleFuncArea}
+        <span className="ml-2 text-[13px] leading-[20px] font-normal not-italic">
+          {titleFuncArea}
+        </span>
       </div>
       <AlertClose onClose={onClose} />
     </div>
