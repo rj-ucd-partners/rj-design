@@ -44,7 +44,7 @@ const alertVariants = cva(
     variants: {
       variant: {
         primary: "bg-[#00CFF4]/20 border-primary-disabled",
-        success: "bg-[#00FFA8]/20 border-success-special",
+        success: "bg-[#00FFA8]/20 border-success-disabled",
         abnormal: "bg-[#FFA800]/20 border-abnormal-special",
         destructive: "bg-[#FF3C00]/20 border-danger-special"
       },

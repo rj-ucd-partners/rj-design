@@ -144,8 +144,8 @@ export const Icon: Story = {
   render: (args) => {
     return (
       <Button {...args}>
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6.5 2.5H5.5V5.5H2.5V6.5H5.5V9.5H6.5V6.5H9.5V5.5H6.5V2.5Z" fill="#C0C7CF" />
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.5 2.5H5.5V5.5H2.5V6.5H5.5V9.5H6.5V6.5H9.5V5.5H6.5V2.5Z" />
         </svg>
       </Button>
     )
@@ -160,8 +160,8 @@ export const HoverIcon: Story = {
   render: (args) => {
     return (
       <Button {...args}>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8.5 4.5H7.5V7.5H4.5V8.5H7.5V11.5H8.5V8.5H11.5V7.5H8.5V4.5Z" fill="#C0C7CF" />
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 4.5H7.5V7.5H4.5V8.5H7.5V11.5H8.5V8.5H11.5V7.5H8.5V4.5Z" />
         </svg>
       </Button>
     )
