@@ -349,7 +349,7 @@ function TableGroup<T extends TableItem>({
               </div>
             )}
             {column.onFilter &&
-              <Popover>
+              <Popover variant="primary">
                 <PopoverTrigger asChild >
                   <Button variant={'transparent'} size={'link'} onClick={() => {
                     showFilterInput(column.key)
@@ -359,11 +359,8 @@ function TableGroup<T extends TableItem>({
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
-                  variant={'default'}
-                  arrow={'default'}
                   side={'right'}
-                  className="w-full"
-                >
+                  className="w-full">
                   <div className="flex flex-1 flex-col gap-2 ">
                     <Input
                       variant={'primary'}

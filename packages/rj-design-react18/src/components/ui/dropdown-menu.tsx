@@ -48,7 +48,7 @@ const dropdownMenuItemVariants = cva(
       status: {
         primary: [
           "[&>svg]:text-secondary-information",
-          "data-[state=open]:hover:bg-primary-light data-[state=open]:bg-primary-light data-[state=open]:text-primary",
+          "focus:data-[state=open]:bg-primary-light data-[state=open]:bg-primary-light data-[state=open]:text-primary",
         ],
         success: [
           'text-success focus:text-success data-[disabled]:text-success-disabled data-[state=open]:bg-success/10 data-[disabled]:bg-transparent'
@@ -92,8 +92,10 @@ const DropdownMenuSubTrigger = React.forwardRef<
     <DropdownMenuPrimitive.SubTrigger
       ref={ref}
       className={cn(
-        "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
+        "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
         inset && "pl-8",
+        // 默认样式（无variant时）
+        !variant && "focus:bg-accent data-[state=open]:bg-accent",
         dropdownMenuItemVariants({ variant }),
         className
       )}

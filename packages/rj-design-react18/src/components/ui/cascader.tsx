@@ -200,11 +200,13 @@ function Cascader({
             <DropdownMenu open={(!disabled && open)} onOpenChange={setOpen} variant="primary" >
                 <DropdownMenuTrigger>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-60" align='start'  >
+                <DropdownMenuContent className="w-60" align='start' >
                     {
                         data.map((item, index) => {
                             return (
-                                <CascaderSelectedItem item={item} key={index}
+                                <CascaderSelectedItem
+                                    item={item}
+                                    key={index}
                                     updateCheckeds={updateCheckeds}
                                     disableCheckbox={disableCheckbox}
                                     updateDisableCheckboxCheckeds={updateDisableCheckboxCheckeds}
@@ -228,8 +230,6 @@ const cascaderTriggerVariants = cva(
                     'disabled:bg-fill-dark-hover-active-disabled',
                     'disabled:opacity-100',
                     'disabled:cursor-not-allowed',
-                    '[&_svg]:text-secondary',
-                    'disabled:[&_svg]:text-disabled',
                 ],
             },
             size: {
@@ -462,7 +462,9 @@ function CascaderTrigger({
                         <CloseIcon className="size-4" />
                     </Button>
                 )}
-                <div data-slot="dropdown-menu-trigger-turn" className="size-4 flex items-center justify-center">
+                <div data-slot="dropdown-menu-trigger-turn" className={
+                    cn("size-4 flex items-center justify-center", disabled ? "text-disabled" : "text-secondary")
+                }>
                     {disabled ? <TriangleDownIcon /> : props.open ? <TriangleUpIcon /> : <TriangleDownIcon />}
                 </div>
             </div>
@@ -480,7 +482,7 @@ function CascaderSelectedItem({
     return (
         (props.item.children && props.item.children.length > 0) ?
             <DropdownMenuSub >
-                <DropdownMenuSubTrigger  >
+                <DropdownMenuSubTrigger className="focus:data-[state=open]:bg-primary-light data-[state=open]:bg-primary-light data-[state=open]:text-primary" >
                     {
                         props.disableCheckbox ?
                             <div className="inline-flex flex-row items-center justify-start gap-2">

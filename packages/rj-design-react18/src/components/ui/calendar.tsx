@@ -257,10 +257,10 @@ function CalendarDropdown({
     return (
         <div className="w-[80px]">
             <Select value={externalValue?.toString()} onValueChange={handleValueChange}>
-                <SelectTrigger className="bg-third-background h-[32px] text-secondary-information">
+                <SelectTrigger className="bg-third-background h-[32px] text-secondary-information border-none">
                     <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="h-[300px] bg-third-background" >
+                <SelectContent className="h-[300px] bg-third-background border-none" >
                     <SelectGroup>
                         {
                             options?.map((item) => {

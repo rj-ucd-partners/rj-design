@@ -22,7 +22,7 @@ const buttonVariants = cva(
         // destructive:
         //   "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         destructive: 'bg-danger text-text-deep text-center hover:bg-danger-hover active:bg-danger-active disabled:text-disabled disabled:bg-danger-disabled',
-        'secondary-destructive': 'bg-danger-light text-danger hover:bg-danger-special active:bg-danger-light active:text-danger-active disabled:text-light disabled:bg-danger-disabled',
+        'secondary-destructive': 'bg-danger-light text-danger hover:bg-danger-special active:bg-danger-light active:text-danger-active disabled:text-danger-disabled disabled:bg-danger-light',
         dashed: 'outline outline-dashed outline-1 outline-offset-[-1px] outline-border-special text-secondary hover:outline-primary-hover hover:text-primary-hover active:outline-primary-active active:text-primary-active disabled:text-disabled',
         outline:
           "border bg-primary-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",

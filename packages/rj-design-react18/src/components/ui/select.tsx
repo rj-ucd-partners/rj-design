@@ -26,7 +26,7 @@ function Select({
   size,
   variant,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root> & SelectVariantsProps) {
+}: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> & SelectVariantsProps) {
 
   return <SelectContext.Provider value={{ size, variant }}>
     <SelectPrimitive.Root data-slot="select" {...props} />
