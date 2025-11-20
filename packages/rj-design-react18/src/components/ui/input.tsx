@@ -8,10 +8,10 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-third-background hover:bg-fill-light-hover-bg focus:outline-primary disabled:hover:bg-fill-dark-hover-active-disabled disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled',
-        success: 'bg-success-light outline-success',
-        destructive: 'bg-danger-light outline-danger',
-        warning: 'bg-warning-light outline-warning',
+        primary: 'bg-third-background hover:bg-fill-light-hover-bg focus:outline-primary disabled:hover:bg-fill-dark-hover-active-disabled disabled:bg-fill-dark-hover-active-disabled disabled:text-disabled disabled:placeholder:text-disabled',
+        success: 'bg-success-light outline-success disabled:text-disabled disabled:placeholder:text-disabled',
+        destructive: 'bg-danger-light outline-danger disabled:text-disabled disabled:placeholder:text-disabled',
+        warning: 'bg-warning-light outline-warning disabled:text-disabled disabled:placeholder:text-disabled',
         page: 'bg-card text-secondary text-center outline-1 outline-solid outline-offset-[-1px] outline-border-split w-20',
         transparent: 'bg-transparent outline-none',
         number: 'text-center bg-third-background focus-visible:outline-primary disabled:bg-border-disabled disabled:text-disabled',

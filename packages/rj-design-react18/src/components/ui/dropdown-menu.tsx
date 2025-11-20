@@ -92,10 +92,10 @@ const DropdownMenuSubTrigger = React.forwardRef<
     <DropdownMenuPrimitive.SubTrigger
       ref={ref}
       className={cn(
-        "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
+        "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none [&>svg]:pointer-events-none [&>svg:not([class*='size-'])]:size-4 [&>svg]:shrink-0",
         inset && "pl-8",
         // 默认样式（无variant时）
-        !variant && "focus:bg-accent data-[state=open]:bg-accent",
+        !variant ? "focus:bg-accent data-[state=open]:bg-accent" : "focus:data-[state=open]:bg-primary-light data-[state=open]:bg-primary-light data-[state=open]:text-primary",
         dropdownMenuItemVariants({ variant }),
         className
       )}

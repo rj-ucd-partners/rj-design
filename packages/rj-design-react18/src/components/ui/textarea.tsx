@@ -8,7 +8,7 @@ const textareaVariants = cva(
         variants: {
             variant: {
                 primary: 'bg-third-background hover:bg-fill-light-hover-bg focus-visible:outline-primary',
-                success: 'bg-success-active focus-visible:outline-success-hover',
+                success: 'bg-success-light focus-visible:outline-success-hover',
                 destructive: 'bg-danger-light focus-visible:outline-danger',
                 warning: 'bg-warning-light focus-visible:outline-warning'
             },

@@ -226,13 +226,13 @@ function DialogTitle({
         variant === 'primary' && (<InfoCirecledIcon className="text-primary" />)
       }
       {
-        variant === 'success' && (<SuccessIcon />)
+        variant === 'success' && (<SuccessIcon className="text-success" />)
       }
       {
-        variant === 'abnormal' && (<AbnormalIcon />)
+        variant === 'abnormal' && (<AbnormalIcon className="text-abnormal" />)
       }
       {
-        variant === 'danger' && (<DestructiveIcon className="size-6" />)
+        variant === 'danger' && (<DestructiveIcon className="size-6 text-danger" />)
       }
       {props.children}
     </DialogPrimitive.Title>
