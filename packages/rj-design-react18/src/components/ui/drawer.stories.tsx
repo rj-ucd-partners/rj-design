@@ -171,10 +171,10 @@ export const Footer: Story = {
 
                     </DrawerDetails>
                     <DrawerFooter>
-                        <Button variant="primary" size={"md"}>Submit</Button>
                         <DrawerClose asChild>
-                            <Button variant="outline" size={"md"}>Cancel</Button>
+                            <Button variant="outline" size={"md"}>取消</Button>
                         </DrawerClose>
+                        <Button variant="primary" size={"md"}>确认</Button>
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>
