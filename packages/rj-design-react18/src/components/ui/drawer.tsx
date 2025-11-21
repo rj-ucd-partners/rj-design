@@ -212,7 +212,7 @@ const drawerrDescriptionVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-cyan-400-20",
+        primary: "bg-primary/20",
       },
     },
     defaultVariants: {
@@ -238,9 +238,10 @@ function DrawerDescription({
     >
       {
         variant === "primary" &&
-        <div className="flex flex-row items-center gap-1">
-          <InfoCirecledIcon />
-          {props.children}</div>}
+        <div className="flex flex-row items-center gap-1 ">
+          <InfoCirecledIcon className="text-primary" />
+          {props.children}</div>
+      }
       <Button variant="ghost" size={"link"} onClick={() => setShow(false)}>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7 14C10.866 14 14 10.866 14 7C14 3.13401 10.866 0 7 0C3.13401 0 0 3.13401 0 7C0 10.866 3.13401 14 7 14ZM10.046 4.71554L7.7615 7.00004L10.046 9.28454L9.2845 10.046L7 7.76154L4.7155 10.046L3.954 9.28454L6.2385 7.00004L3.954 4.71554L4.7155 3.95405L7 6.23854L9.2845 3.95405L10.046 4.71554Z" fill="#97A7B5" />
