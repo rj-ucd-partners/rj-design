@@ -132,25 +132,7 @@ export const Main: Story = {
         }
         return (
             <div className="inline-flex flex flex-row gap-4">
-                <DropdownMenu variant={"primary"}>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
-                            <span className='w-min-10'>{size}/页</span>
-                            <TriangleDownIcon />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start"  >
-                        <DropdownMenuGroup>
-                            {
-                                sizes.map((s, index) => {
-                                    return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
-                                        {s}页
-                                    </DropdownMenuItem>)
-                                })
-                            }
-                        </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+
 
                 <Pagination>
                     <PaginationContent>
@@ -179,7 +161,25 @@ export const Main: Story = {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
-
+                <DropdownMenu variant={"primary"}>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
+                            <span className='w-min-10'>{size}/页</span>
+                            <TriangleDownIcon />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start"  >
+                        <DropdownMenuGroup>
+                            {
+                                sizes.map((s, index) => {
+                                    return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
+                                        {s}页
+                                    </DropdownMenuItem>)
+                                })
+                            }
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
                     <span>
                         跳至
@@ -206,25 +206,7 @@ export const MainSmall: Story = {
         }
         return (
             <div className="inline-flex flex-row gap-4 items-center justify-center">
-                <DropdownMenu variant={"primary"} >
-                    <DropdownMenuTrigger asChild>
-                        <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
-                            <span className='w-min-10'>{size}/页</span>
-                            <TriangleDownIcon />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start"  >
-                        <DropdownMenuGroup>
-                            {
-                                sizes.map((s, index) => {
-                                    return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
-                                        {s}页
-                                    </DropdownMenuItem>)
-                                })
-                            }
-                        </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+
                 <Pagination>
                     <PaginationContent>
                         <PaginationItem>
@@ -252,6 +234,25 @@ export const MainSmall: Story = {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
+                <DropdownMenu variant={"primary"} >
+                    <DropdownMenuTrigger asChild>
+                        <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
+                            <span className='w-min-10'>{size}/页</span>
+                            <TriangleDownIcon />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start"  >
+                        <DropdownMenuGroup>
+                            {
+                                sizes.map((s, index) => {
+                                    return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
+                                        {s}页
+                                    </DropdownMenuItem>)
+                                })
+                            }
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
                     <span>
                         跳至
@@ -292,26 +293,6 @@ export const Full: Story = {
                         共 {total} 条数据
                     </div>
                     <div className="flex flex-row gap-4">
-                        <DropdownMenu variant='primary' >
-                            <DropdownMenuTrigger asChild>
-                                <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'} className='w-[96px] justify-between'>
-                                    <span className='w-min-10'>{size}/页</span>
-                                    <TriangleDownIcon />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start"  >
-                                <DropdownMenuGroup>
-                                    {
-                                        sizes.map((s, index) => {
-                                            return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
-                                                {s}页
-                                            </DropdownMenuItem>)
-                                        })
-                                    }
-                                </DropdownMenuGroup>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
                         <Pagination>
                             <PaginationContent>
                                 <PaginationItem>
@@ -339,7 +320,25 @@ export const Full: Story = {
                                 </PaginationItem>
                             </PaginationContent>
                         </Pagination>
-
+                        <DropdownMenu variant='primary' >
+                            <DropdownMenuTrigger asChild>
+                                <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'} className='w-[96px] justify-between'>
+                                    <span className='w-min-10'>{size}/页</span>
+                                    <TriangleDownIcon />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start"  >
+                                <DropdownMenuGroup>
+                                    {
+                                        sizes.map((s, index) => {
+                                            return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
+                                                {s}页
+                                            </DropdownMenuItem>)
+                                        })
+                                    }
+                                </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
                             <span>
                                 跳至
@@ -419,25 +418,7 @@ export const FullSmall: Story = {
                         共 {total} 条数据
                     </div>
                     <div className="flex flex-row gap-4">
-                        <DropdownMenu variant={"primary"}>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
-                                    <span className='w-min-10'>{size}/页</span>
-                                    <TriangleDownIcon />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start"  >
-                                <DropdownMenuGroup>
-                                    {
-                                        sizes.map((s, index) => {
-                                            return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
-                                                {s}页
-                                            </DropdownMenuItem>)
-                                        })
-                                    }
-                                </DropdownMenuGroup>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+
 
                         <Pagination>
                             <PaginationContent>
@@ -484,7 +465,25 @@ export const FullSmall: Story = {
                                 </PaginationItem>
                             </PaginationContent>
                         </Pagination>
-
+                        <DropdownMenu variant={"primary"}>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
+                                    <span className='w-min-10'>{size}/页</span>
+                                    <TriangleDownIcon />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start"  >
+                                <DropdownMenuGroup>
+                                    {
+                                        sizes.map((s, index) => {
+                                            return (<DropdownMenuItem key={index} onClick={() => { updateSize(s) }}>
+                                                {s}页
+                                            </DropdownMenuItem>)
+                                        })
+                                    }
+                                </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
                             <span>
                                 跳至
@@ -587,6 +586,22 @@ export const SimpleHasTotal: Story = {
                         共 {total} 条数据
                     </div>
                     <div className="flex flex-row gap-4">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious size={args.size} href="#" />
+                                </PaginationItem>
+                                <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
+                                    <Input variant={'page'} placeholder={`${page}/${total}`} className={cn(
+                                        args.size === 'page-sm' && 'h-6',
+                                        args.size === 'page-md' && 'h-8'
+                                    )} />
+                                </div>
+                                <PaginationItem>
+                                    <PaginationNext size={args.size} href="#" />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
                         <DropdownMenu variant={"primary"}>
                             <DropdownMenuTrigger asChild>
                                 <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
@@ -606,24 +621,6 @@ export const SimpleHasTotal: Story = {
                                 </DropdownMenuGroup>
                             </DropdownMenuContent>
                         </DropdownMenu>
-
-                        <Pagination>
-                            <PaginationContent>
-                                <PaginationItem>
-                                    <PaginationPrevious size={args.size} href="#" />
-                                </PaginationItem>
-                                <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
-                                    <Input variant={'page'} placeholder={`${page}/${total}`} className={cn(
-                                        args.size === 'page-sm' && 'h-6',
-                                        args.size === 'page-md' && 'h-8'
-                                    )} />
-                                </div>
-                                <PaginationItem>
-                                    <PaginationNext size={args.size} href="#" />
-                                </PaginationItem>
-                            </PaginationContent>
-                        </Pagination>
-
 
                     </div >
                 </div>
@@ -649,6 +646,19 @@ export const SimpleSmall: Story = {
         return (
             <div className="flex flex-row w-full justify-center items-center px-3 py-4">
                 <div className="flex flex-row gap-4">
+                    <Pagination>
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious size={args.size} href="#" />
+                            </PaginationItem>
+                            <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
+                                <Input variant={'page'} format={args.size === 'page-sm' ? 'sm' : 'md'} placeholder={`${page}/${total}`} />
+                            </div>
+                            <PaginationItem>
+                                <PaginationNext size={args.size} href="#" />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
                     <DropdownMenu variant={"primary"}>
                         <DropdownMenuTrigger asChild>
                             <Button variant={"page"} size={args.size === 'page-md' ? 'md' : 'sm'}>
@@ -668,20 +678,6 @@ export const SimpleSmall: Story = {
                             </DropdownMenuGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
-
-                    <Pagination>
-                        <PaginationContent>
-                            <PaginationItem>
-                                <PaginationPrevious size={args.size} href="#" />
-                            </PaginationItem>
-                            <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
-                                <Input variant={'page'} format={args.size === 'page-sm' ? 'sm' : 'md'} placeholder={`${page}/${total}`} />
-                            </div>
-                            <PaginationItem>
-                                <PaginationNext size={args.size} href="#" />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
                 </div >
             </div>
         );

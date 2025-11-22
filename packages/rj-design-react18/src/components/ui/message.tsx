@@ -31,7 +31,7 @@ function Message({
         'bg-text',
         'inline-flex flex-row items-center justify-center gap-2',
         'px-4 py-3 rounded-md',
-        'border border-border-disabled shadow-[0px_5px_20px] shadow-primary-background',
+        'border border-border-disabled shadow-[0px_5px_20px] shadow-background',
         !show && 'hidden',
         className
     )} {...props}>

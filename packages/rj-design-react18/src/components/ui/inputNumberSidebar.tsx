@@ -86,15 +86,15 @@ function InputNumberSidebar({
                 placeholder={props.placeholder ?? '请输入'}
                 value={value}
                 type='number'
-                onFocus={() => { 
+                onFocus={() => {
                     setInputing(true);
                     setIsInputFocused(true);
                 }}
-                onBlur={() => { 
+                onBlur={() => {
                     setIsInputFocused(false);
                     // 只有在不操作按钮时才失去焦点状态
                     if (!isButtonHoveredRef.current) {
-                        setInputing(false) 
+                        setInputing(false)
                     }
                 }}
                 onChange={(event) => {
@@ -110,28 +110,28 @@ function InputNumberSidebar({
                 }} />
             {
                 !disabled &&
-                <div 
-                    data-slot='func-menu-bar' 
-                    className='hidden flex-col justify-between gap-[2px] hover:[&_[data-slot=func-menu]:not(:active)]:bg-fill-emphasize' 
-                    onMouseEnter={() => { 
+                <div
+                    data-slot='func-menu-bar'
+                    className='hidden flex-col justify-between gap-[2px] '
+                    onMouseEnter={() => {
                         isButtonHoveredRef.current = true;
                         setInputing(true);
                     }}
-                    onMouseLeave={() => { 
+                    onMouseLeave={() => {
                         isButtonHoveredRef.current = false;
                         setInputing(false);
                     }}
                 >
-                    <div 
-                        data-slot='func-menu' 
+                    <div
+                        data-slot='func-menu'
                         className={cn(
-                            'bg-fill-light-hover-bg flex items-center justify-center hover:cursor-pointer active:bg-fill-light-hover-bg',
+                            'bg-fill-light-hover-bg flex items-center justify-center hover:cursor-pointer active:bg-fill-light-hover-bg hover:bg-fill-emphasize',
                             [
                                 format === 'sm' && 'h-2.5 w-6 rounded-tr-sm',
                                 format === 'md' && 'h-3.5 w-6.5 rounded-tr-md',
                                 format === 'lg' && 'h-4.5 w-8 rounded-tr-md',
                             ]
-                        )} 
+                        )}
                         onMouseDown={(e) => {
                             // 阻止 input 失去焦点
                             e.preventDefault();
@@ -140,16 +140,16 @@ function InputNumberSidebar({
                     >
                         <TriangleUpIcon />
                     </div>
-                    <div 
-                        data-slot='func-menu' 
+                    <div
+                        data-slot='func-menu'
                         className={cn(
-                            'bg-fill-light-hover-bg flex items-center justify-center hover:cursor-pointer active:bg-fill-light-hover-bg',
+                            'bg-fill-light-hover-bg flex items-center justify-center hover:cursor-pointer active:bg-fill-light-hover-bg hover:bg-fill-emphasize',
                             [
                                 format === 'sm' && 'h-2.5 w-6 rounded-br-sm',
                                 format === 'md' && 'h-3.5 w-6.5 rounded-br-md',
                                 format === 'lg' && 'h-4.5 w-8 rounded-br-md',
                             ]
-                        )} 
+                        )}
                         onMouseDown={(e) => {
                             // 阻止 input 失去焦点
                             e.preventDefault();

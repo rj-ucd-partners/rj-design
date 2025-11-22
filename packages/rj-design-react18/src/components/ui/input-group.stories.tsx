@@ -294,7 +294,7 @@ export const InputGroupDescription: Story = {
       </InputGroup>
       <div className={cn(
         'text-[12px] leading-[20px] p-1',
-        args.variant === 'primary' && 'text-text-secondary-information',
+        args.variant === 'primary' && 'text-secondary-information',
         args.variant === 'destructive' && 'text-danger',
         args.variant === 'warning' && 'text-abnormal',
         args.variant === 'success' && 'text-success'

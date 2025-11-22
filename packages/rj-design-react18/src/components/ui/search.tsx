@@ -303,10 +303,10 @@ function Select({
         if (onValueChange) {
             if (mode === 'single') {
                 const func = onValueChange as ((value: string) => void);
-                func('');
+                func(newValues[0] || '');
             } else {
                 const func = onValueChange as ((value: string[]) => void);
-                func([]);
+                func(newValues);
             }
         }
     };
@@ -334,6 +334,7 @@ function Select({
 
     const [edit, setEdit] = React.useState<boolean>(false);
     const [value, setValue] = React.useState<string>('');
+    const editInputRef = useRef<HTMLInputElement>(null);
 
     return (
         <SelectContext.Provider value={{ size, variant, mode, selectedValues, onSelect: handleSelect }}>
@@ -540,9 +541,13 @@ function Select({
                                 edit ?
                                     <div className="flex flex-col flex-1 items-center justify-center p-2 gap-2 ">
                                         <InputGroup className="flex flex-1" size={size}>
-                                            <InputGroupInput value={value} onChange={(e) => {
-                                                setValue(e.target.value)
-                                            }} />
+                                            <InputGroupInput 
+                                                ref={editInputRef}
+                                                value={value} 
+                                                onChange={(e) => {
+                                                    setValue(e.target.value)
+                                                }} 
+                                            />
                                         </InputGroup>
                                         <div className="flex w-full gap-2 items-center justify-end">
                                             <Button
@@ -572,7 +577,13 @@ function Select({
                                         <Button
                                             variant={'link'}
                                             size={size}
-                                            onClick={() => { setEdit(true) }}
+                                            onClick={() => { 
+                                                setEdit(true);
+                                                // 延迟聚焦，确保 DOM 更新后再聚焦
+                                                setTimeout(() => {
+                                                    editInputRef.current?.focus();
+                                                }, 0);
+                                            }}
                                         >
                                             新增选项
                                         </Button>

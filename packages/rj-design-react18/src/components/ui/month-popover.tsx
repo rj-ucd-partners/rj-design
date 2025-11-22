@@ -110,6 +110,8 @@ function MonthPopover({
                     "w-[var(--radix-popover-trigger-width)]",
                     "bg-secondary-background",
                     "rounded-md",
+                    "border border-split",
+                    "[box-shadow:0px_6px_16px_rgba(0,0,0,0.08)]",
                     contentClassName
                 )}
                 alignOffset={5}

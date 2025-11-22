@@ -330,7 +330,6 @@ export const Primary2: Story = {
                     </TabsList>
                 </Tabs>
             </PageHeader>
-
         )
     }
 }

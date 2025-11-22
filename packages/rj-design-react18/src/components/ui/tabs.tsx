@@ -87,7 +87,7 @@ const tabsTriggerVariants = cva(
           'data-[state=active]:text-primary',
           'hover:[&_[data-slot=tabs-item]]:bg-fill-light-hover-bg',
           'p-2',
-          "dark:data-[state=active]:relative dark:data-[state=active]:after:content-[''] dark:data-[state=active]:after:absolute dark:data-[state=active]:after:bottom-0 dark:data-[state=active]:after:left-0 dark:data-[state=active]:after:w-full dark:data-[state=active]:after:h-[1px] dark:data-[state=active]:after:bg-gradient-to-l dark:data-[state=active]:after:from-cyan-400/0 dark:data-[state=active]:after:via-cyan-400 dark:data-[state=active]:after:to-cyan-400/0",
+          "data-[state=active]:relative data-[state=active]:after:content-[''] data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:w-full data-[state=active]:after:h-[1px] data-[state=active]:after:bg-gradient-to-l data-[state=active]:after:from-cyan-400/0 data-[state=active]:after:via-cyan-400 data-[state=active]:after:to-cyan-400/0",
           '[&_[data-slot=tabs-item]]:rounded-lg'
         ]
       },
