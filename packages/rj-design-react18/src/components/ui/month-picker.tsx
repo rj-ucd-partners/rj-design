@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 export interface MonthPickerProps {
     className?: string,
     value?: { year: number, month: number }, // 选中的年月 (month: 1-12)
-    onChange?: (value: { year: number, month: number }) => void,
+    onChange?: (value: { year: number, month: number } | undefined) => void, // 支持 undefined 以便清空选择
     showFooter?: boolean,
     footChildren?: React.ReactNode,
     onConfirm?: () => void,
@@ -157,7 +157,7 @@ function MonthPicker({
                                 onClick={() => handleMonthClick(month)}
                                 className={cn(
                                     "relative flex items-center justify-center rounded-md text-sm transition-colors",
-                                    "hover:bg-fill-light-hover-bg",
+                                    "hover:bg-fill-dark-hover-active-disabled",
                                     !selected && "text-second-information",
                                     isCurrent && "text-primary",
                                     selected && "bg-primary text-text hover:bg-primary/90",
@@ -165,7 +165,7 @@ function MonthPicker({
                             >
                                 {month}月
                                 {isCurrent && !selected && (
-                                    <span className="absolute bottom-1 w-1 h-1 rounded-full bg-primary" />
+                                    <span className="absolute bottom-[-2px] w-1 h-1 rounded-full bg-primary" />
                                 )}
                             </button>
                         )

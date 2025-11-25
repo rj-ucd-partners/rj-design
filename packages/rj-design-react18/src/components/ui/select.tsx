@@ -168,8 +168,10 @@ const selectContentVariants = cva(
       variant: {
         primary: [
           'bg-secondary-background shadow-[0px_6px_16px_rgba(0,0,0,0.08)] border-none',
+          "[&_[data-slot=select-item]]:hover:bg-fill-dark-hover-active-disabled dark:[&_[data-slot=select-item]]:hover:bg-fill-light-hover-bg",
+          "[&_[data-slot=select-item]]:active:bg-fill-light-hover-bg dark:[&_[data-slot=select-item]]:active:bg-fill-dark-hover-active-disabled",
+          "[&_[data-slot=select-item][data-checked=true]]:bg-primary-light",
           "[&_[data-slot=select-item]]:text-text-deep",
-          "[&_[data-slot=select-item]]:hover:bg-fill-light-hover-bg [&_[data-slot=select-item]]:active:bg-fill-dark-hover-active-disabled",
           "[&_[data-slot=select-item][data-state=checked]]:text-primary",
         ],
       },

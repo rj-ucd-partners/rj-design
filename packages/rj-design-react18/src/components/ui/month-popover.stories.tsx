@@ -73,7 +73,7 @@ export const Sizes: Story = {
 // 带默认值
 export const WithDefaultValue: Story = {
     render: () => {
-        const [value, setValue] = useState<{ year: number, month: number }>({ year: 2024, month: 6 })
+        const [value, setValue] = useState<{ year: number, month: number } | undefined>({ year: 2024, month: 6 })
 
         return (
             <div className="p-8 space-y-4 w-120">
@@ -82,7 +82,7 @@ export const WithDefaultValue: Story = {
                     onChange={setValue}
                 />
                 <div className="text-sm text-secondary">
-                    选中: {value.year}年{value.month}月
+                    选中: {value ? `${value.year}年${value.month}月` : '未选择'}
                 </div>
             </div>
         )
@@ -109,8 +109,8 @@ export const CustomPlaceholder: Story = {
 // 带确认/取消按钮
 export const WithFooter: Story = {
     render: () => {
-        const [value, setValue] = useState<{ year: number, month: number }>({ year: 2024, month: 3 })
-        const [confirmed, setConfirmed] = useState<{ year: number, month: number }>()
+        const [value, setValue] = useState<{ year: number, month: number } | undefined>({ year: 2024, month: 3 })
+        const [confirmed, setConfirmed] = useState<{ year: number, month: number } | undefined>()
 
         const handleConfirm = () => {
             setConfirmed(value)

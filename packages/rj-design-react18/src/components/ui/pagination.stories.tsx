@@ -184,7 +184,7 @@ export const Main: Story = {
                     <span>
                         跳至
                     </span>
-                    <Input variant={'page'} format={args.size === 'page-md' ? 'md' : 'sm'} placeholder={`${page}/${total}`} />
+                    <Input variant={'page'} format={args.size === 'page-md' ? 'md' : 'sm'} placeholder={`${page}/${total}`} className='shadow-none' />
                     <span>
                         页
                     </span>
@@ -259,7 +259,8 @@ export const MainSmall: Story = {
                     </span>
                     <Input variant={'page'} placeholder={`${1}/${20}`} className={cn(
                         args.size === 'page-sm' && 'h-6',
-                        args.size === 'page-md' && 'h-8'
+                        args.size === 'page-md' && 'h-8',
+                        'shadow-none'
                     )} />
                     <span>
                         页
@@ -490,7 +491,8 @@ export const FullSmall: Story = {
                             </span>
                             <Input variant={'page'} placeholder={`${page}/${total}`} className={cn(
                                 args.size === 'page-sm' && 'h-6',
-                                args.size === 'page-md' && 'h-8'
+                                args.size === 'page-md' && 'h-8',
+                                'shadow-none'
                             )} />
                             <span>
                                 页
@@ -548,7 +550,7 @@ export const Simple: Story = {
                             <div className='flex flex-row gap-2 items-center text-[13px] leading-[20px] font-normal not-italic text-secondary'>
                                 <Input variant={'page'} placeholder={`${page}/${total}`} className={cn(
                                     args.size === 'page-sm' && 'h-6',
-                                    args.size === 'page-md' && 'h-8')} />
+                                    args.size === 'page-md' && 'h-8', 'shadow-none')} />
                             </div>
                             <PaginationItem>
                                 <PaginationNext size={args.size} href="#" />
@@ -640,7 +642,6 @@ export const SimpleSmall: Story = {
         const sizes: number[] = [10, 20, 30, 50, 100];
         const updateSize = (s: number) => {
             setSize(s);
-            //其他逻辑
         }
 
         return (

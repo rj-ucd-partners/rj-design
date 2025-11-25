@@ -65,7 +65,10 @@ const items = [
 
 // 1. 单选 - 基础
 export const SingleBasic: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [value, setValue] = useState<string>('');
         return (
             <div className="space-y-4">
@@ -79,6 +82,7 @@ export const SingleBasic: Story = {
                     value={value}
                     onValueChange={setValue}
                     className="w-[300px]"
+                    disabled={args.disabled}
                 />
                 <div className="text-sm text-gray-600">
                     当前选中: {value || '无'}
@@ -89,7 +93,10 @@ export const SingleBasic: Story = {
 }
 
 export const SingleBasicCanAdd: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [value, setValue] = useState<string>('');
         const [data, setData] = useState(items);
         const addItem = (label: string) => {
@@ -109,6 +116,7 @@ export const SingleBasicCanAdd: Story = {
                     className="w-[300px]"
                     editable={true}
                     editCallback={addItem}
+                    disabled={args.disabled}
                 />
                 <div className="text-sm text-gray-600">
                     当前选中: {value || '无'}
@@ -121,7 +129,10 @@ export const SingleBasicCanAdd: Story = {
 
 // 2. 单选 - 带搜索
 export const SingleWithSearch: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [value, setValue] = useState<string>('apple');
         return (
             <div className="space-y-4">
@@ -135,6 +146,7 @@ export const SingleWithSearch: Story = {
                     value={value}
                     onValueChange={setValue}
                     className="w-[300px]"
+                    disabled={args.disabled}
                 />
                 <div className="text-sm text-gray-600">
                     当前选中: {value || '无'}
@@ -146,7 +158,10 @@ export const SingleWithSearch: Story = {
 
 // 3. 单选 - 带图标
 export const SingleWithIcons: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [value, setValue] = useState<string>('');
         return (
             <FunctionalitySelect
@@ -161,6 +176,7 @@ export const SingleWithIcons: Story = {
                 value={value}
                 onValueChange={setValue}
                 className="w-[300px]"
+                disabled={args.disabled}
             />
         );
     }
@@ -168,7 +184,10 @@ export const SingleWithIcons: Story = {
 
 // 4. 多选 - 基础 (展示动态 tag 收起效果)
 export const MultipleBasic: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [value, setValue] = useState<string[]>(['apple', 'banana', 'orange', 'grape']);
         return (
             <div className="space-y-4">
@@ -182,6 +201,7 @@ export const MultipleBasic: Story = {
                     value={value}
                     onValueChange={setValue}
                     className="w-[500px]"
+                    disabled={args.disabled}
                 />
                 <div className="text-sm text-gray-600">
                     当前选中 {value.length} 项: {value.join(', ')}
@@ -196,7 +216,10 @@ export const MultipleBasic: Story = {
 
 // 5. 多选 - 带搜索
 export const MultipleWithSearch: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [value, setValue] = useState<string[]>(['apple', 'banana']);
         return (
             <div className="space-y-4">
@@ -210,6 +233,7 @@ export const MultipleWithSearch: Story = {
                     value={value}
                     onValueChange={setValue}
                     className="w-[600px]"
+                    disabled={args.disabled}
                 />
                 <div className="text-sm text-gray-600">
                     已选中 {value.length} 项: {value.join(', ')}
@@ -221,7 +245,10 @@ export const MultipleWithSearch: Story = {
 
 // 6. 多选 - 带图标
 export const MultipleWithIcons: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [value, setValue] = useState<string[]>(['apple', 'orange', 'grape']);
         return (
             <FunctionalitySelect
@@ -234,6 +261,7 @@ export const MultipleWithIcons: Story = {
                 canSearch={true}
                 value={value}
                 onValueChange={setValue}
+                disabled={args.disabled}
             />
         );
     }
@@ -241,7 +269,10 @@ export const MultipleWithIcons: Story = {
 
 // 7. 不同尺寸对比
 export const Sizes: Story = {
-    render: () => {
+    args: {
+        disabled: false,
+    },
+    render: (args) => {
         const [valueSm, setValueSm] = useState<string>('apple');
         const [valueMd, setValueMd] = useState<string>('banana');
         const [valueLg, setValueLg] = useState<string>('orange');
@@ -258,6 +289,7 @@ export const Sizes: Story = {
                         onValueChange={setValueSm}
                         placeholder="Small size"
                         className="w-[300px]"
+                        disabled={args.disabled}
                     />
                 </div>
                 <div className="space-y-2">
@@ -270,6 +302,7 @@ export const Sizes: Story = {
                         onValueChange={setValueMd}
                         placeholder="Medium size"
                         className="w-[300px]"
+                        disabled={args.disabled}
                     />
                 </div>
                 <div className="space-y-2">
@@ -282,6 +315,7 @@ export const Sizes: Story = {
                         onValueChange={setValueLg}
                         placeholder="Large size"
                         className="w-[300px]"
+                        disabled={args.disabled}
                     />
                 </div>
             </div>
@@ -291,7 +325,10 @@ export const Sizes: Story = {
 
 // 8. 禁用状态
 export const Disabled: Story = {
-    render: () => {
+    args: {
+        disabled: true
+    },
+    render: (args) => {
         return (
             <div className="space-y-6">
                 <div className="space-y-2">
@@ -301,7 +338,7 @@ export const Disabled: Story = {
                         size="md"
                         mode="single"
                         value="apple"
-                        disabled
+                        disabled={args.disabled}
                         placeholder="已禁用"
                         className="w-[300px]"
                     />
@@ -325,6 +362,7 @@ export const Disabled: Story = {
 
 // 9. 可清除
 export const Clearable: Story = {
+
     render: () => {
         const [singleValue, setSingleValue] = useState<string>('apple');
         const [multipleValue, setMultipleValue] = useState<string[]>(['apple', 'banana']);

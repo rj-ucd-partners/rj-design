@@ -76,7 +76,7 @@ const popoverContentVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-fill-light-hover-bg',
+        primary: 'bg-fill-light-hover-bg border-none',
       }
     },
     defaultVariants: {

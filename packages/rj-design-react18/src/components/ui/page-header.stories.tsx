@@ -8,6 +8,7 @@ import { SlashIcon } from "@radix-ui/react-icons"
 import { Tabs, TabsItem, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import type { BaseNode } from "@/common/type"
 import { useState } from "react"
+import { Input } from "./input"
 interface PageHeaderProps extends React.ComponentProps<"div"> {
     title: string,
     description?: string,
@@ -347,20 +348,36 @@ export const PrimaryInput: Story = {
                 <PageHeaderTitleStart {...args} />
                 <PageHeaderTitleEnd className="flex-1">
                     <div className="flex flex-1 flex-row items-center justify-center gap-[120px]">
-                        <input
+                        <Input
+                            variant={'primary'}
+                            format={'sm'}
                             placeholder="请输入"
-                            className="w-full outline-none bg-secondary-background rounded-md px-[8px] py-[5px] text-[12px] leading-[20px]"
+                            className="w-full  bg-secondary-background rounded-md px-[8px] py-[5px] "
+                            style={{
+                                marginLeft: args.inputmargin ? `${args.inputmargin}px` : undefined
+                            }} />
+                        {/* <input
+                            placeholder="请输入"
+                            className="w-full outline-none bg-secondary-background rounded-md px-[8px] py-[5px] text-[12px] leading-[20px] shadow-none"
                             style={{
                                 marginLeft: args.inputmargin ? `${args.inputmargin}px` : undefined
                             }}
                         />
                         <input
                             placeholder="请输入"
-                            className="w-full outline-none bg-secondary-background rounded-md px-[8px] py-[5px] text-[12px] leading-[20px]"
+                            className="w-full outline-none bg-secondary-background rounded-md px-[8px] py-[5px] text-[12px] leading-[20px] shadow-none"
                             style={{
                                 marginLeft: args.inputmargin ? `${args.inputmargin}px` : undefined
                             }}
-                        />
+                        /> */}
+                        <Input
+                            placeholder="请输入"
+                            variant={'primary'}
+                            format={'sm'}
+                            className="w-full  bg-secondary-background rounded-md px-[8px] py-[5px]"
+                            style={{
+                                marginLeft: args.inputmargin ? `${args.inputmargin}px` : undefined
+                            }} />
                     </div>
                 </PageHeaderTitleEnd>
             </PageHeaderTitle>

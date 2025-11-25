@@ -338,8 +338,8 @@ function Select({
 
     return (
         <SelectContext.Provider value={{ size, variant, mode, selectedValues, onSelect: handleSelect }}>
-            <Popover open={open} onOpenChange={onContentOpen}>
-                <PopoverTrigger asChild disabled={disabled}>
+            <Popover open={open} onOpenChange={onContentOpen} >
+                <PopoverTrigger asChild disabled={disabled} >
                     <InputGroup
                         size={size}
                         variant={'primary'}
@@ -360,7 +360,11 @@ function Select({
                             }
                             onClear?.();
                         }}
-                        className={className}
+                        className={cn(
+                            "bg-third-background",
+                            !open && "hover:bg-fill-dark-hover-active-disabled dark:hover:bg-fill-light-hover-bg",
+                            open && "bg-fill-light-hover-bg dark:bg-fill-dark-hover-active-disabled",
+                            className)}
                     >
                         {frontIcon && (
                             <InputGroupAddon>
@@ -540,13 +544,13 @@ function Select({
                             {
                                 edit ?
                                     <div className="flex flex-col flex-1 items-center justify-center p-2 gap-2 ">
-                                        <InputGroup className="flex flex-1" size={size}>
-                                            <InputGroupInput 
+                                        <InputGroup className="flex flex-1" size={size} variant={'primary'}>
+                                            <InputGroupInput
                                                 ref={editInputRef}
-                                                value={value} 
+                                                value={value}
                                                 onChange={(e) => {
                                                     setValue(e.target.value)
-                                                }} 
+                                                }}
                                             />
                                         </InputGroup>
                                         <div className="flex w-full gap-2 items-center justify-end">
@@ -577,7 +581,7 @@ function Select({
                                         <Button
                                             variant={'link'}
                                             size={size}
-                                            onClick={() => { 
+                                            onClick={() => {
                                                 setEdit(true);
                                                 // 延迟聚焦，确保 DOM 更新后再聚焦
                                                 setTimeout(() => {
@@ -603,9 +607,10 @@ const selectContentVariants = cva(
             variant: {
                 primary: [
                     'flex flex-col',
-                    'bg-secondary-background',
+                    'bg-secondary-background shadow-[0px_6px_16px_rgba(0,0,0,0.08)]',
                     "[&_[data-slot=select-item]]:text-text-deep",
-                    "[&_[data-slot=select-item]]:hover:bg-fill-light-hover-bg",
+                    "[&_[data-slot=select-item]]:hover:bg-fill-dark-hover-active-disabled dark:[&_[data-slot=select-item]]:hover:bg-fill-light-hover-bg",
+                    "[&_[data-slot=select-item]]:active:bg-fill-light-hover-bg dark:[&_[data-slot=select-item]]:active:bg-fill-dark-hover-active-disabled",
                     "[&_[data-slot=select-item][data-checked=true]]:text-primary",
                     "[&_[data-slot=select-item][data-checked=true]]:bg-primary-light"
                 ],
