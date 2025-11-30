@@ -182,8 +182,8 @@ function SwitchWithLabel({
                     <span
                         className={cn(
                             "whitespace-nowrap font-bold transition-opacity duration-200 absolute text-center",
-                            checked ? "opacity-0" : "opacity-100 ",
-                            "text-secondary"
+                            checked ? "opacity-0" : "opacity-100",
+                            disabled ? "text-disabled" : "text-secondary"
                         )}
                         style={{
                             fontSize: sizeStyles.fontSize,
@@ -203,7 +203,7 @@ function SwitchWithLabel({
                         className={cn(
                             "whitespace-nowrap font-bold transition-opacity duration-200 absolute text-center justify-center",
                             checked ? "opacity-100 " : "opacity-0",
-                            "text-text"
+                            disabled ? "text-disabled" : "text-text"
                         )}
                         style={{
                             fontSize: sizeStyles.fontSize,

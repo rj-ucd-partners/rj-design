@@ -510,7 +510,7 @@ function Select({
                 <PopoverContent
                     className={cn(
                         "w-[var(--radix-popover-trigger-width)]",
-                        "bg-secondary-background",
+                        'bg-secondary-background shadow-[0px_6px_16px_rgba(0,0,0,0.08)]',
                         "rounded-md",
                         contentClassname
                     )}
@@ -538,9 +538,8 @@ function Select({
                             ))
                         )}
                     </SelectContent>
-                    {
-                        editable &&
-                        <div className="flex border-t border-border-foreground items-center justify-center ">
+                    {editable &&
+                        <div className="flex border-t border-border-foreground  items-center justify-center ">
                             {
                                 edit ?
                                     <div className="flex flex-col flex-1 items-center justify-center p-2 gap-2 ">
@@ -583,7 +582,6 @@ function Select({
                                             size={size}
                                             onClick={() => {
                                                 setEdit(true);
-                                                // 延迟聚焦，确保 DOM 更新后再聚焦
                                                 setTimeout(() => {
                                                     editInputRef.current?.focus();
                                                 }, 0);
@@ -607,7 +605,6 @@ const selectContentVariants = cva(
             variant: {
                 primary: [
                     'flex flex-col',
-                    'bg-secondary-background shadow-[0px_6px_16px_rgba(0,0,0,0.08)]',
                     "[&_[data-slot=select-item]]:text-text-deep",
                     "[&_[data-slot=select-item]]:hover:bg-fill-dark-hover-active-disabled dark:[&_[data-slot=select-item]]:hover:bg-fill-light-hover-bg",
                     "[&_[data-slot=select-item]]:active:bg-fill-light-hover-bg dark:[&_[data-slot=select-item]]:active:bg-fill-dark-hover-active-disabled",

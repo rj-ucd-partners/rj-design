@@ -78,7 +78,7 @@ const tabsTriggerVariants = cva(
           'data-[state=active]:text-primary',
           'hover:bg-fill-light-hover-bg hover:border hover:border-border-split',
           'rounded-t-[10px]',
-          'bg-primary-background',
+          'bg-background',
           'active:bg-fill-dark-hover-active-disabled active:border hover:border-border-split',
           'disabled:border disabled:bg-border-disabled disabled:bg-card'
         ],

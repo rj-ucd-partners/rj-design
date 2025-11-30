@@ -282,9 +282,9 @@ const dialogDescriptionVariants = cva(
       variant: {
         default: '',
         primary: 'bg-primary-light',
-        success: '',
+        success: 'bg-success/20',
         abnormal: 'bg-abnormal/10',
-        danger: ''
+        danger: 'bg-danger-hover/20'
       },
     },
     defaultVariants: {
@@ -316,7 +316,13 @@ function DialogDescription({
           variant === 'primary' && (<span className="size-[22px] flex items-center justify-center"><InfoCirecledIcon className="text-primary" /></span>)
         }
         {
+          variant === 'success' && (<span className="size-[22px] flex items-center justify-center"><SuccessIcon className="text-success" /></span>)
+        }
+        {
           variant === 'abnormal' && (<span className="size-[22px] flex items-center justify-center"><AbnormalIcon className="text-abnormal" /></span>)
+        }
+        {
+          variant === 'danger' && (<span className="size-[22px] flex items-center justify-center"><DestructiveIcon className="text-danger" /></span>)
         }
         {props.children}
       </div>

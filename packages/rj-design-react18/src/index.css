@@ -94,7 +94,6 @@
   --color-fill-light-hover-bg: var(--fill-light-hover-bg);
   --color-fill-dark-hover-active-disabled: var(--fill-dark-hover-active-disabled);
   /* --背景-- */
-  --color-primary-background: var(--primary-background);
   --color-secondary-background: var(--secondary-background);
   --color-third-background: var(--third-background);
   /* --其他-- */
@@ -307,8 +306,6 @@
   --fill-emphasize: #4B6376;
   --fill-light-hover-bg: #364E61;
   --fill-dark-hover-active-disabled: #233648;
-  /* --背景-- */
-  --primary-background: #101920;
   --card: #1B252E;
   --secondary-background: #1F2E3B;
   --third-background: #273947;
