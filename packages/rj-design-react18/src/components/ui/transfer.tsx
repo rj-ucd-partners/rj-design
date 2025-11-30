@@ -424,10 +424,10 @@ function TransferAction({
         className
     )} {...props}>
         <Button variant={'default'} size={'sm-icon'} className="size-6" disabled={canMoveToRight} onClick={() => props.onMove('right')}>
-            <AArrowRight className="text-text-deep" />
+            <AArrowRight className={cn(canMoveToRight ? "text-disabled" : "text-text-deep")} />
         </Button>
         <Button variant={'default'} size={'sm-icon'} className="size-6" disabled={canMoveToLeft} onClick={() => props.onMove('left')}>
-            <AArrowLeft className="text-text-deep" />
+            <AArrowLeft className={cn(canMoveToLeft ? "text-disabled" : "text-text-deep")} />
         </Button>
     </div>)
 }

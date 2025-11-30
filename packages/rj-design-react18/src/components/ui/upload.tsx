@@ -4,12 +4,13 @@ import { Progress } from "./progress";
 import { Button } from "./button";
 import { SuccessIcon } from "../icon/successIcon";
 import { AbnormalIcon } from "../icon/abnormalIcon";
-import { FileIcon } from "../icon/file-icon";
+import { FileDarkIcon } from "../icon/FileDark";
 import { Separator } from "./separator";
 import { DeleteIcon } from "../icon/delete-icon";
 import { EyeIcon } from "../icon/eye-icon";
 import { CloseIcon } from "../icon/closeIcon";
 import { LoadingCircle } from "../icon/loading-circle";
+import { FileIcon } from "../icon/File";
 
 export interface FileItem {
     file: File;
@@ -304,7 +305,8 @@ function DragUpload({
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                 >
-                    <FileIcon />
+                    <FileIcon className="dark:hidden" />
+                    <FileDarkIcon className="hidden dark:block" />
                     <p className="text-secondary-information">
                         {
                             (typeof dragText === 'string') ?
@@ -800,7 +802,7 @@ function ImageWall({
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                 >
-                    <FileIcon className="text-secondary-information" />
+                    <FileDarkIcon className="text-secondary-information" />
                     <p className="text-[13px] text-secondary-information text-center px-2">
                         {typeof dragText === 'string' ? (
                             <span className="text-primary font-medium">{dragText}</span>
@@ -929,7 +931,7 @@ function ImageWall({
                                 )}
                                 onClick={handleClick}
                             >
-                                <FileIcon className="text-secondary-information size-8" />
+                                <FileDarkIcon className="text-secondary-information size-8" />
                                 <span className="text-[12px] text-primary font-medium">点击上传</span>
                             </div>
                             <span className="text-[12px] text-transparent leading-[20px]">-</span>

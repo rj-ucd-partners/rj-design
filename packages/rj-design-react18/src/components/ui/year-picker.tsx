@@ -198,12 +198,12 @@ function YearPicker({
                         value={yearRange.start.toString()}
                         onValueChange={handleRangeChange}
                     >
-                        <SelectTrigger className="w-[120px] px-2 h-8 bg-third-background text-secondary-information border-none focus:ring-none focus:border-none flex items-center justify-between">
+                        <SelectTrigger className="w-[120px] px-2 h-8 bg-third-background text-secondary-information border-none focus:ring-0 focus:ring-offset-0 shadow-none flex items-center justify-between">
                             <SelectValue placeholder={getCurrentRangeLabel()}>
                                 {getCurrentRangeLabel()}
                             </SelectValue>
                         </SelectTrigger>
-                        <SelectContent className="bg-third-background border-none">
+                        <SelectContent className="bg-third-background border-none shadow-none">
                             <SelectGroup>
                                 {yearRangeOptions.map((option) => (
                                     <SelectItem key={option.value} value={option.value}>

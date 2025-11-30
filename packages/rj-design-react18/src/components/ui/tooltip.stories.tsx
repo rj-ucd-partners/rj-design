@@ -8,8 +8,7 @@ import type { TooltipProps } from "@radix-ui/react-tooltip";
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
 interface ExtendedTooltipProps extends TooltipProps {
-    contentvariant: 'default' | 'primary' | 'custom';
-    contentArrowvariant: 'default' | 'primary' | 'custom';
+    variant: 'default' | 'primary' | 'custom';
     contentSideOffset: number;
     contentAlignOffset: number;
     contentSide: "top" | "right" | "bottom" | "left",
@@ -21,11 +20,7 @@ const meta: Meta<ExtendedTooltipProps> = {
     tags: ['autodocs'],
     component: Tooltip,
     argTypes: {
-        contentvariant: {
-            control: { type: 'select' },
-            options: ['default', 'primary', 'custom'],
-        },
-        contentArrowvariant: {
+        variant: {
             control: { type: 'select' },
             options: ['default', 'primary', 'custom'],
         },
@@ -54,8 +49,7 @@ type Story = StoryObj<ExtendedTooltipProps>
 //默认色
 export const Default: Story = {
     args: {
-        contentvariant: 'default',
-        contentArrowvariant: 'default',
+        variant: 'default',
         contentSideOffset: 0,
         contentAlignOffset: 0,
         contentSide: 'top',
@@ -64,13 +58,13 @@ export const Default: Story = {
     render: (args) => {
         return (
             <div className="h-[200px] flex items-center justify-center">
-                <Tooltip>
+                <Tooltip open={true}>
                     <TooltipTrigger asChild>
                         <Button variant="default">Hover</Button>
                     </TooltipTrigger>
                     <TooltipContent
-                        variant={args.contentvariant}
-                        arrow={args.contentArrowvariant}
+                        variant={args.variant}
+                        arrow={args.variant}
                         side={args.contentSide}
                         align={args.contentAlign}
                         alignOffset={args.contentAlignOffset}
@@ -87,8 +81,7 @@ export const Default: Story = {
 //主题色
 export const Primary: Story = {
     args: {
-        contentvariant: 'primary',
-        contentArrowvariant: 'primary',
+        variant: 'primary',
         contentSideOffset: 0,
         contentAlignOffset: 0,
         contentSide: 'top',
@@ -102,8 +95,8 @@ export const Primary: Story = {
                         <Button variant="default">Hover</Button>
                     </TooltipTrigger>
                     <TooltipContent
-                        variant={args.contentvariant}
-                        arrow={args.contentArrowvariant}
+                        variant={args.variant}
+                        arrow={args.variant}
                         side={args.contentSide}
                         align={args.contentAlign}
                         alignOffset={args.contentAlignOffset}
@@ -120,8 +113,7 @@ export const Primary: Story = {
 //自定义
 export const Custom: Story = {
     args: {
-        contentvariant: 'custom',
-        contentArrowvariant: 'custom',
+        variant: 'custom',
         contentSideOffset: 0,
         contentAlignOffset: 0,
         contentSide: 'top',
@@ -135,8 +127,8 @@ export const Custom: Story = {
                         <Button variant="default">Hover</Button>
                     </TooltipTrigger>
                     <TooltipContent
-                        variant={args.contentvariant}
-                        arrow={args.contentArrowvariant}
+                        variant={args.variant}
+                        arrow={args.variant}
                         side={args.contentSide}
                         align={args.contentAlign}
                         alignOffset={args.contentAlignOffset}
@@ -153,8 +145,7 @@ export const Custom: Story = {
 //顶部消息
 export const Top: Story = {
     args: {
-        contentvariant: 'default',
-        contentArrowvariant: 'default',
+        variant: 'default',
         contentSideOffset: 0,
         contentAlignOffset: 0,
         contentSide: 'top',
@@ -168,8 +159,8 @@ export const Top: Story = {
                         <Button variant="default">Hover</Button>
                     </TooltipTrigger>
                     <TooltipContent
-                        variant={args.contentvariant}
-                        arrow={args.contentArrowvariant}
+                        variant={args.variant}
+                        arrow={args.variant}
                         side={args.contentSide}
                         align={args.contentAlign}
                         alignOffset={args.contentAlignOffset}
@@ -186,8 +177,7 @@ export const Top: Story = {
 //底部消息
 export const Bottom: Story = {
     args: {
-        contentvariant: 'default',
-        contentArrowvariant: 'default',
+        variant: 'default',
         contentSideOffset: 0,
         contentAlignOffset: 0,
         contentSide: 'bottom',
@@ -201,8 +191,8 @@ export const Bottom: Story = {
                         <Button variant="default">Hover</Button>
                     </TooltipTrigger>
                     <TooltipContent
-                        variant={args.contentvariant}
-                        arrow={args.contentArrowvariant}
+                        variant={args.variant}
+                        arrow={args.variant}
                         side={args.contentSide}
                         align={args.contentAlign}
                         alignOffset={args.contentAlignOffset}
@@ -219,8 +209,7 @@ export const Bottom: Story = {
 //左边
 export const Left: Story = {
     args: {
-        contentvariant: 'default',
-        contentArrowvariant: 'default',
+        variant: 'default',
         contentSideOffset: 0,
         contentAlignOffset: 0,
         contentSide: 'left',
@@ -234,8 +223,8 @@ export const Left: Story = {
                         <Button variant="default">Hover</Button>
                     </TooltipTrigger>
                     <TooltipContent
-                        variant={args.contentvariant}
-                        arrow={args.contentArrowvariant}
+                        variant={args.variant}
+                        arrow={args.variant}
                         side={args.contentSide}
                         align={args.contentAlign}
                         alignOffset={args.contentAlignOffset}
@@ -252,8 +241,7 @@ export const Left: Story = {
 //右边
 export const Right: Story = {
     args: {
-        contentvariant: 'default',
-        contentArrowvariant: 'default',
+        variant: 'default',
         contentSideOffset: 0,
         contentAlignOffset: 0,
         contentSide: 'right',
@@ -267,8 +255,8 @@ export const Right: Story = {
                         <Button variant="default">Hover</Button>
                     </TooltipTrigger>
                     <TooltipContent
-                        variant={args.contentvariant}
-                        arrow={args.contentArrowvariant}
+                        variant={args.variant}
+                        arrow={args.variant}
                         side={args.contentSide}
                         align={args.contentAlign}
                         alignOffset={args.contentAlignOffset}

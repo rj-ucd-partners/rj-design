@@ -283,10 +283,10 @@ function TreeSelect({
                 <div
                     className={cn(
                         'w-full flex flex-row items-center justify-between flex-1 rounded-md p-1',
-                        'hover:bg-third-background',
-                        !item.disabled && 'hover:text-primary',
-                        isSelected && 'text-primary bg-third-background',
-                        item.disabled && 'text-disabled'
+                        'hover:bg-secondary-background',
+                        item.disabled && 'text-disabled hover:bg-transparent',
+                        isSelected && 'text-primary hover:bg-third-background bg-third-background hover:text-primary',
+
                     )}
                     onClick={handleClick}
                 >

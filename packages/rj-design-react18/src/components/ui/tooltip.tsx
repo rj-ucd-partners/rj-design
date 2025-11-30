@@ -37,7 +37,7 @@ function TooltipTrigger({
 
 
 const tooltipContentVariants = cva(
-  '',
+  '[filter:drop-shadow(0px_4px_20px_rgba(0,0,0,0.15))]',
   {
     variants: {
       variant: {
@@ -46,7 +46,7 @@ const tooltipContentVariants = cva(
         custom: 'bg-primary-disabled text-text-deep'
       },
       arrow: {
-        default: 'bg-text fill-text',
+        default: 'bg-text fill-text ',
         primary: 'bg-primary fill-primary',
         custom: 'bg-primary-disabled fill-primary-disabled'
       }
@@ -75,7 +75,7 @@ function TooltipContent({
         align={align}
         side={side}
         className={cn(
-          "bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md text-[13px] leading-[20px] font-normal px-3 py-3",
+          "bg-primary text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md text-[13px] leading-[20px] font-normal px-2 py-1.5",
           className,
           tooltipContentVariants({ variant })
         )}
