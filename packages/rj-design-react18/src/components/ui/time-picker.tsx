@@ -347,6 +347,8 @@ function TimePickerPopover({
                     cn("w-[var(--radix-popover-trigger-width)]",
                         "bg-secondary-background",
                         "rounded-md",
+                        "border border-border-split",
+                        "shadow-[0px_6px_16px_rgba(0,0,0,0.08)]",
                         className)}
                 alignOffset={5}
                 sideOffset={5}
@@ -539,6 +541,8 @@ function TimePickerRangePopover({
                     cn("w-[var(--radix-popover-trigger-width)]",
                         "bg-secondary-background",
                         "rounded-md",
+                        "border border-border-split",
+                        "shadow-[0px_6px_16px_rgba(0,0,0,0.08)]",
                         className)}
                 alignOffset={5}
                 sideOffset={5}
