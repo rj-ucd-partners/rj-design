@@ -197,8 +197,8 @@
   /* --交互填充色-- */
   --fill: #EEF0F5;
   --fill-emphasize: #D1E2EB;
-  --fill-light-hover-bg: #F7F8F9;
-  --fill-dark-hover-active-disabled: #E4ECF0;
+  --fill-light-hover-bg: #E4ECF0;
+  --fill-dark-hover-active-disabled: #F7F8F9;
   /* --背景-- */
   --background: #F4F6F9;
   --card: #FFFFFF;

@@ -802,7 +802,8 @@ function ImageWall({
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                 >
-                    <FileDarkIcon className="text-secondary-information" />
+                    <FileIcon className="dark:hidden" />
+                    <FileDarkIcon className="hidden dark:block" />
                     <p className="text-[13px] text-secondary-information text-center px-2">
                         {typeof dragText === 'string' ? (
                             <span className="text-primary font-medium">{dragText}</span>
@@ -931,7 +932,8 @@ function ImageWall({
                                 )}
                                 onClick={handleClick}
                             >
-                                <FileDarkIcon className="text-secondary-information size-8" />
+                                <FileIcon className="dark:hidden" />
+                                <FileDarkIcon className="hidden dark:block" />
                                 <span className="text-[12px] text-primary font-medium">点击上传</span>
                             </div>
                             <span className="text-[12px] text-transparent leading-[20px]">-</span>
