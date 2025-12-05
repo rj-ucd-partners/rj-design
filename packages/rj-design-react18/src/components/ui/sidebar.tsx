@@ -177,7 +177,7 @@ const sidebarVariants = cva(
   {
     variants: {
       variant: {
-        primary: "",
+        primary: "bg-background",
       },
     },
   }
@@ -260,7 +260,7 @@ const Sidebar = React.forwardRef<
             "group-data-[side=right]:rotate-180",
             variant === "floating" || variant === "inset"
               ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
-              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
+              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]",
           )}
         />
         <div
@@ -830,26 +830,51 @@ function NavMain({
         {items.map((item) => {
           const icon = item.icon ? <item.icon className="!text-primary size-5" /> : <Menu className="!text-primary size-5" />
 
+          // 检查是否有任何子项被选中
+          const hasActiveSubItem = item.items?.some(subItem =>
+            subItem.isActive !== undefined ? subItem.isActive : activeUrl === subItem.url
+          );
+
           return (<Collapsible
             key={item.title}
             asChild
             defaultOpen={item.isActive}
             className="group/collapsible"
           >
-            <SidebarMenuItem className={cn("pr-1", !item.disabled && item.isActive && (state === "collapsed") && "bg-primary-light rounded-md p-0")}>
+            <SidebarMenuItem className={cn(
+              "pr-1",
+              // 收起状态下，如果有子项被选中，显示背景色
+              state === "collapsed" && hasActiveSubItem && "bg-primary-light rounded-md"
+            )}>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title} disabled={item.disabled}>
-                  {(state === "collapsed") &&
-                    icon
-                  }
-                  <span>{item.title}</span>
-                  <ArrowRight className="ml-auto transition-all duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  disabled={item.disabled}
+                  className={cn(
+                    // 收起状态：只显示图标，居中
+                    state === "collapsed" && "justify-center"
+                  )}
+                >
+                  <span className={cn(
+                    // 展开状态：隐藏图标
+                    state === "expanded" && "hidden"
+                  )}>
+                    {icon}
+                  </span>
+                  <span className={cn(
+                    // 收起状态：隐藏文字
+                    state === "collapsed" && "hidden"
+                  )}>{item.title}</span>
+                  <ArrowRight className={cn(
+                    "ml-auto transition-all duration-200 group-data-[state=open]/collapsible:rotate-90 !size-4",
+                    state === "collapsed" && "hidden"
+                  )}
+                  />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent className="pr-0">
                 <SidebarMenuSub className="pr-0 border-none" >
                   {item.items?.map((subItem) => {
-                    // 支持外部控制的 isActive 或内部状态
                     const isActive = subItem.isActive !== undefined
                       ? subItem.isActive
                       : activeUrl === subItem.url;
@@ -858,7 +883,7 @@ function NavMain({
                       <div
                         key={subItem.title}
                         data-slot="sidebar-menu-sub-item"
-                        className="group/sub-item flex items-center flex-row gap-1 w-full"
+                        className="group/sub-item flex items-center flex-row gap-1 w-[160px]"
                       >
                         <div
                           className={cn(

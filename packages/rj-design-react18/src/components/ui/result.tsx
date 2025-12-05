@@ -1,12 +1,18 @@
 import { cn } from "@/lib/utils";
-import { SuccessResultIcon } from "../icon/success-result-icon";
 import { Button } from "./button";
-import { FailResultIcon } from "../icon/fail-result-icon";
-import { WarningResultIcon } from "../icon/warning-result-icon";
-import { InfoResultIcon } from "../icon/info-result-icon";
+import { FailResultDarkIcon } from "../icon/FailResultDarkIcon";
+import { WarningResultDarkIcon } from "../icon/WarningResultDarkIcon";
+import { InfoResultDarkIcon } from "../icon/InfoResultDarkIcon";
 import { VerifyResultIcon } from "../icon/verify-result-icon";
 import { LoadingResultIcon } from "../icon/loading-result-icon";
-
+import * as React from "react";
+import { SuccessResultDarkIcon } from "../icon/SuccessResultDarkIcon";
+import { SuccessResultIcon } from "../icon/SuccessResultIcon";
+import { FailResultIcon } from "../icon/FailResultIcon";
+import { WarningResultIcon } from "../icon/WarningResultIcon";
+import { InfoResultIcon } from "../icon/InfoResultIcon";
+import VerifyResultApng from "../image/VerifyResultDark.apng";
+import LoadingResultDark from "../image/LoadingResultDark.apng";
 function Result({
     result,
     description,
@@ -23,6 +29,29 @@ function Result({
     onConfirm?: () => void,
     onReturn?: () => void
 }) {
+    // 判断当前主题是亮色模式还是暗色模式
+    const [isDarkMode, setIsDarkMode] = React.useState(false);
+
+    React.useEffect(() => {
+        // 检查 HTML 元素是否有 'dark' class
+        const checkTheme = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            setIsDarkMode(isDark);
+        };
+
+        // 初始检查
+        checkTheme();
+
+        // 监听 class 变化（如果主题会动态切换）
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <div className={cn(
             'w-full h-full',
@@ -33,32 +62,32 @@ function Result({
             {
                 props.status === 'success'
                 &&
-                <SuccessResultIcon />
+                (isDarkMode ? <SuccessResultDarkIcon /> : <SuccessResultIcon />)
             }
             {
                 props.status === 'fail'
                 &&
-                <FailResultIcon />
+                (isDarkMode ? <FailResultDarkIcon /> : <FailResultIcon />)
             }
             {
                 props.status === 'warning'
                 &&
-                <WarningResultIcon />
+                (isDarkMode ? <WarningResultDarkIcon /> : <WarningResultIcon />)
             }
             {
                 props.status === 'info'
                 &&
-                <InfoResultIcon />
+                (isDarkMode ? <InfoResultDarkIcon /> : <InfoResultIcon />)
             }
             {
                 props.status === 'verify'
                 &&
-                <VerifyResultIcon />
+                <img src={VerifyResultApng} alt="verify" className="size-[126px]" />
             }
             {
                 props.status === 'loading'
                 &&
-                <LoadingResultIcon />
+                <img src={LoadingResultDark} alt="loading" className="size-[96px]" />
             }
             <div className="flex flex-col items-center justify-center gap-2">
                 {
@@ -139,7 +168,7 @@ function WebResult({
         {
             props.status === 'fail'
             &&
-            <FailResultIcon />
+            <FailResultDarkIcon />
         }
         {
             props.status === 'warning'
@@ -149,7 +178,7 @@ function WebResult({
         {
             props.status === 'info'
             &&
-            <InfoResultIcon />
+            <InfoResultDarkIcon />
         }
         {
             props.status === 'verify'
@@ -186,10 +215,10 @@ function WebResult({
             }
             {props.children}
             <div>
-                <Button 
-                    variant={'primary'} 
-                    size={'md'} 
-                    onClick={onReturn} 
+                <Button
+                    variant={'primary'}
+                    size={'md'}
+                    onClick={onReturn}
                     className={cn(
                         code === 403 && 'bg-gradient-to-r from-[#7240FF] to-[#2797FF]'
                     )}

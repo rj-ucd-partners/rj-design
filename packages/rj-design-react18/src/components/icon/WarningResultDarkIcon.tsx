@@ -1,7 +1,7 @@
 import type { SVGProps } from "react";
 import type { JSX } from "react/jsx-runtime";
 
-export const WarningResultIcon = (args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+export const WarningResultDarkIcon = (args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
         <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" {...args}>
             <path opacity="0.2" d="M45 1.73205C46.8564 0.660255 49.1436 0.660254 51 1.73205L86.5692 22.268C88.4256 23.3397 89.5692 25.3205 89.5692 27.4641V68.5359C89.5692 70.6795 88.4256 72.6603 86.5692 73.732L51 94.268C49.1436 95.3397 46.8564 95.3397 45 94.268L9.43078 73.732C7.57438 72.6603 6.43078 70.6795 6.43078 68.5359V27.4641C6.43078 25.3205 7.57438 23.3397 9.43078 22.268L45 1.73205Z" fill="#E69800" />

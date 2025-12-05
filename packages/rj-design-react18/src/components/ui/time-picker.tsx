@@ -229,7 +229,7 @@ function TimePickerScrollArea({
                             className={cn(
                                 'w-full h-6 rounded-sm text-center text-[13px] leading-[24px] text-secondary flex-shrink-0',
                                 'hover:bg-fill-light-hover-bg hover:text-text-deep',
-                                value === time.value && 'text-primary bg-fill',
+                                value === time.value && 'text-primary bg-fill hover:!bg-fill hover:!text-primary',
                                 className
                             )}
                             onClick={(e) => {

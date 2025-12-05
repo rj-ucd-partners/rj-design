@@ -11,9 +11,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { TriangleDownIcon } from "../icon/TriangleDownIcon";
 import { TriangleRightIcon } from "../icon/triangle-right-icon";
 import { TriangleLeftIcon } from "../icon/triangle-left-icon";
-import { Input } from "./input";
 import { MagnifierIcon } from "../icon/magnifier-icon";
 import type { BaseNode } from "@/common/type";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 
 
 
@@ -264,19 +264,17 @@ function TransferPage({
                 {
                     showSearch &&
                     <div className="px-2">
-                        <div className={cn(
-                            'flex items-center justify-between',
-                            'border-border-split',
-                            'rounded-md px-1',
-                            'bg-third-background'
-                        )}>
-                            <Input placeholder="请输入" value={value} variant={'transparent'} className="w-full" onChange={(e) => {
-                                onValueChange(e.target.value);
-                            }} />
-                            <Button variant={'transparent'} size={'link'}>
-                                <MagnifierIcon className="flex-shrink-0" />
-                            </Button>
-                        </div>
+                        <InputGroup className='w-full' size={'md'} variant={'primary'} clearable={true} onClear={() => onValueChange('')}>
+                            <InputGroupInput
+                                type={'text'}
+                                value={value}
+                                onChange={(e) => onValueChange(e.target.value)}
+                                placeholder="请输入"
+                            />
+                            <InputGroupAddon align={'inline-end'}>
+                                <MagnifierIcon />
+                            </InputGroupAddon>
+                        </InputGroup>
                     </div>
                 }
 
@@ -292,7 +290,7 @@ function TransferPage({
                         </div>
                     }
                     {
-                        (!showPagination || showSearch) &&
+                        (!showPagination || showSearch) && ((value && searchData.length > 0) || (!value && dataSource.length > 0)) &&
                         <ScrollArea variant={'default'} horizontal={'top'} vertical={'right'} className="w-full h-full whitespace-nowrap">
                             {
                                 value ?
