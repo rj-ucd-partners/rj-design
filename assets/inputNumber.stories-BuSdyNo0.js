@@ -1,0 +1,11 @@
+import{j as r}from"./jsx-runtime-D_zvdyIk.js";import{r as v}from"./iframe-DPkNXRqw.js";import{c as m}from"./utils-D-KgF5mV.js";import{c as y}from"./index-CGrAONsN.js";import{B as p}from"./button-7wqqdEkD.js";import"./index-CVJC_e1g.js";const N=y("outline-none w-full",{variants:{variant:{primary:"bg-third-background text-text-deep disabled:text-disabled hover:bg-fill-emphasize focus:border disabled:bg-third-background focus:border-primary focus:bg-primary-light"},format:{sm:"px-2 py-[2px] text-[12px] h-6 rounded-sm",md:"px-2 py-[5px] text-[13px] h-8 rounded-md",lg:"px-3 py-2 text-[15px] h-10 rounded-md"}},defaultVariants:{}});function d({className:t,disabled:o,format:s,...b}){const x="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&[type=number]]:[-moz-appearance:textfield]",[f,n]=v.useState(void 0),g=()=>{n(e=>e!==void 0?e+1:1)},h=()=>{n(e=>e!==void 0?e-1:-1)};return r.jsxs("div",{className:m("flex flex-row gap-1",t),children:[r.jsx(p,{variant:"number",size:s,onClick:g,disabled:o,children:"+"}),r.jsx("input",{className:m(x,N({variant:"primary",format:s}),t),disabled:o,placeholder:b.placeholder??"请输入",value:f,type:"number",onChange:e=>{try{const i=parseFloat(e.target.value);n(i)}catch(i){console.log("输入异常"+i),n(void 0)}}}),r.jsx(p,{variant:"number",size:s,onClick:h,disabled:o,children:"-"})]})}d.__docgenInfo={description:"",methods:[],displayName:"InputNumber",props:{disabled:{required:!1,tsType:{name:"boolean"},description:""}}};const _={title:"Components/InputNumber",tags:["autodocs"],component:d,argTypes:{format:{control:{type:"select"},options:["sm","md","lg"]}}},a={args:{format:"md",disabled:!0},render:t=>r.jsx("div",{className:"w-40",children:r.jsx(d,{format:t.format,disabled:t.disabled})})};var u,c,l;a.parameters={...a.parameters,docs:{...(u=a.parameters)==null?void 0:u.docs,source:{originalSource:`{
+  args: {
+    format: 'md',
+    disabled: true
+  },
+  render: args => {
+    return <div className='w-40'>\r
+        <InputNumber format={args.format} disabled={args.disabled} />\r
+      </div>;
+  }
+}`,...(l=(c=a.parameters)==null?void 0:c.docs)==null?void 0:l.source}}};const E=["NumberInput"];export{a as NumberInput,E as __namedExportsOrder,_ as default};

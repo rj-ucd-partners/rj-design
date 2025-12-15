@@ -1,0 +1,87 @@
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{T as o}from"./tree-CiS9_m1Z.js";import{R as r}from"./iframe-DPkNXRqw.js";import{D as B}from"./dog-CmOcVbbJ.js";import"./utils-D-KgF5mV.js";import"./button-7wqqdEkD.js";import"./index-CVJC_e1g.js";import"./index-CGrAONsN.js";import"./react-icons.esm-_2Ujgxc8.js";import"./checkbox-vLtsGzeJ.js";import"./index-3PNdDA9F.js";import"./index-ZCJ3rLJN.js";import"./index-TAJg0BDn.js";import"./index-CGny4Gu2.js";import"./index-CdverDIJ.js";import"./index-tTCODTNv.js";import"./index-CED2zaSr.js";import"./index-GGmavLq4.js";import"./index-D7jKx_fa.js";import"./delete-icon-dnov0-XL.js";import"./input-BNOkW-iY.js";import"./check-DLJQi36D.js";import"./createLucideIcon-BVkOKLvB.js";const p=t=>e.jsx("svg",{width:"16",height:"16",viewBox:"0 0 16 16",fill:"currentColor",xmlns:"http://www.w3.org/2000/svg",...t,children:e.jsx("path",{"fill-rule":"evenodd","clip-rule":"evenodd",d:"M10.0002 4.66699C10.0002 6.32385 8.65701 7.66699 7.00016 7.66699C5.34331 7.66699 4.00016 6.32385 4.00016 4.66699C4.00016 3.01014 5.34331 1.66699 7.00016 1.66699C8.65701 1.66699 10.0002 3.01014 10.0002 4.66699ZM11.3336 14.0003C12.0699 14.0003 12.6817 13.3962 12.5194 12.6779C12.2714 11.5806 11.7176 10.5658 10.9095 9.75768C9.78431 8.63247 8.25819 8.00033 6.66689 8.00033C5.07559 8.00033 3.54947 8.63247 2.42425 9.75768C1.61616 10.5658 1.06238 11.5806 0.814416 12.6779C0.6521 13.3962 1.26384 14.0003 2.00022 14.0003L6.66689 14.0003H11.3336ZM13.8115 12.6811C13.9346 13.2133 13.7151 13.6958 13.324 14.0002H13.6665C14.4029 14.0002 15.0154 13.3951 14.8437 12.6791C14.6019 11.6704 14.0856 10.7387 13.3401 9.99324C12.7776 9.43074 12.1091 8.99871 11.3814 8.71663C11.5439 8.85301 11.701 8.99689 11.8521 9.14806C12.8309 10.1269 13.5045 11.3538 13.8115 12.6811ZM10.351 6.85162C10.7613 6.22354 10.9999 5.47305 10.9999 4.66684C10.9999 3.6694 10.6348 2.75722 10.0309 2.05665C11.1566 2.30007 12.0001 3.30162 12.0001 4.50018C12.0001 5.5821 11.3128 6.50349 10.351 6.85162Z"})});p.__docgenInfo={description:"",methods:[],displayName:"ManGroupIcon"};const oe={title:"Components/Tree",tags:["autodocs"],component:o,argTypes:{}},d=[{key:"1",label:"这是一个折叠面板1",disabled:!1,icon:e.jsx(B,{}),children:[{key:"1-1",label:"这是一个子面板1",disabled:!1,children:[{key:"1-1-1",label:"这是一个孙面板1",disabled:!0}]},{key:"1-2",label:"这是一个子折叠面板2",disabled:!1},{key:"1-3",label:"这是一个子折叠面板3",disabled:!1}]},{key:"2",label:"这是一个折叠面板2",disabled:!1,children:[{key:"2-1",label:"这是一个子面板1",disabled:!1},{key:"2-2",label:"这是一个子折叠面板2",disabled:!1},{key:"2-3",label:"这是一个子折叠面板3",disabled:!1}]},{key:"3-1",label:"这是一个折叠面板3",disabled:!1},{key:"3-3",label:"这是一个折叠面板4",disabled:!1}],u={args:{},render:()=>{const[t,s]=r.useState([]),c=n=>{s(n)};return e.jsx("div",{className:"w-60",children:e.jsx(o,{treeData:d,checkable:!1,selectedKeys:t,onSelectedChange:c})})}},m={args:{},render:()=>{const[t,s]=r.useState([]),c=n=>{s(n)};return e.jsx("div",{className:"w-60",children:e.jsx(o,{treeData:d,selectable:!0,checkable:!1,selectedKeys:t,onSelectedChange:c})})}},y={args:{},render:()=>{const[t,s]=r.useState([]),c=n=>{s(n)};return e.jsx("div",{className:"w-60",children:e.jsx(o,{treeData:d,selectable:!0,multiple:!0,checkable:!1,selectedKeys:t,onSelectedChange:c})})}},C={args:{},render:()=>{const[t,s]=r.useState([]),c=a=>{s(a)},[n,i]=r.useState([]),h=a=>{i(a)};return e.jsx("div",{className:"w-60",children:e.jsx(o,{treeData:d,selectable:!0,multiple:!0,checkable:!0,selectedKeys:t,onSelectedChange:c,checkedKeys:n,onCheck:h})})}},k={args:{},render:()=>{const[t,s]=r.useState([]),c=a=>{s(a)},[n,i]=r.useState([]),h=a=>{i(a)};return e.jsx("div",{className:"w-60",children:e.jsx(o,{showIcon:!0,icon:e.jsx(p,{}),treeData:d,selectable:!0,multiple:!0,checkable:!0,selectedKeys:t,onSelectedChange:c,checkedKeys:n,onCheck:h})})}},g={args:{},render:()=>{const[t,s]=r.useState([]),c=l=>{s(l)},[n,i]=r.useState([]),h=l=>{i(l)},a=l=>{console.log("item",l),alert("编辑,这是一个受控组件，自己补充逻辑")},H=l=>{console.log("item",l),alert("删除,这是一个受控组件，自己补充逻辑")};return e.jsx("div",{className:"w-90",children:e.jsx(o,{showIcon:!0,icon:e.jsx(p,{}),treeData:d,selectable:!0,multiple:!0,checkable:!0,selectedKeys:t,onSelectedChange:c,checkedKeys:n,onCheck:h,canDo:!0,editCallback:a,deleteCallback:H})})}};var S,K,b;u.parameters={...u.parameters,docs:{...(S=u.parameters)==null?void 0:S.docs,source:{originalSource:`{
+  args: {},
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const onSelectedChange = (keys: string[]) => {
+      setSelectedKeys(keys);
+    };
+    return <div className="w-60">\r
+                <Tree treeData={items} checkable={false} selectedKeys={selectedKeys} onSelectedChange={onSelectedChange} />\r
+            </div>;
+  }
+}`,...(b=(K=u.parameters)==null?void 0:K.docs)==null?void 0:b.source}}};var f,v,x;m.parameters={...m.parameters,docs:{...(f=m.parameters)==null?void 0:f.docs,source:{originalSource:`{
+  args: {},
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const onSelectedChange = (keys: string[]) => {
+      setSelectedKeys(keys);
+    };
+    return <div className="w-60">\r
+                <Tree treeData={items} selectable={true} checkable={false} selectedKeys={selectedKeys} onSelectedChange={onSelectedChange} />\r
+            </div>;
+  }
+}`,...(x=(v=m.parameters)==null?void 0:v.docs)==null?void 0:x.source}}};var D,w,j;y.parameters={...y.parameters,docs:{...(D=y.parameters)==null?void 0:D.docs,source:{originalSource:`{
+  args: {},
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const onSelectedChange = (keys: string[]) => {
+      setSelectedKeys(keys);
+    };
+    return <div className="w-60">\r
+                <Tree treeData={items} selectable={true} multiple={true} checkable={false} selectedKeys={selectedKeys} onSelectedChange={onSelectedChange} />\r
+            </div>;
+  }
+}`,...(j=(w=y.parameters)==null?void 0:w.docs)==null?void 0:j.source}}};var N,R,T;C.parameters={...C.parameters,docs:{...(N=C.parameters)==null?void 0:N.docs,source:{originalSource:`{
+  args: {},
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const onSelectedChange = (keys: string[]) => {
+      setSelectedKeys(keys);
+    };
+    const [checkedKeys, setCheckedKeys] = React.useState<string[]>([]);
+    const onCheckedChange = (keys: string[]) => {
+      setCheckedKeys(keys);
+    };
+    return <div className="w-60">\r
+                <Tree treeData={items} selectable={true} multiple={true} checkable={true} selectedKeys={selectedKeys} onSelectedChange={onSelectedChange} checkedKeys={checkedKeys} onCheck={onCheckedChange} />\r
+            </div>;
+  }
+}`,...(T=(R=C.parameters)==null?void 0:R.docs)==null?void 0:T.source}}};var I,M,E;k.parameters={...k.parameters,docs:{...(I=k.parameters)==null?void 0:I.docs,source:{originalSource:`{
+  args: {},
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const onSelectedChange = (keys: string[]) => {
+      setSelectedKeys(keys);
+    };
+    const [checkedKeys, setCheckedKeys] = React.useState<string[]>([]);
+    const onCheckedChange = (keys: string[]) => {
+      setCheckedKeys(keys);
+    };
+    return <div className="w-60">\r
+                <Tree showIcon={true} icon={<ManGroupIcon />} treeData={items} selectable={true} multiple={true} checkable={true} selectedKeys={selectedKeys} onSelectedChange={onSelectedChange} checkedKeys={checkedKeys} onCheck={onCheckedChange} />\r
+            </div>;
+  }
+}`,...(E=(M=k.parameters)==null?void 0:M.docs)==null?void 0:E.source}}};var G,Z,_;g.parameters={...g.parameters,docs:{...(G=g.parameters)==null?void 0:G.docs,source:{originalSource:`{
+  args: {},
+  render: () => {
+    const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const onSelectedChange = (keys: string[]) => {
+      setSelectedKeys(keys);
+    };
+    const [checkedKeys, setCheckedKeys] = React.useState<string[]>([]);
+    const onCheckedChange = (keys: string[]) => {
+      setCheckedKeys(keys);
+    };
+    const toEdit = (item: TreeSelectableNode) => {
+      console.log('item', item);
+      alert('编辑,这是一个受控组件，自己补充逻辑');
+    };
+    const toDelete = (item: TreeSelectableNode) => {
+      console.log('item', item);
+      alert('删除,这是一个受控组件，自己补充逻辑');
+    };
+    return <div className="w-90">\r
+                <Tree showIcon={true} icon={<ManGroupIcon />} treeData={items} selectable={true} multiple={true} checkable={true} selectedKeys={selectedKeys} onSelectedChange={onSelectedChange} checkedKeys={checkedKeys} onCheck={onCheckedChange} canDo={true} editCallback={toEdit} deleteCallback={toDelete} />\r
+            </div>;
+  }
+}`,...(_=(Z=g.parameters)==null?void 0:Z.docs)==null?void 0:_.source}}};const de=["Default","Selected","Multiple","Checkedable","Icon","CanDo"];export{g as CanDo,C as Checkedable,u as Default,k as Icon,y as Multiple,m as Selected,de as __namedExportsOrder,oe as default};
