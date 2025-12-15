@@ -11,6 +11,16 @@ import { DayButton, DayPicker, Dropdown, getDefaultClassNames } from "react-day-
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./select"
+import { Checkbox } from "./checkbox"
+import type { DayPickerProps, Modifiers } from "react-day-picker"
+
+type CalendarProps = DayPickerProps & {
+    buttonVariant?: React.ComponentProps<typeof Button>["variant"]
+    /** 是否启用行选择 */
+    enableRowSelection?: boolean
+    /** 是否启用列选择 */
+    enableColumnSelection?: boolean
+}
 
 function Calendar({
     className,
@@ -20,11 +30,160 @@ function Calendar({
     buttonVariant = "ghost",
     formatters,
     components,
+    enableRowSelection = false,
+    enableColumnSelection = false,
     ...props
-}: React.ComponentProps<typeof DayPicker> & {
-    buttonVariant?: React.ComponentProps<typeof Button>["variant"],
-}) {
+}: CalendarProps) {
     const defaultClassNames = getDefaultClassNames()
+    const [internalMonth, setInternalMonth] = React.useState<Date>(props.month || new Date())
+
+    // 同步外部month状态
+    React.useEffect(() => {
+        if (props.month) {
+            setInternalMonth(props.month)
+        }
+    }, [props.month])
+
+    const currentMonth = props.month || internalMonth
+
+    // 获取当前月份按周组织的日期
+    const getWeeksInMonth = (date: Date) => {
+        const year = date.getFullYear()
+        const monthIndex = date.getMonth()
+        const firstDay = new Date(year, monthIndex, 1)
+        const lastDay = new Date(year, monthIndex + 1, 0)
+
+        const firstDayOfWeek = firstDay.getDay()
+        const weeks: Date[][] = []
+        let currentWeek: Date[] = []
+
+        for (let i = 0; i < firstDayOfWeek; i++) {
+            currentWeek.push(new Date(year, monthIndex, 1 - firstDayOfWeek + i))
+        }
+
+        for (let d = 1; d <= lastDay.getDate(); d++) {
+            currentWeek.push(new Date(year, monthIndex, d))
+            if (currentWeek.length === 7) {
+                weeks.push(currentWeek)
+                currentWeek = []
+            }
+        }
+
+        if (currentWeek.length > 0) {
+            const remainingDays = 7 - currentWeek.length
+            for (let i = 1; i <= remainingDays; i++) {
+                currentWeek.push(new Date(year, monthIndex + 1, i))
+            }
+            weeks.push(currentWeek)
+        }
+
+        return weeks
+    }
+
+    // 获取按列组织的日期
+    const getColumnDates = (date: Date) => {
+        const weeks = getWeeksInMonth(date)
+        const columns: Date[][] = Array.from({ length: 7 }, () => [])
+
+        weeks.forEach(week => {
+            week.forEach((day, index) => {
+                columns[index].push(day)
+            })
+        })
+
+        return columns
+    }
+
+    // 检查日期是否被选中
+    const isDateSelected = (date: Date) => {
+        if (props.mode !== 'multiple' || !props.selected) return false
+        const selectedDates = Array.isArray(props.selected) ? props.selected : []
+        return selectedDates.some(d =>
+            d.getFullYear() === date.getFullYear() &&
+            d.getMonth() === date.getMonth() &&
+            d.getDate() === date.getDate()
+        )
+    }
+
+    // 检查日期是否在当前月份
+    const isDateInMonth = (date: Date, month: Date) => {
+        return date.getMonth() === month.getMonth() &&
+            date.getFullYear() === month.getFullYear()
+    }
+
+    // 切换整行选中状态
+    const toggleRow = (rowIndex: number) => {
+        if (props.mode !== 'multiple' || !props.onSelect) return
+
+        const weeks = getWeeksInMonth(currentMonth)
+        const rowDates = weeks[rowIndex].filter(date => isDateInMonth(date, currentMonth))
+        const selectedDates = Array.isArray(props.selected) ? props.selected : []
+
+        const allSelected = rowDates.every(date => isDateSelected(date))
+
+        let newSelected: Date[]
+        if (allSelected) {
+            newSelected = selectedDates.filter(d => !rowDates.some(rowDate =>
+                d.getFullYear() === rowDate.getFullYear() &&
+                d.getMonth() === rowDate.getMonth() &&
+                d.getDate() === rowDate.getDate()
+            ))
+        } else {
+            const datesToAdd = rowDates.filter(date => !isDateSelected(date))
+            newSelected = [...selectedDates, ...datesToAdd]
+        }
+
+        // 使用第一个日期作为触发日期，传递空对象作为修饰符和事件
+        const triggerDate = rowDates[0] || new Date()
+        const modifiers: Modifiers = {}
+        const mouseEvent = new MouseEvent('click') as unknown as React.MouseEvent
+        props.onSelect(newSelected, triggerDate, modifiers, mouseEvent)
+    }
+
+    // 切换整列选中状态
+    const toggleColumn = (columnIndex: number) => {
+        if (props.mode !== 'multiple' || !props.onSelect) return
+
+        const columns = getColumnDates(currentMonth)
+        const columnDates = columns[columnIndex].filter(date => isDateInMonth(date, currentMonth))
+        const selectedDates = Array.isArray(props.selected) ? props.selected : []
+
+        const allSelected = columnDates.every(date => isDateSelected(date))
+
+        let newSelected: Date[]
+        if (allSelected) {
+            newSelected = selectedDates.filter(d => !columnDates.some(colDate =>
+                d.getFullYear() === colDate.getFullYear() &&
+                d.getMonth() === colDate.getMonth() &&
+                d.getDate() === colDate.getDate()
+            ))
+        } else {
+            const datesToAdd = columnDates.filter(date => !isDateSelected(date))
+            newSelected = [...selectedDates, ...datesToAdd]
+        }
+
+        // 使用第一个日期作为触发日期，传递空对象作为修饰符和事件
+        const triggerDate = columnDates[0] || new Date()
+        const modifiers: Modifiers = {}
+        const mouseEvent = new MouseEvent('click') as unknown as React.MouseEvent
+        props.onSelect(newSelected, triggerDate, modifiers, mouseEvent)
+    }
+
+    // 检查整行是否全部选中
+    const isRowFullySelected = (rowIndex: number) => {
+        const weeks = getWeeksInMonth(currentMonth)
+        const rowDates = weeks[rowIndex].filter(date => isDateInMonth(date, currentMonth))
+        return rowDates.length > 0 && rowDates.every(date => isDateSelected(date))
+    }
+
+    // 检查整列是否全部选中
+    const isColumnFullySelected = (columnIndex: number) => {
+        const columns = getColumnDates(currentMonth)
+        const columnDates = columns[columnIndex].filter(date => isDateInMonth(date, currentMonth))
+        return columnDates.length > 0 && columnDates.every(date => isDateSelected(date))
+    }
+
+    const shouldShowSelections = (enableRowSelection || enableColumnSelection) && props.mode === 'multiple'
 
     return (
         <DayPicker
@@ -47,7 +206,7 @@ function Calendar({
                     "relative flex flex-col gap-4 md:flex-row",
                     defaultClassNames.months
                 ),
-                month: cn("flex w-full flex-col  gap-4", defaultClassNames.month),
+                month: cn("flex w-full flex-col gap-4", defaultClassNames.month),
                 nav: cn(
                     "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
                     defaultClassNames.nav
@@ -82,13 +241,25 @@ function Calendar({
                         : "[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5",
                     defaultClassNames.caption_label
                 ),
-                table: "w-full border-collapse",
-                weekdays: cn("flex", defaultClassNames.weekdays),
+                table: cn(
+                    "border-collapse",
+                    enableRowSelection ? "w-[calc(100%+var(--cell-size)+0.5rem)]" : "w-full"
+                ),
+                weekdays: cn(
+                    "flex",
+                    enableRowSelection && "ml-[calc(var(--cell-size)+0.5rem)]",
+                    enableRowSelection && "w-[calc(100%-var(--cell-size)-0.5rem)]"
+                ),
                 weekday: cn(
                     "text-muted-foreground flex-1 select-none rounded-md text-[0.8rem] font-normal",
                     defaultClassNames.weekday
                 ),
-                week: cn("mt-2 flex w-full", defaultClassNames.week),
+                week: cn(
+                    "mt-2 flex",
+                    enableRowSelection && "ml-[calc(var(--cell-size)+0.5rem)] relative",
+                    enableRowSelection ? "w-[calc(100%-var(--cell-size)-0.5rem)]" : "w-full",
+                    defaultClassNames.week
+                ),
                 week_number_header: cn(
                     "w-[--cell-size] select-none",
                     defaultClassNames.week_number_header
@@ -163,6 +334,94 @@ function Calendar({
                                 {children}
                             </div>
                         </td>
+                    )
+                },
+                Week: ({ children, ...weekProps }) => {
+                    // 始终调用 Hooks（符合 React Hooks 规则）
+                    const [rowIndex, setRowIndex] = React.useState<number>(-1)
+                    const trRef = React.useRef<HTMLTableRowElement>(null)
+
+                    React.useEffect(() => {
+                        if (trRef.current && enableRowSelection && shouldShowSelections) {
+                            const tbody = trRef.current.parentElement
+                            if (tbody) {
+                                const rows = Array.from(tbody.querySelectorAll('tr'))
+                                const index = rows.indexOf(trRef.current)
+                                setRowIndex(index)
+                            }
+                        }
+                    }, [children])
+
+                    // 根据条件返回不同的渲染结果
+                    if (!enableRowSelection || !shouldShowSelections) {
+                        return (
+                            <tr className={defaultClassNames.week} {...weekProps}>
+                                {children}
+                            </tr>
+                        )
+                    }
+
+                    return (
+                        <tr ref={trRef} className={cn(defaultClassNames.week, "relative")} {...weekProps}>
+                            {rowIndex >= 0 && (
+                                <td
+                                    className="absolute top-0 bottom-0 pointer-events-none"
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'flex-end',
+                                        width: 'calc(var(--cell-size) + 0.5rem)',
+                                        left: 'calc(-1 * var(--cell-size) - 0.5rem)',
+                                        paddingRight: '0.5rem'
+                                    }}
+                                >
+                                    <div className="pointer-events-auto">
+                                        <Checkbox
+                                            checked={isRowFullySelected(rowIndex)}
+                                            onCheckedChange={() => toggleRow(rowIndex)}
+                                        />
+                                    </div>
+                                </td>
+                            )}
+                            {children}
+                        </tr>
+                    )
+                },
+                Weekdays: ({ children, ...weekdaysProps }) => {
+                    if (!enableColumnSelection || !shouldShowSelections) {
+                        return (
+                            <div className={defaultClassNames.weekdays} {...weekdaysProps}>
+                                {children}
+                            </div>
+                        )
+                    }
+
+                    return (
+                        <>
+                            {/* 列选择checkbox行 */}
+                            <div className="flex h-[--cell-size] mb-2">
+                                {/* 如果启用了行选择,添加左侧占位 */}
+                                {enableRowSelection && (
+                                    <div className="w-[calc(var(--cell-size)+0.5rem)]" />
+                                )}
+                                {/* 7列checkbox */}
+                                {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+                                    <div
+                                        key={index}
+                                        className="flex-1 flex items-center justify-center"
+                                    >
+                                        <Checkbox
+                                            checked={isColumnFullySelected(index)}
+                                            onCheckedChange={() => toggleColumn(index)}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            {/* 原weekdays */}
+                            <div className={defaultClassNames.weekdays} {...weekdaysProps}>
+                                {children}
+                            </div>
+                        </>
                     )
                 },
                 DropdownNav: ({ children, ...subProps }) => (

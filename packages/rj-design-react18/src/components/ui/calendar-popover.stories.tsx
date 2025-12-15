@@ -595,3 +595,51 @@ export const MultipleDateWithHeaderAndFooter: Story = {
         )
     }
 }
+
+// 多选日期（带行列选择）
+export const MultipleDateWithRowColumnSelection: Story = {
+    render: () => {
+        const [value, setValue] = React.useState<Date[]>()
+        const [mouth, setMouth] = React.useState<Date>()
+
+        return (
+            <div className="w-[400px] space-y-4">
+                <CalendarPopover
+                    mode="multiple"
+                    value={value}
+                    onChange={setValue}
+                    mouth={mouth}
+                    onMonthChange={setMouth}
+                    enableRowSelection={true}
+                    enableColumnSelection={true}
+                    showFooter={true}
+                    footChildren={
+                        <div className="text-sm text-secondary-information">
+                            已选择 {value?.length || 0} 个日期
+                        </div>
+                    }
+                    onConfirm={() => {
+                        console.log('确认选择:', value)
+                    }}
+                    onCancel={() => {
+                        setValue(undefined)
+                        console.log('取消选择')
+                    }}
+                />
+                <div className="text-sm text-secondary space-y-1">
+                    <div>已选择: {value?.length || 0} 个日期</div>
+                    <div>当前月份: {mouth?.toLocaleDateString('zh-CN') || '未设置'}</div>
+                    {value && value.length > 0 && (
+                        <div className="ml-4 mt-2">
+                            <div className="font-medium">已选择的日期:</div>
+                            {value.map((date, index) => (
+                                <div key={index}>{date.toLocaleDateString('zh-CN')}</div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        )
+    }
+}
+

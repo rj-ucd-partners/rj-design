@@ -63,6 +63,10 @@ export interface CalendarPopoverMultipleProps extends CalendarPopoverBaseProps {
     onChange?: (value: Date[] | undefined) => void,
     mouth?: Date,
     onMonthChange?: (mouth: Date) => void,
+    /** 是否启用行选择 */
+    enableRowSelection?: boolean,
+    /** 是否启用列选择 */
+    enableColumnSelection?: boolean,
 }
 
 // 联合类型
@@ -280,6 +284,8 @@ function CalendarPopover(props: CalendarPopoverProps) {
                         footChildren={props.footChildren}
                         showHeader={props.showHeader}
                         headerChildren={props.headerChildren}
+                        enableRowSelection={props.enableRowSelection}
+                        enableColumnSelection={props.enableColumnSelection}
                     />
                 )}
             </PopoverContent>
@@ -464,6 +470,10 @@ interface CalendarMultipleContentProps {
     headerChildren?: React.ReactNode | JSX.Element,
     mouth?: Date,
     onMonthChange?: (mouth: Date) => void,
+    /** 是否启用行选择 */
+    enableRowSelection?: boolean,
+    /** 是否启用列选择 */
+    enableColumnSelection?: boolean,
 }
 
 function CalendarMultipleContent({
@@ -476,7 +486,9 @@ function CalendarMultipleContent({
     onConfirm,
     onCancel,
     mouth,
-    onMonthChange
+    onMonthChange,
+    enableRowSelection = false,
+    enableColumnSelection = false,
 }: CalendarMultipleContentProps) {
     // 处理多选日期变化
     const handleMultipleDateChange = (dates: Date[] | undefined) => {
@@ -522,6 +534,8 @@ function CalendarMultipleContent({
                     className="rounded-md w-full border-none"
                     month={mouth}
                     onMonthChange={onMonthChange}
+                    enableRowSelection={enableRowSelection}
+                    enableColumnSelection={enableColumnSelection}
                 />
             </div>
 
