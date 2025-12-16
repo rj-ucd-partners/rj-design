@@ -1,10 +1,10 @@
 import type { SVGProps } from "react";
 import type { JSX } from "react/jsx-runtime";
 
-export const SuccessIconStep = (args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
+export const SuccessIcon = ((args: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => {
     return (
-        <svg {...args} viewBox="0 0 32 32" fill="currentcolor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M28.25 16C28.25 22.7655 22.7655 28.25 16 28.25C9.23451 28.25 3.75 22.7655 3.75 16C3.75 9.23451 9.23451 3.75 16 3.75C22.7655 3.75 28.25 9.23451 28.25 16ZM22.1797 12.9064L20.9423 11.669L14.7552 17.856L11.6879 14.7887L10.4504 16.0261L14.7551 20.3311L22.1797 12.9064Z" fill="#00FFA8" />
-        </svg>);
-}
-
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentcolor" xmlns="http://www.w3.org/2000/svg" {...args}>
+            <path d="M15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8ZM11.5313 6.23225L10.8242 5.52515L7.28871 9.06059L5.53593 7.30781L4.8288 8.01489L7.28862 10.4749L11.5313 6.23225Z" />
+        </svg>
+    );
+})

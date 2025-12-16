@@ -7,6 +7,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    /* JSX 支持 */
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

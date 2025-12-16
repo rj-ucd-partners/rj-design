@@ -16,7 +16,7 @@ import { TriangleDownIcon } from "@radix-ui/react-icons"
 import { DropdownMenuGroup, type DropdownMenuProps } from "@radix-ui/react-dropdown-menu"
 import type { TreeSelectableNode } from "@/common/type"
 import { useState, type ReactNode } from "react"
-import { FavoriteIcon } from "../icon/FavoriteIcon"
+import { FavoriteIcon } from "../icon/favorite-icon"
 
 interface ExtendedDropdownMenuProps extends DropdownMenuProps {
     disabled: boolean,

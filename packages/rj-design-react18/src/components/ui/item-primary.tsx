@@ -1,6 +1,6 @@
 import type { JSX } from "react";
 import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemTitle } from './item'
-import { InfoCirecledIcon } from "../icon/infoCirecledIcon";
+import { InfoCirecledIcon } from "../icon/info-cirecled-icon";
 import { Button } from "./button";
 import { CloseIcon } from "../icon/closeIcon";
 interface PopoverItemProps {

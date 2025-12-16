@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { HexagonIcon } from "../icon/hexagon-icon";
 import { useLayoutEffect, useRef, useState } from "react";
-import { SuccessIconStep } from "../icon/success-icon";
+import { SuccessStepIcon } from "../icon/success-step-icon";
 
 interface StepItem {
     title: string,
@@ -253,7 +253,7 @@ function StepHorizontalIcon({
                                 {
                                     props.status === Status.Finish
                                     &&
-                                    <SuccessIconStep className="size-8" fill="text-" />
+                                    <SuccessStepIcon className="size-8" fill="text-" />
                                 }
                                 {
                                     props.status === Status.Process

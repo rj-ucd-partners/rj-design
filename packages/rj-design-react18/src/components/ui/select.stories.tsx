@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import type { ComponentProps } from 'react'
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from './select';
-import { FavoriteIcon } from '../icon/FavoriteIcon';
+import { FavoriteIcon } from '../icon/favorite-icon';
 import React, { useState } from 'react';
 
 type SelectProps = ComponentProps<typeof Select>

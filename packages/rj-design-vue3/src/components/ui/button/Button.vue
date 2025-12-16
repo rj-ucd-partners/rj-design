@@ -15,14 +15,20 @@ interface Props extends PrimitiveProps {
 const props = withDefaults(defineProps<Props>(), {
   as: "button",
 })
+
+// 定义组件发出的事件
+defineEmits<{
+  click: [event: MouseEvent]
+}>()
 </script>
 
 <template>
-  <Primitive
-    data-slot="button"
-    :as="as"
+  <Primitive 
+    data-slot="button" 
+    :as="as" 
     :as-child="asChild"
     :class="cn(buttonVariants({ variant, size }), props.class)"
+    @click="$emit('click', $event)"
   >
     <slot />
   </Primitive>

@@ -8,7 +8,7 @@ import { Button } from "./button";
 import { AArrowLeft } from "../icon/simple-arrow-left";
 import { AArrowRight } from "../icon/simple-arrow-right";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
-import { TriangleDownIcon } from "../icon/TriangleDownIcon";
+import { TriangleDownIcon } from "../icon/triangle-down-icon";
 import { TriangleRightIcon } from "../icon/triangle-right-icon";
 import { TriangleLeftIcon } from "../icon/triangle-left-icon";
 import { MagnifierIcon } from "../icon/magnifier-icon";

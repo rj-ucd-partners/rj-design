@@ -2,15 +2,15 @@ import { cn } from "@/lib/utils";
 import React, { useState, useRef, useCallback, type JSX } from "react";
 import { Progress } from "./progress";
 import { Button } from "./button";
-import { SuccessIcon } from "../icon/successIcon";
-import { AbnormalIcon } from "../icon/abnormalIcon";
-import { FileDarkIcon } from "../icon/FileDark";
+import { SuccessIcon } from "../icon/success-icon";
+import { AbnormalIcon } from "../icon/abnormal-icon";
+import { FileDarkIcon } from "../icon/file-dark";
 import { Separator } from "./separator";
 import { DeleteIcon } from "../icon/delete-icon";
 import { EyeIcon } from "../icon/eye-icon";
 import { CloseIcon } from "../icon/closeIcon";
 import { LoadingCircle } from "../icon/loading-circle";
-import { FileIcon } from "../icon/File";
+import { FileIcon } from "../icon/file";
 
 export interface FileItem {
     file: File;

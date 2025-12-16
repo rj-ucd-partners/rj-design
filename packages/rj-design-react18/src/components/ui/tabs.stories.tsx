@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tabs"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { useState } from "react"
-import { FavoriteIcon } from "../icon/FavoriteIcon"
+import { FavoriteIcon } from "../icon/favorite-icon"
 
 interface TabsProps extends React.ComponentProps<typeof Tabs> {
     variant: 'tag' | 'tab' | 'card',

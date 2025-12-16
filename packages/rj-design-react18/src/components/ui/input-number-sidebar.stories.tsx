@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { InputNumberSidebar } from './inputNumberSidebar'
+import { InputNumberSidebar } from './input-number-sidebar'
 
 const meta: Meta<typeof InputNumberSidebar> = {
   title: 'Components/InputNumberSidebar',

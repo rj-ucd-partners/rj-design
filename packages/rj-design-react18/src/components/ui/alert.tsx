@@ -4,9 +4,9 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { Button } from "./button"
 import { CloseIcon } from "../icon/closeIcon"
-import { InfoCirecledIcon } from "../icon/infoCirecledIcon"
-import { SuccessIcon } from "../icon/successIcon"
-import { AbnormalIcon } from "../icon/abnormalIcon"
+import { InfoCirecledIcon } from "../icon/info-cirecled-icon"
+import { SuccessIcon } from "../icon/success-icon"
+import { AbnormalIcon } from "../icon/abnormal-icon"
 import type { JSX } from "react/jsx-runtime"
 
 export interface AlertProps {

@@ -4,7 +4,7 @@ import { Drawer as DrawerPrimitive } from "vaul"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Button } from "./button"
-import { InfoCirecledIcon } from "../icon/infoCirecledIcon"
+import { InfoCirecledIcon } from "../icon/info-cirecled-icon"
 
 function Drawer({
   ...props

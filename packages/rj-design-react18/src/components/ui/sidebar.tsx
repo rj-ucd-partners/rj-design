@@ -24,10 +24,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible"
-import { RoundedRectangle } from "../icon/RoundedRectangle"
-import { Flod } from "../icon/Fold"
-import { ArrowRight } from "../icon/ArrowRight"
-import { Menu } from "../icon/Menu"
+import { RoundedRectangle } from "../icon/rounded-rectangle.tsx"
+import { Flod } from "../icon/fold.tsx"
+import { ArrowRight } from "../icon/arrow-right"
+import { Menu } from "../icon/menu.tsx"
 import type { NetworkItem } from "./sidebar.stories"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"

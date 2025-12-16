@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import React, { useEffect } from "react";
-import { TriangleDownIcon } from "../icon/TriangleDownIcon";
-import { TriangleUpIcon } from "../icon/TriangleUpIcon";
+import { TriangleDownIcon } from "../icon/triangle-down-icon";
+import { TriangleUpIcon } from "../icon/triangle-up-icon";
 import { Checkbox } from "./checkbox";
 
 interface SelectItem {

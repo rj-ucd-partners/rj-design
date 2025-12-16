@@ -3,8 +3,8 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useRef, useState } from 'react'
-import { TriangleUpIcon } from '../icon/TriangleUpIcon'
-import { TriangleDownIcon } from '../icon/TriangleDownIcon'
+import { TriangleUpIcon } from '../icon/triangle-up-icon'
+import { TriangleDownIcon } from '../icon/triangle-down-icon'
 
 const inputVariants = cva(
     'flex flex-row items-center hover:[&_[data-slot=func-menu-bar]]:flex border',
