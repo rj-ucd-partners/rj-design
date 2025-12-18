@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { InfoFillIcon } from "../icon/info-fill";
-import { Button } from "./button";
-import { CloseIcon } from "../icon/closeIcon";
+import { InfoFillIcon } from "../icon/InfoFill";
+import { Button } from "./Button";
+import { CloseIcon } from "../icon/CloseIcon";
 import { useEffect, useState } from "react";
-import { SuccessFillIcon } from "../icon/success-fill";
-import { AbnormalFillIcon } from "../icon/abnormal-fill-icon";
+import { SuccessFillIcon } from "../icon/SuccessFill";
+import { AbnormalFillIcon } from "../icon/AbnormalFillIcon";
 
 function Message({
     message,

@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { HexagonIcon } from "../icon/hexagon-icon";
+import { HexagonIcon } from "../icon/HexagonIcon";
 import { useLayoutEffect, useRef, useState } from "react";
-import { SuccessStepIcon } from "../icon/success-step-icon";
+import { SuccessStepIcon } from "../icon/SuccessStepIcon";
 
 interface StepItem {
     title: string,

@@ -6,17 +6,17 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/Button.tsx"
+import { Input } from "@/components/ui/Input.tsx"
+import { Separator } from "@/components/ui/Separator.tsx"
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet"
-import { Skeleton } from "@/components/ui/skeleton"
+} from "@/components/ui/Sheet.tsx"
+import { Skeleton } from "@/components/ui/Skeleton.tsx"
 import {
   Tooltip,
   TooltipContent,
@@ -24,11 +24,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible"
-import { RoundedRectangle } from "../icon/rounded-rectangle.tsx"
+import { RoundedRectangle } from "../icon/RoundedRectangle.tsx"
 import { Flod } from "../icon/fold.tsx"
-import { ArrowRight } from "../icon/arrow-right"
-import { Menu } from "../icon/menu.tsx"
-import type { NetworkItem } from "./sidebar.stories"
+import { ArrowRight } from "../icon/ArrowRight.tsx"
+import { Menu } from "../icon/Menu.tsx"
+import type { NetworkItem } from "./Sidebar.stories.tsx"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

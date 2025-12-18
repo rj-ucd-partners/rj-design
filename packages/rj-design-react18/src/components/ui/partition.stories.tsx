@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Partition } from "./partition"
+import { Partition } from "./Partition"
 
 const meta: Meta<typeof Partition> = {
     title: 'Components/Partition',

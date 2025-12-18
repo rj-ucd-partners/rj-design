@@ -3,8 +3,8 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Button } from "./button"
-import { CloseIcon } from "../icon/closeIcon"
+import { Button } from "./Button"
+import { CloseIcon } from "../icon/CloseIcon"
 
 const Tabs = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Root>,

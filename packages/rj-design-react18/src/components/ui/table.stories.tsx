@@ -3,7 +3,7 @@ import {
   type TableColumn,
   type TableItem,
 
-} from '@/components/ui/table'
+} from '@/components/ui/Table'
 import type {
   Meta,
   StoryObj,

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { FunctionalitySelect } from "./search"
-import { FavoriteIcon } from "../icon/favorite-icon"
-import { MagnifierIcon } from "../icon/magnifier-icon"
+import { FunctionalitySelect } from "./Search"
+import { FavoriteIcon } from "../icon/FavoriteIcon"
+import { MagnifierIcon } from "../icon/MagnifierIcon"
 import { useState } from "react"
 
 const meta: Meta<typeof FunctionalitySelect> = {

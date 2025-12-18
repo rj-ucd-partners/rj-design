@@ -3,7 +3,7 @@ import * as SwitchPrimitive from "@radix-ui/react-switch"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { LoadingCircle } from "../icon/loading-circle"
+import { LoadingCircle } from "../icon/LoadingCircle"
 
 const switchRootVariants = cva(
   "",

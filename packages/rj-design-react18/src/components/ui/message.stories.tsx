@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Message } from "./message"
+import { Message } from "./Message"
 
 const meta: Meta<typeof Message> = {
     title: 'Components/Message',

@@ -4,10 +4,10 @@ import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva } from "class-variance-authority";
-import { CloseIcon } from "../icon/closeIcon";
-import { Empty } from "./empty";
-import { Button } from "./button";
-import { InputGroup, InputGroupInput } from "./input-group";
+import { CloseIcon } from "../icon/CloseIcon";
+import { Empty } from "./Empty";
+import { Button } from "./Button";
+import { InputGroup, InputGroupInput } from "./InputGroup";
 
 export interface SelectVariantsProps {
   variant?: 'primary',

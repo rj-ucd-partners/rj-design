@@ -4,7 +4,7 @@ import {
 } from "lucide-react"
 import { TriangleLeftIcon, TriangleRightIcon } from "@radix-ui/react-icons"
 import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/Button"
 
 function Pagination({
   className,

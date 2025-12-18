@@ -7,18 +7,18 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/Pagination"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/DropdownMenu"
 import React, { useEffect, useState } from 'react'
-import { Button } from './button'
+import { Button } from './Button'
 import { TriangleDownIcon } from '@radix-ui/react-icons'
-import { Input } from './input'
+import { Input } from './Input'
 import { cn } from '@/lib/utils'
 
 interface PaginationProps extends React.ComponentProps<typeof Pagination> {

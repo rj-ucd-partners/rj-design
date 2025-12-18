@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemTitle } from './item'
-import { Button } from './button'
-import { InfoCirecledIcon } from '../icon/info-cirecled-icon'
+import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemTitle } from './Item'
+import { Button } from './Button'
+import { InfoCirecledIcon } from '../icon/InfoCirecledIcon'
 
 const meta: Meta<typeof Item> = {
     title: 'Components/Item',

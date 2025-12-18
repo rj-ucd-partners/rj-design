@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import {
     Popover,
     PopoverArrow,
     PopoverContent,
     PopoverTrigger,
     type PopoverProps,
-} from "@/components/ui/popover"
+} from "@/components/ui/Popover"
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { PopoverItem } from "./item-primary"
+import { PopoverItem } from "./ItemPrimary"
 import { useState, type JSX } from "react";
 
 interface ItemPopoverProps extends PopoverProps {

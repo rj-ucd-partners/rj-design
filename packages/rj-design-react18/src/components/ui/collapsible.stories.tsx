@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import React from "react"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleHeader,
     CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/Collapsible"
 import type { CollapsibleProps } from "@radix-ui/react-collapsible"
 import { TriangleRightIcon } from "@radix-ui/react-icons"
 

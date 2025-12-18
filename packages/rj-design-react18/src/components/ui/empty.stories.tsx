@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Empty } from "./empty"
-import { Alert, AlertTitle } from "./alert"
+import { Empty } from "./Empty"
+import { Alert, AlertTitle } from "./Alert"
 import { useState } from "react"
 
 const meta: Meta<typeof Empty> = {

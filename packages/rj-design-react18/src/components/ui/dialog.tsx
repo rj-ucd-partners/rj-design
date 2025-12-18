@@ -4,12 +4,12 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Button } from "./button"
-import { InfoCirecledIcon } from "../icon/info-cirecled-icon"
-import { AbnormalIcon } from "../icon/abnormal-icon"
-import { SuccessIcon } from "../icon/success-icon"
-import { DestructiveIcon } from "../icon/dangerIcon"
-import { CloseIcon } from "../icon/closeIcon"
+import { Button } from "./Button"
+import { InfoCirecledIcon } from "../icon/InfoCirecledIcon"
+import { AbnormalIcon } from "../icon/AbnormalIcon"
+import { SuccessIcon } from "../icon/SuccessIcon"
+import { DestructiveIcon } from "../icon/DangerIcon"
+import { CloseIcon } from "../icon/CloseIcon"
 
 function Dialog({
   ...props

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { HeavyTag, Tag } from "./tag"
-import { ManIcon } from "../icon/man-icon"
+import { HeavyTag, Tag } from "./Tag"
+import { ManIcon } from "../icon/ManIcon"
 
 const meta: Meta<typeof Tag> = {
     title: 'Components/Tag',

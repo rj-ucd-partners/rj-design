@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { useState } from "react"
-import { AvatarFrame, AvatarUpload, DragUpload, Upload, ImageWall, type FileItem } from "./upload"
+import { AvatarFrame, AvatarUpload, DragUpload, Upload, ImageWall, type FileItem } from "./Upload"
 
 const meta: Meta<typeof Upload> = {
     title: 'Components/Upload',

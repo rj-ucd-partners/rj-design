@@ -6,16 +6,16 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from "@/components/ui/Breadcrumb";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/DropdownMenu"
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ChevronDownIcon, SlashIcon } from "@radix-ui/react-icons"
-import { HomeIcon } from "../icon/home-icon";
+import { HomeIcon } from "../icon/HomeIcon";
 
 const meta: Meta<typeof Breadcrumb> = {
     title: 'Components/Breadcrumb',

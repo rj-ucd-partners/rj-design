@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Transfer } from "./transfer"
+import { Transfer } from "./Transfer"
 import React, { useEffect, type ReactNode } from "react"
-import { Tree } from "./tree"
+import { Tree } from "./Tree"
 import type { BaseNode, TreeSelectableNode } from "@/common/type"
 
 const meta: Meta<typeof Transfer> = {

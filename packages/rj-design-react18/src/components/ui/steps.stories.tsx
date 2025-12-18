@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Steps } from "./steps"
-import { Button } from "./button"
+import { Steps } from "./Steps"
+import { Button } from "./Button"
 import { useState } from "react"
 import { CatIcon, DogIcon, HomeIcon } from "lucide-react"
 

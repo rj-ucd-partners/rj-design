@@ -1,6 +1,6 @@
 
-import { FavoriteIcon } from "../icon/favorite-icon";
-import { Cascader, type SelectItem } from "./cascader"
+import { FavoriteIcon } from "../icon/FavoriteIcon";
+import { Cascader, type SelectItem } from "./Cascader"
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 

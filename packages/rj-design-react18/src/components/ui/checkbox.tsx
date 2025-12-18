@@ -3,8 +3,8 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { IndeterminateIcon } from "../icon/indeterminate"
-import { YesIcon } from "../icon/yes"
+import { IndeterminateIcon } from "../icon/Indeterminate"
+import { YesIcon } from "../icon/Yes"
 
 const checkboxVariants = cva(
   "",

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Input, type InputProps } from '@/components/ui/input'
+import { Input, type InputProps } from '@/components/ui/Input'
 
 const meta: Meta<InputProps> = {
   title: 'Components/Input',

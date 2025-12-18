@@ -7,10 +7,10 @@ import {
     AlertDescription,
     AlertHeader,
     AlertTitle,
-} from "@/components/ui/alert"
+} from "@/components/ui/Alert"
 import { useState } from 'react';
 import React from 'react';
-import { Button } from './button';
+import { Button } from './Button';
 
 interface AlertVariantsProps extends React.ComponentProps<typeof Alert> {
     alertTitle: string | React.ReactNode;

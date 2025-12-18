@@ -9,9 +9,9 @@ import {
 import { DayButton, DayPicker, Dropdown, getDefaultClassNames } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./select"
-import { Checkbox } from "./checkbox"
+import { Button, buttonVariants } from "@/components/ui/Button"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./Select"
+import { Checkbox } from "./Checkbox"
 import type { DayPickerProps, Modifiers } from "react-day-picker"
 
 type CalendarProps = DayPickerProps & {

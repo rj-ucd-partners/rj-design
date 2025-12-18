@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Progress, ProgressBlocks, ProgressContext } from "./progress"
+import { Progress, ProgressBlocks, ProgressContext } from "./Progress"
 import React from "react"
 
 const meta: Meta<typeof Progress> = {

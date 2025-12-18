@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils"
-import { Button } from "./button"
-import { CloseIcon } from "../icon/closeIcon"
+import { Button } from "./Button"
+import { CloseIcon } from "../icon/CloseIcon"
 import { cva, type VariantProps } from "class-variance-authority"
 import { useState } from "react"
-import { CheckIcon } from "../icon/check-icon"
+import { CheckIcon } from "../icon/CheckIcon"
 
 
 const tagVariants = cva(

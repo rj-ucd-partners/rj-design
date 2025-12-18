@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { TriangleDownIcon } from "../icon/triangle-down-icon"
+import { TriangleDownIcon } from "../icon/TriangleDownIcon"
 
 const partitionVariants = cva(
     "font-medium not-italic text-text-deep",

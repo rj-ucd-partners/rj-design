@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Button } from "./button";
-import { CloseIcon } from "../icon/closeIcon";
+import { Button } from "./Button";
+import { CloseIcon } from "../icon/CloseIcon";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,12 +11,12 @@ import {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/DropdownMenu"
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import React, { useEffect } from "react";
-import { TriangleDownIcon } from "../icon/triangle-down-icon";
-import { TriangleUpIcon } from "../icon/triangle-up-icon";
-import { Checkbox } from "./checkbox";
+import { TriangleDownIcon } from "../icon/TriangleDownIcon";
+import { TriangleUpIcon } from "../icon/TriangleUpIcon";
+import { Checkbox } from "./Checkbox";
 
 interface SelectItem {
     id: number | string,

@@ -1,19 +1,19 @@
 import { cn } from "@/lib/utils";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import React, { useCallback, useEffect, useState } from "react";
-import { Checkbox } from "./checkbox";
-import { Empty } from "./empty";
-import { ScrollArea, ScrollBar } from "./scroll-area";
-import { Button } from "./button";
-import { AArrowLeft } from "../icon/simple-arrow-left";
-import { AArrowRight } from "../icon/simple-arrow-right";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
-import { TriangleDownIcon } from "../icon/triangle-down-icon";
-import { TriangleRightIcon } from "../icon/triangle-right-icon";
-import { TriangleLeftIcon } from "../icon/triangle-left-icon";
-import { MagnifierIcon } from "../icon/magnifier-icon";
+import { Checkbox } from "./Checkbox";
+import { Empty } from "./Empty";
+import { ScrollArea, ScrollBar } from "./ScrollArea";
+import { Button } from "./Button";
+import { AArrowLeft } from "../icon/SimpleArrowLeft";
+import { AArrowRight } from "../icon/SimpleArrowRight";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "./DropdownMenu";
+import { TriangleDownIcon } from "../icon/TriangleDownIcon";
+import { TriangleRightIcon } from "../icon/TriangleRightIcon";
+import { TriangleLeftIcon } from "../icon/TriangleLeftIcon";
+import { MagnifierIcon } from "../icon/MagnifierIcon";
 import type { BaseNode } from "@/common/type";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./InputGroup";
 
 
 

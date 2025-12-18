@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import {
     Drawer,
     DrawerClose,
@@ -9,7 +9,7 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/Drawer"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import type { DialogProps } from "@radix-ui/react-dialog"
 

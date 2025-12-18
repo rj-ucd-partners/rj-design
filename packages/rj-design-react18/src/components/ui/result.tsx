@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
-import { Button } from "./button";
-import { FailResultDarkIcon } from "../icon/fail-result-dark-icon";
-import { WarningResultDarkIcon } from "../icon/warning-result-dark-icon";
-import { InfoResultDarkIcon } from "../icon/info-result-dark-icon";
-import { VerifyResultIcon } from "../icon/verify-result-icon";
-import { LoadingResultIcon } from "../icon/loading-result-icon";
+import { Button } from "./Button";
+import { FailResultDarkIcon } from "../icon/FailResultDarkIcon";
+import { WarningResultDarkIcon } from "../icon/WarningResultDarkIcon";
+import { InfoResultDarkIcon } from "../icon/InfoResultDarkIcon";
+import { VerifyResultIcon } from "../icon/VerifyResultIcon";
+import { LoadingResultIcon } from "../icon/LoadingResultIcon";
 import * as React from "react";
-import { SuccessResultDarkIcon } from "../icon/success-result-dark-icon";
-import { SuccessResultIcon } from "../icon/success-result-icon";
-import { FailResultIcon } from "../icon/fail-result-icon";
-import { WarningResultIcon } from "../icon/warning-result-icon";
-import { InfoResultIcon } from "../icon/info-result-icon";
+import { SuccessResultDarkIcon } from "../icon/SuccessResultDarkIcon";
+import { SuccessResultIcon } from "../icon/SuccessResultIcon";
+import { FailResultIcon } from "../icon/FailResultIcon";
+import { WarningResultIcon } from "../icon/WarningResultIcon";
+import { InfoResultIcon } from "../icon/InfoResultIcon";
 import VerifyResultApng from "../image/VerifyResultDark.apng";
 import LoadingResultDark from "../image/LoadingResultDark.apng";
 function Result({

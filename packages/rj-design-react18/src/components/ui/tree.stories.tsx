@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Tree } from "./tree"
+import { Tree } from "./Tree"
 import React from "react"
-import { ManGroupIcon } from "../icon/man-group-icon"
+import { ManGroupIcon } from "../icon/ManGroupIcon"
 import { DogIcon } from "lucide-react"
 import type { TreeSelectableNode } from "@/common/type"
 

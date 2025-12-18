@@ -1,4 +1,4 @@
-import { Badge, BadgeDot } from '@/components/ui/badge'
+import { Badge, BadgeDot } from '@/components/ui/Badge'
 import type {
   Meta,
   StoryObj,

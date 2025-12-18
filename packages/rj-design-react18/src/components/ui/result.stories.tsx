@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Result, Solution, WebResult } from "./result"
+import { Result, Solution, WebResult } from "./Result"
 
 const meta: Meta<typeof Result> = {
     title: 'Components/Result',

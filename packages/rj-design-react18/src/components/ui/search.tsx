@@ -2,14 +2,14 @@ import type { BaseNode } from "@/common/type";
 import { cn } from "@/lib/utils"
 import { cva } from "class-variance-authority";
 import { useState, useRef, useLayoutEffect, useMemo } from "react";
-import { Empty } from "./empty";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
+import { Empty } from "./Empty";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./InputGroup";
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import React from "react";
 import { Check, X } from "lucide-react";
-import { Checkbox } from "./checkbox";
-import { Button } from "./button";
-import { CloseIcon } from "../icon/closeIcon";
+import { Checkbox } from "./Checkbox";
+import { Button } from "./Button";
+import { CloseIcon } from "../icon/CloseIcon";
 
 // 基础属性(不包含 mode、value、defaultValue、onValueChange)
 interface BaseSelectProps {

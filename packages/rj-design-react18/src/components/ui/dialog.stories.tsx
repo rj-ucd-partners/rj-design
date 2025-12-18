@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/Button"
 import {
     Dialog,
     DialogClose,
@@ -10,7 +10,7 @@ import {
     DialogOverlay,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/Dialog"
 import type { DialogProps } from "@radix-ui/react-dialog"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 

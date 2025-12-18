@@ -3,16 +3,16 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Checkbox } from './checkbox'
+import { Checkbox } from './Checkbox'
 import type { CheckedState } from "@radix-ui/react-checkbox"
-import { TriangleUpIcon } from "../icon/triangle-up-icon"
-import { TriangleDownIcon } from "../icon/triangle-down-icon"
-import { Button } from "./button"
-import { FilterIcon } from "../icon/filter-icon"
-import { Input } from "./input"
-import { Separator } from "./separator"
+import { TriangleUpIcon } from "../icon/TriangleUpIcon"
+import { TriangleDownIcon } from "../icon/TriangleDownIcon"
+import { Button } from "./Button"
+import { FilterIcon } from "../icon/FilterIcon"
+import { Input } from "./Input"
+import { Separator } from "./Separator"
 import { useMemo, useState } from "react"
-import { Popover, PopoverContent, PopoverTrigger } from "./popover"
+import { Popover, PopoverContent, PopoverTrigger } from "./Popover"
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
