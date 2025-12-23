@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Switch } from "@/components/ui/switch"
+import { Switch } from "@/components/ui/Switch"
 import { useEffect, useState } from 'react'
 
 const meta: Meta<typeof Switch> = {

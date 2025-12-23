@@ -3,7 +3,7 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/Tooltip"
 import type { TooltipProps } from "@radix-ui/react-tooltip";
 import type { Meta, StoryObj } from '@storybook/react-vite'
 

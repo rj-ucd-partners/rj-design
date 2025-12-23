@@ -22,7 +22,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/Tooltip.tsx"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible"
 import { RoundedRectangle } from "../icon/RoundedRectangle.tsx"
 import { Flod } from "../icon/fold.tsx"
