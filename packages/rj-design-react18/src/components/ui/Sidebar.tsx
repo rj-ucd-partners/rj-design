@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/Tooltip.tsx"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible"
 import { RoundedRectangle } from "../icon/RoundedRectangle.tsx"
-import { Flod } from "../icon/fold.tsx"
+import { Flod } from "../icon/Fold.tsx"
 import { ArrowRight } from "../icon/ArrowRight.tsx"
 import { Menu } from "../icon/Menu.tsx"
 import type { NetworkItem } from "./Sidebar.stories.tsx"
