@@ -1,6 +1,6 @@
 import type { JSX } from "react";
 import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemTitle } from './Item'
-import { InfoCirecledIcon } from "../icon/InfoCirecledIcon";
+import { InfoCircledIcon } from "../icon/InfoCircledIcon";
 import { Button } from "./Button";
 import { CloseIcon } from "../icon/CloseIcon";
 interface PopoverItemProps {
@@ -32,7 +32,7 @@ function PopoverItem({
         {shouldShowHeader && (
             <ItemHeader>
                 <ItemTitle>
-                    {showIcon && (icon ?? <InfoCirecledIcon className='text-primary' />)}
+                    {showIcon && (icon ?? <InfoCircledIcon className='text-primary' />)}
                     {title && ` ${title}`}
                 </ItemTitle>
                 {

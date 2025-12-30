@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { Button } from "./Button"
 import { CloseIcon } from "../icon/CloseIcon"
-import { InfoCirecledIcon } from "../icon/InfoCirecledIcon"
+import { InfoCircledIcon } from "../icon/InfoCircledIcon"
 import { SuccessIcon } from "../icon/SuccessIcon"
 import { AbnormalIcon } from "../icon/AbnormalIcon"
 import type { JSX } from "react/jsx-runtime"
@@ -137,7 +137,7 @@ function AlertHeader({
           <div className="flex w-[22px] h-[22px] items-center justify-center">
             {
               variant === 'primary' &&
-              <InfoCirecledIcon className="text-primary" />
+              <InfoCircledIcon className="text-primary" />
             }
             {
               variant === 'success' &&

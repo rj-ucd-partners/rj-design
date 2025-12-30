@@ -5,7 +5,7 @@ import { XIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Button } from "./Button"
-import { InfoCirecledIcon } from "../icon/InfoCirecledIcon"
+import { InfoCircledIcon } from "../icon/InfoCircledIcon"
 import { AbnormalIcon } from "../icon/AbnormalIcon"
 import { SuccessIcon } from "../icon/SuccessIcon"
 import { DestructiveIcon } from "../icon/DangerIcon"
@@ -223,7 +223,7 @@ function DialogTitle({
       {...props}
     >
       {
-        variant === 'primary' && (<InfoCirecledIcon className="text-primary" />)
+        variant === 'primary' && (<InfoCircledIcon className="text-primary" />)
       }
       {
         variant === 'success' && (<SuccessIcon className="text-success" />)
@@ -313,7 +313,7 @@ function DialogDescription({
     >
       <div className="flex flex-row items-center justify-center gap-0.5">
         {
-          variant === 'primary' && (<span className="size-[22px] flex items-center justify-center"><InfoCirecledIcon className="text-primary" /></span>)
+          variant === 'primary' && (<span className="size-[22px] flex items-center justify-center"><InfoCircledIcon className="text-primary" /></span>)
         }
         {
           variant === 'success' && (<span className="size-[22px] flex items-center justify-center"><SuccessIcon className="text-success" /></span>)

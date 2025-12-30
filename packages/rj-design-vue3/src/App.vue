@@ -1,9 +1,54 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import ButtonStories from './components/ButtonStories.vue'
+import AlertStories from './components/AlertStories.vue'
+import BadgeStories from './components/BadgeStories.vue'
+import BreadcrumbStories from './components/BreadcrumbStories.vue'
+import CheckboxStories from './components/CheckboxStories.vue'
+import CollapsibleStories from './components/CollapsibleStories.vue'
+import DialogStories from './components/DialogStories.vue'
+
+type PageType = 'button' | 'alert' | 'badge' | 'breadcrumb' | 'checkbox' | 'collapsible' | 'dialog'
+
+const pages: { key: PageType; label: string }[] = [
+  { key: 'button', label: 'Button' },
+  { key: 'alert', label: 'Alert' },
+  { key: 'badge', label: 'Badge' },
+  { key: 'breadcrumb', label: 'Breadcrumb' },
+  { key: 'checkbox', label: 'Checkbox' },
+  { key: 'collapsible', label: 'Collapsible' },
+  { key: 'dialog', label: 'Dialog' },
+]
+
+const currentPage = ref<PageType>('dialog')
 </script>
 
 <template>
-  <ButtonStories />
+  <!-- 页面切换导航 -->
+  <nav class="sticky top-0 z-50 flex gap-2 p-4 bg-background/80 backdrop-blur-sm border-b border-border">
+    <button
+      v-for="page in pages"
+      :key="page.key"
+      @click="currentPage = page.key"
+      class="px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
+      :class="currentPage === page.key 
+        ? 'bg-primary text-text' 
+        : 'bg-card border border-border text-secondary hover:bg-fill-light-hover-bg'"
+    >
+      {{ page.label }}
+    </button>
+  </nav>
+
+  <!-- 页面内容 -->
+  <main>
+    <ButtonStories v-if="currentPage === 'button'" />
+    <AlertStories v-else-if="currentPage === 'alert'" />
+    <BadgeStories v-else-if="currentPage === 'badge'" />
+    <BreadcrumbStories v-else-if="currentPage === 'breadcrumb'" />
+    <CheckboxStories v-else-if="currentPage === 'checkbox'" />
+    <CollapsibleStories v-else-if="currentPage === 'collapsible'" />
+    <DialogStories v-else-if="currentPage === 'dialog'" />
+  </main>
 </template>
 
 <style scoped>

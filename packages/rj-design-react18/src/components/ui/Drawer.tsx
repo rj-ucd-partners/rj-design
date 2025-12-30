@@ -4,7 +4,7 @@ import { Drawer as DrawerPrimitive } from "vaul"
 import { cn } from "@/lib/utils"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Button } from "./Button"
-import { InfoCirecledIcon } from "../icon/InfoCirecledIcon"
+import { InfoCircledIcon } from "../icon/InfoCircledIcon"
 
 function Drawer({
   ...props
@@ -239,7 +239,7 @@ function DrawerDescription({
       {
         variant === "primary" &&
         <div className="flex flex-row items-center gap-1 ">
-          <InfoCirecledIcon className="text-primary" />
+          <InfoCircledIcon className="text-primary" />
           {props.children}</div>
       }
       <Button variant="ghost" size={"link"} onClick={() => setShow(false)}>

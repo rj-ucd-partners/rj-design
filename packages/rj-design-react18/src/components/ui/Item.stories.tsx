@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Item, ItemContent, ItemDescription, ItemFooter, ItemHeader, ItemTitle } from './Item'
 import { Button } from './Button'
-import { InfoCirecledIcon } from '../icon/InfoCirecledIcon'
+import { InfoCircledIcon } from '../icon/InfoCircledIcon'
 
 const meta: Meta<typeof Item> = {
     title: 'Components/Item',
@@ -32,7 +32,7 @@ export const PopoverItem: Story = {
             <div className='w-100 bg-fill-light-hover-bg'>
                 <Item variant={args.variant} size={args.size}>
                     <ItemHeader>
-                        <ItemTitle><InfoCirecledIcon className='text-primary' /> 标题</ItemTitle>
+                        <ItemTitle><InfoCircledIcon className='text-primary' /> 标题</ItemTitle>
                     </ItemHeader>
                     <ItemContent>
                         <ItemDescription>
