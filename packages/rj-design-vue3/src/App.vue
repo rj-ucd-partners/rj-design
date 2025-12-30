@@ -7,8 +7,9 @@ import BreadcrumbStories from './components/BreadcrumbStories.vue'
 import CheckboxStories from './components/CheckboxStories.vue'
 import CollapsibleStories from './components/CollapsibleStories.vue'
 import DialogStories from './components/DialogStories.vue'
+import DrawerStories from './components/DrawerStories.vue'
 
-type PageType = 'button' | 'alert' | 'badge' | 'breadcrumb' | 'checkbox' | 'collapsible' | 'dialog'
+type PageType = 'button' | 'alert' | 'badge' | 'breadcrumb' | 'checkbox' | 'collapsible' | 'dialog' | 'drawer'
 
 const pages: { key: PageType; label: string }[] = [
   { key: 'button', label: 'Button' },
@@ -18,9 +19,10 @@ const pages: { key: PageType; label: string }[] = [
   { key: 'checkbox', label: 'Checkbox' },
   { key: 'collapsible', label: 'Collapsible' },
   { key: 'dialog', label: 'Dialog' },
+  { key: 'drawer', label: 'Drawer' },
 ]
 
-const currentPage = ref<PageType>('dialog')
+const currentPage = ref<PageType>('drawer')
 </script>
 
 <template>
@@ -48,6 +50,7 @@ const currentPage = ref<PageType>('dialog')
     <CheckboxStories v-else-if="currentPage === 'checkbox'" />
     <CollapsibleStories v-else-if="currentPage === 'collapsible'" />
     <DialogStories v-else-if="currentPage === 'dialog'" />
+    <DrawerStories v-else-if="currentPage === 'drawer'" />
   </main>
 </template>
 

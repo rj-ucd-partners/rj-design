@@ -21,6 +21,7 @@
     "prettier": "^3.6.0"
   },
   "dependencies": {
-    "react-use": "^17.6.0"
+    "react-use": "^17.6.0",
+    "vaul-vue": "^0.4.1"
   }
 }
